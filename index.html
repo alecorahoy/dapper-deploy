@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Marriage Reset Method for Men</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0e10;
+  --surface: #161618;
+  --surface2: #1e1e21;
+  --surface3: #252528;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --accent: #8b1a1a;
+  --accent2: #a52020;
+  --accent-glow: rgba(139,26,26,0.15);
+  --gold: #c9a84c;
+  --gold-dim: rgba(201,168,76,0.15);
+  --text: #e8e6e1;
+  --text2: #9e9b95;
+  --text3: #5e5c58;
+  --green: #2d6a4f;
+  --green-bg: rgba(45,106,79,0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+  font-size: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── VIEWS ── */
+.view { display: none; }
+.view.active { display: block; }
+
+/* ── NAV ── */
+.top-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(14,14,16,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  height: 52px;
+}
+.back-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text2); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; display: flex; align-items: center; gap: 6px;
+  padding: 6px 0;
+}
+.back-btn svg { flex-shrink: 0; }
+.back-btn:hover { color: var(--text); }
+.top-bar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; font-weight: 500;
+  color: var(--text); flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.top-bar-actions { display: flex; gap: 6px; margin-left: auto; }
+.icon-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text2);
+}
+.icon-btn:hover { background: var(--surface3); color: var(--text); }
+
+/* ── HOME ── */
+.home-hero {
+  padding: 3rem 1.25rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.home-hero::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(139,26,26,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 1rem;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 7vw, 40px);
+  font-weight: 600; line-height: 1.15;
+  color: var(--text); margin-bottom: 0.5rem;
+}
+.hero-subtitle {
+  font-size: 14px; color: var(--text2); max-width: 320px; margin: 0 auto 1.5rem;
+}
+.hero-rings {
+  width: 48px; height: 48px; margin: 0 auto 1.5rem;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* progress bar */
+.overall-progress {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.25rem;
+  margin: 0 1.25rem 1.5rem;
+}
+.progress-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; display: flex; justify-content: space-between; }
+.progress-bar { height: 4px; background: var(--surface3); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; }
+
+/* section labels */
+.section-head {
+  padding: 0 1.25rem; margin-top: 1.5rem; margin-bottom: 0.75rem;
+}
+.section-head h2 {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text3); font-weight: 500;
+}
+
+/* resource cards */
+.cards-list { padding: 0 1.25rem 2rem; display: flex; flex-direction: column; gap: 10px; }
+
+.resource-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.1rem 1rem;
+  cursor: pointer;
+  display: flex; gap: 1rem; align-items: flex-start;
+  transition: background 0.15s, border-color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.resource-card:hover, .resource-card:active {
+  background: var(--surface2); border-color: var(--border2);
+}
+.card-icon {
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.card-body { flex: 1; min-width: 0; }
+.card-tag {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-weight: 600; line-height: 1.2;
+  color: var(--text); margin-bottom: 4px;
+}
+.card-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.card-meta {
+  display: flex; align-items: center; gap: 8px; margin-top: 8px;
+}
+.card-streak { font-size: 11px; color: var(--gold); }
+.card-arrow {
+  margin-left: auto; color: var(--text3); flex-shrink: 0; margin-top: 2px;
+}
+
+/* tag colors */
+.tag-daily { color: #6da882; }
+.tag-tracker { color: var(--gold); }
+.tag-tool { color: #c07b5a; }
+.tag-script { color: #7a8fc9; }
+.tag-reflect { color: #b07fb0; }
+.tag-plan { color: #7ab0a0; }
+
+.icon-daily { background: rgba(109,168,130,0.12); }
+.icon-tracker { background: var(--gold-dim); }
+.icon-tool { background: rgba(192,123,90,0.12); }
+.icon-script { background: rgba(122,143,201,0.12); }
+.icon-reflect { background: rgba(176,127,176,0.12); }
+.icon-plan { background: rgba(122,176,160,0.12); }
+
+/* data actions */
+.data-actions {
+  margin: 0 1.25rem 2rem;
+  display: flex; gap: 8px;
+}
+.btn-sm {
+  flex: 1; padding: 0.6rem 0.5rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--border2); background: var(--surface);
+  color: var(--text2); font-size: 12px; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; text-align: center;
+}
+.btn-sm:hover { background: var(--surface2); color: var(--text); }
+
+/* ── RESOURCE PAGE ── */
+.resource-page { padding-bottom: 3rem; }
+.resource-hero {
+  padding: 1.5rem 1.25rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.resource-tag { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 8px; }
+.resource-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 6vw, 30px); font-weight: 600;
+  line-height: 1.15; color: var(--text); margin-bottom: 8px;
+}
+.resource-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+.resource-body { padding: 1.25rem; }
+
+/* form elements */
+.field-group { margin-bottom: 1.25rem; }
+.field-label {
+  display: block; font-size: 12px; font-weight: 500;
+  color: var(--text2); margin-bottom: 6px; letter-spacing: 0.02em;
+}
+.field-sublabel { font-size: 11px; color: var(--text3); margin-bottom: 6px; display: block; }
+textarea, input[type="text"], input[type="date"], select {
+  width: 100%; background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--radius-sm); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  padding: 0.65rem 0.85rem; resize: vertical;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
+textarea:focus, input:focus, select:focus {
+  outline: none; border-color: var(--gold);
+}
+textarea { min-height: 80px; }
+input[type="date"] { color-scheme: dark; }
+
+/* rating row */
+.rating-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem;
+}
+.rating-label { font-size: 13px; color: var(--text); flex: 1; }
+.rating-select {
+  width: 70px; flex-shrink: 0;
+  padding: 0.4rem 0.5rem; font-size: 13px;
+}
+
+/* checkbox items */
+.check-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+}
+.check-item:last-child { border-bottom: none; }
+.check-item input[type="checkbox"] {
+  width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px;
+  accent-color: var(--gold); cursor: pointer;
+  border: 1px solid var(--border2); background: var(--surface2);
+}
+.check-label { font-size: 13px; color: var(--text); line-height: 1.5; }
+.check-sublabel { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+/* section dividers */
+.section-divider {
+  border: none; border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+.subsection-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--text); margin-bottom: 0.5rem;
+}
+.subsection-desc { font-size: 13px; color: var(--text2); margin-bottom: 1rem; line-height: 1.5; }
+
+/* day cards (30-day) */
+.day-nav {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem;
+}
+.day-pill {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--border2); background: var(--surface2);
+  color: var(--text2); font-size: 12px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.day-pill.active { background: var(--accent); border-color: var(--accent2); color: white; }
+.day-pill.done { background: var(--green); border-color: var(--green); color: white; }
+.day-pill:hover:not(.active) { background: var(--surface3); }
+
+/* script cards */
+.script-card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem;
+}
+.script-situation {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text3); margin-bottom: 6px;
+}
+.script-say {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px; font-style: italic; color: var(--gold);
+  line-height: 1.5; margin-bottom: 6px;
+}
+.script-why { font-size: 12px; color: var(--text2); }
+
+/* save panel */
+.save-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem; margin-top: 1.5rem;
+}
+.save-panel-title {
+  font-size: 12px; font-weight: 500; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem;
+}
+.btn-primary {
+  width: 100%; padding: 0.75rem;
+  background: var(--accent); border: none;
+  border-radius: var(--radius-sm); color: white;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--accent2); }
+.btn-secondary {
+  flex: 1; padding: 0.65rem;
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: var(--radius-sm); color: var(--text2);
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: var(--surface3); color: var(--text); }
+
+/* history */
+.history-section { margin-top: 1.5rem; }
+.history-title {
+  font-size: 12px; font-weight: 500; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+.history-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 0.75rem 1rem;
+  margin-bottom: 8px; cursor: pointer;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.history-item:hover { background: var(--surface2); }
+.history-date { font-size: 12px; color: var(--gold); flex-shrink: 0; }
+.history-preview { font-size: 12px; color: var(--text2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-del { color: var(--text3); font-size: 18px; flex-shrink: 0; padding: 0 4px; }
+.history-del:hover { color: var(--accent2); }
+
+/* tabs */
+.tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
+.tab {
+  padding: 0.65rem 1rem; font-size: 13px; color: var(--text2);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.tab.active { color: var(--gold); border-color: var(--gold); }
+
+/* progress meters */
+.meter-row { margin-bottom: 1rem; }
+.meter-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+.meter-label { color: var(--text2); }
+.meter-val { color: var(--gold); font-weight: 500; }
+.meter-bar { height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; }
+.meter-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.3s; }
+
+/* toast */
+#toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--surface3); border: 1px solid var(--border2);
+  border-radius: 20px; padding: 0.5rem 1.25rem;
+  font-size: 13px; color: var(--text); z-index: 999;
+  opacity: 0; transition: opacity 0.2s; pointer-events: none;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; }
+
+/* conflict log entry */
+.log-entry-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.log-entry-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 600; color: var(--gold);
+}
+
+/* score display */
+.score-display {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem;
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+}
+.score-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px; font-weight: 600; color: var(--gold); line-height: 1;
+}
+.score-label { font-size: 13px; color: var(--text2); }
+
+/* week review box */
+.review-box {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem;
+}
+.review-box-label { font-size: 11px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+
+/* celebration item */
+.celebration-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: rgba(45,106,79,0.1); border: 1px solid rgba(45,106,79,0.25);
+  border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 8px;
+}
+.cel-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.cel-text { font-size: 13px; color: var(--text); }
+.cel-date { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* bottom padding for mobile */
+.page-end { height: 3rem; }
+
+/* do/dont */
+.do-dont { display: flex; gap: 8px; margin-bottom: 1rem; }
+.do-box, .dont-box {
+  flex: 1; border-radius: var(--radius-sm); padding: 0.75rem; font-size: 12px; line-height: 1.5;
+}
+.do-box { background: var(--green-bg); border: 1px solid rgba(45,106,79,0.3); color: #6da882; }
+.dont-box { background: rgba(139,26,26,0.12); border: 1px solid rgba(139,26,26,0.25); color: #c07070; }
+.do-dont-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+
+/* note box */
+.note-box {
+  background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-sm); padding: 0.75rem;
+  font-size: 12px; color: var(--gold); margin-bottom: 1rem; line-height: 1.5;
+}
+
+/* radio group */
+.radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.radio-pill {
+  padding: 6px 12px; border-radius: 20px;
+  border: 1px solid var(--border2); background: var(--surface2);
+  color: var(--text2); font-size: 12px; cursor: pointer;
+  transition: all 0.15s;
+}
+.radio-pill.selected { background: var(--accent); border-color: var(--accent2); color: white; }
+
+input[type="range"] {
+  width: 100%; accent-color: var(--gold); background: none; border: none; padding: 0;
+}
+
+/* import/export */
+#fileInput { display: none; }
+
+@media (max-width: 400px) {
+  .day-pill { width: 32px; height: 32px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════ HOME ═══ -->
+<div id="view-home" class="view active">
+  <div class="home-hero">
+    <div class="hero-eyebrow">John Gates · Marvellix.com</div>
+    <div class="hero-rings">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <circle cx="17" cy="24" r="11" stroke="#c9a84c" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <circle cx="31" cy="24" r="11" stroke="#c9a84c" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <circle cx="17" cy="24" r="8" stroke="#c9a84c" stroke-width="1" fill="none"/>
+        <circle cx="31" cy="24" r="8" stroke="#c9a84c" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+    <div class="hero-title">The Marriage Reset<br>Method for Men</div>
+    <div class="hero-subtitle">Practical tools to stop the drift and rebuild what matters.</div>
+  </div>
+
+  <div class="overall-progress" style="margin-top:1.25rem;">
+    <div class="progress-label">
+      <span>Your overall progress</span>
+      <span id="overall-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="overall-bar" style="width:0%"></div></div>
+  </div>
+
+  <div class="section-head"><h2>Crisis Tools</h2></div>
+  <div class="cards-list">
+    <div class="resource-card" onclick="openResource('emergency-reflection')">
+      <div class="card-icon icon-reflect">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="#b07fb0" stroke-width="1.5" fill="none"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-reflect">Reflection</div>
+        <div class="card-title">Emergency Pattern Reflection</div>
+        <div class="card-desc">Score your 7 relationship-damaging patterns. Find your biggest one and create an action plan.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+
+    <div class="resource-card" onclick="openResource('crisis-reflection')">
+      <div class="card-icon icon-tracker">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#c9a84c" stroke-width="1.5" fill="none"/><path d="M12 7v5l3 3" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-tracker">Reflection + Tracker</div>
+        <div class="card-title">Crisis Reflection & Recovery Tracker</div>
+        <div class="card-desc">Establish your baseline. Set goals. Track monthly progress, celebrate wins, and recover from setbacks.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Daily Programs</h2></div>
+  <div class="cards-list">
+    <div class="resource-card" onclick="openResource('kit30')">
+      <div class="card-icon icon-plan">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#7ab0a0" stroke-width="1.5" fill="none"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#7ab0a0" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-plan">30-Day Program</div>
+        <div class="card-title">30-Day Marriage Emergency Kit</div>
+        <div class="card-desc">One action, one intervention, one skill — every day for 30 days. The complete crisis-to-connection program.</div>
+        <div class="card-meta"><span class="card-streak" id="streak-30day"></span></div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+
+    <div class="resource-card" onclick="openResource('reset-journal')">
+      <div class="card-icon icon-daily">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 5v5l4 2" stroke="#6da882" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-daily">Daily Practice</div>
+        <div class="card-title">10-Minute Reset Journal</div>
+        <div class="card-desc">Log each daily check-in. Record the question, her answer, your share, and what shifted.</div>
+        <div class="card-meta"><span class="card-streak" id="streak-journal"></span></div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+
+    <div class="resource-card" onclick="openResource('contribution')">
+      <div class="card-icon icon-tracker">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-tracker">7-Day Tracker</div>
+        <div class="card-title">Seven-Day Contribution Tracker</div>
+        <div class="card-desc">Ask the daily question, log what she needed, what you did, and what shifted. End-of-week review included.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Conflict & Communication</h2></div>
+  <div class="cards-list">
+    <div class="resource-card" onclick="openResource('conflict-log')">
+      <div class="card-icon icon-tool">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#c07b5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-tool">Conflict Log</div>
+        <div class="card-title">Conflict Skills Practice Log</div>
+        <div class="card-desc">Log difficult conversations. Track skills used, patterns that showed up, and what to do differently.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+
+    <div class="resource-card" onclick="openResource('scripts')">
+      <div class="card-icon icon-script">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M8 10h8M8 14h5M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" stroke="#7a8fc9" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-script">Script Library</div>
+        <div class="card-title">Difficult Conversations Scripts</div>
+        <div class="card-desc">Word-for-word phrases for the hardest moments — defensive reactions, "we need to talk," intimacy, repair.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Growth Tools</h2></div>
+  <div class="cards-list">
+    <div class="resource-card" onclick="openResource('compliment')">
+      <div class="card-icon icon-daily">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" stroke="#6da882" stroke-width="1.5" fill="none"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-daily">Daily Practice</div>
+        <div class="card-title">One Compliment Builder</div>
+        <div class="card-desc">Build Level 1, 2, or 3 compliments with guided prompts. Save what you said and how she responded.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+
+    <div class="resource-card" onclick="openResource('micromoments')">
+      <div class="card-icon icon-tracker">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 22V12M12 12l-4-4M12 12l4-4M2 17l4-4M22 17l-4-4" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-tracker">Habit Tracker</div>
+        <div class="card-title">Micro-Moments Habit Tracker</div>
+        <div class="card-desc">Track your chosen daily practice — the greeting, the phone-down rule, or the morning minute.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+
+    <div class="resource-card" onclick="openResource('drift-reflection')">
+      <div class="card-icon icon-reflect">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#b07fb0" stroke-width="1.5" fill="none"/><path d="M12 8v4M12 16h.01" stroke="#b07fb0" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="card-body">
+        <div class="card-tag tag-reflect">Reflection</div>
+        <div class="card-title">Emotional Drift Reflection</div>
+        <div class="card-desc">Rate how often each drift pattern shows up. Identify your top blind spots and what to address first.</div>
+      </div>
+      <div class="card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2>Data</h2></div>
+  <div class="data-actions">
+    <button class="btn-sm" onclick="exportData()">Export all data</button>
+    <label class="btn-sm" for="fileInput" style="cursor:pointer;">Import data</label>
+    <input type="file" id="fileInput" accept=".json" onchange="importData(event)">
+  </div>
+  <div class="page-end"></div>
+</div>
+<!-- /HOME -->
+
+<!-- ═══════════════════════════════════════ RESOURCE PAGES ═══ -->
+
+<!-- 1. EMERGENCY PATTERN REFLECTION -->
+<div id="view-emergency-reflection" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">Emergency Pattern Reflection</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-reflect">Reflection</div>
+      <div class="resource-title">Emergency Pattern Reflection</div>
+      <div class="resource-desc">Identify the specific behaviors that are actively damaging your marriage. Score each one honestly — then choose one to focus on.</div>
+    </div>
+    <div class="resource-body">
+      <div class="note-box">Score 0–3: 0 = Never, 1 = Sometimes, 2 = Often, 3 = Almost always. Be honest — this is only for you.</div>
+
+      <div id="interventions-list"></div>
+
+      <hr class="section-divider">
+      <div class="subsection-title">Your Action Plan</div>
+
+      <div class="score-display">
+        <div class="score-big" id="er-total-score">0</div>
+        <div>
+          <div style="font-size:13px;color:var(--text);">Total score</div>
+          <div class="score-label">out of 21 — lower is better</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Which 1–2 interventions had your highest scores?</label>
+        <textarea id="er-top-patterns" rows="2" placeholder="Write them here..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">The ONE intervention you commit to for the next two weeks</label>
+        <textarea id="er-commit" rows="2" placeholder="Be specific..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">When are you most likely to fall into this pattern?</label>
+        <textarea id="er-triggers" rows="2" placeholder="e.g. when stressed after work, when I feel criticized..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Your redirect phrase — what will you say instead?</label>
+        <input type="text" id="er-phrase" placeholder='e.g. "Help me understand your experience"'>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save entry</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="er-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('emergency-reflection')">Save dated entry</button>
+      </div>
+
+      <div class="history-section">
+        <div class="history-title">Saved entries</div>
+        <div id="er-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 2. CRISIS REFLECTION & RECOVERY TRACKER -->
+<div id="view-crisis-reflection" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">Crisis Reflection & Recovery</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-tracker">Reflection + Tracker</div>
+      <div class="resource-title">Crisis Reflection & Recovery Tracker</div>
+      <div class="resource-desc">Know exactly where you stand. Track every improvement. Celebrate every win.</div>
+    </div>
+    <div class="resource-body">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('cr', 'baseline', this)">Baseline</div>
+        <div class="tab" onclick="switchTab('cr', 'goals', this)">Goals</div>
+        <div class="tab" onclick="switchTab('cr', 'monthly', this)">Monthly</div>
+        <div class="tab" onclick="switchTab('cr', 'celebrate', this)">Celebrate</div>
+        <div class="tab" onclick="switchTab('cr', 'setback', this)">Setback</div>
+      </div>
+
+      <!-- BASELINE -->
+      <div id="cr-tab-baseline">
+        <div class="subsection-title">Initial Baseline</div>
+        <div class="subsection-desc">Complete this once to establish where you are right now. Be brutally honest.</div>
+
+        <div class="field-group">
+          <label class="field-label">3 specific ways your marriage has changed in the past two years</label>
+          <span class="field-sublabel">Not vague — specific and observable. e.g. "She used to ask about my day, now she doesn't."</span>
+          <textarea id="cr-changes" rows="4" placeholder="1.&#10;2.&#10;3."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">When did you last have a real conversation (5+ min, not logistics)?</label>
+          <textarea id="cr-last-convo" rows="2" placeholder="When was it? What did you talk about?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">When did you last touch non-sexually / non-functionally?</label>
+          <textarea id="cr-last-touch" rows="2" placeholder="Hand-holding, a real hug, casual touch..."></textarea>
+        </div>
+
+        <div class="subsection-title" style="margin-top:1.25rem;">Crisis Severity Ratings</div>
+        <div class="subsection-desc">Rate 1–10 (1 = critical, 10 = strong)</div>
+        <div id="cr-ratings"></div>
+
+        <div class="subsection-title" style="margin-top:1.25rem;">Communication Patterns</div>
+        <div class="field-group">
+          <label class="field-label">What % of conversations are logistics vs. real connection?</label>
+          <div style="display:flex;gap:1rem;align-items:center;">
+            <div style="flex:1;">
+              <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Logistics</div>
+              <input type="range" min="0" max="100" value="70" id="cr-logistics" oninput="updateLogisticsDisplay()">
+            </div>
+            <div style="text-align:center;min-width:80px;">
+              <div style="font-size:22px;font-weight:500;color:var(--gold);" id="cr-logistics-val">70%</div>
+              <div style="font-size:11px;color:var(--text3);">logistics</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection-title">Patterns I recognize in myself</div>
+        <div id="cr-patterns-list"></div>
+
+        <div class="field-group" style="margin-top:1rem;">
+          <label class="field-label">Which TWO patterns are causing the most damage?</label>
+          <textarea id="cr-top-patterns" rows="2" placeholder="1.&#10;2."></textarea>
+        </div>
+
+        <div class="subsection-title" style="margin-top:1.25rem;">Intimacy Dimensions</div>
+        <div id="cr-intimacy-list"></div>
+      </div>
+
+      <!-- GOALS -->
+      <div id="cr-tab-goals" style="display:none;">
+        <div class="subsection-title">Goal Setting</div>
+        <div class="subsection-desc">Set a specific goal, measurement, and timeline for each area.</div>
+        <div id="cr-goals-list"></div>
+      </div>
+
+      <!-- MONTHLY -->
+      <div id="cr-tab-monthly" style="display:none;">
+        <div class="subsection-title">Monthly Progress</div>
+        <div class="subsection-desc">Complete at the end of each month.</div>
+        <div id="cr-monthly-ratings"></div>
+        <div class="field-group">
+          <label class="field-label">Biggest win this month</label>
+          <textarea id="cr-win" rows="2" placeholder="What improved?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Biggest challenge this month</label>
+          <textarea id="cr-challenge" rows="2" placeholder="What was hard?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Focus for next month</label>
+          <textarea id="cr-next" rows="2" placeholder="One specific thing..."></textarea>
+        </div>
+      </div>
+
+      <!-- CELEBRATE -->
+      <div id="cr-tab-celebrate" style="display:none;">
+        <div class="subsection-title">Celebration Tracker</div>
+        <div class="subsection-desc">Celebrate every win — big and small. Progress builds on acknowledgment.</div>
+        <div class="field-group">
+          <label class="field-label">A win to celebrate today</label>
+          <textarea id="cr-cel-text" rows="2" placeholder="e.g. Stayed present during a difficult conversation instead of shutting down..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="addCelebration()" style="margin-bottom:1.25rem;">Add celebration</button>
+        <div id="cr-celebrations"></div>
+      </div>
+
+      <!-- SETBACK -->
+      <div id="cr-tab-setback" style="display:none;">
+        <div class="note-box">Setbacks are normal — they're information, not failure. Use this when you feel like you're regressing.</div>
+        <div class="field-group">
+          <label class="field-label">What happened?</label>
+          <textarea id="cr-sb-what" rows="2" placeholder="Describe the setback..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Which old pattern did you fall back into?</label>
+          <textarea id="cr-sb-pattern" rows="2" placeholder="Be specific..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">What triggered it?</label>
+          <textarea id="cr-sb-trigger" rows="2" placeholder="What set it off?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">What did you learn?</label>
+          <textarea id="cr-sb-learn" rows="2" placeholder="What does this tell you?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">How will you repair the damage?</label>
+          <textarea id="cr-sb-repair" rows="2" placeholder="Concrete next step..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">What will you do differently next time?</label>
+          <textarea id="cr-sb-next" rows="2" placeholder="Your plan..."></textarea>
+        </div>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save entry</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="cr-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('crisis-reflection')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Saved entries</div>
+        <div id="cr-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 3. 30-DAY KIT -->
+<div id="view-kit30" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">30-Day Emergency Kit</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-plan">30-Day Program</div>
+      <div class="resource-title">30-Day Marriage Emergency Kit</div>
+      <div class="resource-desc">One action. One intervention. One skill. Every day — for 30 days. Small, consistent actions create big changes.</div>
+    </div>
+    <div class="resource-body">
+      <div style="margin-bottom:1rem;">
+        <div class="progress-label" style="font-size:12px;color:var(--text2);display:flex;justify-content:space-between;margin-bottom:6px;">
+          <span>Days completed</span><span id="kit30-count">0 / 30</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="kit30-bar" style="width:0%"></div></div>
+      </div>
+
+      <!-- Week selector -->
+      <div class="tabs" id="kit30-week-tabs">
+        <div class="tab active" onclick="switchWeek(1, this)">Week 1</div>
+        <div class="tab" onclick="switchWeek(2, this)">Week 2</div>
+        <div class="tab" onclick="switchWeek(3, this)">Week 3</div>
+        <div class="tab" onclick="switchWeek(4, this)">Week 4</div>
+        <div class="tab" onclick="switchWeek(0, this)">Review</div>
+      </div>
+
+      <div id="kit30-days-container"></div>
+      <div id="kit30-review-container" style="display:none;">
+        <div class="review-box">
+          <div class="review-box-label">30-Day Completion Review</div>
+          <div style="font-size:13px;color:var(--text2);margin-top:4px;">Take stock of everything that changed.</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">The three biggest changes you've noticed in your marriage</label>
+          <textarea id="kit30-review-changes" rows="4" placeholder="1.&#10;2.&#10;3."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Which skills have become easier? Which still need work?</label>
+          <textarea id="kit30-review-skills" rows="3" placeholder="Be specific..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Your ONE commitment for the next 30 days</label>
+          <textarea id="kit30-review-commit" rows="2" placeholder="What comes next?"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 4. RESET JOURNAL -->
+<div id="view-reset-journal" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">10-Minute Reset Journal</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-daily">Daily Practice</div>
+      <div class="resource-title">10-Minute Reset Journal</div>
+      <div class="resource-desc">Log each daily check-in. Ten minutes of real conversation, tracked over time, builds something permanent.</div>
+    </div>
+    <div class="resource-body">
+      <div class="field-group">
+        <label class="field-label">Question you asked tonight</label>
+        <div class="radio-group" style="margin-bottom:8px;" id="rj-q-pills">
+          <div class="radio-pill" onclick="selectPill(this,'rj-question','What was the highlight of your day?')">Highlight</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-question','What\'s been on your mind lately?')">On your mind</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-question','What made you smile today?')">Smile</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-question','What are you looking forward to?')">Looking forward</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-question','What would have made today better?')">Better today</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-question','What\'s something you\'re proud of?')">Proud of</div>
+        </div>
+        <input type="text" id="rj-question" placeholder="Or type your own question...">
+      </div>
+      <div class="field-group">
+        <label class="field-label">What she shared</label>
+        <textarea id="rj-her-answer" rows="3" placeholder="Her answer, in your own words..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">What you shared</label>
+        <textarea id="rj-your-share" rows="3" placeholder="Something more than 'Work was fine'..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Compliment you gave</label>
+        <textarea id="rj-compliment" rows="2" placeholder="Specific, not generic..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">How did it feel?</label>
+        <div class="radio-group" id="rj-feel-pills">
+          <div class="radio-pill" onclick="selectPill(this,'rj-feel','Awkward')">Awkward</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-feel','Okay')">Okay</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-feel','Connected')">Connected</div>
+          <div class="radio-pill" onclick="selectPill(this,'rj-feel','Really good')">Really good</div>
+        </div>
+        <input type="hidden" id="rj-feel">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Anything you noticed or want to remember</label>
+        <textarea id="rj-notes" rows="2" placeholder="Small shifts count..."></textarea>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save entry</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="rj-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('reset-journal')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Saved entries</div>
+        <div id="rj-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 5. CONTRIBUTION TRACKER -->
+<div id="view-contribution" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">Contribution Tracker</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-tracker">7-Day Tracker</div>
+      <div class="resource-title">Seven-Day Contribution Tracker</div>
+      <div class="resource-desc">Ask the daily question every day for seven days. Log what she needed, what you actually did, and what shifted.</div>
+    </div>
+    <div class="resource-body">
+      <div class="note-box">Daily question: "What's one thing I can do to make your day easier?" — Ask it. Do it. No negotiation, no complaint, no expectation.</div>
+      <div id="ct-days-list"></div>
+
+      <hr class="section-divider">
+      <div class="subsection-title">End-of-Week Review</div>
+      <div class="field-group">
+        <label class="field-label">What patterns did you notice this week?</label>
+        <textarea id="ct-patterns" rows="3" placeholder="What worked? What felt awkward? What surprised you?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">What shifted — in her, in you, in the space between you?</label>
+        <textarea id="ct-shifts" rows="3" placeholder="Even small things count..."></textarea>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save this week</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="ct-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('contribution')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Saved weeks</div>
+        <div id="ct-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 6. CONFLICT LOG -->
+<div id="view-conflict-log" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">Conflict Skills Log</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-tool">Conflict Log</div>
+      <div class="resource-title">Conflict Skills Practice Log</div>
+      <div class="resource-desc">The goal isn't to eliminate conflict — it's to have conflict in ways that build understanding instead of resentment.</div>
+    </div>
+    <div class="resource-body">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('cl', 'log', this)">New Entry</div>
+        <div class="tab" onclick="switchTab('cl', 'reset', this)">RESET Framework</div>
+        <div class="tab" onclick="switchTab('cl', 'review', this)">Progress Review</div>
+      </div>
+
+      <!-- LOG ENTRY -->
+      <div id="cl-tab-log">
+        <div class="field-group">
+          <label class="field-label">What was the conflict about?</label>
+          <input type="text" id="cl-topic" placeholder="Brief description...">
+        </div>
+
+        <div class="subsection-title">Skills I used well</div>
+        <div id="cl-skills-list"></div>
+
+        <div class="field-group" style="margin-top:1rem;">
+          <label class="field-label">Old patterns that showed up</label>
+          <textarea id="cl-patterns" rows="2" placeholder="Defensiveness, scorekeeping, shutting down, winning..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">How did the conversation end?</label>
+          <div class="radio-group" id="cl-outcome-pills">
+            <div class="radio-pill" onclick="selectPill(this,'cl-outcome','Understanding reached')">Understanding reached</div>
+            <div class="radio-pill" onclick="selectPill(this,'cl-outcome','Partial resolution')">Partial</div>
+            <div class="radio-pill" onclick="selectPill(this,'cl-outcome','Unresolved')">Unresolved</div>
+            <div class="radio-pill" onclick="selectPill(this,'cl-outcome','Escalated')">Escalated</div>
+          </div>
+          <input type="hidden" id="cl-outcome">
+        </div>
+        <div class="field-group">
+          <label class="field-label">What I'd do differently next time</label>
+          <textarea id="cl-different" rows="2" placeholder="One specific thing..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">One thing to celebrate about how I handled this</label>
+          <textarea id="cl-celebrate" rows="2" placeholder="Even small progress counts..."></textarea>
+        </div>
+      </div>
+
+      <!-- RESET FRAMEWORK -->
+      <div id="cl-tab-reset" style="display:none;">
+        <div class="subsection-title">The RESET Framework</div>
+        <div class="subsection-desc">When you feel triggered — run this before you respond.</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;">
+          <div class="review-box">
+            <div class="review-box-label">R — Recognize</div>
+            <div style="font-size:13px;color:var(--text2);">What just hit a nerve? Name it to yourself.</div>
+          </div>
+          <div class="review-box">
+            <div class="review-box-label">E — Exhale</div>
+            <div style="font-size:13px;color:var(--text2);">Five full seconds. Count them. Breathe through your nose.</div>
+          </div>
+          <div class="review-box">
+            <div class="review-box-label">S — Soften</div>
+            <div style="font-size:13px;color:var(--text2);">Relax your jaw. Relax around your eyes. Let it show.</div>
+          </div>
+          <div class="review-box">
+            <div class="review-box-label">E — Engage curiosity</div>
+            <div style="font-size:13px;color:var(--text2);">Get curious, not combative. What is she actually saying?</div>
+          </div>
+          <div class="review-box">
+            <div class="review-box-label">T — Take it in</div>
+            <div style="font-size:13px;color:var(--text2);">Receive what she's saying as information, not attack. Then say: "I hear you. Tell me more."</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">After using the RESET — what happened?</label>
+          <textarea id="cl-reset-notes" rows="3" placeholder="What did you learn? What shifted?"></textarea>
+        </div>
+      </div>
+
+      <!-- PROGRESS REVIEW -->
+      <div id="cl-tab-review" style="display:none;">
+        <div class="subsection-title">Progress Review</div>
+        <div class="field-group">
+          <label class="field-label">Conflict skills that have improved the most</label>
+          <textarea id="cl-improved" rows="2" placeholder="Be specific..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Skills that still need the most practice</label>
+          <textarea id="cl-needs-work" rows="2" placeholder="Honest answer..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Patterns you notice — topics, timing, triggers</label>
+          <textarea id="cl-patterns-review" rows="2" placeholder="What keeps showing up?"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">How has your relationship changed as your conflict skills improved?</label>
+          <textarea id="cl-relationship-change" rows="3" placeholder="Even small shifts..."></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">One goal for your next difficult conversation</label>
+          <textarea id="cl-next-goal" rows="2" placeholder="Specific and actionable..."></textarea>
+        </div>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save entry</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="cl-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('conflict-log')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Saved entries</div>
+        <div id="cl-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 7. DIFFICULT CONVERSATIONS SCRIPTS -->
+<div id="view-scripts" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">Conversation Scripts</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-script">Script Library</div>
+      <div class="resource-title">Difficult Conversations Scripts</div>
+      <div class="resource-desc">Never again wonder "what should I say?" — word-for-word phrases for the hardest marriage moments.</div>
+    </div>
+    <div class="resource-body">
+      <div class="tabs" style="overflow-x:auto;white-space:nowrap;">
+        <div class="tab active" onclick="switchTab('sc', 'emergency', this)">Emergency</div>
+        <div class="tab" onclick="switchTab('sc', 'weneedtotalk', this)">"We need to talk"</div>
+        <div class="tab" onclick="switchTab('sc', 'responsibility', this)">Responsibility</div>
+        <div class="tab" onclick="switchTab('sc', 'intimacy', this)">Intimacy</div>
+        <div class="tab" onclick="switchTab('sc', 'repair', this)">Repair</div>
+        <div class="tab" onclick="switchTab('sc', 'checkin', this)">Check-ins</div>
+      </div>
+
+      <!-- EMERGENCY PHRASES -->
+      <div id="sc-tab-emergency">
+        <div class="subsection-desc">Memorize at least three of these. Use them when you're triggered, defensive, or shutting down.</div>
+        <div id="sc-emergency-scripts"></div>
+        <div class="field-group" style="margin-top:1rem;">
+          <label class="field-label">Which phrases are you memorizing?</label>
+          <textarea id="sc-emergency-notes" rows="2" placeholder="Note which ones resonate most..."></textarea>
+        </div>
+      </div>
+
+      <!-- WE NEED TO TALK -->
+      <div id="sc-tab-weneedtotalk" style="display:none;">
+        <div class="subsection-desc">She says "we need to talk." Your immediate reaction is anxiety or defensiveness. Here's what to do.</div>
+        <div class="do-dont">
+          <div class="dont-box">
+            <div class="do-dont-label">Don't say</div>
+            "What did I do now?"<br>"Can it wait? I'm tired."<br>"Is this about [topic]?"
+          </div>
+          <div class="do-box">
+            <div class="do-dont-label">Instead say</div>
+            "Of course. Do you want to talk now, or set a time when we both have space for it?"
+          </div>
+        </div>
+        <div class="subsection-title">Step by step</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;">
+          <div class="review-box">
+            <div class="review-box-label">Step 1 — Open</div>
+            <div class="script-say" style="font-size:15px;">"I'm here and I'm listening. What's on your mind?"</div>
+            <div style="font-size:12px;color:var(--text3);">Phone away. Turn toward her. Eye contact.</div>
+          </div>
+          <div class="review-box">
+            <div class="review-box-label">Step 2 — Reflect back</div>
+            <div class="script-say" style="font-size:15px;">"So it sounds like you're feeling [emotion] about [situation]. Is that right?"</div>
+            <div style="font-size:12px;color:var(--text3);">Don't defend, explain, or solve yet. Just understand first.</div>
+          </div>
+          <div class="review-box">
+            <div class="review-box-label">If you messed up</div>
+            <div class="script-say" style="font-size:15px;">"You're right. I [specific behavior], and I can see how that [impact]. I'm sorry. What do you need?"</div>
+          </div>
+          <div class="review-box">
+            <div class="review-box-label">If it's a misunderstanding</div>
+            <div class="script-say" style="font-size:15px;">"I hear that you experienced it as [her perspective]. That wasn't my intention — can I share what I was thinking, and we figure this out together?"</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">How did it go when you used this approach?</label>
+          <textarea id="sc-wnt-notes" rows="3" placeholder="Reflect on what happened..."></textarea>
+        </div>
+      </div>
+
+      <!-- RESPONSIBILITY -->
+      <div id="sc-tab-responsibility" style="display:none;">
+        <div class="subsection-desc">Taking responsibility without getting defensive. The complete script.</div>
+        <div class="script-card">
+          <div class="script-situation">Opening</div>
+          <div class="script-say">"I need to talk with you about something I've been realizing about myself and our marriage."</div>
+        </div>
+        <div class="script-card">
+          <div class="script-situation">Be specific</div>
+          <div class="script-say">"I've been [specific behavior], and I can see how that's made you feel [impact]. That wasn't okay, and I'm working on changing it."</div>
+        </div>
+        <div class="script-card">
+          <div class="script-situation">Close with invitation</div>
+          <div class="script-say">"Is there anything else you've noticed that I should be aware of?"</div>
+        </div>
+        <div class="do-dont" style="margin-top:1rem;">
+          <div class="dont-box">
+            <div class="do-dont-label">Never add</div>
+            "But you also..."<br>"I didn't know it was a big deal."<br>"I was doing my best."
+          </div>
+          <div class="do-box">
+            <div class="do-dont-label">Why it works</div>
+            No buts. No justifications. Own it cleanly and let it land.
+          </div>
+        </div>
+        <div class="field-group" style="margin-top:1rem;">
+          <label class="field-label">Specific behavior I need to own right now</label>
+          <textarea id="sc-resp-notes" rows="3" placeholder="Write your version of the script here, in your own words..."></textarea>
+        </div>
+      </div>
+
+      <!-- INTIMACY -->
+      <div id="sc-tab-intimacy" style="display:none;">
+        <div class="subsection-desc">Intimacy conversations are the hardest because they involve real vulnerability. Here are scripts for three common scenarios.</div>
+        <div class="script-card">
+          <div class="script-situation">When you want more physical intimacy</div>
+          <div class="script-say">"I've been feeling disconnected from you physically, and I miss that closeness. I'm not trying to pressure you — I genuinely want to understand what's going on for you."</div>
+          <div class="script-why">Follow with: "What would help you feel more connection? What do you need from me that I'm not giving you?" — then listen.</div>
+        </div>
+        <div class="script-card">
+          <div class="script-situation">When she's brought up lack of intimacy</div>
+          <div class="script-say">"Thank you for bringing this up. You're right that we've lost some connection, and I want to understand what that's like for you. What does the disconnect feel like?"</div>
+          <div class="script-why">After she shares: "That makes sense. Can we talk about what would feel more connecting for you?"</div>
+        </div>
+        <div class="script-card">
+          <div class="script-situation">Rebuilding after intimacy has been absent</div>
+          <div class="script-say">"I know we've been living like roommates for a while, and I take responsibility for my part in that. I want to pursue you again — not just physically, but as a whole person. What kind of connection do you miss most?"</div>
+        </div>
+        <div class="field-group" style="margin-top:1rem;">
+          <label class="field-label">Notes on using these scripts</label>
+          <textarea id="sc-int-notes" rows="3" placeholder="What worked, what felt vulnerable, what you learned..."></textarea>
+        </div>
+      </div>
+
+      <!-- REPAIR -->
+      <div id="sc-tab-repair" style="display:none;">
+        <div class="note-box">Repair early. Repair often. The moment you realize you handled something poorly — repair it.</div>
+        <div class="script-card">
+          <div class="script-situation">Immediate repair (within 24 hours)</div>
+          <div class="script-say">"I need to apologize for how I handled our conversation. I [specific behavior], and that wasn't okay. You deserved better. Can we try that conversation again?"</div>
+        </div>
+        <div class="script-card">
+          <div class="script-situation">Deeper rebuild (after a pattern)</div>
+          <div class="script-say">"I want to talk about our pattern when we disagree. I've noticed I tend to [pattern], which makes you feel [impact]. I don't want to keep doing that. Can we agree on some ground rules?"</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:1rem;">
+          <div class="script-card">
+            <div class="script-situation">Initiating topics — sensitive</div>
+            <div class="script-say">"I'd like to talk with you about something that's been on my mind. When would be a good time this week?"</div>
+          </div>
+          <div class="script-card">
+            <div class="script-situation">Initiating topics — hurt feelings</div>
+            <div class="script-say">"Something happened that hurt my feelings. I'm not trying to attack you — I just need you to understand how it landed on me. Can we talk?"</div>
+          </div>
+          <div class="script-card">
+            <div class="script-situation">Reconnecting after distance</div>
+            <div class="script-say">"I miss feeling connected to you. I know we've both been distant, but I want to get back to being us. Can we talk about how to do that?"</div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">My repair plan right now</label>
+          <textarea id="sc-rep-notes" rows="3" placeholder="What do you need to repair? Write your version of the script..."></textarea>
+        </div>
+      </div>
+
+      <!-- CHECK-INS -->
+      <div id="sc-tab-checkin" style="display:none;">
+        <div class="subsection-desc">Regular check-ins prevent issues from building up. Here are templates for three frequencies.</div>
+        <div class="review-box">
+          <div class="review-box-label">Daily (10–15 min)</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.6;">
+            Opening: "How was your day?" — actually listen.<br>
+            Share: One real thing, not just logistics.<br>
+            Appreciation: "Something I appreciated about you today was [specific]."<br>
+            Close: "What do you need from me tomorrow?"
+          </div>
+        </div>
+        <div class="review-box">
+          <div class="review-box-label">Weekly (20–30 min, Sunday works well)</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.6;">
+            1. "One thing you did this week that meant a lot to me was..."<br>
+            2. "On a scale of 1–10, how connected did we feel? What made it that number?"<br>
+            3. "Is there anything small I could do differently next week?"<br>
+            4. "What's one thing we want to do together, just us?"<br>
+            5. "What's your biggest challenge ahead? How can I support you?"
+          </div>
+        </div>
+        <div class="review-box">
+          <div class="review-box-label">Monthly (45–60 min)</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.6;">
+            1. Three things I'm grateful for about our relationship...<br>
+            2. What improved this month? How did we grow?<br>
+            3. What was hardest? How did we handle it?<br>
+            4. Intimacy check: emotional, intellectual, physical, adventure<br>
+            5. Our ONE focus for next month<br>
+            6. New experience to create together
+          </div>
+        </div>
+        <div class="field-group" style="margin-top:1rem;">
+          <label class="field-label">Notes from your last check-in</label>
+          <textarea id="sc-ci-notes" rows="3" placeholder="What came up? What surprised you?"></textarea>
+        </div>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save notes</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="sc-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('scripts')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Saved entries</div>
+        <div id="sc-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 8. COMPLIMENT BUILDER -->
+<div id="view-compliment" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">One Compliment Builder</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-daily">Daily Practice</div>
+      <div class="resource-title">One Compliment Builder</div>
+      <div class="resource-desc">Move beyond "you look nice" into actually seeing the person you married. One specific compliment every day.</div>
+    </div>
+    <div class="resource-body">
+      <div class="subsection-title">Choose your level</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;">
+        <div class="review-box" id="cb-level1" onclick="selectLevel(1)" style="cursor:pointer;">
+          <div class="review-box-label">Level 1 — Appearance</div>
+          <div style="font-size:13px;color:var(--text2);">How she looks, her style, her physical presence.</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px;">e.g. "You look beautiful in that."</div>
+        </div>
+        <div class="review-box" id="cb-level2" onclick="selectLevel(2)" style="cursor:pointer;">
+          <div class="review-box-label">Level 2 — Actions</div>
+          <div style="font-size:13px;color:var(--text2);">Something she did — specific and observed.</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px;">e.g. "How you handled that situation with the kids was really impressive."</div>
+        </div>
+        <div class="review-box" id="cb-level3" onclick="selectLevel(3)" style="cursor:pointer;border-left-color:var(--gold);">
+          <div class="review-box-label">Level 3 — Character ✦ Most powerful</div>
+          <div style="font-size:13px;color:var(--text2);">Her values, who she is, her impact on others.</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:4px;">e.g. "The patience you showed with your mom shows how deeply you care about family."</div>
+        </div>
+      </div>
+
+      <div id="cb-template" style="display:none;">
+        <div class="note-box" id="cb-template-text"></div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">The compliment you gave</label>
+        <textarea id="cb-compliment" rows="3" placeholder="Write it here — specific, genuine, no qualifiers..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">How she responded</label>
+        <textarea id="cb-response" rows="2" placeholder="What happened when you said it?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Level</label>
+        <input type="hidden" id="cb-level" value="">
+        <div style="font-size:13px;color:var(--text2);" id="cb-level-display">No level selected yet — tap one above.</div>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save entry</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="cb-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('compliment')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Compliment history</div>
+        <div id="cb-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 9. MICRO-MOMENTS -->
+<div id="view-micromoments" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">Micro-Moments Tracker</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-tracker">Habit Tracker</div>
+      <div class="resource-title">Micro-Moments Habit Tracker</div>
+      <div class="resource-desc">One small practice. Every day. No exceptions. Connection develops through small moments consistently chosen.</div>
+    </div>
+    <div class="resource-body">
+      <div class="subsection-title">Choose your practice this week</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;">
+        <div class="review-box" id="mm-opt1" onclick="selectMM(1)" style="cursor:pointer;">
+          <div class="review-box-label">The Greeting</div>
+          <div style="font-size:13px;color:var(--text2);">When you walk in the door — find her first. Eye contact, physical touch, genuine presence. Before anything else.</div>
+        </div>
+        <div class="review-box" id="mm-opt2" onclick="selectMM(2)" style="cursor:pointer;">
+          <div class="review-box-label">The Phone-Down Rule</div>
+          <div style="font-size:13px;color:var(--text2);">Whenever she's talking to you — phone actually away. Not face-down. Away. Then turn toward her.</div>
+        </div>
+        <div class="review-box" id="mm-opt3" onclick="selectMM(3)" style="cursor:pointer;">
+          <div class="review-box-label">The Morning Minute</div>
+          <div style="font-size:13px;color:var(--text2);">First minute of the day — a real kiss, a real hug, a moment of eye contact before the chaos begins.</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">This week's practice</label>
+        <input type="text" id="mm-practice" placeholder="Selected practice will appear here, or write your own...">
+      </div>
+
+      <div class="subsection-title">7-Day Tracker</div>
+      <div id="mm-days-grid"></div>
+
+      <div class="field-group" style="margin-top:1rem;">
+        <label class="field-label">End-of-week reflection</label>
+        <textarea id="mm-reflection" rows="3" placeholder="What shifted? What felt awkward? What surprised you?"></textarea>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save this week</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="mm-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('micromoments')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Saved weeks</div>
+        <div id="mm-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<!-- 10. DRIFT REFLECTION -->
+<div id="view-drift-reflection" class="view">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Home
+    </button>
+    <div class="top-bar-title">Emotional Drift Reflection</div>
+  </div>
+  <div class="resource-page">
+    <div class="resource-hero">
+      <div class="resource-tag tag-reflect">Reflection</div>
+      <div class="resource-title">Emotional Drift Reflection</div>
+      <div class="resource-desc">Rate how often each drift pattern shows up in your relationship. Find your blind spots before they find your marriage.</div>
+    </div>
+    <div class="resource-body">
+      <div class="note-box">How often does this happen: 0 = Rarely, 1 = Sometimes, 2 = Often, 3 = Regularly</div>
+      <div id="dr-patterns-list"></div>
+
+      <hr class="section-divider">
+      <div class="score-display">
+        <div class="score-big" id="dr-total">0</div>
+        <div>
+          <div style="font-size:13px;color:var(--text);">Total drift score</div>
+          <div class="score-label">Lower = less drift</div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Which pattern shows up most in your behavior?</label>
+        <textarea id="dr-top" rows="2" placeholder="Name it specifically..."></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Is there one you hadn't noticed until now?</label>
+        <textarea id="dr-blind" rows="2" placeholder="What surprised you?"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">What's your first step to address the top pattern?</label>
+        <textarea id="dr-step" rows="2" placeholder="Small and concrete..."></textarea>
+      </div>
+
+      <div class="save-panel">
+        <div class="save-panel-title">Save entry</div>
+        <div class="field-group" style="margin-bottom:0.75rem;">
+          <input type="date" id="dr-date">
+        </div>
+        <button class="btn-primary" onclick="saveEntry('drift-reflection')">Save dated entry</button>
+      </div>
+      <div class="history-section">
+        <div class="history-title">Saved entries</div>
+        <div id="dr-history"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-end"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════ DATA ══════
+
+const STORAGE_KEY = 'mrm_data_v1';
+
+function getData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+function setData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+function getEntries(key) {
+  const d = getData();
+  return d[key] || [];
+}
+function saveRaw(key, val) {
+  const d = getData();
+  d[key] = val;
+  setData(d);
+}
+
+// ══════════════════════════════════════ NAVIGATION ══════
+
+function openResource(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+  initResource(id);
+}
+
+function goHome() {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-home').classList.add('active');
+  window.scrollTo(0, 0);
+  updateOverallProgress();
+  updateStreaks();
+}
+
+// ══════════════════════════════════════ TABS ══════
+
+function switchTab(prefix, tabName, el) {
+  // hide all tabs for this prefix
+  document.querySelectorAll(`[id^="${prefix}-tab-"]`).forEach(t => t.style.display = 'none');
+  document.getElementById(`${prefix}-tab-${tabName}`).style.display = '';
+  // update tab styling
+  el.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ══════════════════════════════════════ TOAST ══════
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ══════════════════════════════════════ SAVE / HISTORY ══════
+
+function saveEntry(resourceId) {
+  const dateEl = document.getElementById(getPre(resourceId) + '-date');
+  const date = dateEl && dateEl.value ? dateEl.value : new Date().toISOString().split('T')[0];
+  const snapshot = collectFields(resourceId);
+  snapshot._date = date;
+  snapshot._id = Date.now();
+
+  const entries = getEntries(resourceId);
+  entries.unshift(snapshot);
+  saveRaw(resourceId, entries);
+  renderHistory(resourceId);
+  toast('Entry saved');
+  updateOverallProgress();
+}
+
+function getPre(id) {
+  const map = {
+    'emergency-reflection':'er','crisis-reflection':'cr','kit30':'k30',
+    'reset-journal':'rj','contribution':'ct','conflict-log':'cl',
+    'scripts':'sc','compliment':'cb','micromoments':'mm','drift-reflection':'dr'
+  };
+  return map[id] || id;
+}
+
+function collectFields(resourceId) {
+  const view = document.getElementById('view-' + resourceId);
+  const snap = {};
+  view.querySelectorAll('textarea, input[type="text"], input[type="date"], input[type="hidden"], select').forEach(el => {
+    if (el.id) snap[el.id] = el.value;
+  });
+  // checkboxes
+  view.querySelectorAll('input[type="checkbox"]').forEach(el => {
+    if (el.id) snap[el.id] = el.checked;
+  });
+  return snap;
+}
+
+function renderHistory(resourceId) {
+  const pre = getPre(resourceId);
+  const container = document.getElementById(pre + '-history');
+  if (!container) return;
+  const entries = getEntries(resourceId);
+  if (!entries.length) { container.innerHTML = '<div style="font-size:12px;color:var(--text3);padding:0.5rem 0;">No saved entries yet.</div>'; return; }
+  container.innerHTML = entries.map((e, i) => `
+    <div class="history-item">
+      <div class="history-date">${formatDate(e._date)}</div>
+      <div class="history-preview">${getPreview(e)}</div>
+      <div class="history-del" onclick="deleteEntry('${resourceId}',${i})">×</div>
+    </div>
+  `).join('');
+}
+
+function deleteEntry(resourceId, idx) {
+  const entries = getEntries(resourceId);
+  entries.splice(idx, 1);
+  saveRaw(resourceId, entries);
+  renderHistory(resourceId);
+  updateOverallProgress();
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const parts = d.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(parts[1])-1]} ${parseInt(parts[2])}, ${parts[0]}`;
+}
+
+function getPreview(e) {
+  const keys = Object.keys(e).filter(k => !k.startsWith('_') && e[k] && typeof e[k] === 'string' && e[k].length > 2);
+  return keys.length ? e[keys[0]].substring(0, 60) + (e[keys[0]].length > 60 ? '...' : '') : 'Entry saved';
+}
+
+// ══════════════════════════════════════ INIT RESOURCES ══════
+
+function initResource(id) {
+  const pre = getPre(id);
+  const dateEl = document.getElementById(pre + '-date');
+  if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+  renderHistory(id);
+
+  if (id === 'emergency-reflection') initEmergencyReflection();
+  if (id === 'crisis-reflection') initCrisisReflection();
+  if (id === 'kit30') initKit30();
+  if (id === 'contribution') initContribution();
+  if (id === 'conflict-log') initConflictLog();
+  if (id === 'scripts') initScripts();
+  if (id === 'drift-reflection') initDriftReflection();
+  if (id === 'micromoments') initMicroMoments();
+  if (id === 'compliment') initCompliment();
+}
+
+// ══════════════════════════════════════ EMERGENCY REFLECTION ══════
+
+const INTERVENTIONS = [
+  { id:'i1', label:'Trying to win arguments', desc:'When she brings up something, you immediately build your defense case.' },
+  { id:'i2', label:'Emotional shutdown', desc:'When she expresses strong emotions, you retreat or try to fix them immediately.' },
+  { id:'i3', label:'Unilateral decisions', desc:'Making decisions about shared life without consulting her, then informing her.' },
+  { id:'i4', label:'Scorekeeping', desc:'Mentally tracking who does what, building resentment when not acknowledged.' },
+  { id:'i5', label:'Defensive responses', desc:'When she raises something, immediately explaining why she\'s wrong or too sensitive.' },
+  { id:'i6', label:'Logic over emotions', desc:'Responding to her feelings with logic to explain why they don\'t make sense.' },
+  { id:'i7', label:'Silent treatment', desc:'When upset, shutting down communication and waiting for it to resolve itself.' }
+];
+
+function initEmergencyReflection() {
+  const list = document.getElementById('interventions-list');
+  if (!list || list.children.length) return;
+  list.innerHTML = INTERVENTIONS.map(iv => `
+    <div class="field-group">
+      <label class="field-label">${iv.label}</label>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:8px;">${iv.desc}</div>
+      <div class="radio-group" id="pills-${iv.id}">
+        ${[0,1,2,3].map(v => `<div class="radio-pill" onclick="selectScore('${iv.id}',${v},this)">${v} — ${['Never','Sometimes','Often','Always'][v]}</div>`).join('')}
+      </div>
+      <input type="hidden" id="${iv.id}">
+    </div>
+  `).join('');
+  // attach change events
+  INTERVENTIONS.forEach(iv => {
+    document.getElementById(iv.id)?.addEventListener('change', updateERScore);
+  });
+}
+
+function selectScore(id, val, el) {
+  el.closest('.radio-group').querySelectorAll('.radio-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(id).value = val;
+  updateERScore();
+}
+
+function updateERScore() {
+  let total = 0;
+  INTERVENTIONS.forEach(iv => {
+    const v = parseInt(document.getElementById(iv.id)?.value || '0');
+    total += isNaN(v) ? 0 : v;
+  });
+  const el = document.getElementById('er-total-score');
+  if (el) el.textContent = total;
+}
+
+// ══════════════════════════════════════ CRISIS REFLECTION ══════
+
+const CR_AREAS = ['Emotional Connection','Communication Quality','Physical Intimacy','Trust & Safety','Partnership & Teamwork','Shared Joy / Fun','Conflict Resolution','Overall Satisfaction'];
+const CR_INTIMACY = ['Emotional Intimacy','Intellectual Intimacy','Physical Intimacy','Adventure / Novelty'];
+const CR_MONTHLY_AREAS = ['Communication','Emotional Connection','Conflict Skills','Intimacy','Partnership','Overall Satisfaction'];
+const CR_PATTERNS = [
+  'I try to win arguments instead of understand',
+  'I shut down emotionally when things get difficult',
+  'I make unilateral decisions without consulting her',
+  'I keep score of who does what',
+  'I get defensive when she brings up issues',
+  'I use logic to dismiss her emotions',
+  'I give her the silent treatment',
+  'I interrupt or don\'t really listen',
+  'I check my phone during conversations',
+  'I avoid difficult conversations entirely'
+];
+const CR_GOALS = ['Communication','Emotional Intelligence','Conflict Resolution','Intimacy','Partnership','Shared Traditions'];
+
+function initCrisisReflection() {
+  // ratings
+  const rList = document.getElementById('cr-ratings');
+  if (rList && !rList.children.length) {
+    rList.innerHTML = CR_AREAS.map(a => `
+      <div class="rating-row">
+        <div class="rating-label">${a}</div>
+        <select class="rating-select" id="cr-r-${a.replace(/\W+/g,'_')}">
+          ${[1,2,3,4,5,6,7,8,9,10].map(v=>`<option value="${v}">${v}</option>`).join('')}
+        </select>
+      </div>
+    `).join('');
+  }
+  // patterns
+  const pList = document.getElementById('cr-patterns-list');
+  if (pList && !pList.children.length) {
+    pList.innerHTML = CR_PATTERNS.map((p,i) => `
+      <div class="check-item">
+        <input type="checkbox" id="cr-p${i}">
+        <label class="check-label" for="cr-p${i}">${p}</label>
+      </div>
+    `).join('');
+  }
+  // intimacy
+  const iList = document.getElementById('cr-intimacy-list');
+  if (iList && !iList.children.length) {
+    iList.innerHTML = CR_INTIMACY.map(a => `
+      <div class="rating-row">
+        <div class="rating-label">${a}</div>
+        <select class="rating-select" id="cr-i-${a.replace(/\W+/g,'_')}">
+          ${[1,2,3,4,5,6,7,8,9,10].map(v=>`<option value="${v}">${v}</option>`).join('')}
+        </select>
+      </div>
+    `).join('');
+  }
+  // goals
+  const gList = document.getElementById('cr-goals-list');
+  if (gList && !gList.children.length) {
+    gList.innerHTML = CR_GOALS.map(g => `
+      <div class="field-group">
+        <div class="subsection-title" style="font-size:15px;margin-bottom:0.5rem;">${g}</div>
+        <input type="text" id="cr-g-${g.replace(/\W+/g,'_')}-focus" placeholder="Specific focus...">
+        <div style="margin-top:6px;display:flex;gap:8px;">
+          <input type="text" id="cr-g-${g.replace(/\W+/g,'_')}-measure" placeholder="How to measure progress..." style="flex:2;">
+          <input type="text" id="cr-g-${g.replace(/\W+/g,'_')}-timeline" placeholder="Timeline..." style="flex:1;">
+        </div>
+      </div>
+    `).join('');
+  }
+  // monthly ratings
+  const mList = document.getElementById('cr-monthly-ratings');
+  if (mList && !mList.children.length) {
+    mList.innerHTML = CR_MONTHLY_AREAS.map(a => `
+      <div class="rating-row">
+        <div class="rating-label">${a}</div>
+        <select class="rating-select" id="cr-m-${a.replace(/\W+/g,'_')}">
+          ${[1,2,3,4,5,6,7,8,9,10].map(v=>`<option value="${v}">${v}</option>`).join('')}
+        </select>
+      </div>
+    `).join('');
+  }
+  // celebrations
+  renderCelebrations();
+}
+
+function updateLogisticsDisplay() {
+  const v = document.getElementById('cr-logistics').value;
+  document.getElementById('cr-logistics-val').textContent = v + '%';
+}
+
+function addCelebration() {
+  const text = document.getElementById('cr-cel-text').value.trim();
+  if (!text) { toast('Write something to celebrate first'); return; }
+  const d = getData();
+  if (!d.celebrations) d.celebrations = [];
+  d.celebrations.unshift({ text, date: new Date().toISOString().split('T')[0], id: Date.now() });
+  setData(d);
+  document.getElementById('cr-cel-text').value = '';
+  renderCelebrations();
+  toast('Win added!');
+}
+
+function renderCelebrations() {
+  const container = document.getElementById('cr-celebrations');
+  if (!container) return;
+  const d = getData();
+  const cels = d.celebrations || [];
+  if (!cels.length) { container.innerHTML = '<div style="font-size:12px;color:var(--text3);">No wins logged yet. Add your first one above.</div>'; return; }
+  container.innerHTML = cels.map((c,i) => `
+    <div class="celebration-item">
+      <div class="cel-icon">✓</div>
+      <div style="flex:1;">
+        <div class="cel-text">${c.text}</div>
+        <div class="cel-date">${formatDate(c.date)}</div>
+      </div>
+      <div style="cursor:pointer;color:var(--text3);padding:0 4px;" onclick="deleteCelebration(${i})">×</div>
+    </div>
+  `).join('');
+}
+
+function deleteCelebration(idx) {
+  const d = getData();
+  d.celebrations.splice(idx, 1);
+  setData(d);
+  renderCelebrations();
+}
+
+// ══════════════════════════════════════ 30-DAY KIT ══════
+
+const DAYS_DATA = [
+  // Week 1
+  {day:1,w:1,title:'Recognize the crisis',action:'Complete the Pattern Reflection. Identify three specific changes in your marriage.',intervention:'Stop trying to win arguments',skill:'Share one feeling without trying to solve anything'},
+  {day:2,w:1,title:'Take responsibility',action:'Write down three specific ways you\'ve contributed to the distance.',intervention:'Stop emotional shutdown',skill:'Stay present when she shares — don\'t retreat'},
+  {day:3,w:1,title:'Stop the damage',action:'Choose ONE emergency intervention to focus on today. Catch yourself before doing it.',intervention:'Stop unilateral decisions',skill:'Ask "What do you think?" before deciding'},
+  {day:4,w:1,title:'Notice patterns',action:'Track how many times you fall into defensive patterns today. Just notice.',intervention:'Stop scorekeeping',skill:'When you want to say "but you..." — pause instead'},
+  {day:5,w:1,title:'Listen without fixing',action:'When she shares something, ask "What was that like for you?" instead of solving.',intervention:'Stop using logic to dismiss emotions',skill:'Practice: "That sounds [emotion word]"'},
+  {day:6,w:1,title:'Show up present',action:'Put your phone away for 20 minutes tonight. Be fully there.',intervention:'Stop the silent treatment',skill:'If upset, say "I need time" but commit to returning'},
+  {day:7,w:1,title:'Week 1 review',action:'Which emergency intervention is hardest? Which is getting easier?',intervention:'All seven (review)',skill:'Share one thing that improved this week'},
+  // Week 2
+  {day:8,w:2,title:'Practice sharing',action:'Share one thought or feeling you normally keep private. Start with "I\'ve been thinking..."',intervention:'Continue your hardest intervention',skill:'Let her into your inner world'},
+  {day:9,w:2,title:'Ask curiosity questions',action:'Ask three curiosity questions today: "What was that like?" "How are you feeling?"',intervention:'Stop defensive responses',skill:'Explore her perspective'},
+  {day:10,w:2,title:'Reflect back',action:'Practice: "It sounds like you\'re feeling [emotion]" before responding with your view.',intervention:'Stop trying to win',skill:'Seek understanding, not victory'},
+  {day:11,w:2,title:'Use "I" statements',action:'Replace every "you" with "I": "I feel worried" vs. "You\'re being distant"',intervention:'Stop scorekeeping',skill:'Share your experience without blame'},
+  {day:12,w:2,title:'Create connection time',action:'Schedule 15 minutes tonight — no phones, just conversation.',intervention:'Stop emotional shutdown',skill:'Stay engaged even if uncomfortable'},
+  {day:13,w:2,title:'Notice her emotions',action:'Identify her emotional "weather" today. Ask "Am I reading that right?"',intervention:'Stop dismissing emotions',skill:'Validate feelings before problem-solving'},
+  {day:14,w:2,title:'Week 2 review',action:'Which type of conversation is easiest? Hardest? Why?',intervention:'Review all interventions',skill:'Practice all three: sharing, understanding, collaborating'},
+  // Week 3
+  {day:15,w:3,title:'Expand vocabulary',action:'Ban "fine" and "stressed" today. Use specific emotion words.',intervention:'Continue hardest intervention',skill:'Name what you\'re actually feeling'},
+  {day:16,w:3,title:'Morning check-in',action:'Before getting up, identify your emotional baseline. Not what you think — what you feel.',intervention:'Stop unilateral decisions',skill:'Share your emotional state openly'},
+  {day:17,w:3,title:'Partner observation',action:'Notice her emotional state without trying to change it. Just observe and acknowledge.',intervention:'Stop defensive responses',skill:'"You seem [emotion]. Am I right?"'},
+  {day:18,w:3,title:'Share vulnerability',action:'Tell her one insecurity or fear you normally hide. Start: "I\'ve been worried that..."',intervention:'Stop emotional shutdown',skill:'Let her see your authentic self'},
+  {day:19,w:3,title:'Recognize triggers',action:'What triggered negative emotions today? Write them down.',intervention:'Stop trying to win arguments',skill:'Pause when triggered before responding'},
+  {day:20,w:3,title:'Appreciation practice',action:'Text her one specific thing you appreciate about her today.',intervention:'Stop scorekeeping',skill:'Express gratitude for small things'},
+  {day:21,w:3,title:'Week 3 review',action:'How has emotional vocabulary changed your conversations?',intervention:'Review all interventions',skill:'Notice increased emotional awareness'},
+  // Week 4
+  {day:22,w:4,title:'Emotional intimacy',action:'Share a hope or dream you haven\'t talked about recently.',intervention:'Continue hardest intervention',skill:'Share your inner world'},
+  {day:23,w:4,title:'Intellectual intimacy',action:'Ask about something she\'s learning or thinking about. Be genuinely curious.',intervention:'Stop unilateral decisions',skill:'Engage her mind'},
+  {day:24,w:4,title:'Physical intimacy',action:'Non-sexual touch: hold hands, hug for 20 seconds, or sit close while talking.',intervention:'Stop emotional shutdown',skill:'Connect through touch'},
+  {day:25,w:4,title:'Adventure intimacy',action:'Suggest one new experience to share together — even something small.',intervention:'Stop trying to win',skill:'Create shared novelty'},
+  {day:26,w:4,title:'Consult, don\'t announce',action:'Before making any decision that affects her, ask for her input first.',intervention:'Stop unilateral decisions',skill:'Treat her as equal partner'},
+  {day:27,w:4,title:'Share mental load',action:'Ask "What can I take off your plate this week?" and actually do it.',intervention:'Stop scorekeeping',skill:'Partnership means shared responsibility'},
+  {day:28,w:4,title:'Create a tradition',action:'Propose one simple tradition: daily walk, weekly date, monthly adventure.',intervention:'All interventions',skill:'Design practices that create connection'},
+  {day:29,w:4,title:'Repair practice',action:'If you had a setback, repair it today. Apologize, acknowledge, recommit.',intervention:'Review all seven',skill:'Quick repair prevents resentment'},
+  {day:30,w:4,title:'30-day review',action:'Complete the Review tab. What\'s improved? What\'s your ONE focus going forward?',intervention:'Identify which to maintain',skill:'Celebrate wins, plan next phase'},
+];
+
+let currentWeek = 1;
+
+function initKit30() {
+  updateKit30Progress();
+  renderKit30Week(currentWeek);
+}
+
+function switchWeek(w, el) {
+  el.closest('.tabs').querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentWeek = w;
+  const dc = document.getElementById('kit30-days-container');
+  const rc = document.getElementById('kit30-review-container');
+  if (w === 0) {
+    dc.style.display = 'none';
+    rc.style.display = '';
+  } else {
+    dc.style.display = '';
+    rc.style.display = 'none';
+    renderKit30Week(w);
+  }
+}
+
+function renderKit30Week(w) {
+  const container = document.getElementById('kit30-days-container');
+  if (!container) return;
+  const d = getData();
+  const completed = d.kit30_completed || {};
+  const notes = d.kit30_notes || {};
+  const days = DAYS_DATA.filter(day => day.w === w);
+
+  container.innerHTML = days.map(day => `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;">
+      <div style="padding:0.9rem 1rem 0.75rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.75rem;">
+        <input type="checkbox" id="kit30-check-${day.day}" ${completed[day.day] ? 'checked' : ''} onchange="toggleDay30(${day.day})"
+          style="width:20px;height:20px;accent-color:var(--gold);flex-shrink:0;cursor:pointer;">
+        <div style="flex:1;">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:2px;">Day ${day.day}</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--text);">${day.title}</div>
+        </div>
+        ${completed[day.day] ? '<div style="font-size:12px;color:var(--green);font-weight:500;">Done</div>' : ''}
+      </div>
+      <div style="padding:0.75rem 1rem;">
+        <div style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Today's action</div>
+        <div style="font-size:13px;color:var(--text);margin-bottom:0.75rem;">${day.action}</div>
+        <div style="display:flex;gap:8px;margin-bottom:0.75rem;">
+          <div style="flex:1;background:var(--surface2);border-radius:var(--radius-sm);padding:0.6rem 0.75rem;">
+            <div style="font-size:10px;color:var(--text3);margin-bottom:3px;">Intervention</div>
+            <div style="font-size:12px;color:var(--text2);">${day.intervention}</div>
+          </div>
+          <div style="flex:1;background:var(--surface2);border-radius:var(--radius-sm);padding:0.6rem 0.75rem;">
+            <div style="font-size:10px;color:var(--text3);margin-bottom:3px;">Skill</div>
+            <div style="font-size:12px;color:var(--text2);">${day.skill}</div>
+          </div>
+        </div>
+        <textarea id="kit30-notes-${day.day}" placeholder="What worked · What was hard..." rows="2"
+          style="font-size:13px;"
+          onblur="saveDay30Notes(${day.day}, this.value)">${notes[day.day] || ''}</textarea>
+      </div>
+    </div>
+  `).join('');
+
+  // Week review box for day 7, 14, 21
+  const reviewDays = {1:7, 2:14, 3:21};
+  if (reviewDays[w]) {
+    const reviewDay = reviewDays[w];
+    const d = getData();
+    const weekReviews = d.kit30_weekreviews || {};
+    container.innerHTML += `
+      <div class="review-box" style="margin-top:0.5rem;">
+        <div class="review-box-label">Week ${w} Check-In</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:0.75rem;">End-of-week reflection</div>
+        <textarea id="kit30-wrev-went-${w}" rows="2" placeholder="What went well this week?" style="margin-bottom:8px;"
+          onblur="saveWeekReview(${w},'went',this.value)">${(weekReviews[w]||{}).went||''}</textarea>
+        <textarea id="kit30-wrev-hard-${w}" rows="2" placeholder="What was most challenging?" style="margin-bottom:8px;"
+          onblur="saveWeekReview(${w},'hard',this.value)">${(weekReviews[w]||{}).hard||''}</textarea>
+        <textarea id="kit30-wrev-noticed-${w}" rows="2" placeholder="Has she noticed any changes?"
+          onblur="saveWeekReview(${w},'noticed',this.value)">${(weekReviews[w]||{}).noticed||''}</textarea>
+      </div>
+    `;
+  }
+}
+
+function toggleDay30(day) {
+  const d = getData();
+  if (!d.kit30_completed) d.kit30_completed = {};
+  d.kit30_completed[day] = !d.kit30_completed[day];
+  setData(d);
+  updateKit30Progress();
+  renderKit30Week(currentWeek);
+}
+
+function saveDay30Notes(day, val) {
+  const d = getData();
+  if (!d.kit30_notes) d.kit30_notes = {};
+  d.kit30_notes[day] = val;
+  setData(d);
+}
+
+function saveWeekReview(w, field, val) {
+  const d = getData();
+  if (!d.kit30_weekreviews) d.kit30_weekreviews = {};
+  if (!d.kit30_weekreviews[w]) d.kit30_weekreviews[w] = {};
+  d.kit30_weekreviews[w][field] = val;
+  setData(d);
+}
+
+function updateKit30Progress() {
+  const d = getData();
+  const completed = d.kit30_completed || {};
+  const count = Object.values(completed).filter(Boolean).length;
+  const pct = Math.round(count / 30 * 100);
+  const el = document.getElementById('kit30-count');
+  const bar = document.getElementById('kit30-bar');
+  if (el) el.textContent = `${count} / 30`;
+  if (bar) bar.style.width = pct + '%';
+}
+
+// ══════════════════════════════════════ CONTRIBUTION TRACKER ══════
+
+const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+function initContribution() {
+  const container = document.getElementById('ct-days-list');
+  if (!container || container.children.length) return;
+  const d = getData();
+  const ctData = d.ct_days || {};
+  container.innerHTML = DAY_NAMES.map((name, i) => `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;padding:1rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
+        <input type="checkbox" id="ct-done-${i}" ${(ctData[i]||{}).done ? 'checked' : ''}
+          style="width:18px;height:18px;accent-color:var(--gold);cursor:pointer;"
+          onchange="saveCTDay(${i})">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;">${name}</div>
+      </div>
+      <div class="field-group" style="margin-bottom:8px;">
+        <label class="field-label">She asked for</label>
+        <input type="text" id="ct-asked-${i}" value="${(ctData[i]||{}).asked||''}" placeholder="What did she need?" onblur="saveCTDay(${i})">
+      </div>
+      <div class="field-group" style="margin-bottom:8px;">
+        <label class="field-label">What I did</label>
+        <input type="text" id="ct-did-${i}" value="${(ctData[i]||{}).did||''}" placeholder="What you actually did..." onblur="saveCTDay(${i})">
+      </div>
+      <div class="field-group" style="margin-bottom:0;">
+        <label class="field-label">What shifted</label>
+        <input type="text" id="ct-shifted-${i}" value="${(ctData[i]||{}).shifted||''}" placeholder="In her, in you, in the space between..." onblur="saveCTDay(${i})">
+      </div>
+    </div>
+  `).join('');
+}
+
+function saveCTDay(i) {
+  const d = getData();
+  if (!d.ct_days) d.ct_days = {};
+  d.ct_days[i] = {
+    done: document.getElementById(`ct-done-${i}`)?.checked || false,
+    asked: document.getElementById(`ct-asked-${i}`)?.value || '',
+    did: document.getElementById(`ct-did-${i}`)?.value || '',
+    shifted: document.getElementById(`ct-shifted-${i}`)?.value || ''
+  };
+  setData(d);
+}
+
+// ══════════════════════════════════════ CONFLICT LOG ══════
+
+const CONFLICT_SKILLS = [
+  'Used "I" statements instead of "you" accusations',
+  'Asked curiosity questions to understand her perspective',
+  'Reflected back what I heard before responding',
+  'Stayed present instead of withdrawing or getting defensive',
+  'Focused on specific behaviors, not character attacks',
+  'Assumed good intentions',
+  'Chose good timing for the conversation'
+];
+
+function initConflictLog() {
+  const list = document.getElementById('cl-skills-list');
+  if (!list || list.children.length) return;
+  list.innerHTML = CONFLICT_SKILLS.map((s,i) => `
+    <div class="check-item">
+      <input type="checkbox" id="cl-skill-${i}">
+      <label class="check-label" for="cl-skill-${i}">${s}</label>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════ SCRIPTS ══════
+
+const EMERGENCY_SCRIPTS = [
+  { situation:'When you feel defensive', say:'Help me understand your perspective before I respond.', why:'Pauses your defensiveness and signals you want to understand first.' },
+  { situation:'When you feel defensive', say:'I\'m feeling defensive right now, which means I need to listen better.', why:'Names what\'s happening and commits to better listening.' },
+  { situation:'When you\'re shutting down', say:'I\'m feeling overwhelmed. Can we take a 15-minute break? I promise I\'ll come back to this.', why:'Prevents stonewalling while committing to return.' },
+  { situation:'When you\'re shutting down', say:'I need a minute to process this, but I\'m not leaving the conversation.', why:'Asks for time without abandoning the discussion.' },
+  { situation:'When you messed up', say:'Let me start over. That came out wrong.', why:'Resets the conversation instead of digging deeper.' },
+  { situation:'When you messed up', say:'I\'m sorry. What I just said wasn\'t fair. Can I try again?', why:'Quick repair prevents escalation.' },
+  { situation:'When you don\'t understand', say:'I\'m not getting it yet. Can you help me understand what this feels like for you?', why:'Shows humility and genuine desire to understand.' },
+  { situation:'When things are escalating', say:'We\'re both getting heated. Can we pause and try this again tomorrow when we\'re calmer?', why:'Prevents damage from fighting when emotions are too high.' },
+  { situation:'When things are escalating', say:'I love you and I want to work this out. Let\'s take a break and come back to this.', why:'Reassures commitment while preventing further damage.' },
+];
+
+function initScripts() {
+  const container = document.getElementById('sc-emergency-scripts');
+  if (!container || container.children.length) return;
+  container.innerHTML = EMERGENCY_SCRIPTS.map(s => `
+    <div class="script-card">
+      <div class="script-situation">${s.situation}</div>
+      <div class="script-say">"${s.say}"</div>
+      <div class="script-why">${s.why}</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════ DRIFT REFLECTION ══════
+
+const DRIFT_PATTERNS = [
+  'Distracted listening (phone, half-attention) when she talks',
+  'Minimal enthusiasm when she shares good news or excitement',
+  'Silent, disconnected morning routines with no real contact',
+  'Retreating to separate corners every evening',
+  'Jumping to fix or solve when she shares feelings',
+  'Keeping conversations focused only on schedules and logistics',
+  'Physical touch has become rare or only functional',
+  'Stopped sharing my own thoughts, feelings, or inner world',
+  'I don\'t know what\'s really going on in her life right now'
+];
+
+function initDriftReflection() {
+  const list = document.getElementById('dr-patterns-list');
+  if (!list || list.children.length) return;
+  list.innerHTML = DRIFT_PATTERNS.map((p,i) => `
+    <div class="field-group">
+      <label class="field-label">${p}</label>
+      <div class="radio-group" id="dr-pills-${i}">
+        ${[0,1,2,3].map(v => `<div class="radio-pill" onclick="selectDriftScore(${i},${v},this)">${v} — ${['Rarely','Sometimes','Often','Regularly'][v]}</div>`).join('')}
+      </div>
+      <input type="hidden" id="dr-score-${i}">
+    </div>
+  `).join('');
+}
+
+function selectDriftScore(i, val, el) {
+  el.closest('.radio-group').querySelectorAll('.radio-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById(`dr-score-${i}`).value = val;
+  let total = 0;
+  DRIFT_PATTERNS.forEach((_,j) => { total += parseInt(document.getElementById(`dr-score-${j}`)?.value || 0); });
+  const el2 = document.getElementById('dr-total');
+  if (el2) el2.textContent = total;
+}
+
+// ══════════════════════════════════════ MICRO-MOMENTS ══════
+
+function initMicroMoments() {
+  const d = getData();
+  const mmData = d.mm_current || {};
+  if (mmData.practice) document.getElementById('mm-practice').value = mmData.practice;
+  renderMMGrid();
+}
+
+function selectMM(opt) {
+  const practices = {
+    1:'The Greeting — find her first when you walk in. Eye contact, touch, presence. Before anything else.',
+    2:'The Phone-Down Rule — whenever she talks, phone away. Turn toward her. Ask a real question.',
+    3:'The Morning Minute — first minute of the day. Real kiss, real hug, eye contact before the chaos.'
+  };
+  const input = document.getElementById('mm-practice');
+  if (input) input.value = practices[opt];
+  [1,2,3].forEach(o => {
+    const el = document.getElementById(`mm-opt${o}`);
+    if (el) el.style.borderLeftColor = o === opt ? 'var(--gold)' : 'var(--gold)';
+  });
+}
+
+function renderMMGrid() {
+  const container = document.getElementById('mm-days-grid');
+  if (!container) return;
+  const d = getData();
+  const mmDays = d.mm_days || {};
+  container.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:1rem;">
+      ${DAY_NAMES.map((name,i) => `
+        <div style="text-align:center;">
+          <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">${name}</div>
+          <div onclick="toggleMMDay(${i})" style="width:100%;aspect-ratio:1;border-radius:50%;border:1px solid var(--border2);
+            background:${mmDays[i] ? 'var(--gold)' : 'var(--surface2)'};
+            display:flex;align-items:center;justify-content:center;cursor:pointer;
+            color:${mmDays[i] ? '#000' : 'var(--text3)'};font-size:12px;">
+            ${mmDays[i] ? '✓' : i+1}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="font-size:12px;color:var(--text2);text-align:center;">
+      ${Object.values(mmDays).filter(Boolean).length} of 7 days done this week
+    </div>
+  `;
+}
+
+function toggleMMDay(i) {
+  const d = getData();
+  if (!d.mm_days) d.mm_days = {};
+  d.mm_days[i] = !d.mm_days[i];
+  setData(d);
+  renderMMGrid();
+}
+
+// ══════════════════════════════════════ COMPLIMENT BUILDER ══════
+
+const CB_TEMPLATES = {
+  1: 'Template: "You look [specific observation] — I noticed it when [moment]."',
+  2: 'Template: "I noticed you [specific action], and it made me feel [emotion]." or "The way you handled [situation] was really [quality]."',
+  3: 'Template: "One thing I\'ve always admired about you is [quality]." or "The way you [action] shows how [character trait] you are — it\'s one of the things I love about you."'
+};
+
+function initCompliment() {}
+
+function selectLevel(n) {
+  document.getElementById('cb-level').value = n;
+  document.getElementById('cb-level-display').textContent = `Level ${n} selected`;
+  const tpl = document.getElementById('cb-template');
+  const tplText = document.getElementById('cb-template-text');
+  tpl.style.display = '';
+  tplText.textContent = CB_TEMPLATES[n];
+  [1,2,3].forEach(i => {
+    const el = document.getElementById(`cb-level${i}`);
+    if (el) el.style.borderLeftColor = i === n ? 'var(--gold)' : 'var(--gold)';
+  });
+}
+
+// ══════════════════════════════════════ RADIO PILLS ══════
+
+function selectPill(el, targetId, value) {
+  el.closest('.radio-group').querySelectorAll('.radio-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  const target = document.getElementById(targetId);
+  if (target) target.value = value;
+}
+
+// ══════════════════════════════════════ OVERALL PROGRESS ══════
+
+function updateOverallProgress() {
+  let total = 0;
+  const resourceKeys = ['emergency-reflection','crisis-reflection','kit30','reset-journal','contribution','conflict-log','scripts','compliment','micromoments','drift-reflection'];
+  resourceKeys.forEach(k => {
+    const entries = getEntries(k);
+    if (entries.length > 0) total += 1;
+  });
+  // kit30 bonus
+  const d = getData();
+  const completed = d.kit30_completed || {};
+  const doneCount = Object.values(completed).filter(Boolean).length;
+  const kitBonus = Math.floor(doneCount / 30 * 5);
+  const pct = Math.min(100, Math.round((total / 10) * 80 + kitBonus));
+  const bar = document.getElementById('overall-bar');
+  const pctEl = document.getElementById('overall-pct');
+  if (bar) bar.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+}
+
+function updateStreaks() {
+  const rjEntries = getEntries('reset-journal');
+  if (rjEntries.length) {
+    const el = document.getElementById('streak-journal');
+    if (el) el.textContent = `${rjEntries.length} entr${rjEntries.length===1?'y':'ies'}`;
+  }
+  const d = getData();
+  const completed = Object.values(d.kit30_completed || {}).filter(Boolean).length;
+  if (completed) {
+    const el = document.getElementById('streak-30day');
+    if (el) el.textContent = `${completed} / 30 days done`;
+  }
+}
+
+// ══════════════════════════════════════ EXPORT / IMPORT ══════
+
+function exportData() {
+  const d = getData();
+  const blob = new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'mrm-data-' + new Date().toISOString().split('T')[0] + '.json';
+  a.click(); URL.revokeObjectURL(url);
+  toast('Data exported');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      setData(d);
+      toast('Data imported');
+      updateOverallProgress();
+      updateStreaks();
+    } catch(err) { toast('Invalid file'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ══════════════════════════════════════ AUTO-SAVE DRAFT ══════
+
+let draftTimer = null;
+document.addEventListener('input', e => {
+  if (!e.target.matches('textarea, input[type="text"]')) return;
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(() => {
+    const activeView = document.querySelector('.view.active');
+    if (!activeView) return;
+    const id = activeView.id.replace('view-', '');
+    if (id === 'home') return;
+    const snap = collectFields(id);
+    const d = getData();
+    d['draft_' + id] = snap;
+    setData(d);
+  }, 800);
+});
+
+// ══════════════════════════════════════ INIT ══════
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateOverallProgress();
+  updateStreaks();
+});
+</script>
+</body>
+</html>

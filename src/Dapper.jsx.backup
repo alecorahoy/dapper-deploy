@@ -1,0 +1,2468 @@
+import { useState } from "react"
+import {
+  Shirt, Calendar, Users, Tag, Upload, Heart,
+  MessageCircle, Plus, ChevronLeft, ChevronRight,
+  Check, Crown, Camera, Search, Bell, Star, Zap,
+  Menu, X, Wand2, TrendingUp, Award, Clock, Lock
+} from "lucide-react"
+
+// ─────────────────────────────────────────────
+// OPENAI API KEY — paste yours here
+// ─────────────────────────────────────────────
+const OPENAI_API_KEY = "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"
+
+// ─────────────────────────────────────────────
+// MOCK DATA (used as fallback / demo mode)
+// ─────────────────────────────────────────────
+
+const CLOSET_ITEMS_INIT = [
+  { id: 1,  type: "Suit",      name: "Navy Chalk Stripe",       color: "#1B3A6B", brand: "BOSS",              occasions: ["Business Formal", "Interview"] },
+  { id: 2,  type: "Suit",      name: "Charcoal Worsted Wool",   color: "#36454F", brand: "Canali",            occasions: ["Business", "Formal"] },
+  { id: 3,  type: "Suit",      name: "Mid-Grey Glen Plaid",     color: "#6E7B8B", brand: "Zegna",             occasions: ["Business Casual"] },
+  { id: 4,  type: "Suit",      name: "Tan Summer Linen",        color: "#C4A882", brand: "Lardini",           occasions: ["Smart Casual", "Summer"] },
+  { id: 5,  type: "Shirt",     name: "Crisp White Poplin",      color: "#F8F8F8", brand: "Charles Tyrwhitt",  occasions: ["All"] },
+  { id: 6,  type: "Shirt",     name: "Pale French Blue",        color: "#89B4D4", brand: "Thomas Pink",       occasions: ["Business"] },
+  { id: 7,  type: "Shirt",     name: "Soft Pink Bengal Stripe", color: "#F4B8C1", brand: "Emma Willis",       occasions: ["Business Casual"] },
+  { id: 8,  type: "Shirt",     name: "Pale Yellow Poplin",      color: "#FFF5CC", brand: "Harvie & Hudson",   occasions: ["Casual", "Smart"] },
+  { id: 9,  type: "Tie",       name: "Burgundy Grenadine",      color: "#722F37", brand: "Drake's London",    occasions: ["Formal"] },
+  { id: 10, type: "Tie",       name: "Gold & Navy Repp Stripe", color: "#C9A84C", brand: "Brooks Brothers",   occasions: ["Business"] },
+  { id: 11, type: "Tie",       name: "Forest Green Foulard",    color: "#355E3B", brand: "Hermès",            occasions: ["Business Casual"] },
+  { id: 12, type: "Shoes",     name: "Black Cap-Toe Oxford",    color: "#1C1C1C", brand: "Carmina",           occasions: ["Formal", "Business"] },
+  { id: 13, type: "Shoes",     name: "Tan Derby Brogue",        color: "#8B6914", brand: "Church's",          occasions: ["Business Casual"] },
+  { id: 14, type: "Accessory", name: "White Linen Square",      color: "#F8F8F8", brand: "Brioni",            occasions: ["Formal"] },
+  { id: 15, type: "Accessory", name: "Silver Dress Watch",      color: "#C0C0C0", brand: "Longines",          occasions: ["All"] },
+]
+
+const SOCIAL_POSTS = [
+  {
+    id: 1, user: "Marco_Visconti", initials: "MV", avatar: "#1B3A6B", role: "Milan Executive", badge: "Elite",
+    outfit: "Navy Chalk Stripe · White Poplin · Burgundy Grenadine",
+    look: "The Milan Executive",
+    caption: "Closed a €2M deal in this configuration. The navy chalk stripe carries a weight in the room that no amount of small talk can replace. 💼",
+    likes: 342, comments: 28, timeAgo: "2h ago",
+    tags: ["#NavyChalkStripe", "#BusinessFormal", "#PowerDressing"],
+  },
+  {
+    id: 2, user: "JamesR_London", initials: "JR", avatar: "#36454F", role: "City Analyst", badge: "Pro",
+    outfit: "Charcoal Wool · French Blue · Terracotta Repp Stripe",
+    look: "The City Banker",
+    caption: "Friday client lunch in Mayfair. The blue-grey-terracotta trio has been my go-to all season. Simple. Effective. Timeless.",
+    likes: 218, comments: 15, timeAgo: "5h ago",
+    tags: ["#CharcoalSuit", "#BusinessStyle", "#CitizenOfStyle"],
+  },
+  {
+    id: 3, user: "Pablo_Reyes_CDM", initials: "PR", avatar: "#C4A882", role: "Creative Director", badge: "Elite",
+    outfit: "Tan Linen · White Voile · Burgundy Pocket Puff (no tie)",
+    look: "The Weekend Maverick",
+    caption: "Summer Fridays were invented for linen suits. The trick with no-tie dressing is that every other element must be impeccable. Don't phone it in.",
+    likes: 486, comments: 41, timeAgo: "1d ago",
+    tags: ["#LinenSuit", "#SummerStyle", "#NecktieFreeZone"],
+  },
+  {
+    id: 4, user: "Kai_Hartmann", initials: "KH", avatar: "#800020", role: "Brand Strategist", badge: "Pro",
+    outfit: "Midnight Blue Peak Lapel Tux · White Dress Shirt · Black Grenadine Bow",
+    look: "The Midnight Sovereign",
+    caption: "Black tie done right — midnight blue is more sophisticated than black under candlelight. The peak lapel is non-negotiable.",
+    likes: 621, comments: 57, timeAgo: "2d ago",
+    tags: ["#BlackTie", "#MidnightBlue", "#FormalDressing"],
+  },
+]
+
+// ── Outfit worn log (history) ──
+const WORN_LOG_INIT = [
+  { id:1,  date:"2026-03-28", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Pale French Blue",        tie:"Charcoal Grenadine",       occasion:"Product Launch",        notes:"Feedback muy positivo del equipo." },
+  { id:2,  date:"2026-03-24", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Crisp White Poplin",      tie:"Silver & White Stripe",     occasion:"Presentación ejecutiva", notes:"" },
+  { id:3,  date:"2026-03-18", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Pale French Blue",        tie:"Midnight Navy Grenadine",   occasion:"Entrevista de trabajo",  notes:"Conseguí el contrato." },
+  { id:4,  date:"2026-03-15", suit:"Mid-Grey Glen Plaid",    suitColor:"#6E7B8B", shirt:"Pale French Blue",        tie:"Forest Green Foulard",      occasion:"Team Offsite",           notes:"" },
+  { id:5,  date:"2026-03-10", suit:"Tan Summer Linen",       suitColor:"#C4A882", shirt:"Crisp White Poplin",      tie:"—",                         occasion:"Studio Visit",           notes:"Sin corbata, solo pocket square." },
+  { id:6,  date:"2026-03-05", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Crisp White Poplin",      tie:"Gold & Navy Repp Stripe",   occasion:"Client Lunch",           notes:"" },
+  { id:7,  date:"2026-03-02", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Crisp White Poplin",      tie:"Burgundy Grenadine",        occasion:"Board Meeting",          notes:"Cerré el deal de Q1." },
+  { id:8,  date:"2026-02-26", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Soft Pink Bengal Stripe", tie:"Navy Polka Dot",            occasion:"Client Dinner",          notes:"Muy bien recibido el look." },
+  { id:9,  date:"2026-02-20", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Pale French Blue",        tie:"Burgundy Micro-Paisley",    occasion:"Conference",             notes:"" },
+  { id:10, date:"2026-02-14", suit:"Mid-Grey Glen Plaid",    suitColor:"#6E7B8B", shirt:"Pale Yellow Poplin",      tie:"Camel Knit",                occasion:"Valentine's Dinner",     notes:"Ella lo amó." },
+]
+
+const CALENDAR_EVENTS_INIT = {
+  "2026-03-02": { outfit: "Navy Chalk Stripe + White Poplin + Burgundy Grenadine", occasion: "Board Meeting",    color: "#1B3A6B" },
+  "2026-03-05": { outfit: "Charcoal Wool + French Blue + Gold Repp Stripe",        occasion: "Client Lunch",     color: "#36454F" },
+  "2026-03-10": { outfit: "Tan Linen + White Voile (no tie)",                      occasion: "Studio Visit",     color: "#C4A882" },
+  "2026-03-15": { outfit: "Mid-Grey Glen Plaid + Pale Blue + Forest Green Foulard",occasion: "Team Offsite",     color: "#6E7B8B" },
+  "2026-03-18": { outfit: "Charcoal Wool + White Poplin + Silver Repp Stripe",     occasion: "Job Interview",    color: "#36454F" },
+  "2026-03-24": { outfit: "Burgundy Velvet Blazer + Ivory Dress Shirt",            occasion: "Gala Evening",     color: "#800020" },
+  "2026-03-28": { outfit: "Navy Chalk Stripe + French Blue + Charcoal Grenadine",  occasion: "Product Launch",   color: "#1B3A6B" },
+  "2026-03-30": { outfit: "Navy Chalk Stripe + French Blue + Terracotta Repp",     occasion: "Today",            color: "#1B3A6B" },
+}
+
+const ANALYSIS = {
+  suit: {
+    colorFamily: "Classic Navy",
+    undertones: "Warm indigo undertones",
+    fabric: "Wool twill, ~260 g/m²",
+    pattern: "Chalk Stripe — 1.5 cm spacing",
+    formality: "Business Formal",
+    lapel: "Notch lapel",
+    fit: "Slim fit",
+  },
+  shirts: [
+    {
+      id: 1, name: "Crisp White Poplin", colorCode: "#F8F8F8",
+      why: "Pure white delivers razor-sharp contrast against the navy chalk stripe, maximising formality and impact.",
+      collar: "Spread collar", pattern: "Solid",
+      pocketSquare: { name: "White Irish Linen", fold: "TV Fold (Presidential)", material: "Irish Linen" },
+      ties: [
+        { id:1, name:"Burgundy Grenadine Solid",   color:"#722F37", pattern:"Solid Grenadine",   material:"Silk Grenadine",    width:'3"', knot:"Half Windsor",   harmony:"Complementary",   why:"The quintessential authority pairing — navy and burgundy is the power combination of the boardroom." },
+        { id:2, name:"Gold & Navy Repp Stripe",    color:"#C9A84C", pattern:"Repp Stripe",       material:"Silk Twill",        width:'3"', knot:"Four-in-Hand",   harmony:"Analogous",       why:"Gold threads echo the chalk stripe while deep navy grounds the look with tonal depth." },
+        { id:3, name:"Forest Green Foulard",       color:"#355E3B", pattern:"Foulard (geometric)",material:"Matte Silk",        width:'3"', knot:"Pratt/Shelby",   harmony:"Triadic",         why:"Forest green completes a sophisticated triadic palette, adding quiet distinction." },
+        { id:4, name:"Silver-Grey Polka Dot",      color:"#A9A9A9", pattern:"Polka Dot",         material:"Silk Twill",        width:'3"', knot:"Four-in-Hand",   harmony:"Analogous",       why:"The grey mirrors the chalk stripe itself, creating cool, restrained elegance." },
+        { id:5, name:"Deep Teal Wool Knit",        color:"#008080", pattern:"Solid Knit",        material:"Wool-Silk Knit",    width:'2.5"',knot:"Four-in-Hand",   harmony:"Complementary",   why:"Knit texture adds tactile richness; teal bridges the cool navy warmth beautifully." },
+        { id:6, name:"Burnt Orange Paisley",       color:"#CC5500", pattern:"Paisley",           material:"Silk Twill",        width:'3"', knot:"Half Windsor",   harmony:"Complementary",   why:"For the confident dresser: burnt orange against navy is striking without aggression." },
+      ],
+    },
+    {
+      id: 2, name: "Pale French Blue End-on-End", colorCode: "#89B4D4",
+      why: "Blue-on-blue tonal harmony deepens the suit's presence without competing — a move of real sophistication.",
+      collar: "Semi-spread collar", pattern: "End-on-End weave",
+      pocketSquare: { name: "White Cotton", fold: "One Point", material: "Cotton" },
+      ties: [
+        { id:1, name:"Terracotta Repp Stripe",     color:"#CB6D51", pattern:"Repp Stripe",       material:"Silk Twill",        width:'3"', knot:"Four-in-Hand",   harmony:"Complementary",   why:"Warm terracotta against cool pale blue is the most naturally elegant contrast in menswear." },
+        { id:2, name:"Midnight Navy Grenadine",    color:"#191970", pattern:"Solid Grenadine",   material:"Silk Grenadine",    width:'3"', knot:"Half Windsor",   harmony:"Monochromatic",   why:"Tone-on-tone navy dressing — depth and sophistication in its purest form." },
+        { id:3, name:"Burgundy Micro-Paisley",     color:"#722F37", pattern:"Micro-Paisley",     material:"Silk Twill",        width:'3"', knot:"Half Windsor",   harmony:"Complementary",   why:"Burgundy's warmth cuts through the cool blue register with elegant energy." },
+        { id:4, name:"Olive & Gold Geometric",     color:"#808000", pattern:"Geometric Foulard", material:"Silk",              width:'3"', knot:"Four-in-Hand",   harmony:"Triadic",         why:"Olive-gold adds Italian flair — a warm accent in a cool blue ensemble." },
+        { id:5, name:"Charcoal Grenadine",         color:"#36454F", pattern:"Solid Grenadine",   material:"Silk Grenadine",    width:'3"', knot:"Kelvin",         harmony:"Analogous",       why:"Charcoal anchors pale blue with authority — clean, modern, professional." },
+        { id:6, name:"Silver & White Stripe",      color:"#C0C0C0", pattern:"Stripe",            material:"Silk",              width:'3"', knot:"Pratt/Shelby",   harmony:"Analogous",       why:"Crisp and precise — ideal for high-stakes environments where detail matters most." },
+      ],
+    },
+    {
+      id: 3, name: "Pale Pink Bengal Stripe", colorCode: "#F4B8C1",
+      why: "Warm rose complements the cool navy with a confident twist of personality without sacrificing professionalism.",
+      collar: "Button-down collar", pattern: "Bengal Stripe (pink/white)",
+      pocketSquare: { name: "Pink Silk", fold: "Puff Fold", material: "Silk" },
+      ties: [
+        { id:1, name:"Navy Polka Dot",             color:"#1B3A6B", pattern:"Polka Dot",         material:"Silk Twill",        width:'3"', knot:"Four-in-Hand",   harmony:"Monochromatic",   why:"Deep navy anchors the pink while the polka dot adds precision and playfulness." },
+        { id:2, name:"Charcoal & Silver Stripe",   color:"#36454F", pattern:"Repp Stripe",       material:"Silk Twill",        width:'3"', knot:"Half Windsor",   harmony:"Analogous",       why:"Cool charcoal-silver calms the warmth of pink — an understated power move." },
+        { id:3, name:"Deep Teal Solid",            color:"#008080", pattern:"Solid Grenadine",   material:"Silk Grenadine",    width:'3"', knot:"Four-in-Hand",   harmony:"Complementary",   why:"Teal-pink is unexpectedly elegant — cool and warm tones in perfect balance." },
+        { id:4, name:"Camel Knit",                 color:"#C19A6B", pattern:"Solid Knit",        material:"Wool Knit",         width:'2.5"',knot:"Four-in-Hand",   harmony:"Analogous",       why:"Warm camel echoes the warmth of pink, adding a relaxed sophistication." },
+        { id:5, name:"Forest Green Club Tie",      color:"#355E3B", pattern:"Club (crests)",     material:"Wool-Silk Blend",   width:'3"', knot:"Four-in-Hand",   harmony:"Triadic",         why:"An Ivy League nod — forest green, pink, and navy is timelessly preppy." },
+        { id:6, name:"Maroon Paisley",             color:"#800020", pattern:"Paisley",           material:"Silk Twill",        width:'3"', knot:"Half Windsor",   harmony:"Complementary",   why:"Maroon deepens and grounds the pink in an elegant, Old World manner." },
+      ],
+    },
+  ],
+  packages: [
+    {
+      name: "The Milan Executive",
+      suit: "Navy Chalk Stripe", shirt: "Crisp White Poplin", tie: "Burgundy Grenadine",
+      pocketSquare: "White Linen — TV Fold", shoes: "Black Cap-Toe Oxfords",
+      belt: "Black calf leather, slim gold buckle", socks: "Dark navy, over-the-calf", watch: "Silver dress watch",
+      occasion: "Board meeting, client pitch, job interview",
+      archetype: "British Classic", confidence: 2,
+      tip: "Keep the pocket square white and flat — the restraint is what gives this look its authority.",
+      shirtColor: "#F8F8F8", tieColor: "#722F37",
+    },
+    {
+      name: "The Continental Authority",
+      suit: "Navy Chalk Stripe", shirt: "Pale French Blue", tie: "Terracotta Repp Stripe",
+      pocketSquare: "Ivory Cotton — One Point", shoes: "Dark Brown Derby Brogues",
+      belt: "Dark cognac leather", socks: "Burgundy shadow stripe", watch: "Gold-case dress watch",
+      occasion: "Senior leadership, diplomatic dinner",
+      archetype: "Italian", confidence: 4,
+      tip: "Brown shoes with navy is the move that separates the truly stylish from the merely correct.",
+      shirtColor: "#89B4D4", tieColor: "#CB6D51",
+    },
+    {
+      name: "The Weekend Power Move",
+      suit: "Navy Chalk Stripe", shirt: "Pale Pink Bengal Stripe", tie: "Deep Teal Wool Knit",
+      pocketSquare: "Pink Silk — Puff Fold", shoes: "Tan Suede Monk Strap",
+      belt: "Tan suede", socks: "Teal or light grey", watch: "Sport-dress watch",
+      occasion: "Business casual Friday, gallery opening, client lunch",
+      archetype: "Continental", confidence: 4,
+      tip: "The knit tie softens the chalk stripe's formality — authority without rigidity.",
+      shirtColor: "#F4B8C1", tieColor: "#008080",
+    },
+    {
+      name: "The Understated Maverick",
+      suit: "Navy Chalk Stripe", shirt: "Crisp White Poplin", tie: "Forest Green Foulard",
+      pocketSquare: "Green Silk — Two Point", shoes: "Black Oxford Brogues",
+      belt: "Black leather", socks: "Forest green, over-the-calf", watch: "Dress watch, dark strap",
+      occasion: "Creative business, brand events, media appearances",
+      archetype: "Avant-Garde", confidence: 4,
+      tip: "The foulard's small pattern prevents a clash with the chalk stripe — scale variation is everything.",
+      shirtColor: "#F8F8F8", tieColor: "#355E3B",
+    },
+    {
+      name: "The City Classicist",
+      suit: "Navy Chalk Stripe", shirt: "Pale French Blue", tie: "Midnight Navy Grenadine",
+      pocketSquare: "White Linen — TV Fold", shoes: "Black Cap-Toe Oxfords",
+      belt: "Black leather", socks: "Navy ribbed", watch: "Silver dress watch",
+      occasion: "City meetings, financial sector, law firm",
+      archetype: "British Classic", confidence: 1,
+      tip: "Tone-on-tone navy lives or dies by the tailoring — this look demands perfect fit.",
+      shirtColor: "#89B4D4", tieColor: "#191970",
+    },
+    {
+      name: "The Golden Standard",
+      suit: "Navy Chalk Stripe", shirt: "Crisp White Poplin", tie: "Gold & Navy Repp Stripe",
+      pocketSquare: "Gold Silk — Puff Fold", shoes: "Brown Oxford Brogues",
+      belt: "Cognac leather", socks: "Burgundy solid", watch: "Gold-tone dress watch",
+      occasion: "Awards ceremony, keynote speaker, key negotiations",
+      archetype: "Italian", confidence: 3,
+      tip: "The gold repp is a statement — let it lead and keep everything else in supporting roles.",
+      shirtColor: "#F8F8F8", tieColor: "#C9A84C",
+    },
+  ],
+}
+
+// ─────────────────────────────────────────────
+// LOCAL SUIT ANALYSIS BY COLOR
+// ─────────────────────────────────────────────
+
+const ANALYSIS_BLACK = {
+  suit: { colorFamily:"Jet Black", undertones:"Cool neutral undertones", fabric:"Wool twill, ~280 g/m²", pattern:"Solid", formality:"Business Formal / Black Tie", lapel:"Peak or notch lapel", fit:"Slim fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White against black is the sharpest contrast in menswear — commanding and timeless.", collar:"Spread collar", pattern:"Solid poplin",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Silver Grenadine",        color:"#C0C0C0", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"',  knot:"Half Windsor",  harmony:"Analogous",      why:"Silver on white and black creates a sleek, sophisticated monochromatic look." },
+        { id:2, name:"Burgundy Silk Solid",     color:"#722F37", pattern:"Solid",            material:"Silk Twill",     width:'3"',  knot:"Half Windsor",  harmony:"Complementary",  why:"Burgundy is the one warm accent that makes a black suit come alive." },
+        { id:3, name:"Deep Charcoal Grenadine", color:"#36454F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"',  knot:"Four-in-Hand",  harmony:"Monochromatic",  why:"Tonal dark elegance — understated power for boardroom and evening alike." },
+        { id:4, name:"Navy Repp Stripe",        color:"#1B3A6B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"',  knot:"Four-in-Hand",  harmony:"Analogous",      why:"Navy stripe breaks the severity of all-black with classic authority." },
+        { id:5, name:"Champagne Gold Foulard",  color:"#C9A84C", pattern:"Foulard",          material:"Matte Silk",     width:'3"',  knot:"Pratt/Shelby",  harmony:"Complementary",  why:"Gold on black is pure evening glamour — perfect for a gala or cocktail event." },
+        { id:6, name:"Black Knit",              color:"#1C1C1C", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand",  harmony:"Monochromatic",  why:"A tonal black knit adds tactile texture to an all-black look — modern and directional." },
+      ]
+    },
+    { id:2, name:"Pale French Blue End-on-End", colorCode:"#89B4D4", why:"The only colour that softens a black suit without weakening it — cool blue adds personality and warmth.", collar:"Semi-spread collar", pattern:"End-on-End weave",
+      pocketSquare:{ name:"White Cotton", fold:"One Point", material:"Cotton" },
+      ties:[
+        { id:1, name:"Midnight Navy Solid",     color:"#191970", pattern:"Solid",            material:"Silk Grenadine", width:'3"',  knot:"Half Windsor",  harmony:"Monochromatic",  why:"Navy-on-blue with a black suit is effortlessly elegant — perfect City dressing." },
+        { id:2, name:"Burgundy Micro-Paisley",  color:"#722F37", pattern:"Micro-Paisley",    material:"Silk Twill",     width:'3"',  knot:"Half Windsor",  harmony:"Complementary",  why:"The paisley adds Old World richness; burgundy bridges blue and black beautifully." },
+        { id:3, name:"Silver & White Stripe",   color:"#C0C0C0", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"',  knot:"Four-in-Hand",  harmony:"Analogous",      why:"Crisp and precise — the right choice when the room demands flawless detail." },
+        { id:4, name:"Charcoal Grenadine",      color:"#36454F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"',  knot:"Kelvin",        harmony:"Analogous",      why:"Charcoal grounds pale blue in the context of a black suit — controlled elegance." },
+        { id:5, name:"Forest Green Foulard",    color:"#355E3B", pattern:"Foulard",          material:"Matte Silk",     width:'3"',  knot:"Pratt/Shelby",  harmony:"Triadic",        why:"Green adds an unexpected Italian flourish — sophisticated and distinctive." },
+        { id:6, name:"Deep Teal Solid",         color:"#008080", pattern:"Solid",            material:"Silk Grenadine", width:'3"',  knot:"Four-in-Hand",  harmony:"Complementary",  why:"Teal against pale blue and black creates a jewel-tone effect that commands attention." },
+      ]
+    },
+    { id:3, name:"Soft Pink Bengal Stripe", colorCode:"#F4B8C1", why:"Confident and unexpected — pink against black projects a self-assured masculinity that sets you apart.", collar:"Button-down collar", pattern:"Bengal Stripe (pink/white)",
+      pocketSquare:{ name:"Pink Silk", fold:"Puff Fold", material:"Silk" },
+      ties:[
+        { id:1, name:"Black Satin Bow",         color:"#1C1C1C", pattern:"Solid Satin",      material:"Silk Satin",     width:'3"',  knot:"Bow Tie",       harmony:"Monochromatic",  why:"Pink shirt with a black bow tie on a black suit is peak cocktail hour elegance." },
+        { id:2, name:"Navy Polka Dot",          color:"#1B3A6B", pattern:"Polka Dot",        material:"Silk Twill",     width:'3"',  knot:"Four-in-Hand",  harmony:"Complementary",  why:"Navy polka dot anchors the warmth of pink with classic precision." },
+        { id:3, name:"Charcoal & White Stripe", color:"#36454F", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"',  knot:"Half Windsor",  harmony:"Analogous",      why:"Cool stripe calms the warmth of pink — an understated power move." },
+        { id:4, name:"Camel Knit",              color:"#C19A6B", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand",  harmony:"Analogous",      why:"Camel echoes the warmth of pink beautifully — relaxed sophistication." },
+        { id:5, name:"Maroon Paisley",          color:"#800020", pattern:"Paisley",          material:"Silk Twill",     width:'3"',  knot:"Half Windsor",  harmony:"Complementary",  why:"Maroon deepens and grounds the pink in a bold, Old World manner." },
+        { id:6, name:"Deep Teal Solid",         color:"#008080", pattern:"Solid",            material:"Silk Grenadine", width:'3"',  knot:"Four-in-Hand",  harmony:"Complementary",  why:"Teal-pink is an unexpectedly elegant pairing — cool meets warm in perfect balance." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The Midnight Sovereign",    suit:"Black Wool", shirt:"Crisp White Poplin",      tie:"Silver Grenadine",      pocketSquare:"White Linen — TV Fold",   shoes:"Black Cap-Toe Oxfords", belt:"Black calf leather", socks:"Black over-the-calf", watch:"Silver dress watch", occasion:"Gala, black tie optional, senior leadership", archetype:"British Classic", confidence:2, tip:"The white pocket square must be immaculately flat — the restraint is the statement.", shirtColor:"#F8F8F8", tieColor:"#C0C0C0" },
+    { name:"The Evening Authority",     suit:"Black Wool", shirt:"Crisp White Poplin",      tie:"Burgundy Silk Solid",   pocketSquare:"White Linen — TV Fold",   shoes:"Black Patent Oxfords",  belt:"Black patent leather", socks:"Black ribbed", watch:"Silver dress watch", occasion:"Formal dinner, award ceremony, important client", archetype:"Italian", confidence:3, tip:"Burgundy is the one tie that makes a white-on-black look feel warm rather than cold.", shirtColor:"#F8F8F8", tieColor:"#722F37" },
+    { name:"The City Modernist",        suit:"Black Wool", shirt:"Pale French Blue",        tie:"Midnight Navy Solid",   pocketSquare:"White Cotton — One Point",shoes:"Black Derby",           belt:"Black leather",        socks:"Navy ribbed", watch:"Silver dress watch", occasion:"Board meeting, client pitch, financial sector", archetype:"Continental", confidence:2, tip:"Blue-on-blue-on-black is the understated move of a man who knows exactly what he's doing.", shirtColor:"#89B4D4", tieColor:"#191970" },
+    { name:"The Power Maverick",        suit:"Black Wool", shirt:"Pale French Blue",        tie:"Forest Green Foulard",  pocketSquare:"Green Silk — Two Point",  shoes:"Black Oxford Brogues",  belt:"Black leather",        socks:"Forest green", watch:"Sport-dress watch", occasion:"Creative business, brand events, media", archetype:"Avant-Garde", confidence:4, tip:"The foulard's small pattern prevents a clash — this is bold but controlled.", shirtColor:"#89B4D4", tieColor:"#355E3B" },
+    { name:"The Confident Gentleman",  suit:"Black Wool", shirt:"Soft Pink Bengal Stripe", tie:"Navy Polka Dot",        pocketSquare:"Pink Silk — Puff Fold",   shoes:"Black Monk Strap",      belt:"Black leather",        socks:"Navy shadow stripe", watch:"Dress watch, dark strap", occasion:"Client lunch, gallery opening, smart casual event", archetype:"Preppy", confidence:4, tip:"Pink on black projects self-assurance — only wear it if you can own it fully.", shirtColor:"#F4B8C1", tieColor:"#1B3A6B" },
+    { name:"The Gilded Evening",        suit:"Black Wool", shirt:"Crisp White Poplin",      tie:"Champagne Gold Foulard",pocketSquare:"Gold Silk — Puff Fold",   shoes:"Black Cap-Toe Oxfords", belt:"Black leather",        socks:"Black ribbed", watch:"Gold-case dress watch", occasion:"Gala, cocktail party, awards evening", archetype:"Italian", confidence:5, tip:"Gold on black is pure theatre — wear it when the room is the stage.", shirtColor:"#F8F8F8", tieColor:"#C9A84C" },
+  ],
+}
+
+const ANALYSIS_CHARCOAL = {
+  suit: { colorFamily:"Charcoal Grey", undertones:"Cool blue-grey undertones", fabric:"Worsted wool, ~260 g/m²", pattern:"Solid", formality:"Business Formal", lapel:"Notch lapel", fit:"Classic fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White against charcoal is clean authority — the combination that closes deals.", collar:"Spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Burgundy Grenadine",    color:"#722F37", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy and charcoal is the definitive boardroom combination." },
+        { id:2, name:"Navy Repp Stripe",      color:"#1B3A6B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"The navy stripe adds structure — ideal for banking and law." },
+        { id:3, name:"Forest Green Foulard",  color:"#355E3B", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Green adds quiet distinction against charcoal and white." },
+        { id:4, name:"Silver Polka Dot",      color:"#A9A9A9", pattern:"Polka Dot",        material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Silver-on-charcoal is restrained elegance at its finest." },
+        { id:5, name:"Deep Teal Knit",        color:"#008080", pattern:"Solid Knit",       material:"Wool-Silk Knit", width:'2.5"',knot:"Four-in-Hand", harmony:"Complementary", why:"Teal adds a modern edge to classic charcoal — smart and confident." },
+        { id:6, name:"Mustard Yellow Knit",   color:"#C9A84C", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Complementary", why:"Yellow against charcoal and white is a sunny, confident statement." },
+      ]
+    },
+    { id:2, name:"Pale French Blue", colorCode:"#89B4D4", why:"Blue softens charcoal's severity while keeping the professionalism fully intact.", collar:"Semi-spread collar", pattern:"End-on-End weave",
+      pocketSquare:{ name:"White Cotton", fold:"One Point", material:"Cotton" },
+      ties:[
+        { id:1, name:"Terracotta Repp Stripe", color:"#CB6D51", pattern:"Repp Stripe",     material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Terracotta-blue against charcoal is the most naturally elegant combination in menswear." },
+        { id:2, name:"Burgundy Micro-Paisley", color:"#722F37", pattern:"Micro-Paisley",   material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy warmth cuts through the cool register with elegant energy." },
+        { id:3, name:"Navy Grenadine",         color:"#191970", pattern:"Solid Grenadine", material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Monochromatic", why:"Tone-on-tone blue with charcoal is depth and sophistication in its purest form." },
+        { id:4, name:"Olive Geometric",        color:"#808000", pattern:"Geometric",       material:"Silk",           width:'3"', knot:"Four-in-Hand",  harmony:"Triadic",       why:"Olive-gold adds Italian flair — a warm accent in a cool blue-grey ensemble." },
+        { id:5, name:"Charcoal Grenadine",     color:"#36454F", pattern:"Solid Grenadine", material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Monochromatic", why:"Pure tonal sophistication — for the man who lets his tailoring speak." },
+        { id:6, name:"Silver & White Stripe",  color:"#C0C0C0", pattern:"Stripe",          material:"Silk",           width:'3"', knot:"Pratt/Shelby",  harmony:"Analogous",     why:"Crisp precision — ideal for high-stakes environments." },
+      ]
+    },
+    { id:3, name:"Pale Pink Bengal Stripe", colorCode:"#F4B8C1", why:"Warm rose against charcoal adds confident personality without sacrificing authority.", collar:"Button-down collar", pattern:"Bengal Stripe (pink/white)",
+      pocketSquare:{ name:"Pink Silk", fold:"Puff Fold", material:"Silk" },
+      ties:[
+        { id:1, name:"Navy Polka Dot",          color:"#1B3A6B", pattern:"Polka Dot",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Deep navy anchors the pink while the dot adds playful precision." },
+        { id:2, name:"Charcoal Repp Stripe",    color:"#36454F", pattern:"Repp Stripe",    material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Cool charcoal calms the warmth of pink — an understated power move." },
+        { id:3, name:"Deep Teal Solid",         color:"#008080", pattern:"Solid Grenadine",material:"Silk Grenadine", width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Teal-pink is unexpectedly elegant — cool and warm tones in balance." },
+        { id:4, name:"Camel Knit",              color:"#C19A6B", pattern:"Solid Knit",     material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Warm camel echoes the warmth of pink — relaxed sophistication." },
+        { id:5, name:"Forest Green Club Tie",   color:"#355E3B", pattern:"Club (crests)",  material:"Wool-Silk Blend",width:'3"', knot:"Four-in-Hand",  harmony:"Triadic",       why:"Forest green, pink, and charcoal is timelessly preppy." },
+        { id:6, name:"Maroon Paisley",          color:"#800020", pattern:"Paisley",        material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Maroon grounds the pink in an elegant, Old World manner." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The City Banker",        suit:"Charcoal Wool", shirt:"Crisp White Poplin",      tie:"Burgundy Grenadine",    pocketSquare:"White Linen — TV Fold",  shoes:"Black Cap-Toe Oxfords", belt:"Black leather",  socks:"Dark grey over-the-calf", watch:"Silver dress watch",      occasion:"Board meeting, legal, finance",         archetype:"British Classic", confidence:2, tip:"White + burgundy + charcoal is the holy trinity of boardroom dressing.", shirtColor:"#F8F8F8", tieColor:"#722F37" },
+    { name:"The Continental",        suit:"Charcoal Wool", shirt:"Pale French Blue",        tie:"Terracotta Repp Stripe",pocketSquare:"Ivory Cotton — One Point",shoes:"Dark Brown Derbies",    belt:"Dark cognac",    socks:"Burgundy shadow stripe",  watch:"Gold-case dress watch",   occasion:"Senior leadership, diplomatic dinner",  archetype:"Italian",         confidence:4, tip:"Brown shoes with charcoal — only the truly confident make this move.", shirtColor:"#89B4D4", tieColor:"#CB6D51" },
+    { name:"The Modern Executive",   suit:"Charcoal Wool", shirt:"Pale French Blue",        tie:"Charcoal Grenadine",    pocketSquare:"White Cotton — TV Fold", shoes:"Black Oxfords",         belt:"Black leather",  socks:"Navy ribbed",             watch:"Silver dress watch",      occasion:"City meetings, presentations",          archetype:"Continental",     confidence:1, tip:"Tonal dressing lives or dies by the quality of the tailoring.", shirtColor:"#89B4D4", tieColor:"#36454F" },
+    { name:"The Weekend Powerbroker",suit:"Charcoal Wool", shirt:"Soft Pink Bengal Stripe", tie:"Deep Teal Solid",       pocketSquare:"Pink Silk — Puff Fold",  shoes:"Tan Suede Monk Strap",  belt:"Tan suede",      socks:"Teal or grey",            watch:"Sport-dress watch",       occasion:"Business casual Friday, client lunch",  archetype:"Preppy",          confidence:4, tip:"The knit tie softens charcoal's formality without losing authority.", shirtColor:"#F4B8C1", tieColor:"#008080" },
+    { name:"The Understated Maverick",suit:"Charcoal Wool",shirt:"Crisp White Poplin",      tie:"Forest Green Foulard",  pocketSquare:"Green Silk — Two Point", shoes:"Black Oxford Brogues",  belt:"Black leather",  socks:"Forest green",            watch:"Dress watch, dark strap", occasion:"Creative business, brand events",        archetype:"Avant-Garde",     confidence:4, tip:"The foulard's small pattern prevents a clash with the solid charcoal.", shirtColor:"#F8F8F8", tieColor:"#355E3B" },
+    { name:"The Golden Standard",    suit:"Charcoal Wool", shirt:"Crisp White Poplin",      tie:"Mustard Yellow Knit",   pocketSquare:"Gold Silk — Puff Fold",  shoes:"Brown Oxford Brogues",  belt:"Brown leather",  socks:"Mustard or dark grey",    watch:"Gold-case dress watch",   occasion:"Creative leadership, gallery, lunch",   archetype:"Continental",     confidence:5, tip:"Mustard yellow on charcoal is a bold, sunny statement — own it fully.", shirtColor:"#F8F8F8", tieColor:"#C9A84C" },
+  ],
+}
+
+const ANALYSIS_GREY = {
+  suit: { colorFamily:"Medium Grey", undertones:"Neutral grey undertones", fabric:"Worsted wool, ~260 g/m²", pattern:"Solid", formality:"Business Formal / Smart Casual", lapel:"Notch lapel", fit:"Classic or slim fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White on medium grey is clean, sharp authority — the most versatile foundation in business dressing.", collar:"Spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Burgundy Grenadine",      color:"#722F37", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy and grey is the timeless power pairing — confident and authoritative." },
+        { id:2, name:"Navy Repp Stripe",         color:"#1B3A6B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Navy stripe on grey and white is Old Money elegance — understated excellence." },
+        { id:3, name:"Forest Green Foulard",     color:"#355E3B", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Green cuts beautifully through grey — distinguished and quietly confident." },
+        { id:4, name:"Mid-Grey Grenadine",       color:"#808080", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Monochromatic", why:"Tonal grey dressing is the Continental move — depth through texture, not colour." },
+        { id:5, name:"Mustard Knit",             color:"#C9A84C", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Complementary", why:"Mustard on grey pops with warm energy — perfect for creative business settings." },
+        { id:6, name:"Pale Pink Stripe",         color:"#F4B8C1", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"A rosy stripe softens grey austerity with warm, confident charm." },
+      ]
+    },
+    { id:2, name:"Pale Blue End-on-End", colorCode:"#89B4D4", why:"Blue and grey share cool undertones — effortlessly elegant together with a relaxed authority.", collar:"Semi-spread collar", pattern:"End-on-End weave",
+      pocketSquare:{ name:"White Cotton", fold:"One Point", material:"Cotton" },
+      ties:[
+        { id:1, name:"Burgundy Micro-Paisley",   color:"#722F37", pattern:"Micro-Paisley",    material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy warms the blue-grey combination into something genuinely rich." },
+        { id:2, name:"Terracotta Repp Stripe",   color:"#CB6D51", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Terracotta-blue against grey is an Italian masterclass in tonal contrast." },
+        { id:3, name:"Navy Solid Grenadine",     color:"#191970", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Deep navy anchors the cool palette of grey and blue with quiet authority." },
+        { id:4, name:"Silver & Blue Stripe",     color:"#C0C0C0", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Pratt/Shelby",  harmony:"Analogous",     why:"A cool silver-blue stripe unifies the ensemble into precise, boardroom-ready elegance." },
+        { id:5, name:"Olive Geometric",          color:"#808000", pattern:"Geometric",        material:"Silk",           width:'3"', knot:"Four-in-Hand",  harmony:"Triadic",       why:"Olive adds earthy warmth that elevates the cool tones into something distinctive." },
+        { id:6, name:"Teal Knit",                color:"#008080", pattern:"Solid Knit",       material:"Wool-Silk Knit", width:'2.5"',knot:"Four-in-Hand", harmony:"Complementary", why:"Teal against blue and grey creates a jewel-like depth — modern and sophisticated." },
+      ]
+    },
+    { id:3, name:"Soft Lilac Shirt", colorCode:"#C8A2C8", why:"Lilac on grey is a sophisticated continental choice — warm and distinctive without being loud.", collar:"Semi-spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Silk", fold:"Puff Fold", material:"Silk" },
+      ties:[
+        { id:1, name:"Charcoal Grenadine",       color:"#36454F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Dark charcoal grounds the softness of lilac with quiet strength." },
+        { id:2, name:"Navy Polka Dot",            color:"#1B3A6B", pattern:"Polka Dot",        material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Navy dots add structure and masculinity to an unconventional pairing." },
+        { id:3, name:"Burgundy Solid",            color:"#722F37", pattern:"Solid",            material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Burgundy and lilac share a red-purple family — a naturally harmonious combination." },
+        { id:4, name:"Grey Repp Stripe",          color:"#A9A9A9", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Monochromatic", why:"A cool grey stripe ties the lilac back to the suit in a perfectly composed way." },
+        { id:5, name:"Deep Purple Knit",          color:"#4B0082", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Monochromatic", why:"Deep purple deepens the lilac into evening territory — bold yet harmonious." },
+        { id:6, name:"Silver Grenadine",          color:"#C0C0C0", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Analogous",     why:"Silver threads the needle — light enough to not clash, cool enough to sharpen the look." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The Grey Eminence",       suit:"Medium Grey Wool", shirt:"Crisp White Poplin",  tie:"Burgundy Grenadine",    pocketSquare:"White Linen — TV Fold",   shoes:"Black Cap-Toe Oxfords", belt:"Black leather",  socks:"Dark grey over-the-calf", watch:"Silver dress watch",    occasion:"Board meeting, finance, law", archetype:"British Classic", confidence:2, tip:"White + burgundy + grey is the classic boardroom trilogy.", shirtColor:"#F8F8F8", tieColor:"#722F37" },
+    { name:"The City Diplomat",       suit:"Medium Grey Wool", shirt:"Pale Blue End-on-End",tie:"Terracotta Repp Stripe",pocketSquare:"Ivory Cotton — One Point", shoes:"Dark Brown Derbies",   belt:"Dark cognac",    socks:"Burgundy shadow stripe",  watch:"Gold-case dress watch", occasion:"Senior leadership, diplomatic event", archetype:"Italian", confidence:4, tip:"Brown shoes with grey is the mark of a man who understands colour beyond fashion rules.", shirtColor:"#89B4D4", tieColor:"#CB6D51" },
+    { name:"The Understated Maverick",suit:"Medium Grey Wool",  shirt:"Crisp White Poplin",  tie:"Forest Green Foulard",  pocketSquare:"Green Silk — Two Point",  shoes:"Dark Brown Brogues",   belt:"Brown leather",  socks:"Forest green",            watch:"Dress watch, dark strap",occasion:"Creative business, gallery, client lunch", archetype:"Avant-Garde", confidence:4, tip:"The foulard small pattern prevents a clash — green on grey is quietly dashing.", shirtColor:"#F8F8F8", tieColor:"#355E3B" },
+    { name:"The Continental",         suit:"Medium Grey Wool", shirt:"Soft Lilac",           tie:"Charcoal Grenadine",    pocketSquare:"White Silk — Puff Fold",  shoes:"Dark Brown Oxford",    belt:"Dark brown",     socks:"Charcoal ribbed",         watch:"Silver dress watch",    occasion:"Client dinner, cultural event", archetype:"Continental", confidence:4, tip:"Lilac on grey takes confidence — those who notice will know exactly what they are looking at.", shirtColor:"#C8A2C8", tieColor:"#36454F" },
+    { name:"The Sunday Best",         suit:"Medium Grey Wool", shirt:"Pale Blue End-on-End", tie:"Navy Solid Grenadine",  pocketSquare:"White Cotton — TV Fold",  shoes:"Black Derbies",        belt:"Black leather",  socks:"Navy ribbed",             watch:"Silver dress watch",    occasion:"Church, family occasion, smart event", archetype:"Preppy", confidence:2, tip:"The navy tie is the unifying anchor — blue-grey-navy is a naturally harmonious family.", shirtColor:"#89B4D4", tieColor:"#191970" },
+    { name:"The Modern Gentleman",    suit:"Medium Grey Wool", shirt:"Crisp White Poplin",   tie:"Mustard Knit",          pocketSquare:"Gold Silk — Puff Fold",   shoes:"Tan Suede Derbies",    belt:"Tan suede",      socks:"Mustard or grey",         watch:"Gold-tone watch",       occasion:"Smart casual, weekend event, gallery opening", archetype:"Continental", confidence:5, tip:"Mustard on grey is a joyful statement — wear it when confidence needs no justification.", shirtColor:"#F8F8F8", tieColor:"#C9A84C" },
+  ],
+}
+
+const ANALYSIS_LIGHT_GREY = {
+  suit: { colorFamily:"Light Grey", undertones:"Silver-cool undertones", fabric:"Lightweight wool or flannel, ~220 g/m²", pattern:"Solid or subtle texture", formality:"Smart Casual / Business Casual", lapel:"Notch lapel", fit:"Slim or tailored fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"The cleanest contrast against light grey — simple, confident, never wrong.", collar:"Spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Navy Grenadine",           color:"#191970", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Deep navy against light grey creates maximum contrast — sharp and timeless." },
+        { id:2, name:"Burgundy Repp Stripe",     color:"#722F37", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Burgundy adds depth and warmth to a light, airy suit — powerful and grounded." },
+        { id:3, name:"Sky Blue Solid",           color:"#87CEEB", pattern:"Solid",            material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Analogous",     why:"Soft blue on light grey is a cool, relaxed combination — elegant and approachable." },
+        { id:4, name:"Dusty Rose Knit",          color:"#D4A0A0", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Dusty rose adds warmth to light grey coolness — refined and quietly stylish." },
+        { id:5, name:"Sage Green Foulard",       color:"#8FBC8F", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Sage green on light grey is the most naturalistic of pairings — fresh and elegant." },
+        { id:6, name:"Silver & White Stripe",    color:"#C0C0C0", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Monochromatic", why:"A pale stripe on light grey is delicate tonal dressing — precise and refined." },
+      ]
+    },
+    { id:2, name:"Pale Sky Blue", colorCode:"#B0D4E8", why:"Sky blue and light grey share a cool, airy register — the combination exudes easy elegance.", collar:"Button-down collar", pattern:"Solid or fine stripe",
+      pocketSquare:{ name:"Light Blue Silk", fold:"One Point", material:"Silk" },
+      ties:[
+        { id:1, name:"Navy Polka Dot",           color:"#1B3A6B", pattern:"Polka Dot",        material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Navy dots anchor the airy lightness with confident precision." },
+        { id:2, name:"Mid-Grey Grenadine",       color:"#808080", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Monochromatic", why:"Tonal grey creates a refined monochromatic ease — very Italian." },
+        { id:3, name:"Dusty Rose Solid",         color:"#D4A0A0", pattern:"Solid",            material:"Silk Grenadine", width:'3"', knot:"Pratt/Shelby",  harmony:"Complementary", why:"Rose softens the cool blue-grey palette with a warm, inviting character." },
+        { id:4, name:"Forest Green Knit",        color:"#355E3B", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Triadic",       why:"Forest green adds grounding depth — a natural complement to a cool suit." },
+        { id:5, name:"Camel & White Stripe",     color:"#C19A6B", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Camel warmth plays beautifully against the cool airy blues and greys." },
+        { id:6, name:"Burgundy Foulard",         color:"#722F37", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy depth creates a sophisticated counterpoint to a light, breezy suit." },
+      ]
+    },
+    { id:3, name:"Soft Peach Shirt", colorCode:"#FFCBA4", why:"Peach brings warmth to a cool light grey suit — fresh, sunny, and quietly dashing.", collar:"Semi-spread collar", pattern:"Solid",
+      pocketSquare:{ name:"Ivory Silk", fold:"Puff Fold", material:"Silk" },
+      ties:[
+        { id:1, name:"Cognac Brown Knit",        color:"#9B6830", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Cognac and peach share warm undertones — the combination is effortlessly warm." },
+        { id:2, name:"Navy Micro-Pattern",       color:"#1B3A6B", pattern:"Micro-Dot",        material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Deep navy anchors the warmth of peach with cool precision." },
+        { id:3, name:"Terracotta Repp Stripe",   color:"#CB6D51", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Terracotta deepens the warmth of peach into something richly sophisticated." },
+        { id:4, name:"Sage Green Foulard",       color:"#8FBC8F", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Green + peach + grey is a triadic palette — fresh and full of natural energy." },
+        { id:5, name:"Dusty Mauve Knit",         color:"#B08090", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Mauve-rose harmonises with peach for a warm, seasonal refinement." },
+        { id:6, name:"Charcoal Grenadine",       color:"#36454F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Dark charcoal grounds the lightness of peach and pale grey beautifully." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The Spring Authority",      suit:"Light Grey Wool", shirt:"Crisp White Poplin",  tie:"Navy Grenadine",         pocketSquare:"White Linen — TV Fold",    shoes:"Dark Brown Derbies",   belt:"Dark cognac",   socks:"Navy ribbed",            watch:"Silver dress watch",    occasion:"Weddings, spring events, outdoor ceremonies", archetype:"British Classic", confidence:2, tip:"Navy on white on light grey is spring formality at its finest — classic without being stuffy.", shirtColor:"#F8F8F8", tieColor:"#191970" },
+    { name:"The Summer Diplomat",       suit:"Light Grey Wool", shirt:"Pale Sky Blue",       tie:"Mid-Grey Grenadine",     pocketSquare:"Light Blue Silk — One Point",shoes:"White Bucks or tan",  belt:"Tan leather",   socks:"Light grey",             watch:"Silver dress watch",    occasion:"Garden party, daytime wedding, summer events", archetype:"Continental", confidence:3, tip:"Tonal cool dressing on a light grey suit is the height of effortless summer style.", shirtColor:"#B0D4E8", tieColor:"#808080" },
+    { name:"The Warm Weekend",          suit:"Light Grey Wool", shirt:"Soft Peach",          tie:"Cognac Brown Knit",      pocketSquare:"Ivory Silk — Puff Fold",   shoes:"Tan Suede Loafers",   belt:"Tan suede",     socks:"Peach or stone",         watch:"Bronze-tone casual watch",occasion:"Business casual, weekend lunch, garden party", archetype:"Preppy", confidence:4, tip:"Warm tones on a cool grey suit radiate approachable confidence.", shirtColor:"#FFCBA4", tieColor:"#9B6830" },
+    { name:"The Meadow Gentleman",      suit:"Light Grey Wool", shirt:"Pale Sky Blue",       tie:"Forest Green Knit",      pocketSquare:"Sage Green Silk — One Point",shoes:"Brown Oxford Brogues",belt:"Brown leather", socks:"Forest green or grey",   watch:"Gold-tone casual watch",occasion:"Country wedding, outdoor event, relaxed formal", archetype:"Country", confidence:4, tip:"Green knit on a light suit brings the outdoors in — earthy and elegant.", shirtColor:"#B0D4E8", tieColor:"#355E3B" },
+    { name:"The Soft Power",            suit:"Light Grey Wool", shirt:"Crisp White Poplin",  tie:"Burgundy Repp Stripe",   pocketSquare:"White Linen — TV Fold",    shoes:"Black Cap-Toe Oxfords",belt:"Black leather", socks:"Dark grey over-the-calf",watch:"Silver dress watch",    occasion:"Interviews, presentations, meetings", archetype:"British Classic", confidence:2, tip:"Burgundy on light grey carries formality without the heaviness of a dark suit.", shirtColor:"#F8F8F8", tieColor:"#722F37" },
+    { name:"The Sunny Roman",           suit:"Light Grey Wool", shirt:"Soft Peach",          tie:"Terracotta Repp Stripe", pocketSquare:"Ivory Silk — Puff Fold",   shoes:"Tan leather loafers", belt:"Tan leather",   socks:"Terracotta or stone",    watch:"Gold-tone dress watch", occasion:"Summer wedding, Mediterranean event, lunch", archetype:"Italian", confidence:5, tip:"A warm-toned ensemble on light grey is pure Italian holiday — unapologetically joyful.", shirtColor:"#FFCBA4", tieColor:"#CB6D51" },
+  ],
+}
+
+const ANALYSIS_BLUE = {
+  suit: { colorFamily:"Royal Blue / Bright Blue", undertones:"Cool blue undertones", fabric:"Worsted wool or wool-blend, ~240 g/m²", pattern:"Solid", formality:"Smart Business / Business Casual", lapel:"Notch lapel", fit:"Slim or modern fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White against royal blue creates vivid, crisp contrast — sharp and confident without complexity.", collar:"Spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Navy Grenadine",           color:"#191970", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Deep navy grounds the brightness of a blue suit — controlled and confident." },
+        { id:2, name:"Burgundy Solid",           color:"#722F37", pattern:"Solid",            material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy and blue is the definitive power combination — bold, warm contrast." },
+        { id:3, name:"Silver Grenadine",         color:"#C0C0C0", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Silver against white and blue has a cool, precise, architectural elegance." },
+        { id:4, name:"Gold Foulard",             color:"#C9A84C", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Complementary", why:"Gold on white on blue is vivid and celebratory — Italian confidence at full volume." },
+        { id:5, name:"Forest Green Repp Stripe", color:"#355E3B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Triadic",       why:"A green stripe adds unexpected depth — distinction for those who notice." },
+        { id:6, name:"White & Blue Stripe",      color:"#87CEEB", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Monochromatic", why:"A tonal blue-white stripe is clean, fresh, and seasonless." },
+      ]
+    },
+    { id:2, name:"White Fine Stripe Shirt", colorCode:"#E8E8FF", why:"A fine stripe on white adds subtle texture that enriches the bold blue suit without competing.", collar:"Semi-spread collar", pattern:"Fine pin-stripe",
+      pocketSquare:{ name:"White Cotton", fold:"One Point", material:"Cotton" },
+      ties:[
+        { id:1, name:"Navy Repp Stripe",         color:"#1B3A6B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Stripe on stripe works when scales differ — the navy grounds the blue beautifully." },
+        { id:2, name:"Burgundy Grenadine",       color:"#722F37", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy warms the cool stripe ensemble with old-world gravitas." },
+        { id:3, name:"Silver & Navy Stripe",     color:"#C0C0C0", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Pratt/Shelby",  harmony:"Analogous",     why:"Crisp silver-navy stripe on a fine-striped shirt and blue suit is precision dressing." },
+        { id:4, name:"Terracotta Knit",          color:"#CB6D51", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Complementary", why:"Terracotta warmth cuts through the cool blues with Italian confidence." },
+        { id:5, name:"Camel Grenadine",          color:"#C19A6B", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Warm camel against cool blue is a naturally sophisticated contrast." },
+        { id:6, name:"Dusty Pink Foulard",       color:"#D4A0A0", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"A soft pink foulard adds Old World charm to a modern blue suit." },
+      ]
+    },
+    { id:3, name:"Pale Lavender Shirt", colorCode:"#D8C8E8", why:"Lavender and bright blue share cool undertones — soft, sophisticated, and distinctly European.", collar:"Semi-spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Silk", fold:"Puff Fold", material:"Silk" },
+      ties:[
+        { id:1, name:"Deep Purple Grenadine",    color:"#4B0082", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Monochromatic", why:"Deep purple deepens the lavender into confident, directional territory." },
+        { id:2, name:"Navy Polka Dot",           color:"#1B3A6B", pattern:"Polka Dot",        material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Navy dots bring structure and masculinity to a soft lavender-blue combination." },
+        { id:3, name:"Charcoal Grenadine",       color:"#36454F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Complementary", why:"Charcoal grounds lavender — cool, composed, and controlled." },
+        { id:4, name:"Silver Stripe",            color:"#C0C0C0", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Silver-on-lavender-on-blue is a trio of cool tones — airy and refined." },
+        { id:5, name:"Burgundy Foulard",         color:"#722F37", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"A burgundy foulard adds warm contrast to the cool lavender-blue palette." },
+        { id:6, name:"White & Lilac Stripe",     color:"#C8A2C8", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Pratt/Shelby",  harmony:"Monochromatic", why:"Lilac-white stripe ties the shirt and suit into a harmonious cool-toned ensemble." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The Royal Banker",       suit:"Royal Blue Wool",  shirt:"Crisp White Poplin",   tie:"Navy Grenadine",         pocketSquare:"White Linen — TV Fold",    shoes:"Black Cap-Toe Oxfords", belt:"Black leather",  socks:"Navy over-the-calf",    watch:"Silver dress watch",    occasion:"Business formal, client presentations", archetype:"British Classic", confidence:2, tip:"Navy tie on a blue suit — only works with a true royal blue; the contrast must be clear.", shirtColor:"#F8F8F8", tieColor:"#191970" },
+    { name:"The Blue Power",         suit:"Royal Blue Wool",  shirt:"Crisp White Poplin",   tie:"Burgundy Solid",         pocketSquare:"White Linen — TV Fold",    shoes:"Dark Brown Oxford",    belt:"Dark brown",    socks:"Burgundy ribbed",       watch:"Gold dress watch",      occasion:"Important meetings, keynotes, leadership", archetype:"Italian", confidence:3, tip:"Burgundy and blue is one of the great classic combinations — warm and cool at perfect tension.", shirtColor:"#F8F8F8", tieColor:"#722F37" },
+    { name:"The Celebration",        suit:"Royal Blue Wool",  shirt:"Crisp White Poplin",   tie:"Gold Foulard",           pocketSquare:"Gold Silk — Puff Fold",    shoes:"Dark Brown Brogues",   belt:"Brown leather", socks:"Gold or navy",          watch:"Gold-case dress watch", occasion:"Weddings, awards, celebratory events", archetype:"Italian", confidence:5, tip:"Gold on white on blue is pure celebration — the combination radiates joyful authority.", shirtColor:"#F8F8F8", tieColor:"#C9A84C" },
+    { name:"The Continental Blue",   suit:"Royal Blue Wool",  shirt:"White Fine Stripe",    tie:"Terracotta Knit",        pocketSquare:"Ivory Cotton — One Point", shoes:"Tan Suede Derbies",    belt:"Tan suede",     socks:"Terracotta or cream",   watch:"Bronze-tone watch",     occasion:"Business casual, creative meetings, client lunch", archetype:"Continental", confidence:4, tip:"Terracotta warms up a cool blue suit into something thoroughly Italian.", shirtColor:"#E8E8FF", tieColor:"#CB6D51" },
+    { name:"The Lavender Dream",     suit:"Royal Blue Wool",  shirt:"Pale Lavender",        tie:"Deep Purple Grenadine",  pocketSquare:"White Silk — Puff Fold",  shoes:"Black Derbies",        belt:"Black leather", socks:"Deep purple or navy",   watch:"Silver dress watch",    occasion:"Weddings (as guest), cocktail events, gallery", archetype:"Avant-Garde", confidence:5, tip:"Lavender on blue with a purple tie — bold, harmonious, and genuinely memorable.", shirtColor:"#D8C8E8", tieColor:"#4B0082" },
+    { name:"The Modern Gentleman",   suit:"Royal Blue Wool",  shirt:"White Fine Stripe",    tie:"Silver Grenadine",       pocketSquare:"White Cotton — TV Fold",  shoes:"Black Oxford Brogues", belt:"Black leather", socks:"Silver grey",           watch:"Silver dress watch",    occasion:"Formal events, presentations, media appearances", archetype:"Continental", confidence:3, tip:"A silver tie on blue is clean and contemporary — the choice of a man who respects modern style.", shirtColor:"#E8E8FF", tieColor:"#C0C0C0" },
+  ],
+}
+
+const ANALYSIS_BURGUNDY = {
+  suit: { colorFamily:"Burgundy / Oxblood", undertones:"Warm red-wine undertones", fabric:"Wool or wool-blend, ~260 g/m²", pattern:"Solid", formality:"Smart Casual / Business Casual / Evening", lapel:"Peak or notch lapel", fit:"Slim fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White is the only shirt that truly lets a burgundy suit lead — clean contrast that commands the room.", collar:"Spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Navy Grenadine",           color:"#191970", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Navy cools the warmth of burgundy into something authoritative and balanced." },
+        { id:2, name:"Dark Olive Knit",          color:"#556B2F", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Triadic",       why:"Olive and burgundy are an earthy power pairing — richly textured and distinctive." },
+        { id:3, name:"Burgundy Grenadine",       color:"#722F37", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Monochromatic", why:"Tonal burgundy-on-burgundy is a bold monochromatic statement — for the truly confident." },
+        { id:4, name:"Charcoal Grenadine",       color:"#36454F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Complementary", why:"Charcoal cool tone is the perfect foil to burgundy warmth." },
+        { id:5, name:"Camel Repp Stripe",        color:"#C19A6B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Camel and burgundy share warm earthen undertones — a rich, autumnal combination." },
+        { id:6, name:"Gold Foulard",             color:"#C9A84C", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Analogous",     why:"Gold on burgundy is Old World opulence — the combination of antique jewels and velvet." },
+      ]
+    },
+    { id:2, name:"Pale Grey Poplin", colorCode:"#D3D3D3", why:"Pale grey softens the intensity of burgundy while keeping formality high — sophisticated and understated.", collar:"Semi-spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Cotton", fold:"One Point", material:"Cotton" },
+      ties:[
+        { id:1, name:"Dark Charcoal Grenadine",  color:"#36454F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Charcoal on pale grey neutralises the wine tones into cool, refined authority." },
+        { id:2, name:"Deep Navy Repp Stripe",    color:"#1B3A6B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Navy stripe on pale grey suits the burgundy perfectly — classic and precise." },
+        { id:3, name:"Burgundy Micro-Paisley",   color:"#722F37", pattern:"Micro-Paisley",    material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Monochromatic", why:"Echoing the suit burgundy in a subtle paisley is a confident tonal touch." },
+        { id:4, name:"Olive Grenadine",          color:"#556B2F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Four-in-Hand",  harmony:"Triadic",       why:"Olive on pale grey with a burgundy suit is the Italian autumn at its finest." },
+        { id:5, name:"Silver Grenadine",         color:"#C0C0C0", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Monochromatic", why:"Silver on grey on burgundy is a cool monochrome accent that refines the look." },
+        { id:6, name:"Camel Knit",               color:"#C19A6B", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"A camel knit on pale grey warms the ensemble with an autumnal earthiness." },
+      ]
+    },
+    { id:3, name:"Soft Pink Bengal Stripe", colorCode:"#F4B8C1", why:"Pink and burgundy share a warm-red family — a bold but harmonious pairing for the adventurous dresser.", collar:"Button-down collar", pattern:"Bengal Stripe",
+      pocketSquare:{ name:"Pink Silk", fold:"Puff Fold", material:"Silk" },
+      ties:[
+        { id:1, name:"Navy Polka Dot",           color:"#1B3A6B", pattern:"Polka Dot",        material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Navy dots cool down the warm pink-burgundy palette with confident structure." },
+        { id:2, name:"Olive Micro-Pattern",      color:"#556B2F", pattern:"Micro-Pattern",    material:"Silk",           width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Olive grounds the warm pink tones with earthy richness — unmistakably Italian." },
+        { id:3, name:"Charcoal & Pink Stripe",   color:"#36454F", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"A charcoal stripe cools the warmth of the shirt with understated power." },
+        { id:4, name:"Burgundy Knit",            color:"#722F37", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Monochromatic", why:"Tonal burgundy in a textured knit grounds the soft pink with assured confidence." },
+        { id:5, name:"Camel & Burgundy Stripe",  color:"#C19A6B", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Camel-burgundy stripe mirrors the suit in the tie — warm and fully composed." },
+        { id:6, name:"Dark Teal Grenadine",      color:"#008080", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Triadic",       why:"Teal against pink and burgundy creates a rich jewel-tone contrast — daring but refined." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The Wine Merchant",       suit:"Burgundy Wool",    shirt:"Crisp White Poplin",   tie:"Navy Grenadine",         pocketSquare:"White Linen — TV Fold",    shoes:"Dark Brown Oxford",    belt:"Dark cognac",    socks:"Navy or dark grey",      watch:"Gold dress watch",      occasion:"Evening event, restaurant dinner, gallery", archetype:"Italian", confidence:3, tip:"Navy tie on a burgundy suit — let the suit lead; the tie is simply well-chosen company.", shirtColor:"#F8F8F8", tieColor:"#191970" },
+    { name:"The Autumn Lord",         suit:"Burgundy Wool",    shirt:"Pale Grey Poplin",     tie:"Dark Olive Knit",        pocketSquare:"Ivory Cotton — One Point", shoes:"Dark Brown Brogues",   belt:"Dark brown",    socks:"Olive or dark grey",     watch:"Gold-tone casual watch",occasion:"Country event, weekend occasion, gallery", archetype:"Country", confidence:4, tip:"Olive and burgundy is the great English autumn combination — earthy, rich, and assured.", shirtColor:"#D3D3D3", tieColor:"#556B2F" },
+    { name:"The Opulent Evening",     suit:"Burgundy Wool",    shirt:"Crisp White Poplin",   tie:"Gold Foulard",           pocketSquare:"Gold Silk — Puff Fold",    shoes:"Black Cap-Toe Oxfords",belt:"Black leather",  socks:"Black over-the-calf",    watch:"Gold dress watch",      occasion:"Black-tie optional, gala, awards dinner", archetype:"Italian", confidence:5, tip:"Gold on burgundy is theatrical opulence — reserve it for evenings that deserve it.", shirtColor:"#F8F8F8", tieColor:"#C9A84C" },
+    { name:"The Composed Maverick",   suit:"Burgundy Wool",    shirt:"Pale Grey Poplin",     tie:"Charcoal Grenadine",     pocketSquare:"White Cotton — TV Fold",   shoes:"Black Oxford Brogues", belt:"Black leather",  socks:"Charcoal ribbed",        watch:"Silver dress watch",    occasion:"Business casual, creative sector, client dinner", archetype:"Continental", confidence:3, tip:"Charcoal on pale grey cools the burgundy warmth into something quietly powerful.", shirtColor:"#D3D3D3", tieColor:"#36454F" },
+    { name:"The Bold Romantic",       suit:"Burgundy Wool",    shirt:"Soft Pink Bengal",     tie:"Navy Polka Dot",         pocketSquare:"Pink Silk — Puff Fold",    shoes:"Dark Brown Monk Strap",belt:"Dark brown",    socks:"Navy shadow stripe",     watch:"Rose-gold dress watch", occasion:"Date night, cocktail party, gallery opening", archetype:"Avant-Garde", confidence:5, tip:"Pink on burgundy is confident and warm — only wear it when you can carry it without a thought.", shirtColor:"#F4B8C1", tieColor:"#1B3A6B" },
+    { name:"The Tonal Master",        suit:"Burgundy Wool",    shirt:"Crisp White Poplin",   tie:"Burgundy Grenadine",     pocketSquare:"White Linen — TV Fold",    shoes:"Dark Brown Oxford",    belt:"Dark cognac",    socks:"Burgundy over-the-calf", watch:"Rose-gold dress watch", occasion:"Cocktail dinner, art events, formal date night", archetype:"Avant-Garde", confidence:5, tip:"Tonal burgundy head to toe is an advanced statement — the fit must be flawless.", shirtColor:"#F8F8F8", tieColor:"#722F37" },
+  ],
+}
+
+const ANALYSIS_BROWN = {
+  suit: { colorFamily:"Brown / Chocolate", undertones:"Warm amber-earth undertones", fabric:"Tweed, flannel or worsted wool, ~280 g/m²", pattern:"Solid, herringbone or windowpane", formality:"Smart Casual / Business Casual", lapel:"Notch lapel", fit:"Classic or relaxed fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White cuts cleanly against brown earthy warmth — the sharpest foundation for a rich suit.", collar:"Spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Burnt Orange Knit",        color:"#CC5500", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Orange and brown share the same earthy warmth — a natural, deeply satisfying pairing." },
+        { id:2, name:"Olive Grenadine",          color:"#556B2F", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Olive and brown are the great terrestrial combination — the English countryside in tie form." },
+        { id:3, name:"Mustard Foulard",          color:"#C9A84C", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Analogous",     why:"Mustard on brown is an autumnal masterclass — rich, warm, and effortlessly distinguished." },
+        { id:4, name:"Navy Repp Stripe",         color:"#1B3A6B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Navy on white on brown is a sharp contrast — bringing cool precision to earthy warmth." },
+        { id:5, name:"Forest Green Solid",       color:"#355E3B", pattern:"Solid",            material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Green and brown are the most natural pairing in nature — and equally so in menswear." },
+        { id:6, name:"Terracotta Repp Stripe",   color:"#CB6D51", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Terracotta deepens the warmth of brown into a rich, sun-baked Mediterranean palette." },
+      ]
+    },
+    { id:2, name:"Pale Blue End-on-End", colorCode:"#89B4D4", why:"Cool blue provides the best contrast to brown warmth — it's the colour pairing Italian tailors have loved for decades.", collar:"Semi-spread collar", pattern:"End-on-End weave",
+      pocketSquare:{ name:"White Cotton", fold:"One Point", material:"Cotton" },
+      ties:[
+        { id:1, name:"Brown Knit",               color:"#9B6830", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Monochromatic", why:"Tonal brown knit on a blue shirt grounds the look back to earth — refined and natural." },
+        { id:2, name:"Olive Micro-Pattern",      color:"#556B2F", pattern:"Micro-Pattern",    material:"Silk",           width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Olive bridges blue and brown into a fully coherent earthy-cool ensemble." },
+        { id:3, name:"Terracotta Solid",         color:"#CB6D51", pattern:"Solid",            material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Terracotta against cool blue creates the Italian flag of earthy sophistication." },
+        { id:4, name:"Navy & Tan Stripe",        color:"#1B3A6B", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Navy-tan on blue and brown ties the entire warm-cool palette into one composed look." },
+        { id:5, name:"Mustard Grenadine",        color:"#C9A84C", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Mustard warms the blue-brown combination with golden richness." },
+        { id:6, name:"Sage Green Foulard",       color:"#8FBC8F", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Sage green completes the warm-cool-earthy triangle beautifully." },
+      ]
+    },
+    { id:3, name:"Cream Poplin", colorCode:"#FFFDD0", why:"Cream warms up where white cools down — on a brown suit it creates a rich, cohesive earthy ensemble.", collar:"Semi-spread collar", pattern:"Solid",
+      pocketSquare:{ name:"Ivory Linen", fold:"One Point", material:"Linen" },
+      ties:[
+        { id:1, name:"Dark Brown Grenadine",     color:"#4A2C17", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Monochromatic", why:"Tonal brown dressing is the height of earthen elegance — depth through nuance." },
+        { id:2, name:"Forest Green Repp Stripe", color:"#355E3B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Green-brown-cream is the English country house palette — considered and timeless." },
+        { id:3, name:"Burgundy Foulard",         color:"#722F37", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Burgundy on cream on brown introduces warm red depth — richly Old World." },
+        { id:4, name:"Burnt Orange Repp",        color:"#CC5500", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Orange on cream on brown is an autumnal fire — warm, rich, and confident." },
+        { id:5, name:"Olive Knit",               color:"#556B2F", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Olive on cream on brown completes the tricolour of the English countryside." },
+        { id:6, name:"Camel Grenadine",          color:"#C19A6B", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Pratt/Shelby",  harmony:"Monochromatic", why:"Camel against cream and brown is a tonal earth symphony — warm, composed, distinguished." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The Country Gentleman",   suit:"Chocolate Brown Tweed",shirt:"Cream Poplin",     tie:"Olive Grenadine",        pocketSquare:"Ivory Linen — One Point",  shoes:"Dark Brown Derbies",   belt:"Dark brown",    socks:"Olive or dark brown",    watch:"Bronze dress watch",    occasion:"Country weekend, outdoor event, smart casual", archetype:"Country", confidence:3, tip:"Olive on cream on brown is the English countryside in suit form.", shirtColor:"#FFFDD0", tieColor:"#556B2F" },
+    { name:"The Italian Autumn",      suit:"Brown Worsted Wool",   shirt:"Pale Blue End-on-End",tie:"Terracotta Solid",    pocketSquare:"White Cotton — One Point", shoes:"Dark Brown Oxford",    belt:"Dark brown",    socks:"Terracotta or brown",    watch:"Gold dress watch",      occasion:"Business casual, client lunch, gallery", archetype:"Italian", confidence:4, tip:"Terracotta-blue on brown is pure Mediterranean autumn — warmth and cool in perfect tension.", shirtColor:"#89B4D4", tieColor:"#CB6D51" },
+    { name:"The Warm Weekend",        suit:"Brown Flannel",        shirt:"Crisp White Poplin", tie:"Burnt Orange Knit",     pocketSquare:"White Linen — TV Fold",    shoes:"Tan Suede Monks",      belt:"Tan suede",     socks:"Orange or dark brown",   watch:"Bronze casual watch",   occasion:"Weekend brunch, gallery, casual business", archetype:"Preppy", confidence:4, tip:"Burnt orange on white on brown is joyful autumn warmth — wear it with full conviction.", shirtColor:"#F8F8F8", tieColor:"#CC5500" },
+    { name:"The Dark Forest",         suit:"Chocolate Brown Wool", shirt:"Pale Blue End-on-End",tie:"Forest Green Solid",  pocketSquare:"White Cotton — One Point", shoes:"Dark Brown Brogues",   belt:"Dark brown",    socks:"Forest green or brown",  watch:"Bronze dress watch",    occasion:"Smart casual, autumnal events, client dinner", archetype:"Country", confidence:4, tip:"Forest green on blue on brown is a rich earthy triad — the most composed autumn palette.", shirtColor:"#89B4D4", tieColor:"#355E3B" },
+    { name:"The Golden Hour",         suit:"Brown Herringbone",    shirt:"Cream Poplin",       tie:"Mustard Grenadine",     pocketSquare:"Gold Silk — Puff Fold",    shoes:"Tan Oxford Brogues",  belt:"Tan leather",   socks:"Mustard or tan",         watch:"Gold-tone watch",       occasion:"Autumn wedding, gallery, harvest event", archetype:"Italian", confidence:5, tip:"Gold-mustard on cream on brown herringbone is autumn harvest in suit form — richly evocative.", shirtColor:"#FFFDD0", tieColor:"#C9A84C" },
+    { name:"The Earthen Classic",     suit:"Brown Wool",           shirt:"Crisp White Poplin", tie:"Navy Repp Stripe",      pocketSquare:"White Linen — TV Fold",    shoes:"Dark Brown Oxford",   belt:"Dark brown",    socks:"Navy or dark brown",     watch:"Silver dress watch",    occasion:"Business casual, office, meetings", archetype:"Continental", confidence:2, tip:"Navy on white on brown is the earthy suit most professional statement — restrained and sharp.", shirtColor:"#F8F8F8", tieColor:"#1B3A6B" },
+  ],
+}
+
+const ANALYSIS_BEIGE = {
+  suit: { colorFamily:"Beige / Camel / Tan", undertones:"Warm sand-wheat undertones", fabric:"Linen, light wool or cotton-blend, ~200 g/m²", pattern:"Solid", formality:"Smart Casual / Summer Casual", lapel:"Notch lapel", fit:"Relaxed or slim fit" },
+  shirts: [
+    { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White against beige is clean and crisp — the contrast prevents the lightness from washing out.", collar:"Spread collar", pattern:"Solid",
+      pocketSquare:{ name:"White Linen", fold:"TV Fold (Presidential)", material:"Irish Linen" },
+      ties:[
+        { id:1, name:"Navy Grenadine",           color:"#191970", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Complementary", why:"Deep navy is the great anchor for beige and white — sharp, cool contrast in warm company." },
+        { id:2, name:"Burgundy Repp Stripe",     color:"#722F37", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Complementary", why:"Burgundy warms the beige palette with Old World richness — a confident choice." },
+        { id:3, name:"Forest Green Foulard",     color:"#355E3B", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Green on white on beige is a fresh, natural combination — garden party to gallery." },
+        { id:4, name:"Camel Grenadine",          color:"#C19A6B", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Kelvin",        harmony:"Monochromatic", why:"Tonal camel on white on beige is an all-warm look — leisurely confidence at its finest." },
+        { id:5, name:"Dusty Rose Knit",          color:"#D4A0A0", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Dusty rose adds warmth and softness — a spring lunch companion." },
+        { id:6, name:"Olive Knit",               color:"#556B2F", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Olive on beige is the great Mediterranean earthy pairing — natural and distinguished." },
+      ]
+    },
+    { id:2, name:"Pale Sky Blue Shirt", colorCode:"#B0D4E8", why:"Sky blue on beige is a breezy summer combination — light, airy, and effortlessly stylish in warmer months.", collar:"Button-down collar", pattern:"Solid",
+      pocketSquare:{ name:"Light Blue Cotton", fold:"One Point", material:"Cotton" },
+      ties:[
+        { id:1, name:"Navy Polka Dot",           color:"#1B3A6B", pattern:"Polka Dot",        material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Navy dots bring structure and precision to a breezy blue-beige ensemble." },
+        { id:2, name:"Terracotta Knit",          color:"#CB6D51", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Complementary", why:"Terracotta warms the blue-beige combination into a sun-kissed Mediterranean palette." },
+        { id:3, name:"Forest Green Repp Stripe", color:"#355E3B", pattern:"Repp Stripe",      material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Triadic",       why:"Green, blue, beige — three natural colours in perfect harmony." },
+        { id:4, name:"Cognac Brown Knit",        color:"#9B6830", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Analogous",     why:"Cognac on sky blue on beige is a warm, earthy trio — relaxed summer distinction." },
+        { id:5, name:"Sage Green Foulard",       color:"#8FBC8F", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Triadic",       why:"Sage on blue on beige is a light, fresh, springtime ensemble full of natural charm." },
+        { id:6, name:"Dusty Pink Solid",         color:"#D4A0A0", pattern:"Solid",            material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Dusty pink on sky blue on beige is a soft, warm-cool balance — summer wedding-perfect." },
+      ]
+    },
+    { id:3, name:"Soft Peach Poplin", colorCode:"#FFCBA4", why:"Peach and beige are natural relatives — together they create a warm, sun-drenched ensemble that radiates relaxed confidence.", collar:"Semi-spread collar", pattern:"Solid",
+      pocketSquare:{ name:"Ivory Silk", fold:"Puff Fold", material:"Silk" },
+      ties:[
+        { id:1, name:"Cognac Brown Grenadine",   color:"#9B6830", pattern:"Solid Grenadine",  material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Monochromatic", why:"Cognac on peach on beige is a warm, tonal earth palette — naturally rich and composed." },
+        { id:2, name:"Navy Foulard",             color:"#1B3A6B", pattern:"Foulard",          material:"Matte Silk",     width:'3"', knot:"Pratt/Shelby",  harmony:"Complementary", why:"Navy cools and grounds the all-warm ensemble — the contrast makes everything pop." },
+        { id:3, name:"Sage Green Knit",          color:"#8FBC8F", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Triadic",       why:"Sage green, peach, and beige is a spring garden in suit form — fresh and lively." },
+        { id:4, name:"Terracotta Stripe",        color:"#CB6D51", pattern:"Stripe",           material:"Silk Twill",     width:'3"', knot:"Four-in-Hand",  harmony:"Analogous",     why:"Terracotta deepens the warm peach-beige palette into something richer and more confident." },
+        { id:5, name:"Ivory Knit",               color:"#FFFFF0", pattern:"Solid Knit",       material:"Wool Knit",      width:'2.5"',knot:"Four-in-Hand", harmony:"Monochromatic", why:"Ivory tonal dressing in warm tones is the ultimate leisurely summer elegance." },
+        { id:6, name:"Dark Olive Solid",         color:"#556B2F", pattern:"Solid",            material:"Silk Grenadine", width:'3"', knot:"Half Windsor",  harmony:"Analogous",     why:"Olive on peach on beige is a warm tricolour of natural richness." },
+      ]
+    },
+  ],
+  packages:[
+    { name:"The Summer Classic",      suit:"Beige Linen",           shirt:"Crisp White Poplin", tie:"Navy Grenadine",        pocketSquare:"White Linen — TV Fold",    shoes:"Brown or tan leather", belt:"Tan leather",   socks:"Navy or cream",          watch:"Silver dress watch",    occasion:"Summer wedding, garden party, outdoor lunch", archetype:"British Classic", confidence:2, tip:"Navy on white on beige linen is the most crisp summer look — clean, sharp, seasonless.", shirtColor:"#F8F8F8", tieColor:"#191970" },
+    { name:"The Riviera Gentleman",   suit:"Beige Linen",           shirt:"Pale Sky Blue",      tie:"Terracotta Knit",       pocketSquare:"Light Blue — One Point",   shoes:"Tan suede loafers",   belt:"Tan suede",     socks:"No-show or terracotta",  watch:"Bronze casual watch",   occasion:"Mediterranean holiday, yacht club, summer lunch", archetype:"Italian", confidence:4, tip:"Terracotta-blue on beige linen is the Riviera uniform — put it on and feel the warmth.", shirtColor:"#B0D4E8", tieColor:"#CB6D51" },
+    { name:"The Warm Garden",         suit:"Beige Linen",           shirt:"Soft Peach",         tie:"Sage Green Knit",       pocketSquare:"Ivory Silk — Puff Fold",   shoes:"White bucks or cream",belt:"Cream leather",  socks:"Sage green or cream",    watch:"Rose-gold casual watch",occasion:"Garden party, outdoor wedding, spring event", archetype:"Preppy", confidence:4, tip:"Sage green-peach-beige is a spring palette — warm, fresh, and full of natural lightness.", shirtColor:"#FFCBA4", tieColor:"#8FBC8F" },
+    { name:"The Sandy Diplomat",      suit:"Camel Wool",            shirt:"Crisp White Poplin", tie:"Forest Green Foulard",  pocketSquare:"Green Silk — Two Point",   shoes:"Dark Brown Oxford",   belt:"Dark brown",    socks:"Forest green or navy",   watch:"Gold dress watch",      occasion:"Smart casual, autumnal lunch, outdoor event", archetype:"Continental", confidence:4, tip:"Green on white on camel is an earthy, distinguished combination — English countryside in summer.", shirtColor:"#F8F8F8", tieColor:"#355E3B" },
+    { name:"The Linen Master",        suit:"Beige Linen",           shirt:"Pale Sky Blue",      tie:"Navy Polka Dot",        pocketSquare:"White Cotton — One Point", shoes:"White leather loafers",belt:"White leather", socks:"Navy or white",          watch:"Silver dress watch",    occasion:"Summer formal, outdoor ceremony, garden wedding", archetype:"Preppy", confidence:3, tip:"Navy dots on sky blue on beige linen is a crisp, nautical-adjacent summer formal look.", shirtColor:"#B0D4E8", tieColor:"#1B3A6B" },
+    { name:"The Golden Afternoon",    suit:"Camel / Tan Wool",      shirt:"Soft Peach",         tie:"Cognac Brown Grenadine",pocketSquare:"Ivory Silk — Puff Fold",   shoes:"Tan Oxford Brogues",  belt:"Tan leather",   socks:"Camel or cognac",        watch:"Gold-tone dress watch", occasion:"Autumn wedding, harvest event, leisurely formal", archetype:"Italian", confidence:5, tip:"An all-warm ensemble on a camel suit is the Italian golden afternoon — rich, sun-drenched, unapologetic.", shirtColor:"#FFCBA4", tieColor:"#9B6830" },
+  ],
+}
+
+// ─── Color detection → local analysis ──────────────────────────────────────
+function getLocalAnalysis(text) {
+  const t = text.toLowerCase()
+  if (/black/.test(t))                                                      return ANALYSIS_BLACK
+  if (/charcoal|dark[\s-]?gr[ae]y/.test(t))                                return ANALYSIS_CHARCOAL
+  if (/navy|midnight blue|dark blue/.test(t))                               return ANALYSIS
+  if (/light[\s-]?gr[ae]y|pale gr[ae]y|silver gr[ae]y/.test(t))           return ANALYSIS_LIGHT_GREY
+  if (/medium gr[ae]y|gr[ae]y|grey/.test(t))                               return ANALYSIS_GREY
+  if (/burgundy|oxblood|wine suit|maroon|claret/.test(t))                  return ANALYSIS_BURGUNDY
+  if (/beige|camel|tan suit|sand suit|ivory suit|cream suit|linen/.test(t))return ANALYSIS_BEIGE
+  if (/brown|chocolate|cognac suit|tobacco/.test(t))                       return ANALYSIS_BROWN
+  if (/royal blue|bright blue|cobalt|electric blue|blue/.test(t))          return ANALYSIS_BLUE
+  return ANALYSIS  // navy as universal default
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// OUTFIT COMBINATION ENGINE
+// Generates every valid combination locally using stylist rules.
+// Mirrors the SQL stylist_rules logic — no AI needed for standard lookups.
+// Only falls back to OpenAI for exotic / unusual suit descriptions.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const _DB_SHIRTS = {
+  black:    ['white','light_blue','light_grey'],
+  navy:     ['white','light_blue','pink'],
+  charcoal: ['white','light_blue','pink','light_grey'],
+  grey:     ['white','light_blue','pink','light_grey'],
+  brown:    ['white','light_blue','cream'],
+}
+
+const _DB_TIES = {
+  black:    ['burgundy','navy','charcoal','silver','black','dark_green',null],
+  navy:     ['burgundy','navy','charcoal','silver','dark_green','black',null],
+  charcoal: ['burgundy','navy','charcoal','silver','black','dark_green',null],
+  grey:     ['burgundy','navy','charcoal','silver','dark_green',null],
+  brown:    ['navy','burgundy','dark_green','charcoal',null],
+}
+
+// For suits: pants = suit color. For blazers: pants ≠ blazer color.
+const _DB_PANTS = {
+  'suit|black':     ['black'],
+  'suit|navy':      ['navy'],
+  'suit|charcoal':  ['charcoal'],
+  'suit|grey':      ['grey'],
+  'blazer|black':   ['grey','charcoal','black'],
+  'blazer|navy':    ['grey','charcoal','beige','cream'],
+  'blazer|charcoal':['grey','black'],
+  'blazer|grey':    ['navy','charcoal','black'],
+  'blazer|brown':   ['beige','cream','grey'],
+}
+
+const _DB_SHOES = {
+  'suit|black':     ['black'],
+  'suit|navy':      ['black','brown'],
+  'suit|charcoal':  ['black'],
+  'suit|grey':      ['black','brown'],
+  'blazer|black':   ['black'],
+  'blazer|navy':    ['black','brown'],
+  'blazer|charcoal':['black','brown'],
+  'blazer|grey':    ['black','brown'],
+  'blazer|brown':   ['brown'],
+}
+
+// Occasions where a tie is mandatory
+const _TIE_REQUIRED = new Set(['formal','wedding','funeral','interview','evening_event'])
+
+// Per-occasion tie validators (return true = tie is allowed)
+const _TIE_OCC_OK = {
+  funeral:         t => t !== null && ['black','charcoal','navy'].includes(t),
+  interview:       t => t !== null && ['navy','charcoal','burgundy','black'].includes(t),
+  business_casual: t => t === null || ['navy','burgundy','charcoal'].includes(t),
+  date:            t => t !== 'black' && t !== 'silver',
+}
+
+function _dbDressCode(occ, tie) {
+  if (['formal','wedding','funeral','interview','evening_event'].includes(occ)) return 'formal'
+  if (['office','church'].includes(occ) && tie) return 'formal'
+  if (!tie) return 'business_casual'
+  return 'semi_formal'
+}
+
+const _DB_CONF = {
+  funeral:0.99, interview:0.97, wedding:0.95, formal:0.95,
+  office:0.94, church:0.93, evening_event:0.93, date:0.91, business_casual:0.90,
+}
+
+function _dbKey(type,color,shirt,tie,pants,shoe,occ,dc,season,style) {
+  return `${type}|${color}|${shirt}|${tie||'NO_TIE'}|${pants}|${shoe}|${shoe}|${occ}|${dc}|${season}|${style}`
+}
+
+// Build the full combination database once at module load (~3–6k entries)
+const OUTFIT_DB = (() => {
+  const db = new Map()
+  const garments   = [['suit','black'],['suit','navy'],['suit','charcoal'],['suit','grey'],
+                      ['blazer','black'],['blazer','navy'],['blazer','charcoal'],['blazer','grey'],['blazer','brown']]
+  const occasions  = ['office','business_casual','formal','wedding','funeral','church','date','interview','evening_event']
+  const seasons    = ['all_season','spring','summer','fall','winter']
+  const styles     = ['classic','modern_classic']
+
+  for (const [type, color] of garments) {
+    const shirts = _DB_SHIRTS[color]              || []
+    const ties   = _DB_TIES[color]                || []
+    const pants  = _DB_PANTS[`${type}|${color}`]  || []
+    const shoes  = _DB_SHOES[`${type}|${color}`]  || []
+
+    for (const shirt of shirts) {
+      for (const tie of ties) {
+        for (const pant of pants) {
+          for (const shoe of shoes) {
+            for (const occ of occasions) {
+              // Tie-required check
+              if (_TIE_REQUIRED.has(occ) && !tie) continue
+              // Per-occasion tie validator
+              const tieOk = _TIE_OCC_OK[occ]
+              if (tieOk && !tieOk(tie)) continue
+              // Funeral: white shirt only
+              if (occ === 'funeral' && shirt !== 'white') continue
+
+              for (const season of seasons) {
+                // Summer + black blazer + business_casual → skip (too heavy)
+                if (season === 'summer' && type === 'blazer' && color === 'black' && occ === 'business_casual') continue
+                // Cream shirt: spring / summer / all_season only
+                if (shirt === 'cream' && !['spring','summer','all_season'].includes(season)) continue
+                // Cream pants: spring / summer only
+                if (pant  === 'cream' && !['spring','summer'].includes(season)) continue
+
+                for (const style of styles) {
+                  // Modern-classic wedding requires a tie
+                  if (style === 'modern_classic' && occ === 'wedding' && !tie) continue
+
+                  const dc  = _dbDressCode(occ, tie)
+                  const key = _dbKey(type,color,shirt,tie,pant,shoe,occ,dc,season,style)
+                  if (!db.has(key)) {
+                    db.set(key, {
+                      main_garment_type: type,  main_color: color,
+                      shirt_color: shirt,       tie_color: tie,
+                      pants_color: pant,        shoes_color: shoe,  belt_color: shoe,
+                      occasion: occ,            dress_code: dc,
+                      season,                   style,
+                      confidence_score: _DB_CONF[occ] || 0.88,
+                      combination_key: key,
+                    })
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return db
+})()
+
+// Maps analysisData.suit.colorFamily → DB main_color key
+const COLOR_FAMILY_TO_DB = {
+  'Classic Navy':'navy',      'Jet Black':'black',     'Charcoal Grey':'charcoal',
+  'Medium Grey':'grey',       'Light Grey':'grey',      'Royal Blue':'navy',
+  'Burgundy':'black',         'Brown':'brown',          'Beige':'black',
+}
+
+// Maps UI occasion pill label → DB occasion key
+const OCCASION_LABEL_TO_DB = {
+  Office:'office',  Wedding:'wedding',  Formal:'formal',  Date:'date',
+  Funeral:'funeral', Church:'church',   Interview:'interview', Casual:'business_casual',
+}
+
+const _HEX = {
+  white:'#F8F8F8', light_blue:'#89B4D4', light_grey:'#D3D3D3', pink:'#F4B8C1',
+  cream:'#FFFDD0', burgundy:'#722F37',   navy:'#191970',        charcoal:'#36454F',
+  silver:'#C0C0C0', dark_green:'#355E3B', black:'#1C1C1C',      brown:'#8B6914',
+}
+const _OCC_LABEL = {
+  office:'Board meeting, client pitch',       business_casual:'Smart casual, business casual',
+  formal:'Formal event, gala',                wedding:'Wedding, ceremony',
+  funeral:'Funeral, memorial service',        church:'Church, religious service',
+  date:'Dinner date, evening out',            interview:'Job interview',
+  evening_event:'Evening event, cocktail party',
+}
+
+function _pretty(s)    { return s ? s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase()) : '' }
+function _cap(s)       { return s ? s.charAt(0).toUpperCase() + s.slice(1) : '' }
+function _confStars(v) { return v >= 0.97 ? 5 : v >= 0.94 ? 4 : v >= 0.91 ? 3 : 2 }
+
+// Convert a DB combo entry into the Dapper package display format
+function _comboToPackage(c) {
+  const tie = c.tie_color ? _pretty(c.tie_color) + ' tie' : 'No tie'
+  return {
+    name:         `${_pretty(c.main_color)} ${_cap(c.main_garment_type)} — ${_pretty(c.occasion)}`,
+    suit:         `${_pretty(c.main_color)} ${c.main_garment_type}`,
+    shirt:        `${_pretty(c.shirt_color)} poplin`,
+    tie,
+    pocketSquare: `White linen — ${c.dress_code === 'formal' ? 'TV Fold' : 'Puff Fold'}`,
+    shoes:        c.shoes_color === 'black' ? 'Black Cap-Toe Oxford' : 'Brown Derby Brogue',
+    belt:         `${_cap(c.belt_color)} leather belt`,
+    socks:        c.shoes_color === 'black' ? 'Dark navy, over-the-calf' : 'Brown or burgundy shadow stripe',
+    watch:        c.dress_code === 'formal' ? 'Silver dress watch' : 'Casual leather-strap watch',
+    occasion:     _OCC_LABEL[c.occasion] || _pretty(c.occasion),
+    archetype:    c.style === 'modern_classic' ? 'Continental' : 'British Classic',
+    confidence:   _confStars(c.confidence_score),
+    tip:          `${_pretty(c.shirt_color)} shirt with ${tie.toLowerCase()} — a ${_pretty(c.dress_code)} ${c.season === 'all_season' ? '' : c.season + ' '}look for ${_pretty(c.occasion)}.`,
+    shirtColor:   _HEX[c.shirt_color] || '#F8F8F8',
+    tieColor:     _HEX[c.tie_color]   || '#191970',
+  }
+}
+
+// Return up to `limit` matching packages from OUTFIT_DB as display-ready objects
+function lookupOutfitPackages({ mainType, mainColor, occasion, season, limit = 6 }) {
+  const results = []
+  for (const c of OUTFIT_DB.values()) {
+    if (mainType  && c.main_garment_type !== mainType)  continue
+    if (mainColor && c.main_color        !== mainColor) continue
+    if (occasion  && c.occasion          !== occasion)  continue
+    const seasonOk = !season || season === 'all_season' ||
+                     c.season === season || c.season === 'all_season'
+    if (!seasonOk) continue
+    results.push(c)
+  }
+  results.sort((a, b) => b.confidence_score - a.confidence_score)
+  return results.slice(0, limit).map(_comboToPackage)
+}
+
+// ─── Occasion keyword map ───────────────────────────────────────────────────
+const OCCASION_MAP = {
+  Office:    /board|client|pitch|meeting|business|leadership|financial|law|executive|negotiation/i,
+  Wedding:   /wedding|garden party|outdoor ceremony|outdoor wedding/i,
+  Formal:    /formal|gala|black tie|award|ceremony|keynote|diplomatic/i,
+  Date:      /dinner|date|evening|cocktail|restaurant/i,
+  Funeral:   /funeral/i,
+  Church:    /church|sunday service/i,
+  Interview: /interview/i,
+  Casual:    /casual|gallery|lunch|creative|media|weekend|studio|smart casual/i,
+}
+
+// Returns a copy of analysisObj with packages filtered/enriched by occasion.
+// Priority: 1) hand-crafted packages that match  2) OUTFIT_DB local lookup  3) all packages
+function filterByOccasion(analysisObj, occasion) {
+  if (!occasion || occasion === "All") return analysisObj
+  const re = OCCASION_MAP[occasion]
+  if (!re) return analysisObj
+
+  // 1 — Try hand-crafted packages first
+  const filtered = analysisObj.packages.filter(p => re.test(p.occasion))
+  if (filtered.length > 0) return { ...analysisObj, packages: filtered }
+
+  // 2 — Fall back to OUTFIT_DB (thousands of local combos, no AI needed)
+  const colorFamily = analysisObj.suit?.colorFamily || ''
+  const mainColor   = COLOR_FAMILY_TO_DB[colorFamily]
+  const dbOcc       = OCCASION_LABEL_TO_DB[occasion]
+  if (mainColor && dbOcc) {
+    const dbPkgs = lookupOutfitPackages({ mainColor, occasion: dbOcc, limit: 6 })
+    if (dbPkgs.length > 0) return { ...analysisObj, packages: dbPkgs }
+  }
+
+  // 3 — Show all packages as last resort
+  return analysisObj
+}
+
+// ─────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────
+
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+const DAYS   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+
+function daysInMonth(y, m)  { return new Date(y, m + 1, 0).getDate() }
+function firstDayOf(y, m)   { return new Date(y, m, 1).getDay() }
+function fmtDate(y, m, d)   { return `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}` }
+function dots(n)             { return Array.from({length:5},(_,i)=>i<n?"●":"○").join("") }
+
+const NAVY = "#0f172a"
+const GOLD = "#C9A84C"
+
+// ─────────────────────────────────────────────
+// SIDEBAR
+// ─────────────────────────────────────────────
+
+function Sidebar({ page, setPage, mobile, onClose }) {
+  const items = [
+    { id:"analyzer",  icon:Wand2,    label:"AI Analyzer" },
+    { id:"closet",    icon:Shirt,    label:"My Closet" },
+    { id:"calendar",  icon:Calendar, label:"Outfit Calendar" },
+    { id:"community", icon:Users,    label:"Community" },
+    { id:"pricing",   icon:Tag,      label:"Upgrade" },
+  ]
+  return (
+    <div style={{background:NAVY,color:"white"}} className={`flex flex-col h-full ${mobile?"w-72":"w-64"} flex-shrink-0`}>
+      {/* Logo */}
+      <div className="px-6 py-5 flex items-center justify-between border-b border-white border-opacity-10">
+        <div className="flex items-center gap-2">
+          <div style={{background:GOLD}} className="w-8 h-8 rounded-lg flex items-center justify-center">
+            <Shirt size={16} color={NAVY} />
+          </div>
+          <span className="text-xl font-black tracking-widest">DAPPER</span>
+        </div>
+        {mobile && <button onClick={onClose}><X size={20} /></button>}
+      </div>
+
+      {/* Usage badge */}
+      <div className="mx-4 mt-4 mb-1 px-3 py-2 rounded-xl" style={{background:"rgba(201,168,76,0.1)",border:"1px solid rgba(201,168,76,0.25)"}}>
+        <div className="flex items-center justify-between mb-1">
+          <div>
+            <div className="text-xs font-bold tracking-widest" style={{color:GOLD}}>FREE TIER</div>
+            <div className="text-xs text-gray-400">3 AI analyses / month</div>
+          </div>
+          <button onClick={()=>{setPage("pricing");if(onClose)onClose()}} className="text-xs font-bold px-2 py-1 rounded-lg" style={{background:GOLD,color:NAVY}}>Pro</button>
+        </div>
+        <div className="flex gap-1 mt-1">
+          {[1,2,3].map(i=><div key={i} className="h-1 flex-1 rounded-full" style={{background:i===1?GOLD:"rgba(255,255,255,0.1)"}} />)}
+        </div>
+        <div className="text-xs text-gray-500 mt-1">1 of 3 used this month</div>
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-3 space-y-0.5">
+        {items.map(({id,icon:Icon,label})=>{
+          const active = page===id
+          return (
+            <button key={id} onClick={()=>{setPage(id);if(onClose)onClose()}}
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${active?"":"text-gray-400 hover:text-white hover:bg-white hover:bg-opacity-5"}`}
+              style={active?{background:"rgba(201,168,76,0.15)",color:GOLD}:{}}
+            >
+              <Icon size={17}/>
+              <span>{label}</span>
+              {id==="pricing" && <span className="ml-auto text-xs px-1.5 py-0.5 rounded-md font-bold" style={{background:GOLD,color:NAVY}}>NEW</span>}
+            </button>
+          )
+        })}
+      </nav>
+
+      {/* User */}
+      <div className="p-4 border-t border-white border-opacity-10">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black" style={{background:GOLD,color:NAVY}}>J</div>
+          <div>
+            <div className="text-sm font-semibold">Jonathan</div>
+            <div className="text-xs text-gray-500">Free Member</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────
+// PAGE: AI ANALYZER
+// ─────────────────────────────────────────────
+
+function AnalyzerPage() {
+  const [mode, setMode]               = useState("A")
+  const [analyzing, setAnalyzing]     = useState(false)
+  const [done, setDone]               = useState(false)
+  const [progress, setProgress]       = useState(0)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [shirtIdx, setShirtIdx]       = useState(0)
+  const [tieIdx, setTieIdx]           = useState(null)
+  const [pkgIdx, setPkgIdx]           = useState(null)
+  const [textInput, setTextInput]     = useState("")
+  const [analysisData, setAnalysisData] = useState(ANALYSIS)
+  const [keyError, setKeyError]       = useState("")
+  const [isDemo, setIsDemo]           = useState(false)
+  const [occasion, setOccasion]       = useState("All")
+  const [suitPhoto, setSuitPhoto]     = useState(null)
+  const [shirtPhoto, setShirtPhoto]   = useState(null)
+  const suitInputRef  = { current: null }
+  const shirtInputRef = { current: null }
+
+  const handlePhotoSelect = (e, setter) => {
+    const file = e.target.files[0]
+    if (!file || !file.type.startsWith("image/")) return
+    const reader = new FileReader()
+    reader.onload = (ev) => setter(ev.target.result)
+    reader.readAsDataURL(file)
+  }
+
+  const STEPS = [
+    "Analyzing fabric & color…",
+    "Identifying pattern type…",
+    "Calculating formality tier…",
+    "Generating shirt pairings…",
+    "Computing tie harmonics…",
+    "Building outfit packages…",
+    "Finalizing style intelligence…",
+  ]
+
+  const SYSTEM_PROMPT = `You are a world-class men's fashion consultant with 20 years experience. The user will describe a suit. Return ONLY a valid JSON object — no markdown, no backticks, no explanation, just raw JSON. The JSON must follow this exact structure:
+{"suit":{"colorFamily":"string","undertones":"string","fabric":"string","pattern":"string","formality":"string","lapel":"string","fit":"string"},"shirts":[{"id":1,"name":"evocative color name","colorCode":"#hex","why":"pairing explanation","collar":"collar style","pattern":"shirt pattern","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"Analogous or Complementary or Triadic or Monochromatic","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":4,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":5,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":6,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"}]},{"id":2,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":4,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":5,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":6,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"}]},{"id":3,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":4,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":5,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":6,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"}]}],"packages":[{"name":"creative look name","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"Classic or Italian or British or Preppy or Continental or Avant-garde","confidence":2,"tip":"key styling tip","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":3,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":4,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":2,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":4,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":3,"tip":"string","shirtColor":"#hex","tieColor":"#hex"}],"styleMantra":"one powerful sentence capturing this suit's essence"}`
+
+  const runAnalysis = async () => {
+    setKeyError("")
+    // If no API key configured — run local smart mode
+    if (!OPENAI_API_KEY || OPENAI_API_KEY === "YOUR_OPENAI_KEY_HERE") {
+      setIsDemo(true)
+      setAnalysisData(getLocalAnalysis(textInput))
+      setAnalyzing(true); setProgress(0); setCurrentStep(0)
+      let p=0
+      const iv = setInterval(()=>{
+        p += Math.random()*14+4
+        setCurrentStep(Math.min(Math.floor((p/100)*STEPS.length), STEPS.length-1))
+        if(p>=100){ p=100; clearInterval(iv); setTimeout(()=>{ setAnalyzing(false); setDone(true) },400) }
+        setProgress(Math.min(p,100))
+      },220)
+      return
+    }
+    setIsDemo(false)
+
+    // Live AI mode
+    const description = mode==="C" && textInput.trim()
+      ? textInput.trim()
+      : "Please describe the suit you'd like analyzed."
+
+    setAnalyzing(true); setProgress(0); setCurrentStep(0)
+    let p=0
+    const iv = setInterval(()=>{
+      p += Math.random()*8+2
+      setCurrentStep(Math.min(Math.floor((p/100)*STEPS.length), STEPS.length-1))
+      if(p>=88) clearInterval(iv)
+      setProgress(Math.min(p,88))
+    },220)
+
+    try {
+
+      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${OPENAI_API_KEY}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          max_tokens: 4000,
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: description }
+          ]
+        })
+      })
+
+      if (res.ok) {
+        const json = await res.json()
+        const raw = json?.choices?.[0]?.message?.content || ""
+        try {
+          // Strip markdown code fences GPT sometimes adds despite instructions
+          const cleaned = raw.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim()
+          const parsed = JSON.parse(cleaned)
+          if (parsed?.suit && parsed?.shirts) { setAnalysisData(parsed); setIsDemo(false) }
+          else { setAnalysisData(getLocalAnalysis(description)); setIsDemo(true) }
+        } catch(e) { setAnalysisData(getLocalAnalysis(description)); setIsDemo(true) }
+      } else if (res.status === 401) {
+        setKeyError("Invalid API key — check platform.openai.com/api-keys")
+        setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
+      } else {
+        setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
+      }
+    } catch(err) {
+      setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
+    } finally {
+      clearInterval(iv)
+      setProgress(100)
+      setTimeout(()=>{ setAnalyzing(false); setDone(true) }, 400)
+    }
+  }
+
+  const shirt = analysisData.shirts[shirtIdx]
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      <div className="mb-6">
+        <h1 className="text-2xl font-black text-gray-900">AI Suit Analyzer</h1>
+        <p className="text-gray-500 text-sm mt-1">Upload your suit and receive a complete wardrobe blueprint in seconds.</p>
+      </div>
+
+      {!done ? (
+        <>
+          {/* Mode selector */}
+          <div className="grid grid-cols-3 gap-3 mb-6">
+            {[{id:"A",label:"Suit Only",sub:"1 photo"},{id:"B",label:"Suit + Shirt",sub:"2 photos"},{id:"C",label:"Text Description",sub:"Describe it"}].map(m=>(
+              <button key={m.id} onClick={()=>setMode(m.id)}
+                className={`py-3 px-4 rounded-xl border-2 text-left transition-all`}
+                style={mode===m.id?{borderColor:GOLD,background:"#fffbeb"}:{borderColor:"#e5e7eb",background:"white"}}>
+                <div className="font-bold text-sm text-gray-900">{m.label}</div>
+                <div className="text-xs text-gray-400 mt-0.5">{m.sub}</div>
+              </button>
+            ))}
+          </div>
+
+          {/* Occasion selector */}
+          <div className="mb-6">
+            <div className="text-xs font-black tracking-wider text-gray-400 mb-2">OCCASION <span className="text-gray-300 font-normal">(optional — filters outfit packages)</span></div>
+            <div className="flex flex-wrap gap-2">
+              {["All","Office","Wedding","Formal","Date","Funeral","Church","Interview","Casual"].map(o=>(
+                <button key={o} onClick={()=>setOccasion(o)}
+                  className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
+                  style={occasion===o
+                    ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
+                    : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
+                  {o}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Upload zones — iOS/Android camera compatible */}
+          {(mode==="A"||mode==="B") && (
+            <div className={`grid gap-4 mb-6 ${mode==="B"?"grid-cols-2":"grid-cols-1"}`}>
+
+              {/* Suit photo */}
+              <label htmlFor="suit-upload" style={{display:"block",cursor:"pointer"}}>
+                <div className="border-2 border-dashed rounded-2xl p-8 text-center transition-all hover:border-yellow-400 hover:bg-yellow-50"
+                  style={{borderColor: suitPhoto ? GOLD : "#e5e7eb", background: suitPhoto ? "#fffbeb" : "white"}}>
+                  {suitPhoto ? (
+                    <div className="relative">
+                      <img src={suitPhoto} alt="Suit" className="w-full h-40 object-cover rounded-xl mb-2"/>
+                      <div className="text-xs font-bold text-yellow-700">✓ Suit photo ready</div>
+                      <div className="text-xs text-gray-400 mt-1">Tap to change</div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center bg-gray-100">
+                        <Camera size={26} className="text-gray-300"/>
+                      </div>
+                      <div className="font-semibold text-gray-700 text-sm mb-1">Your Suit</div>
+                      <div className="text-xs text-gray-400">Upload a clear photo of your suit</div>
+                      <div className="mt-3 text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-400 inline-block">📷 Tap to take photo or upload</div>
+                    </>
+                  )}
+                </div>
+                <input
+                  id="suit-upload"
+                  type="file"
+                  accept="image/*"
+                  style={{display:"none"}}
+                  onChange={e => handlePhotoSelect(e, setSuitPhoto)}
+                />
+              </label>
+
+              {/* Shirt photo — only in mode B */}
+              {mode==="B" && (
+                <label htmlFor="shirt-upload" style={{display:"block",cursor:"pointer"}}>
+                  <div className="border-2 border-dashed rounded-2xl p-8 text-center transition-all hover:border-yellow-400 hover:bg-yellow-50"
+                    style={{borderColor: shirtPhoto ? GOLD : "#e5e7eb", background: shirtPhoto ? "#fffbeb" : "white"}}>
+                    {shirtPhoto ? (
+                      <div className="relative">
+                        <img src={shirtPhoto} alt="Shirt" className="w-full h-40 object-cover rounded-xl mb-2"/>
+                        <div className="text-xs font-bold text-yellow-700">✓ Shirt photo ready</div>
+                        <div className="text-xs text-gray-400 mt-1">Tap to change</div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center bg-gray-100">
+                          <Camera size={26} className="text-gray-300"/>
+                        </div>
+                        <div className="font-semibold text-gray-700 text-sm mb-1">Your Shirt</div>
+                        <div className="text-xs text-gray-400">Upload the shirt you'll pair with it</div>
+                        <div className="mt-3 text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-400 inline-block">📷 Tap to take photo or upload</div>
+                      </>
+                    )}
+                  </div>
+                  <input
+                    id="shirt-upload"
+                    type="file"
+                    accept="image/*"
+                    style={{display:"none"}}
+                    onChange={e => handlePhotoSelect(e, setShirtPhoto)}
+                  />
+                </label>
+              )}
+
+            </div>
+          )}
+
+          {mode==="C" && (
+            <div className="mb-6">
+              <textarea value={textInput} onChange={e=>setTextInput(e.target.value)}
+                placeholder={`Describe your suit in detail…\n\nExample: "A mid-blue slim-fit wool suit with a subtle chalk stripe, notch lapel, and a slightly warm undertone. Brand is Canali."`}
+                className="w-full border-2 rounded-2xl p-5 text-sm text-gray-700 resize-none focus:outline-none transition-all"
+                style={{borderColor:"#e5e7eb",minHeight:"160px"}}
+                onFocus={e=>e.target.style.borderColor=GOLD}
+                onBlur={e=>e.target.style.borderColor="#e5e7eb"}
+              />
+              <div className="text-xs text-gray-400 mt-2">Include: color, pattern, fabric, brand, and formality level for best results.</div>
+            </div>
+          )}
+
+          {keyError && <p className="text-xs text-red-400 mb-3 px-1">{keyError}</p>}
+
+          {!analyzing ? (
+            <button onClick={runAnalysis}
+              className="w-full py-4 rounded-2xl font-bold text-base text-white flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-98"
+              style={{background:`linear-gradient(135deg,${NAVY} 0%,#1e3a5f 100%)`}}>
+              <Wand2 size={20}/> Analyze My Suit
+            </button>
+          ) : (
+            <div className="rounded-2xl p-8 text-center" style={{background:NAVY}}>
+              <div className="text-white font-bold text-lg mb-1">Analyzing your ensemble…</div>
+              <div className="text-sm mb-6" style={{color:"rgba(255,255,255,0.5)"}}>{STEPS[currentStep]}</div>
+              <div className="w-full rounded-full h-2 mb-2" style={{background:"rgba(255,255,255,0.1)"}}>
+                <div className="h-2 rounded-full transition-all duration-300" style={{width:`${progress}%`,background:`linear-gradient(90deg,${GOLD},#E8C86A)`}}/>
+              </div>
+              <div className="text-xs" style={{color:"rgba(255,255,255,0.3)"}}>{Math.round(progress)}% complete</div>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="space-y-5">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-black text-gray-900">Analysis Complete ✓</h2>
+              {isDemo
+                ? <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-400">DEMO — add API key for real results</span>
+                : <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:GOLD}}>✦ AI Analysis</span>
+              }
+            </div>
+            <button onClick={()=>{setDone(false);setShirtIdx(0);setTieIdx(null);setPkgIdx(null)}} className="text-sm text-gray-400 hover:text-gray-600 underline">← New Analysis</button>
+          </div>
+
+          {/* Suit card */}
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            <div className="flex items-start gap-4">
+              <div className="w-16 h-20 rounded-xl flex-shrink-0 flex items-center justify-center" style={{background:"#1B3A6B"}}>
+                <Shirt size={24} color="white"/>
+              </div>
+              <div className="flex-1">
+                <div className="flex flex-wrap gap-2 mb-2">
+                  <span className="text-xs font-black tracking-wider px-2 py-0.5 rounded-full text-white" style={{background:NAVY}}>SUIT ANALYSIS</span>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:"#fef3c7",color:"#92400e"}}>{analysisData.suit.formality}</span>
+                </div>
+                <h3 className="text-xl font-black text-gray-900">{analysisData.suit.colorFamily}</h3>
+                <div className="grid grid-cols-2 gap-x-6 gap-y-1 mt-3 text-xs">
+                  {[["Fabric",analysisData.suit.fabric],["Pattern",analysisData.suit.pattern],["Lapel",analysisData.suit.lapel],["Fit",analysisData.suit.fit],["Undertones",analysisData.suit.undertones]].map(([k,v])=>(
+                    <div key={k}><span className="text-gray-400">{k}: </span><span className="text-gray-700 font-semibold">{v}</span></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Shirt selector */}
+          <div>
+            <SectionLabel n={2} label="Recommended Shirts"/>
+            <div className="grid grid-cols-3 gap-3 mb-3">
+              {analysisData.shirts.map((s,i)=>(
+                <button key={s.id} onClick={()=>{setShirtIdx(i);setTieIdx(null)}}
+                  className="p-3 rounded-xl border-2 text-left transition-all bg-white"
+                  style={shirtIdx===i?{borderColor:GOLD,boxShadow:"0 2px 12px rgba(201,168,76,0.2)"}:{borderColor:"#f1f5f9"}}>
+                  <div className="w-8 h-8 rounded-full border-2 border-gray-100 mb-2" style={{background:s.colorCode}}/>
+                  <div className="text-xs font-bold text-gray-800 leading-tight">{s.name}</div>
+                  <div className="text-xs text-gray-400 mt-0.5">{s.collar}</div>
+                </button>
+              ))}
+            </div>
+            <div className="rounded-xl p-3 text-sm text-blue-800 mb-4" style={{background:"#eff6ff",border:"1px solid #bfdbfe"}}>
+              <strong>{shirt.name}</strong> — {shirt.why}
+            </div>
+
+            {/* Tie selector */}
+            <SectionLabel n={3} label={`Tie Pairings for "${shirt.name}"`}/>
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              {shirt.ties.map((tie,i)=>(
+                <button key={tie.id} onClick={()=>setTieIdx(tieIdx===i?null:i)}
+                  className="p-3 rounded-xl border-2 text-left bg-white transition-all"
+                  style={tieIdx===i?{borderColor:GOLD}:{borderColor:"#f1f5f9"}}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-5 h-9 rounded flex-shrink-0" style={{background:tie.color}}/>
+                    <div>
+                      <div className="text-xs font-bold text-gray-800 leading-tight">{tie.name}</div>
+                      <div className="text-xs text-gray-400">{tie.material}</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-1 flex-wrap">
+                    {[tie.harmony,tie.knot,tie.width].map(t=>(
+                      <span key={t} className="text-xs px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-500">{t}</span>
+                    ))}
+                  </div>
+                  {tieIdx===i && <div className="mt-2 pt-2 border-t border-gray-100 text-xs text-gray-600">{tie.why}</div>}
+                </button>
+              ))}
+            </div>
+
+            {/* Pocket square */}
+            <div className="bg-white rounded-xl border border-gray-100 p-4">
+              <div className="text-xs font-black tracking-wider text-gray-400 mb-1">POCKET SQUARE</div>
+              <div className="text-sm font-bold text-gray-800">{shirt.pocketSquare.name} — {shirt.pocketSquare.fold}</div>
+              <div className="text-xs text-gray-400">{shirt.pocketSquare.material}</div>
+            </div>
+          </div>
+
+          {/* Packages */}
+          <div>
+            <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <SectionLabel n={5} label="Complete Outfit Packages"/>
+              {occasion !== "All" && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{background:"#fffbeb",color:"#92400e",border:`1px solid ${GOLD}`}}>
+                    Filtered: {occasion}
+                  </span>
+                  <button onClick={()=>setOccasion("All")} className="text-xs text-gray-400 hover:text-gray-600 underline">Clear</button>
+                </div>
+              )}
+            </div>
+            <div className="space-y-2">
+              {filterByOccasion(analysisData, occasion).packages.map((pkg,i)=>(
+                <div key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                  <button className="w-full p-4 text-left flex items-center justify-between" onClick={()=>setPkgIdx(pkgIdx===i?null:i)}>
+                    <div className="flex items-center gap-3">
+                      <div className="flex -space-x-2">
+                        {[NAVY,pkg.shirtColor,pkg.tieColor].map((c,j)=>(
+                          <div key={j} className="w-7 h-7 rounded-full border-2 border-white" style={{background:c,zIndex:3-j}}/>
+                        ))}
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm text-gray-900">{pkg.name}</div>
+                        <div className="text-xs text-gray-400">{pkg.archetype} · {dots(pkg.confidence)}</div>
+                      </div>
+                    </div>
+                    <span className="text-gray-300 text-lg">{pkgIdx===i?"−":"+"}</span>
+                  </button>
+                  {pkgIdx===i && (
+                    <div className="px-4 pb-4 border-t border-gray-50 pt-3">
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-xs mb-3">
+                        {[["Suit",pkg.suit],["Shirt",pkg.shirt],["Tie",pkg.tie],["Pocket Square",pkg.pocketSquare],["Shoes",pkg.shoes],["Belt",pkg.belt],["Socks",pkg.socks],["Watch",pkg.watch]].map(([k,v])=>(
+                          <div key={k}><span className="text-gray-400">{k}: </span><span className="text-gray-700 font-semibold">{v}</span></div>
+                        ))}
+                      </div>
+                      <div className="text-xs text-gray-400 mb-2">📅 {pkg.occasion}</div>
+                      <div className="rounded-xl p-3 text-xs text-yellow-800" style={{background:"#fffbeb",border:"1px solid #fde68a"}}>
+                        <strong>💡 Styling Tip:</strong> {pkg.tip}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Style Mantra */}
+          <div className="rounded-2xl p-6 text-center" style={{background:`linear-gradient(135deg,${NAVY},#1e3a5f)`}}>
+            <div className="text-xs font-black tracking-widest mb-3" style={{color:GOLD}}>YOUR STYLE MANTRA</div>
+            <p className="text-white text-base font-light italic leading-relaxed">
+              "A navy chalk stripe is not a suit — it is a declaration. Wear it when you need the room to know, before you speak, that you have already won."
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function SectionLabel({n, label}) {
+  return (
+    <h3 className="font-black text-gray-800 mb-3 flex items-center gap-2 text-sm">
+      <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs text-white font-black" style={{background:GOLD}}>{n}</span>
+      {label}
+    </h3>
+  )
+}
+
+// ─────────────────────────────────────────────
+// PAGE: CLOSET
+// ─────────────────────────────────────────────
+
+function ClosetPage() {
+  const [filter,  setFilter]  = useState("All")
+  const [items,   setItems]   = useState(CLOSET_ITEMS_INIT)
+  const [modal,   setModal]   = useState(false)
+  const [selected,setSelected]= useState(null)
+  const [form,    setForm]    = useState({type:"Suit",name:"",brand:"",color:"#1B3A6B"})
+
+  const TYPES = ["All","Suit","Shirt","Tie","Shoes","Accessory"]
+  const shown  = filter==="All" ? items : items.filter(i=>i.type===filter)
+  const counts = TYPES.reduce((a,t)=>({...a,[t]:t==="All"?items.length:items.filter(i=>i.type===t).length}),{})
+
+  const save = () => {
+    if(!form.name.trim()) return
+    setItems(p=>[...p,{...form,id:Date.now(),occasions:[]}])
+    setModal(false); setForm({type:"Suit",name:"",brand:"",color:"#1B3A6B"})
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="text-2xl font-black text-gray-900">My Closet</h1>
+          <p className="text-gray-400 text-sm mt-0.5">{items.length} garments · {items.filter(i=>i.type==="Suit").length} suits</p>
+        </div>
+        <button onClick={()=>setModal(true)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90" style={{background:NAVY}}>
+          <Plus size={15}/> Add Item
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className="flex gap-2 mb-5 flex-wrap">
+        {TYPES.map(t=>(
+          <button key={t} onClick={()=>setFilter(t)}
+            className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${filter===t?"text-white shadow":""}`}
+            style={filter===t?{background:NAVY}:{background:"#f1f5f9",color:"#64748b"}}>
+            {t} <span className={`text-xs ml-1 ${filter===t?"text-yellow-400":"text-gray-400"}`}>{counts[t]}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Limit warning */}
+      {items.length>=15 && (
+        <div className="mb-4 px-4 py-3 rounded-xl flex items-center justify-between" style={{background:"#fffbeb"}}>
+          <div className="flex items-center gap-2 text-sm text-yellow-800"><Lock size={14}/><span>Free tier: {items.length}/20 garments</span></div>
+          <button className="text-xs font-bold text-yellow-800 underline">Upgrade for unlimited</button>
+        </div>
+      )}
+
+      {/* Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {shown.map(item=>(
+          <button key={item.id} onClick={()=>setSelected(selected?.id===item.id?null:item)}
+            className={`p-4 rounded-2xl border-2 text-left transition-all bg-white hover:shadow-md ${selected?.id===item.id?"shadow-md":""}`}
+            style={selected?.id===item.id?{borderColor:GOLD}:{borderColor:"#f1f5f9"}}>
+            <div className="w-full h-20 rounded-xl mb-3 flex items-center justify-center" style={{background:item.color+"22"}}>
+              <div className="w-10 h-10 rounded-full shadow-inner" style={{background:item.color}}/>
+            </div>
+            <div className="text-xs font-black tracking-wider text-gray-400 mb-0.5">{item.type.toUpperCase()}</div>
+            <div className="text-sm font-bold text-gray-800 leading-tight">{item.name}</div>
+            <div className="text-xs text-gray-400 mt-0.5">{item.brand}</div>
+          </button>
+        ))}
+        <button onClick={()=>setModal(true)} className="p-4 rounded-2xl border-2 border-dashed text-center hover:border-gray-300 transition-all" style={{borderColor:"#e5e7eb"}}>
+          <div className="h-20 flex items-center justify-center"><Plus size={22} className="text-gray-200"/></div>
+          <div className="text-sm text-gray-300">Add item</div>
+        </button>
+      </div>
+
+      {/* Selected detail */}
+      {selected && (
+        <div className="mt-5 bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-20 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:selected.color+"22"}}>
+              <div className="w-8 h-8 rounded-full" style={{background:selected.color}}/>
+            </div>
+            <div>
+              <div className="text-xs font-black tracking-wider text-gray-400">{selected.type.toUpperCase()}</div>
+              <h3 className="text-xl font-black text-gray-900">{selected.name}</h3>
+              <div className="text-sm text-gray-500">{selected.brand}</div>
+              <div className="flex gap-2 mt-2 flex-wrap">
+                {selected.occasions.map(o=><span key={o} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">{o}</span>)}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal */}
+      {modal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-xl font-black">Add Garment</h2>
+              <button onClick={()=>setModal(false)}><X size={20} className="text-gray-300"/></button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <Label>Type</Label>
+                <div className="grid grid-cols-5 gap-1.5 mt-1">
+                  {["Suit","Shirt","Tie","Shoes","Accessory"].map(t=>(
+                    <button key={t} onClick={()=>setForm(p=>({...p,type:t}))}
+                      className="py-2 rounded-xl text-xs font-bold transition-all"
+                      style={form.type===t?{background:NAVY,color:"white"}:{background:"#f1f5f9",color:"#64748b"}}>
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <Label>Name</Label>
+                <input value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))}
+                  placeholder="e.g. Navy Pinstripe" className="w-full mt-1 border-2 border-gray-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                  style={{borderColor:"#f1f5f9"}} onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+              </div>
+              <div>
+                <Label>Brand</Label>
+                <input value={form.brand} onChange={e=>setForm(p=>({...p,brand:e.target.value}))}
+                  placeholder="e.g. BOSS" className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+                  style={{borderColor:"#f1f5f9"}} onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+              </div>
+              <div>
+                <Label>Color</Label>
+                <div className="flex items-center gap-3 mt-1">
+                  <input type="color" value={form.color} onChange={e=>setForm(p=>({...p,color:e.target.value}))}
+                    className="w-12 h-10 rounded-xl border-2 border-gray-100 cursor-pointer"/>
+                  <span className="text-sm text-gray-400 font-mono">{form.color}</span>
+                </div>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button onClick={()=>setModal(false)} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
+                <button onClick={save} disabled={!form.name.trim()} className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40 transition-all" style={{background:NAVY}}>
+                  Add to Closet
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Label({children}) {
+  return <div className="text-xs font-black tracking-wider text-gray-400">{children}</div>
+}
+
+// ─────────────────────────────────────────────
+// PAGE: CALENDAR
+// ─────────────────────────────────────────────
+
+const TODAY = "2026-03-30"
+
+function daysAgo(dateStr) {
+  const diff = Math.floor((new Date(TODAY) - new Date(dateStr)) / 86400000)
+  if(diff === 0) return "hoy"
+  if(diff === 1) return "ayer"
+  if(diff < 7)  return `hace ${diff} días`
+  if(diff < 14) return "hace 1 semana"
+  if(diff < 30) return `hace ${Math.floor(diff/7)} semanas`
+  return `hace ${Math.floor(diff/30)} mes${Math.floor(diff/30)>1?"es":""}`
+}
+
+function LogModal({ onClose, onSave, wornLog, defaultDate }) {
+  const SUITS = CLOSET_ITEMS_INIT.filter(i=>i.type==="Suit").map(i=>i.name)
+  const [form, setForm] = useState({
+    date: defaultDate || TODAY,
+    suit: "", shirt: "", tie: "", occasion: "", notes: "", photo: null
+  })
+  const [dragging, setDragging] = useState(false)
+
+  const set = (k,v) => setForm(p=>({...p,[k]:v}))
+
+  // ── Photo handling ──
+  const loadPhoto = (file) => {
+    if(!file || !file.type.startsWith("image/")) return
+    const reader = new FileReader()
+    reader.onload = (ev) => set("photo", ev.target.result)
+    reader.readAsDataURL(file)
+  }
+  const handlePhotoInput  = (e) => loadPhoto(e.target.files[0])
+  const handleDrop        = (e) => { e.preventDefault(); setDragging(false); loadPhoto(e.dataTransfer.files[0]) }
+  const handleDragOver    = (e) => { e.preventDefault(); setDragging(true)  }
+  const handleDragLeave   = ()  => setDragging(false)
+
+  // ── Repeat detection: same suit worn in last 14 days ──
+  const repeatWarning = (() => {
+    if(!form.suit.trim()) return null
+    const cutoff = new Date(form.date); cutoff.setDate(cutoff.getDate()-14)
+    const cutoffStr = cutoff.toISOString().split("T")[0]
+    const recent = wornLog
+      .filter(e=>e.suit.toLowerCase().includes(form.suit.toLowerCase()) && e.date>=cutoffStr && e.date!==form.date)
+      .sort((a,b)=>b.date.localeCompare(a.date))
+    return recent.length>0 ? recent[0] : null
+  })()
+
+  // ── Exact combo check ──
+  const exactRepeat = (() => {
+    if(!form.suit.trim()||!form.shirt.trim()) return null
+    return wornLog.find(e=>
+      e.suit.toLowerCase().includes(form.suit.toLowerCase()) &&
+      e.shirt.toLowerCase().includes(form.shirt.toLowerCase()) &&
+      (form.tie ? e.tie.toLowerCase().includes(form.tie.toLowerCase()) : true) &&
+      e.date!==form.date
+    ) || null
+  })()
+
+  const handleSave = () => {
+    if(!form.suit.trim()||!form.date) return
+    onSave({ id:Date.now(), ...form, suitColor: CLOSET_ITEMS_INIT.find(i=>i.name===form.suit)?.color||NAVY })
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col" style={{maxHeight:"92vh"}}>
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 pt-5 pb-4 flex-shrink-0" style={{borderBottom:"1px solid #f1f5f9"}}>
+          <div>
+            <h2 className="text-xl font-black text-gray-900">Registrar Outfit</h2>
+            <p className="text-xs text-gray-400 mt-0.5">¿Qué te pusiste hoy?</p>
+          </div>
+          <button onClick={onClose}><X size={20} className="text-gray-300"/></button>
+        </div>
+
+        {/* Scrollable body */}
+        <div className="px-6 py-5 space-y-4 overflow-y-auto flex-1">
+
+          {/* ── PHOTO UPLOAD ── */}
+          <div>
+            <Label>Foto del outfit <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            {form.photo ? (
+              /* Preview */
+              <div className="relative mt-1 rounded-2xl overflow-hidden" style={{height:"200px"}}>
+                <img src={form.photo} alt="outfit preview"
+                  className="w-full h-full object-cover"/>
+                {/* Overlay gradient */}
+                <div className="absolute inset-0" style={{background:"linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%)"}}/>
+                {/* Change / remove buttons */}
+                <div className="absolute bottom-3 right-3 flex gap-2">
+                  <label className="cursor-pointer px-3 py-1.5 rounded-xl text-xs font-black text-white" style={{background:"rgba(0,0,0,0.5)"}}>
+                    Cambiar
+                    <input type="file" accept="image/*" className="hidden" onChange={handlePhotoInput}/>
+                  </label>
+                  <button onClick={()=>set("photo",null)}
+                    className="w-7 h-7 rounded-xl flex items-center justify-center" style={{background:"rgba(0,0,0,0.5)"}}>
+                    <X size={14} color="white"/>
+                  </button>
+                </div>
+                {/* Done check */}
+                <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-black" style={{background:GOLD,color:NAVY}}>
+                  <Check size={11}/> Foto lista
+                </div>
+              </div>
+            ) : (
+              /* Drop zone */
+              <label
+                className="block mt-1 rounded-2xl text-center cursor-pointer transition-all"
+                style={{
+                  border:`2px dashed ${dragging?GOLD:"#e5e7eb"}`,
+                  background: dragging?"#fffbeb":"#fafafa",
+                  padding:"28px 20px"
+                }}
+                onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}>
+                <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style={{background:"#f1f5f9"}}>
+                  <Camera size={26} className="text-gray-300"/>
+                </div>
+                <div className="text-sm font-black text-gray-500 mb-1">Sube una foto de tu look</div>
+                <div className="text-xs text-gray-300">Toca para seleccionar · o arrastra aquí</div>
+                <div className="text-xs text-gray-200 mt-1">JPG, PNG, WEBP · máx. 10 MB</div>
+                <input type="file" accept="image/*" className="hidden" onChange={handlePhotoInput}/>
+              </label>
+            )}
+          </div>
+
+          {/* ── DATE ── */}
+          <div>
+            <Label>Fecha</Label>
+            <input type="date" value={form.date} onChange={e=>set("date",e.target.value)}
+              className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+              style={{borderColor:"#f1f5f9"}}
+              onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+          </div>
+
+          {/* ── SUIT ── */}
+          <div>
+            <Label>Traje / Blazer</Label>
+            <input value={form.suit} onChange={e=>set("suit",e.target.value)}
+              list="suits-list" placeholder="ej. Navy Chalk Stripe"
+              className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+              style={{borderColor:"#f1f5f9"}}
+              onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+            <datalist id="suits-list">{SUITS.map(s=><option key={s} value={s}/>)}</datalist>
+
+            {exactRepeat && (
+              <div className="mt-2 flex items-start gap-2 p-3 rounded-xl text-xs" style={{background:"#fef2f2",border:"1px solid #fecaca"}}>
+                <span className="text-base leading-none">🔁</span>
+                <div>
+                  <strong className="text-red-700">Combinación repetida</strong>
+                  <p className="text-red-600 mt-0.5">Usaste exactamente este look <strong>{daysAgo(exactRepeat.date)}</strong>{exactRepeat.occasion?` en "${exactRepeat.occasion}"`:""}.</p>
+                </div>
+              </div>
+            )}
+            {!exactRepeat && repeatWarning && (
+              <div className="mt-2 flex items-start gap-2 p-3 rounded-xl text-xs" style={{background:"#fffbeb",border:"1px solid #fde68a"}}>
+                <span className="text-base leading-none">⚠️</span>
+                <div>
+                  <strong className="text-yellow-800">Traje usado recientemente</strong>
+                  <p className="text-yellow-700 mt-0.5">Llevaste el <strong>{repeatWarning.suit}</strong> <strong>{daysAgo(repeatWarning.date)}</strong>{repeatWarning.occasion?` (${repeatWarning.occasion})`:""}.{" "}Cambia la camisa o corbata para un look distinto.</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* ── SHIRT ── */}
+          <div>
+            <Label>Camisa</Label>
+            <input value={form.shirt} onChange={e=>set("shirt",e.target.value)}
+              list="shirts-list" placeholder="ej. Crisp White Poplin"
+              className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+              style={{borderColor:"#f1f5f9"}}
+              onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+            <datalist id="shirts-list">{CLOSET_ITEMS_INIT.filter(i=>i.type==="Shirt").map(s=><option key={s.name} value={s.name}/>)}</datalist>
+          </div>
+
+          {/* ── TIE ── */}
+          <div>
+            <Label>Corbata <span className="font-normal text-gray-400 normal-case">(o '—' si no llevaste)</span></Label>
+            <input value={form.tie} onChange={e=>set("tie",e.target.value)}
+              list="ties-list" placeholder="ej. Burgundy Grenadine"
+              className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+              style={{borderColor:"#f1f5f9"}}
+              onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+            <datalist id="ties-list">{CLOSET_ITEMS_INIT.filter(i=>i.type==="Tie").map(t=><option key={t.name} value={t.name}/>)}</datalist>
+          </div>
+
+          {/* ── OCCASION ── */}
+          <div>
+            <Label>Ocasión</Label>
+            <input value={form.occasion} onChange={e=>set("occasion",e.target.value)}
+              placeholder="ej. Board Meeting, cena, entrevista…"
+              className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
+              style={{borderColor:"#f1f5f9"}}
+              onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+          </div>
+
+          {/* ── NOTES ── */}
+          <div>
+            <Label>Notas <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <textarea value={form.notes} onChange={e=>set("notes",e.target.value)}
+              placeholder="¿Cómo te fue? ¿Algún comentario del look?"
+              className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none resize-none"
+              style={{borderColor:"#f1f5f9"}} rows={2}
+              onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 flex gap-3 flex-shrink-0" style={{borderTop:"1px solid #f1f5f9"}}>
+          <button onClick={onClose} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancelar</button>
+          <button onClick={handleSave} disabled={!form.suit.trim()}
+            className="flex-1 py-3 rounded-xl text-sm font-black text-white disabled:opacity-40 transition-all"
+            style={{background:NAVY}}>
+            {form.photo ? "Guardar Look 📸" : "Guardar Look"}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CalendarPage() {
+  const [tab,        setTab]      = useState("calendar")
+  const [date,       setDate]     = useState(new Date(2026,2,1))
+  const [selDay,     setSelDay]   = useState(30)
+  const [events,     setEvents]   = useState(CALENDAR_EVENTS_INIT)
+  const [wornLog,    setWornLog]  = useState(WORN_LOG_INIT)
+  const [showLog,    setShowLog]  = useState(false)
+  const [logDate,    setLogDate]  = useState(TODAY)
+  const [filterSuit, setFilterSuit] = useState("Todos")
+
+  const y = date.getFullYear(), m = date.getMonth()
+  const totalDays = daysInMonth(y,m), firstDay = firstDayOf(y,m)
+  const selectedKey = selDay ? fmtDate(y,m,selDay) : null
+  const selectedEvt = selectedKey ? events[selectedKey] : null
+  const wornOnSelected = selectedKey ? wornLog.find(e=>e.date===selectedKey) : null
+
+  const saveEvent = (k, occ, outfit) => {
+    setEvents(p=>({...p,[k]:{outfit,occasion:occ,color:NAVY}}))
+  }
+
+  const saveLog = (entry) => {
+    setWornLog(p=>[entry, ...p.filter(e=>e.date!==entry.date)])
+    setShowLog(false)
+  }
+
+  const upcoming = Object.entries(events)
+    .filter(([k])=>k>=fmtDate(y,m,1))
+    .sort(([a],[b])=>a.localeCompare(b))
+    .slice(0,5)
+
+  // Build set of dates that have a worn log entry for dot markers
+  const wornDates = new Set(wornLog.map(e=>e.date))
+
+  // Filter suits for history
+  const allSuits = ["Todos", ...new Set(wornLog.map(e=>e.suit))]
+  const filteredLog = filterSuit==="Todos" ? wornLog : wornLog.filter(e=>e.suit===filterSuit)
+
+  // Stats
+  const last30 = wornLog.filter(e=>e.date>=new Date(new Date(TODAY)-30*86400000).toISOString().split("T")[0])
+  const suitCounts = last30.reduce((acc,e)=>{acc[e.suit]=(acc[e.suit]||0)+1;return acc},{})
+  const topSuit = Object.entries(suitCounts).sort((a,b)=>b[1]-a[1])[0]
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="text-2xl font-black text-gray-900">Outfit Calendar</h1>
+          <p className="text-gray-400 text-sm mt-0.5">{wornLog.length} looks registrados</p>
+        </div>
+        {/* Quick log button */}
+        <button onClick={()=>{setLogDate(TODAY);setShowLog(true)}}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-black text-white transition-all hover:opacity-90"
+          style={{background:`linear-gradient(135deg,${NAVY},#1e3a5f)`}}>
+          <Plus size={15}/> Registrar hoy
+        </button>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 p-1 rounded-xl mb-5 w-fit" style={{background:"#f1f5f9"}}>
+        {[{id:"calendar",label:"📅 Calendario"},{id:"log",label:"📖 Historial"}].map(t=>(
+          <button key={t.id} onClick={()=>setTab(t.id)}
+            className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab===t.id?"bg-white shadow-sm text-gray-900":"text-gray-400"}`}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── TAB: CALENDAR ── */}
+      {tab==="calendar" && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            <div className="flex items-center justify-between mb-5">
+              <button onClick={()=>setDate(new Date(y,m-1,1))} className="p-2 rounded-xl hover:bg-gray-100"><ChevronLeft size={18}/></button>
+              <h2 className="font-black text-gray-900">{MONTHS[m]} {y}</h2>
+              <button onClick={()=>setDate(new Date(y,m+1,1))} className="p-2 rounded-xl hover:bg-gray-100"><ChevronRight size={18}/></button>
+            </div>
+            <div className="grid grid-cols-7 mb-2">
+              {DAYS.map(d=><div key={d} className="text-center text-xs font-bold text-gray-400 py-1">{d}</div>)}
+            </div>
+            <div className="grid grid-cols-7 gap-1">
+              {Array.from({length:firstDay},(_,i)=><div key={`e${i}`}/>)}
+              {Array.from({length:totalDays},(_,i)=>{
+                const day=i+1, key=fmtDate(y,m,day)
+                const hasPlanned=!!events[key], hasWorn=wornDates.has(key)
+                const isToday=key===TODAY, isSel=selDay===day
+                return (
+                  <button key={day} onClick={()=>setSelDay(isSel?null:day)}
+                    className="aspect-square flex flex-col items-center justify-center rounded-xl text-xs transition-all"
+                    style={isSel?{background:NAVY,color:"white"}:isToday?{border:`2px solid ${GOLD}`,fontWeight:"800",color:"#92400e"}:{color:"#374151"}}>
+                    <span className="font-semibold">{day}</span>
+                    {/* Dot indicators */}
+                    <div className="flex gap-0.5 mt-0.5">
+                      {hasWorn  && <div className="w-1.5 h-1.5 rounded-full" style={{background:isSel?"white":GOLD}}/>}
+                      {hasPlanned && !hasWorn && <div className="w-1.5 h-1.5 rounded-full" style={{background:isSel?"rgba(255,255,255,0.6)":"#94a3b8"}}/>}
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+            {/* Legend */}
+            <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-50">
+              <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                <div className="w-2 h-2 rounded-full" style={{background:GOLD}}/> Look registrado
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                <div className="w-2 h-2 rounded-full bg-gray-300"/> Planeado
+              </div>
+            </div>
+          </div>
+
+          {/* Right panel */}
+          <div className="space-y-4">
+            {selDay ? (
+              <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-black text-gray-800">{MONTHS[m]} {selDay}</h3>
+                  <button onClick={()=>{setLogDate(fmtDate(y,m,selDay));setShowLog(true)}}
+                    className="w-8 h-8 rounded-xl flex items-center justify-center text-white text-xs font-black" style={{background:NAVY}}>
+                    <Plus size={14}/>
+                  </button>
+                </div>
+                {/* Worn entry */}
+                {wornOnSelected && (
+                  <div className="mb-3 rounded-xl overflow-hidden" style={{border:`1px solid ${GOLD}44`}}>
+                    {/* Photo thumbnail if available */}
+                    {wornOnSelected.photo && (
+                      <div className="relative" style={{height:"120px"}}>
+                        <img src={wornOnSelected.photo} alt="outfit"
+                          className="w-full h-full object-cover"/>
+                        <div className="absolute inset-0" style={{background:"linear-gradient(to top,rgba(15,23,42,0.6) 0%,transparent 60%)"}}/>
+                        <div className="absolute bottom-2 left-3">
+                          <div className="text-xs font-black text-white">{wornOnSelected.suit}</div>
+                        </div>
+                      </div>
+                    )}
+                    <div className="p-3" style={{background:"#fffbeb"}}>
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <div className="w-2 h-2 rounded-full" style={{background:GOLD}}/>
+                        <span className="text-xs font-black" style={{color:GOLD}}>REGISTRADO</span>
+                      </div>
+                      {!wornOnSelected.photo && <div className="text-xs font-bold text-gray-800">{wornOnSelected.suit}</div>}
+                      <div className="text-xs text-gray-500 mt-0.5">{wornOnSelected.shirt}{wornOnSelected.tie&&wornOnSelected.tie!=="—"?` · ${wornOnSelected.tie}`:""}</div>
+                      {wornOnSelected.occasion && <div className="text-xs text-gray-400 mt-0.5">📅 {wornOnSelected.occasion}</div>}
+                      {wornOnSelected.notes && <div className="text-xs text-gray-400 italic mt-1">"{wornOnSelected.notes}"</div>}
+                    </div>
+                  </div>
+                )}
+                {/* Planned entry */}
+                {selectedEvt ? (
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-gray-300"/>
+                      <span className="text-xs font-bold text-gray-400">PLANEADO</span>
+                    </div>
+                    <div className="text-xs text-gray-500 bg-gray-50 rounded-lg p-2.5">{selectedEvt.outfit}</div>
+                  </div>
+                ) : !wornOnSelected && (
+                  <div className="text-center py-4">
+                    <Shirt size={20} className="mx-auto text-gray-200 mb-2"/>
+                    <p className="text-xs text-gray-300">Sin registro ni plan</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="bg-gray-50 rounded-2xl p-5 text-center border border-gray-100">
+                <Calendar size={20} className="mx-auto text-gray-200 mb-2"/>
+                <p className="text-xs text-gray-400">Selecciona un día para ver el detalle</p>
+              </div>
+            )}
+
+            {/* Upcoming */}
+            <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+              <h3 className="font-black text-sm text-gray-800 mb-3">Próximas Ocasiones</h3>
+              <div className="space-y-3">
+                {upcoming.map(([k,evt])=>{
+                  const d=parseInt(k.split("-")[2])
+                  return (
+                    <div key={k} className="flex items-start gap-3">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black text-white flex-shrink-0" style={{background:evt.color}}>{d}</div>
+                      <div>
+                        <div className="text-xs font-bold text-gray-700">{evt.occasion}</div>
+                        <div className="text-xs text-gray-400 leading-snug mt-0.5 line-clamp-2">{evt.outfit}</div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── TAB: HISTORIAL ── */}
+      {tab==="log" && (
+        <div className="space-y-5">
+          {/* Stats row */}
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
+              <div className="text-2xl font-black" style={{color:NAVY}}>{wornLog.length}</div>
+              <div className="text-xs text-gray-400 mt-0.5">Looks registrados</div>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
+              <div className="text-2xl font-black" style={{color:NAVY}}>{last30.length}</div>
+              <div className="text-xs text-gray-400 mt-0.5">Últimos 30 días</div>
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
+              {topSuit ? (
+                <>
+                  <div className="w-5 h-5 rounded-full mx-auto mb-1" style={{background:CLOSET_ITEMS_INIT.find(i=>i.name===topSuit[0])?.color||NAVY}}/>
+                  <div className="text-xs font-black text-gray-700 leading-tight">{topSuit[0].split(" ").slice(0,2).join(" ")}</div>
+                  <div className="text-xs text-gray-400 mt-0.5">Traje favorito</div>
+                </>
+              ) : <div className="text-xs text-gray-300">—</div>}
+            </div>
+          </div>
+
+          {/* Filter by suit */}
+          <div className="flex gap-2 flex-wrap">
+            {allSuits.map(s=>(
+              <button key={s} onClick={()=>setFilterSuit(s)}
+                className="px-3 py-1.5 rounded-xl text-xs font-bold transition-all"
+                style={filterSuit===s?{background:NAVY,color:"white"}:{background:"#f1f5f9",color:"#64748b"}}>
+                {s}
+              </button>
+            ))}
+          </div>
+
+          {/* Log entries */}
+          <div className="space-y-3">
+            {filteredLog.sort((a,b)=>b.date.localeCompare(a.date)).map((entry, idx, arr)=>{
+              // Check if same suit was worn within previous 7 days from this entry
+              const prev7 = arr.slice(idx+1).filter(e=>{
+                const diff = Math.floor((new Date(entry.date)-new Date(e.date))/86400000)
+                return diff>0 && diff<=7 && e.suit===entry.suit
+              })
+              const isRecent = prev7.length > 0
+
+              return (
+                <div key={entry.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+                  {isRecent && (
+                    <div className="px-4 py-2 text-xs font-bold flex items-center gap-1.5" style={{background:"#fef3c7",color:"#92400e"}}>
+                      <span>⚠️</span> Mismo traje usado {daysAgo(prev7[0].date)} — considera variar la camisa o la corbata
+                    </div>
+                  )}
+
+                  {/* Photo banner (if present) */}
+                  {entry.photo && (
+                    <div className="relative w-full" style={{height:"200px"}}>
+                      <img src={entry.photo} alt="outfit"
+                        className="w-full h-full object-cover"/>
+                      {/* Gradient overlay for readability */}
+                      <div className="absolute inset-0" style={{background:"linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.1) 55%, transparent 100%)"}}/>
+                      {/* Date + suit overlaid on photo */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <div className="text-xs font-semibold mb-0.5" style={{color:"rgba(255,255,255,0.6)"}}>
+                          {new Date(entry.date+"T12:00:00").toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"})}
+                          <span className="ml-2" style={{color:GOLD}}>· {daysAgo(entry.date)}</span>
+                        </div>
+                        <div className="font-black text-white text-base leading-tight">{entry.suit}</div>
+                        {entry.occasion && (
+                          <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-lg font-semibold" style={{background:"rgba(201,168,76,0.3)",color:GOLD}}>
+                            {entry.occasion}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="p-4">
+                    <div className="flex items-start gap-4">
+                      {/* Color swatch (only when no photo) */}
+                      {!entry.photo && (
+                        <div className="w-12 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{background:entry.suitColor+"22"}}>
+                          <div className="w-6 h-6 rounded-full" style={{background:entry.suitColor}}/>
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        {/* Header row — only when no photo (photo already shows it) */}
+                        {!entry.photo && (
+                          <div className="flex items-start justify-between gap-2 mb-1.5">
+                            <div>
+                              <div className="text-xs text-gray-400 font-semibold">
+                                {new Date(entry.date+"T12:00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short",year:"numeric"})}
+                                <span className="ml-2 text-gray-300">·</span>
+                                <span className="ml-2" style={{color:GOLD}}>{daysAgo(entry.date)}</span>
+                              </div>
+                              <div className="font-black text-gray-900 text-sm mt-0.5">{entry.suit}</div>
+                            </div>
+                            {entry.occasion && (
+                              <span className="text-xs px-2 py-0.5 rounded-lg flex-shrink-0" style={{background:"#f1f5f9",color:"#64748b"}}>
+                                {entry.occasion}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        {/* Combination chips */}
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {entry.shirt && (
+                            <span className="text-xs px-2 py-1 rounded-lg font-semibold" style={{background:"#f1f5f9",color:"#374151"}}>
+                              👔 {entry.shirt}
+                            </span>
+                          )}
+                          {entry.tie && entry.tie!=="—" && (
+                            <span className="text-xs px-2 py-1 rounded-lg font-semibold" style={{background:"#f1f5f9",color:"#374151"}}>
+                              🎀 {entry.tie}
+                            </span>
+                          )}
+                        </div>
+                        {entry.notes && (
+                          <div className="mt-2 text-xs text-gray-400 italic border-l-2 pl-2" style={{borderColor:GOLD+"66"}}>
+                            "{entry.notes}"
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* CTA to log more */}
+          <button onClick={()=>{setLogDate(TODAY);setShowLog(true)}}
+            className="w-full py-4 rounded-2xl border-2 border-dashed text-sm font-bold transition-all hover:border-gray-300"
+            style={{borderColor:"#e5e7eb",color:"#94a3b8"}}>
+            + Registrar otro outfit
+          </button>
+        </div>
+      )}
+
+      {/* Log Modal */}
+      {showLog && (
+        <LogModal
+          onClose={()=>setShowLog(false)}
+          onSave={saveLog}
+          wornLog={wornLog}
+          defaultDate={logDate}
+        />
+      )}
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────
+// PAGE: COMMUNITY
+// ─────────────────────────────────────────────
+
+function CommunityPage() {
+  const [tab,   setTab]   = useState("feed")
+  const [liked, setLiked] = useState({})
+
+  const CHALLENGES = [
+    {id:1,title:"Navy Week Challenge",   desc:"Style your navy suit 5 different ways in 5 days",   participants:847,  daysLeft:3,  color:"#1B3A6B"},
+    {id:2,title:"Summer Linen League",   desc:"Best linen suit look wins a Drake's tie",            participants:523,  daysLeft:12, color:"#C4A882"},
+    {id:3,title:"Pocket Square Mastery", desc:"Show us your most creative fold technique",          participants:1204, daysLeft:7,  color:"#722F37"},
+  ]
+
+  const TRENDING = [
+    {rank:1, look:"The Milan Executive",       color:"#1B3A6B", uses:1847, trend:"+23%"},
+    {rank:2, look:"The City Banker",           color:"#36454F", uses:1203, trend:"+18%"},
+    {rank:3, look:"The Weekend Maverick",      color:"#C4A882", uses:986,  trend:"+31%"},
+    {rank:4, look:"The Midnight Sovereign",    color:"#800020", uses:742,  trend:"+12%"},
+    {rank:5, look:"The Understated Maverick",  color:"#355E3B", uses:634,  trend:"+8%"},
+  ]
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h1 className="text-2xl font-black text-gray-900">Community</h1>
+          <p className="text-gray-400 text-sm mt-0.5">Style inspiration from the Dapper community</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Search size={18} className="text-gray-300 cursor-pointer"/>
+          <Bell size={18} className="text-gray-300 cursor-pointer"/>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 p-1 rounded-xl mb-5 w-fit" style={{background:"#f1f5f9"}}>
+        {["feed","challenges","trending"].map(t=>(
+          <button key={t} onClick={()=>setTab(t)}
+            className={`px-4 py-2 rounded-lg text-sm font-bold capitalize transition-all ${tab===t?"bg-white shadow-sm text-gray-900":"text-gray-400"}`}>
+            {t}
+          </button>
+        ))}
+      </div>
+
+      {tab==="feed" && (
+        <div className="space-y-5">
+          {SOCIAL_POSTS.map(post=>(
+            <div key={post.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+              <div className="flex items-center gap-3 p-4 pb-0">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm text-white flex-shrink-0" style={{background:post.avatar}}>
+                  {post.initials}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-sm text-gray-900">{post.user}</span>
+                    <span className="text-xs px-1.5 py-0.5 rounded-md font-black text-white" style={{background:post.badge==="Elite"?GOLD:NAVY}}>
+                      {post.badge}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-400">{post.role} · {post.timeAgo}</div>
+                </div>
+              </div>
+              <div className="mx-4 my-3 rounded-xl p-3" style={{background:post.avatar+"15",border:`1px solid ${post.avatar}25`}}>
+                <div className="text-xs font-black tracking-wider text-gray-400 mb-0.5">{post.look}</div>
+                <div className="text-sm font-bold text-gray-800">{post.outfit}</div>
+              </div>
+              <div className="px-4 pb-3">
+                <p className="text-sm text-gray-700 leading-relaxed">{post.caption}</p>
+                <div className="flex gap-2 mt-2 flex-wrap">
+                  {post.tags.map(tag=><span key={tag} className="text-xs text-blue-400 cursor-pointer hover:text-blue-600">{tag}</span>)}
+                </div>
+              </div>
+              <div className="flex items-center gap-5 px-4 py-3 border-t border-gray-50">
+                <button onClick={()=>setLiked(p=>({...p,[post.id]:!p[post.id]}))}
+                  className={`flex items-center gap-1.5 text-sm transition-colors ${liked[post.id]?"text-red-500":"text-gray-300 hover:text-gray-500"}`}>
+                  <Heart size={16} fill={liked[post.id]?"currentColor":"none"}/>
+                  <span>{post.likes+(liked[post.id]?1:0)}</span>
+                </button>
+                <button className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-gray-500">
+                  <MessageCircle size={16}/><span>{post.comments}</span>
+                </button>
+                <button className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-gray-500 ml-auto">
+                  <TrendingUp size={13}/> Copy Look
+                </button>
+              </div>
+            </div>
+          ))}
+          <div className="rounded-2xl border-2 border-dashed p-8 text-center" style={{borderColor:"#e5e7eb"}}>
+            <Lock size={22} className="mx-auto text-gray-200 mb-2"/>
+            <div className="font-bold text-gray-400 mb-1 text-sm">Share your looks with the community</div>
+            <div className="text-xs text-gray-300 mb-4">Posting, style duels, and challenges require Dapper Pro</div>
+            <button className="px-6 py-2.5 rounded-xl font-bold text-sm text-white" style={{background:NAVY}}>Upgrade to Pro</button>
+          </div>
+        </div>
+      )}
+
+      {tab==="challenges" && (
+        <div className="space-y-4">
+          {CHALLENGES.map(c=>(
+            <div key={c.id} className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm flex items-start gap-4">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{background:c.color}}>
+                <Award size={22} color="white"/>
+              </div>
+              <div className="flex-1">
+                <h3 className="font-black text-gray-900 text-sm">{c.title}</h3>
+                <p className="text-xs text-gray-500 mt-0.5">{c.desc}</p>
+                <div className="flex items-center gap-4 mt-2">
+                  <span className="text-xs text-gray-400 flex items-center gap-1"><Users size={11}/> {c.participants} joined</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1"><Clock size={11}/> {c.daysLeft} days left</span>
+                </div>
+              </div>
+              <button className="px-3 py-1.5 rounded-xl text-xs font-black text-white flex-shrink-0" style={{background:c.color}}>Join</button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab==="trending" && (
+        <div className="space-y-3">
+          {TRENDING.map(t=>(
+            <div key={t.rank} className="bg-white rounded-xl border border-gray-100 p-4 flex items-center gap-4 shadow-sm">
+              <div className="text-2xl font-black text-gray-100 w-8">#{t.rank}</div>
+              <div className="w-10 h-10 rounded-xl flex-shrink-0" style={{background:t.color}}/>
+              <div className="flex-1">
+                <div className="font-black text-gray-900 text-sm">{t.look}</div>
+                <div className="text-xs text-gray-400">{t.uses.toLocaleString()} outfit logs</div>
+              </div>
+              <div className="text-xs font-black text-green-500">{t.trend}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────
+// PAGE: PRICING
+// ─────────────────────────────────────────────
+
+function PricingPage() {
+  const [selectedBilling, setSelectedBilling] = useState({}) // per-tier: "monthly" | "annual"
+
+  const getBilling = (tierName) => selectedBilling[tierName] || "monthly"
+  const setBilling = (tierName, val) => setSelectedBilling(p=>({...p,[tierName]:val}))
+
+  const tiers = [
+    {
+      name:"Free", monthlyPrice:0, annualPrice:0, color:"#64748b", badge:null,
+      cta:"Current Plan", ctaBg:"#f1f5f9", ctaColor:"#64748b",
+      features:["3 AI analyses / month","Digital closet up to 20 garments","2 saved looks","Style Glossary & daily tips","Community feed (read-only)"],
+      locked:["Unlimited AI analyses","Full outfit calendar","Weather integration","Social posting","Shopping integration","Style School"],
+    },
+    {
+      name:"Dapper Pro", monthlyPrice:4.99, annualPrice:39.99, color:NAVY, badge:"Most Popular",
+      cta:"Start Free Trial", ctaBg:NAVY, ctaColor:"white",
+      features:["Unlimited AI analyses","Unlimited digital closet","Full outfit calendar + weather","Outfit comparison tool","Full social features (post, duel, challenge)","Date Mode complete","Shopping integration","Style School complete","Morning outfit push notifications","Gap Analyzer / Wardrobe Gaps"],
+      locked:[],
+    },
+    {
+      name:"Dapper Elite", monthlyPrice:9.99, annualPrice:79.99, color:GOLD, badge:"Ultimate",
+      cta:"Go Elite", ctaBg:GOLD, ctaColor:NAVY,
+      features:["Everything in Pro","Style DNA deep report","Unlimited AI chat with memory","Priority AI (< 5 seconds)","Couple Style Coordination","Virtual Try-On (when available)","Early access to new features","Exclusive Elite profile badge","Monthly 30-min stylist session"],
+      locked:[],
+    },
+  ]
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="text-center mb-10">
+        <h1 className="text-3xl font-black text-gray-900 mb-2">Dress Better. Every Day.</h1>
+        <p className="text-gray-500 max-w-md mx-auto text-sm leading-relaxed">
+          Sin compromisos — paga mes a mes cuando quieras.<br/>
+          <span style={{color:GOLD}} className="font-semibold">Ahorra 33% con el plan anual.</span>
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {tiers.map((tier,i)=>{
+          const billing = getBilling(tier.name)
+          const isPaid  = tier.monthlyPrice > 0
+          const isDark  = i === 1
+
+          // what price to display big
+          const bigPrice    = billing==="annual" ? tier.annualPrice : tier.monthlyPrice
+          const bigSuffix   = billing==="annual" ? "/yr" : "/mo"
+          // equivalent monthly when on annual
+          const perMoAnnual = tier.annualPrice > 0 ? (tier.annualPrice/12).toFixed(2) : null
+
+          return (
+            <div key={tier.name}
+              className={`rounded-2xl border-2 relative flex flex-col transition-all ${i===1?"shadow-2xl":""}`}
+              style={isDark?{background:NAVY,borderColor:NAVY}:{background:"white",borderColor:"#f1f5f9"}}>
+
+              {/* Badge */}
+              {tier.badge && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 text-xs font-black px-3 py-1 rounded-full whitespace-nowrap" style={{background:GOLD,color:NAVY}}>
+                  {tier.badge}
+                </div>
+              )}
+
+              <div className="p-6 flex-1 flex flex-col">
+                {/* Plan name */}
+                <div className="text-xs font-black tracking-widest mb-3" style={{color:isDark?GOLD:tier.color}}>
+                  {tier.name.toUpperCase()}
+                </div>
+
+                {/* ── BILLING TOGGLE (only for paid plans) ── */}
+                {isPaid && (
+                  <div className="flex rounded-xl overflow-hidden mb-4 border" style={{borderColor:isDark?"rgba(255,255,255,0.15)":"#e5e7eb"}}>
+                    {["monthly","annual"].map(opt=>{
+                      const active = billing===opt
+                      return (
+                        <button key={opt} onClick={()=>setBilling(tier.name, opt)}
+                          className="flex-1 py-2 text-xs font-black transition-all relative"
+                          style={active
+                            ? {background: isDark ? GOLD : NAVY, color: isDark ? NAVY : "white"}
+                            : {background:"transparent", color: isDark?"rgba(255,255,255,0.4)":"#9ca3af"}
+                          }>
+                          {opt==="monthly" ? "Mensual" : "Anual"}
+                          {opt==="annual" && (
+                            <span className="ml-1 text-xs" style={{color: active ? (isDark?NAVY:"white") : "#22c55e"}}>
+                              −33%
+                            </span>
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+
+                {/* ── PRICE DISPLAY ── */}
+                <div className="mb-1">
+                  {!isPaid ? (
+                    <div className={`text-4xl font-black ${isDark?"text-white":"text-gray-900"}`}>Free</div>
+                  ) : (
+                    <>
+                      {/* Big price */}
+                      <div className={`text-4xl font-black leading-none ${isDark?"text-white":"text-gray-900"}`}>
+                        ${bigPrice}
+                        <span className={`text-sm font-normal ml-1 ${isDark?"text-gray-400":"text-gray-400"}`}>{bigSuffix}</span>
+                      </div>
+
+                      {/* Contextual sub-line */}
+                      {billing==="monthly" ? (
+                        // Monthly selected → nudge toward annual
+                        <div className="mt-1.5 flex items-center gap-1.5">
+                          <span className={`text-xs ${isDark?"text-gray-400":"text-gray-400"}`}>Sin compromiso · cancela cuando quieras</span>
+                        </div>
+                      ) : (
+                        // Annual selected → show per-month equivalent
+                        <div className="mt-1.5 flex items-center gap-1.5">
+                          <span className="text-xs font-bold" style={{color:"#22c55e"}}>
+                            Equivale a ${perMoAnnual}/mo
+                          </span>
+                          <span className={`text-xs ${isDark?"text-gray-500":"text-gray-400"}`}>· facturado anualmente</span>
+                        </div>
+                      )}
+
+                      {/* "vs monthly" savings callout when annual */}
+                      {billing==="annual" && (
+                        <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-black"
+                          style={{background:isDark?"rgba(34,197,94,0.15)":"#dcfce7",color:"#15803d"}}>
+                          <Check size={11}/> Ahorras ${((tier.monthlyPrice*12)-tier.annualPrice).toFixed(2)}/año
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                {/* Divider */}
+                <div className="my-4 border-t" style={{borderColor:isDark?"rgba(255,255,255,0.08)":"#f1f5f9"}}/>
+
+                {/* Features */}
+                <div className="space-y-2 flex-1">
+                  {tier.features.map(f=>(
+                    <div key={f} className="flex items-start gap-2">
+                      <Check size={13} className="flex-shrink-0 mt-0.5" style={{color:isDark?GOLD:"#22c55e"}}/>
+                      <span className={`text-xs leading-relaxed ${isDark?"text-gray-300":"text-gray-600"}`}>{f}</span>
+                    </div>
+                  ))}
+                  {tier.locked.slice(0,3).map(f=>(
+                    <div key={f} className="flex items-start gap-2 opacity-25">
+                      <X size={13} className="flex-shrink-0 mt-0.5 text-gray-400"/>
+                      <span className="text-xs text-gray-400">{f}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <button className="mt-5 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90 active:scale-98"
+                  style={{background:tier.ctaBg,color:tier.ctaColor}}>
+                  {tier.cta}
+                  {isPaid && billing==="annual" && " (Anual)"}
+                </button>
+
+                {/* Fine print */}
+                {isPaid && (
+                  <div className={`text-center text-xs mt-2 ${isDark?"text-gray-600":"text-gray-300"}`}>
+                    {billing==="monthly" ? "Sin permanencia · cancela en cualquier momento" : "Cobro único anual · garantía 7 días"}
+                  </div>
+                )}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Bottom trust bar */}
+      <div className="mt-8 text-center flex items-center justify-center gap-6 text-xs text-gray-400 flex-wrap">
+        {["Prueba gratis 7 días","Cancela cuando quieras","Sin tarjeta para el plan Free"].map(t=>(
+          <span key={t} className="flex items-center gap-1"><Check size={12} className="text-green-400"/>{t}</span>
+        ))}
+      </div>
+
+      {/* Comparison note */}
+      <div className="mt-6 rounded-2xl p-4 text-center" style={{background:"#f8fafc",border:"1px solid #e5e7eb"}}>
+        <p className="text-xs text-gray-400">
+          💡 <strong className="text-gray-600">Tip:</strong> Si pagas mensual en Pro son <strong>$59.88/año</strong>. Cambiando al plan anual pagas solo <strong>$39.99</strong> — el ahorro equivale a <strong>4 meses gratis.</strong>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────
+// ROOT APP
+// ─────────────────────────────────────────────
+
+export default function DapperApp() {
+  const [page,         setPage]        = useState("analyzer")
+  const [sidebarOpen,  setSidebarOpen] = useState(false)
+
+  const NAV = [
+    {id:"analyzer",  icon:Wand2,    label:"Analyzer"},
+    {id:"closet",    icon:Shirt,    label:"Closet"},
+    {id:"calendar",  icon:Calendar, label:"Calendar"},
+    {id:"community", icon:Users,    label:"Community"},
+    {id:"pricing",   icon:Tag,      label:"Upgrade"},
+  ]
+
+  const Page = {analyzer:AnalyzerPage,closet:ClosetPage,calendar:CalendarPage,community:CommunityPage,pricing:PricingPage}[page] || AnalyzerPage
+
+  return (
+    <div className="flex h-screen overflow-hidden" style={{background:"#f8fafc",fontFamily:"system-ui,-apple-system,sans-serif"}}>
+      {/* Desktop sidebar */}
+      <div className="hidden lg:flex">
+        <Sidebar page={page} setPage={setPage}/>
+      </div>
+
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="absolute inset-0 bg-black bg-opacity-60" onClick={()=>setSidebarOpen(false)}/>
+          <div className="absolute left-0 top-0 h-full z-10">
+            <Sidebar page={page} setPage={setPage} mobile onClose={()=>setSidebarOpen(false)}/>
+          </div>
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* Mobile topbar */}
+        <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 flex-shrink-0">
+          <button onClick={()=>setSidebarOpen(true)}>
+            <Menu size={22} className="text-gray-600"/>
+          </button>
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{background:GOLD}}>
+              <Shirt size={14} color={NAVY}/>
+            </div>
+            <span className="font-black tracking-widest text-gray-900 text-base">DAPPER</span>
+          </div>
+          <Bell size={20} className="text-gray-300"/>
+        </div>
+
+        {/* Page */}
+        <main className="flex-1 overflow-y-auto p-5 lg:p-8 pb-24 lg:pb-8">
+          <Page/>
+        </main>
+
+        {/* Mobile bottom nav */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-2 py-1 z-40">
+          <div className="flex">
+            {NAV.map(({id,icon:Icon,label})=>{
+              const active = page===id
+              return (
+                <button key={id} onClick={()=>setPage(id)} className="flex-1 flex flex-col items-center py-2 gap-0.5">
+                  <Icon size={18} style={{color:active?GOLD:"#d1d5db"}}/>
+                  <span className="text-xs" style={{color:active?GOLD:"#d1d5db",fontWeight:active?700:400}}>{label}</span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

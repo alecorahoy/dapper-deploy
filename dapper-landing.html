@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dapper — AI Men's Style Intelligence</title>
+<meta name="description" content="AI-powered suit styling for the modern professional. Perfect shirt, tie, and outfit combinations — instantly."/>
+<meta property="og:title" content="Dapper — AI Men's Style Intelligence"/>
+<meta property="og:description" content="Get perfect shirt, tie, and outfit recommendations for any suit in seconds."/>
+<meta property="og:image" content="/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ─── TOKENS ─── */
+:root {
+  --navy:   #080f1e;
+  --navy2:  #0d1627;
+  --navy3:  #111c30;
+  --card:   #141f33;
+  --card2:  #192135;
+  --gold:   #C9A84C;
+  --gold2:  #e8c96a;
+  --goldDim:#8a6d2a;
+  --white:  #f0ece4;
+  --gray:   #8a96a8;
+  --grayDim:#4a5568;
+  --serif:  'Playfair Display', Georgia, serif;
+  --sans:   'DM Sans', sans-serif;
+  --mono:   'DM Mono', monospace;
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--navy);
+  color: var(--white);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── CHALK STRIPE TEXTURE ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    105deg,
+    transparent,
+    transparent 38px,
+    rgba(201,168,76,0.022) 38px,
+    rgba(201,168,76,0.022) 39px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 72px;
+  background: rgba(8,15,30,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 32px; height: 32px;
+  background: var(--gold);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-logo-icon svg { width: 16px; height: 16px; }
+.nav-wordmark {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 6px;
+  color: var(--gold);
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: var(--gold);
+  color: var(--navy);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: inline-block;
+}
+.nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 120px 48px 80px;
+  overflow: hidden;
+}
+.hero-bg-suit {
+  position: absolute;
+  right: -2%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52%;
+  height: 90%;
+  background: linear-gradient(135deg, #192135 0%, #0d1627 100%);
+  border-radius: 24px 0 0 24px;
+  overflow: hidden;
+  z-index: 1;
+}
+.hero-bg-suit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='stripe' x='0' y='0' width='40' height='40' patternUnits='userSpaceOnUse' patternTransform='rotate(15)'%3E%3Cline x1='20' y1='0' x2='20' y2='40' stroke='%23C9A84C' stroke-width='0.5' stroke-opacity='0.15'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23stripe)'/%3E%3C/svg%3E");
+}
+.hero-suit-mockup {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+/* Suit illustration via CSS */
+.suit-figure {
+  width: 220px;
+  height: 280px;
+  position: relative;
+}
+.suit-body {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 180px; height: 220px;
+  background: #1B3A6B;
+  border-radius: 12px 12px 0 0;
+  border: 1px solid rgba(201,168,76,0.15);
+}
+.suit-lapel-left {
+  position: absolute;
+  top: 0; left: 0;
+  width: 60px; height: 90px;
+  background: #152e58;
+  border-radius: 12px 0 40px 0;
+  border-right: 1px solid rgba(201,168,76,0.2);
+}
+.suit-lapel-right {
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 90px;
+  background: #152e58;
+  border-radius: 0 12px 0 40px;
+  border-left: 1px solid rgba(201,168,76,0.2);
+}
+.suit-shirt {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 64px; height: 110px;
+  background: #F0ECE4;
+  border-radius: 0 0 8px 8px;
+}
+.suit-tie {
+  position: absolute;
+  top: 10px; left: 50%;
+  transform: translateX(-50%);
+  width: 18px; height: 80px;
+  background: #722F37;
+  border-radius: 2px 2px 6px 6px;
+  z-index: 2;
+}
+.suit-pocket-square {
+  position: absolute;
+  top: 16px; left: 20px;
+  width: 22px; height: 18px;
+  background: #F0ECE4;
+  border-radius: 2px;
+  transform: rotate(-8deg);
+}
+
+/* App mockup overlay */
+.hero-app-card {
+  position: absolute;
+  bottom: 40px;
+  right: 24px;
+  width: 260px;
+  background: rgba(20,31,51,0.95);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  z-index: 3;
+  animation: floatCard 4s ease-in-out infinite;
+}
+@keyframes floatCard {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.app-card-label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.app-card-swatch {
+  width: 48px; height: 48px;
+  background: #1B3A6B;
+  border-radius: 8px;
+  border: 2px solid rgba(201,168,76,0.3);
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.app-card-suit-name {
+  font-family: var(--serif);
+  font-size: 13px;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+.app-card-pairings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.app-card-pairing {
+  background: var(--card);
+  border-left: 2px solid var(--gold);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+.app-card-pairing-label {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.app-card-pairing-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.3;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-headline {
+  font-family: var(--serif);
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 900;
+  line-height: 1.0;
+  margin-bottom: 28px;
+  color: var(--white);
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-sub {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--gray);
+  line-height: 1.7;
+  margin-bottom: 44px;
+  max-width: 420px;
+}
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.25); }
+.btn-ghost {
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border-radius: 4px;
+  border: 1px solid rgba(201,168,76,0.4);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(201,168,76,0.1);
+}
+.stat-value {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+/* ─── SECTION WRAPPER ─── */
+section {
+  position: relative;
+  z-index: 1;
+}
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.section-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 20px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.section-sub {
+  font-size: 16px;
+  color: var(--gray);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+/* ─── HOW IT WORKS ─── */
+.how {
+  padding: 120px 0;
+  background: var(--navy2);
+  border-top: 1px solid rgba(201,168,76,0.06);
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+}
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 64px;
+  border: 1px solid rgba(201,168,76,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.how-step {
+  padding: 48px 40px;
+  border-right: 1px solid rgba(201,168,76,0.1);
+  position: relative;
+  transition: background 0.3s;
+}
+.how-step:last-child { border-right: none; }
+.how-step:hover { background: rgba(201,168,76,0.03); }
+.how-num {
+  font-family: var(--serif);
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(201,168,76,0.08);
+  line-height: 1;
+  margin-bottom: 24px;
+  letter-spacing: -4px;
+}
+.how-step-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.how-step-body {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.7;
+}
+.how-step-icon {
+  width: 40px; height: 40px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  color: var(--gold);
+  font-size: 18px;
+}
+
+/* ─── FEATURES ─── */
+.features {
+  padding: 120px 0;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 64px;
+  background: rgba(201,168,76,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.feature-card {
+  background: var(--card);
+  padding: 44px 36px;
+  transition: background 0.25s;
+  position: relative;
+}
+.feature-card:hover { background: var(--card2); }
+.feature-card.wide {
+  grid-column: span 2;
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+.feature-icon {
+  width: 48px; height: 48px;
+  border-radius: 10px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 24px;
+  font-size: 22px;
+}
+.feature-card.wide .feature-icon { margin-bottom: 0; }
+.feature-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.feature-desc {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.7;
+}
+.feature-tag {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+  padding-bottom: 2px;
+}
+
+/* ─── TESTIMONIALS ─── */
+.testimonials {
+  padding: 120px 0;
+  background: var(--navy2);
+  border-top: 1px solid rgba(201,168,76,0.06);
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+}
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+.testimonial-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 36px;
+  border-left: 3px solid var(--gold);
+  transition: transform 0.25s;
+}
+.testimonial-card:hover { transform: translateY(-4px); }
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.testimonial-avatar {
+  width: 44px; height: 44px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.testimonial-meta {}
+.testimonial-name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--white);
+  text-transform: uppercase;
+}
+.testimonial-role {
+  font-size: 12px;
+  color: var(--gray);
+  font-style: italic;
+}
+.testimonial-outfit {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--goldDim);
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+.testimonial-quote {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: var(--white);
+  line-height: 1.7;
+  font-style: italic;
+}
+.testimonial-likes {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--grayDim);
+  display: flex;
+  gap: 16px;
+}
+.testimonial-likes span { color: var(--gray); font-weight: 600; }
+
+/* ─── PRICING ─── */
+.pricing {
+  padding: 120px 0;
+}
+.pricing-toggle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  margin-bottom: 64px;
+}
+.toggle-label { font-size: 13px; color: var(--gray); font-weight: 500; }
+.toggle-track {
+  width: 44px; height: 24px;
+  background: var(--card);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 999px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+}
+.toggle-track.active { background: rgba(201,168,76,0.2); }
+.toggle-thumb {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  background: var(--gray);
+  border-radius: 50%;
+  transition: transform 0.2s, background 0.2s;
+}
+.toggle-track.active .toggle-thumb { transform: translateX(20px); background: var(--gold); }
+.save-badge {
+  font-size: 10px;
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(201,168,76,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.pricing-card {
+  background: var(--card);
+  padding: 44px 36px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.pricing-card.featured {
+  background: var(--card2);
+  border: 2px solid rgba(201,168,76,0.4);
+  margin: -2px;
+  border-radius: 4px;
+  z-index: 1;
+}
+.pricing-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+.pricing-tier {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.pricing-price {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.pricing-price sup { font-size: 24px; vertical-align: top; margin-top: 8px; margin-right: 2px; }
+.pricing-price span { font-size: 16px; color: var(--gray); font-family: var(--sans); font-weight: 400; }
+.pricing-tagline {
+  font-size: 14px;
+  color: var(--gray);
+  font-style: italic;
+  margin-bottom: 32px;
+  font-family: var(--serif);
+  line-height: 1.5;
+}
+.pricing-features {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 32px;
+}
+.pricing-features li {
+  font-size: 13px;
+  color: var(--gray);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.4;
+}
+.pricing-features li .check { color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.pricing-features li.off { opacity: 0.35; text-decoration: line-through; }
+.pricing-features li.off .check { color: var(--grayDim); }
+.btn-pricing {
+  width: 100%;
+  padding: 14px;
+  border-radius: 4px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-pricing.outline {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3);
+}
+.btn-pricing.outline:hover { background: rgba(201,168,76,0.08); }
+.btn-pricing.solid {
+  background: var(--gold);
+  color: var(--navy);
+}
+.btn-pricing.solid:hover { background: var(--gold2); transform: translateY(-1px); }
+.pricing-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gray);
+}
+.trust-check {
+  width: 18px; height: 18px;
+  background: rgba(34,197,94,0.1);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #4ade80;
+  font-size: 10px;
+}
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  padding: 100px 0;
+  background: var(--navy3);
+  border-top: 1px solid rgba(201,168,76,0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-banner::before {
+  content: 'DAPPER';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif);
+  font-size: 260px;
+  font-weight: 900;
+  color: rgba(201,168,76,0.02);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 40px;
+}
+.cta-banner .section-title { max-width: 600px; margin: 0 auto 16px; }
+.cta-banner .section-sub { margin: 0 auto 40px; text-align: center; max-width: 440px; }
+.cta-banner-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--navy);
+  border-top: 1px solid rgba(201,168,76,0.08);
+  padding: 60px 0 40px;
+}
+.footer-inner {
+  display: flex;
+  gap: 64px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.footer-brand { flex: 1; min-width: 200px; }
+.footer-brand .nav-wordmark { font-size: 22px; margin-bottom: 12px; display: block; }
+.footer-tagline { font-size: 13px; color: var(--grayDim); font-style: italic; font-family: var(--serif); }
+.footer-col h4 {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul a {
+  text-decoration: none;
+  font-size: 13px;
+  color: var(--gray);
+  transition: color 0.2s;
+}
+.footer-col ul a:hover { color: var(--white); }
+.footer-bottom {
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: gap;
+  gap: 16px;
+}
+.footer-copy { font-size: 12px; color: var(--grayDim); }
+.footer-legal { display: flex; gap: 24px; }
+.footer-legal a { font-size: 12px; color: var(--grayDim); text-decoration: none; }
+.footer-legal a:hover { color: var(--gray); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up {
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+.fade-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-up:nth-child(2) { animation-delay: 0.25s; }
+.fade-up:nth-child(3) { animation-delay: 0.4s; }
+.fade-up:nth-child(4) { animation-delay: 0.55s; }
+.fade-up:nth-child(5) { animation-delay: 0.7s; }
+
+/* ─── MOBILE ─── */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 80px; min-height: auto; }
+  .hero-bg-suit { display: none; }
+  .hero-app-card { display: none; }
+  .hero-stats { gap: 28px; flex-wrap: wrap; }
+  .container { padding: 0 24px; }
+  .how-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
+  .feature-card.wide { grid-column: span 1; flex-direction: column; gap: 0; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .how { padding: 80px 0; }
+  .features { padding: 80px 0; }
+  .testimonials { padding: 80px 0; }
+  .pricing { padding: 80px 0; }
+  .cta-banner { padding: 80px 0; }
+  .footer-inner { gap: 40px; }
+}
+@media (max-width: 600px) {
+  .hero-headline { font-size: 44px; }
+  .btn-primary, .btn-ghost { padding: 14px 24px; font-size: 12px; }
+}
+
+/* Mobile nav hamburger */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  padding: 4px;
+}
+@media (max-width: 900px) { .mobile-menu-btn { display: block; } .nav-cta { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1L4 4v2l4 1 4-1V4L8 1z" fill="#080f1e"/>
+        <path d="M4 6v7h8V6" stroke="#080f1e" stroke-width="1.2" fill="none"/>
+        <path d="M4 6L8 7l4-1" stroke="#080f1e" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <span class="nav-wordmark">DAPPER</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="#" class="nav-cta" onclick="launchApp()">Try It Free</a>
+  <button class="mobile-menu-btn" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M3 12h18M3 6h18M3 18h18"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-bg-suit">
+    <div class="hero-suit-mockup">
+      <div class="suit-figure">
+        <div class="suit-body">
+          <div class="suit-lapel-left"></div>
+          <div class="suit-lapel-right"></div>
+          <div class="suit-shirt"></div>
+          <div class="suit-tie"></div>
+          <div class="suit-pocket-square"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-app-card">
+      <div class="app-card-label">Analyzer V2.0</div>
+      <div class="app-card-swatch"></div>
+      <div class="app-card-suit-name">Navy Chalk Stripe</div>
+      <div class="app-card-pairings">
+        <div class="app-card-pairing">
+          <div class="app-card-pairing-label">Shirt</div>
+          <div class="app-card-pairing-value">Crisp White Poplin</div>
+        </div>
+        <div class="app-card-pairing">
+          <div class="app-card-pairing-label">Tie</div>
+          <div class="app-card-pairing-value">Burgundy Grenadine</div>
+        </div>
+        <div class="app-card-pairing">
+          <div class="app-card-pairing-label">Pocket</div>
+          <div class="app-card-pairing-value">White Irish Linen</div>
+        </div>
+        <div class="app-card-pairing">
+          <div class="app-card-pairing-label">Knot</div>
+          <div class="app-card-pairing-value">Half Windsor</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow fade-up">AI Men's Style Intelligence</div>
+    <h1 class="hero-headline fade-up">
+      Dress Like<br>
+      You<br>
+      <em>Mean It.</em>
+    </h1>
+    <p class="hero-sub fade-up">
+      AI-powered suit styling for the modern professional. Perfect shirt, tie, and outfit combinations — instantly.
+    </p>
+    <div class="hero-actions fade-up">
+      <a href="#" class="btn-primary" onclick="launchApp()">Try It Free</a>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+    <div class="hero-stats fade-up">
+      <div>
+        <div class="stat-value">40K+</div>
+        <div class="stat-label">Expert Combinations</div>
+      </div>
+      <div>
+        <div class="stat-value">5</div>
+        <div class="stat-label">Free Analyses/Mo</div>
+      </div>
+      <div>
+        <div class="stat-value">3</div>
+        <div class="stat-label">Tiers. One Goal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-eyebrow">The Process</div>
+    <h2 class="section-title">Three steps to<br><em>flawless.</em></h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">01</div>
+        <div class="how-step-title">Describe Your Suit</div>
+        <p class="how-step-body">Snap a photo or input the fabric, color, and pattern. Our AI understands everything from flannel to fresco, chalk stripe to glen plaid.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">02</div>
+        <div class="how-step-title">AI Generates Combinations</div>
+        <p class="how-step-body">Receive curated options for shirt, tie, pocket square, knot style, and shoes — balanced for your specific occasion and season.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">03</div>
+        <div class="how-step-title">Save to Closet & Calendar</div>
+        <p class="how-step-body">Archive your best looks. Schedule outfits for upcoming events. Never wear the same combination to the same client twice.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-eyebrow">Precision Tools</div>
+    <h2 class="section-title">The Gentleman's<br><em>Toolkit.</em></h2>
+    <div class="features-grid" style="margin-top:64px">
+
+      <div class="feature-card wide">
+        <div class="feature-icon">🪄</div>
+        <div>
+          <div class="feature-name">AI Outfit Analyzer</div>
+          <p class="feature-desc">The centerpiece. Describe or photograph your suit and receive expert-level recommendations with detailed reasoning — color theory, pattern harmony, occasion calibration, and more.</p>
+          <span class="feature-tag">Core Feature</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">👔</div>
+        <div class="feature-name">Smart Closet</div>
+        <p class="feature-desc">A digital inventory of your entire tailoring. Track wear frequency, dry cleaning cycles, and which pieces you're neglecting.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-name">Outfit Calendar</div>
+        <p class="feature-desc">Sync your wardrobe with your schedule. Plan looks for meetings, events, and trips weeks in advance.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <div class="feature-name">Style Community</div>
+        <p class="feature-desc">Connect with modern sartorialists. Share your signature looks and discover combinations from elite dressers worldwide.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-name">Wear Analytics</div>
+        <p class="feature-desc">Visual data on your most effective combinations, cost-per-wear, and seasonal color palette performance.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <div class="feature-name">Upgrade to Elite</div>
+        <p class="feature-desc">Bespoke styling consultations, fabric texture recognition, and limited-edition combination reports curated by our style team.</p>
+        <span class="feature-tag">Pro & Elite</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="testimonials" id="community">
+  <div class="container">
+    <div class="section-eyebrow">The Community</div>
+    <h2 class="section-title">Trusted by the<br><em>Tastemakers.</em></h2>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar" style="background:#1B3A6B">MV</div>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Marco Visconti</div>
+            <div class="testimonial-role">Milan Executive · Elite Member</div>
+          </div>
+        </div>
+        <div class="testimonial-outfit">Navy Chalk Stripe · White Poplin · Burgundy Grenadine</div>
+        <p class="testimonial-quote">"Closed a €2M deal in this configuration. The navy chalk stripe carries a weight in the room that no amount of small talk can replace."</p>
+        <div class="testimonial-likes"><span>342</span> likes · <span>28</span> comments · 2h ago</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar" style="background:#36454F">JR</div>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">James R. London</div>
+            <div class="testimonial-role">City Analyst · Pro Member</div>
+          </div>
+        </div>
+        <div class="testimonial-outfit">Charcoal Wool · French Blue · Terracotta Repp Stripe</div>
+        <p class="testimonial-quote">"For high-pressure days in the City, I need to know my combinations are sharp. Dapper has become my morning ritual."</p>
+        <div class="testimonial-likes"><span>218</span> likes · <span>15</span> comments · 5h ago</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar" style="background:#C4A882; color:#1a1a1a">PR</div>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Pablo Reyes</div>
+            <div class="testimonial-role">Creative Director · Elite Member</div>
+          </div>
+        </div>
+        <div class="testimonial-outfit">Tan Linen · White Voile · Burgundy Pocket Puff (no tie)</div>
+        <p class="testimonial-quote">"The trick with no-tie dressing is that every other element must be impeccable. Dapper catches what I'd miss."</p>
+        <div class="testimonial-likes"><span>486</span> likes · <span>41</span> comments · 1d ago</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar" style="background:#800020">KH</div>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Kai Hartmann</div>
+            <div class="testimonial-role">Brand Strategist · Elite Member</div>
+          </div>
+        </div>
+        <div class="testimonial-outfit">Midnight Blue Peak Lapel Tux · Black Grenadine Bow</div>
+        <p class="testimonial-quote">"Midnight blue is more sophisticated than black under candlelight. Dapper confirmed what I suspected — and taught me the rest."</p>
+        <div class="testimonial-likes"><span>621</span> likes · <span>57</span> comments · 2d ago</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-eyebrow">Investment</div>
+    <h2 class="section-title">Choose your<br><em>tier.</em></h2>
+    <div class="pricing-toggle">
+      <span class="toggle-label">Monthly</span>
+      <div class="toggle-track" id="billingToggle" onclick="toggleBilling()">
+        <div class="toggle-thumb"></div>
+      </div>
+      <span class="toggle-label">Annual</span>
+      <span class="save-badge">SAVE 33%</span>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="pricing-card">
+        <div class="pricing-tier">The Apprentice</div>
+        <div class="pricing-price">Free</div>
+        <div class="pricing-tagline">Essential tools for the casual gentleman.</div>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> 5 AI Analyses / Month</li>
+          <li><span class="check">✓</span> Digital Closet (up to 10 items)</li>
+          <li><span class="check">✓</span> Basic Outfit Recommendations</li>
+          <li class="off"><span class="check">✗</span> No Calendar Sync</li>
+          <li class="off"><span class="check">✗</span> No Community Access</li>
+          <li class="off"><span class="check">✗</span> No Analytics</li>
+        </ul>
+        <button class="btn-pricing outline" onclick="launchApp()">Start Here</button>
+      </div>
+
+      <!-- Pro -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Refined</div>
+        <div class="pricing-tier">The Professional</div>
+        <div class="pricing-price" id="proPrice"><sup>$</sup>4<span id="proDecimal">.99/mo</span></div>
+        <div class="pricing-tagline">Full access for the dedicated professional.</div>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> Unlimited AI Analyses</li>
+          <li><span class="check">✓</span> Unlimited Closet Storage</li>
+          <li><span class="check">✓</span> Outfit Calendar Sync</li>
+          <li><span class="check">✓</span> Community Access</li>
+          <li><span class="check">✓</span> Wear Analytics Dashboard</li>
+          <li class="off"><span class="check">✗</span> No Bespoke Style Reports</li>
+        </ul>
+        <button class="btn-pricing solid" onclick="launchApp()">Go Pro</button>
+      </div>
+
+      <!-- Elite -->
+      <div class="pricing-card">
+        <div class="pricing-tier">The Elite</div>
+        <div class="pricing-price" id="elitePrice"><sup>$</sup>9<span id="eliteDecimal">.99/mo</span></div>
+        <div class="pricing-tagline">The pinnacle of sartorial intelligence.</div>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> Everything in Pro</li>
+          <li><span class="check">✓</span> Bespoke Style Reports</li>
+          <li><span class="check">✓</span> Fabric Texture Recognition</li>
+          <li><span class="check">✓</span> Priority AI Engine</li>
+          <li><span class="check">✓</span> Exclusive Community Badge</li>
+          <li><span class="check">✓</span> Early Access to New Features</li>
+        </ul>
+        <button class="btn-pricing outline" onclick="launchApp()">Apply for Elite</button>
+      </div>
+    </div>
+
+    <div class="pricing-trust">
+      <div class="trust-item"><div class="trust-check">✓</div> 7-day free trial on Pro</div>
+      <div class="trust-item"><div class="trust-check">✓</div> Cancel anytime</div>
+      <div class="trust-item"><div class="trust-check">✓</div> No credit card for Free plan</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA BANNER ═══ -->
+<section class="cta-banner">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="section-eyebrow" style="text-align:center">Ready?</div>
+    <h2 class="section-title">The gentleman's AI.<br><em>Start free today.</em></h2>
+    <p class="section-sub">5 free AI analyses every month. No credit card. No commitment. Just better dressing — starting now.</p>
+    <div class="cta-banner-actions">
+      <a href="#" class="btn-primary" onclick="launchApp()">Launch Dapper Free</a>
+      <a href="#pricing" class="btn-ghost">View Pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-wordmark">DAPPER</span>
+        <p class="footer-tagline">The gentleman's AI.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#" onclick="launchApp()">Launch App</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="#community">Style Feed</a></li>
+          <li><a href="#">Elite Members</a></li>
+          <li><a href="#">Submit a Look</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Dapper. The Gentleman's AI.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── Launch App ───
+function launchApp() {
+  // Change this URL to your actual deployed app URL
+  window.location.href = '/app';
+}
+
+// ─── Billing Toggle ───
+let annual = false;
+function toggleBilling() {
+  annual = !annual;
+  const track = document.getElementById('billingToggle');
+  track.classList.toggle('active', annual);
+  document.getElementById('proDecimal').textContent  = annual ? '/mo (billed $39.99/yr)' : '.99/mo';
+  document.getElementById('eliteDecimal').textContent = annual ? '/mo (billed $79.99/yr)' : '.99/mo';
+}
+
+// ─── Scroll-reveal ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll(
+  '.how-step, .feature-card, .testimonial-card, .pricing-card'
+).forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

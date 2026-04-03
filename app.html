@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Dapper — AI Men's Style Intelligence</title>
+    <meta name="description" content="Get perfect shirt, tie, and outfit recommendations for any suit in seconds." />
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content="Dapper — AI Men's Style Intelligence" />
+    <meta property="og:description" content="Get perfect shirt, tie, and outfit recommendations for any suit in seconds." />
+    <meta property="og:image"       content="/og-image.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Dapper — AI Men's Style Intelligence" />
+    <meta name="twitter:description" content="Get perfect shirt, tie, and outfit recommendations for any suit in seconds." />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts (same as landing) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind (used by Dapper.jsx) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+      * { box-sizing: border-box; }
+
+      /* Loading screen while React boots */
+      #app-loading {
+        position: fixed; inset: 0;
+        background: #080f1e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+      #app-loading.hidden { opacity: 0; pointer-events: none; }
+      .loading-wordmark {
+        font-family: 'Georgia', serif;
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: 8px;
+        color: #C9A84C;
+      }
+      .loading-bar {
+        width: 120px; height: 2px;
+        background: rgba(201,168,76,0.15);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .loading-fill {
+        height: 100%;
+        background: #C9A84C;
+        border-radius: 999px;
+        animation: loadPulse 1.2s ease-in-out infinite;
+      }
+      @keyframes loadPulse {
+        0%   { width: 0%; }
+        60%  { width: 85%; }
+        100% { width: 100%; }
+      }
+      .loading-sub {
+        font-family: 'Georgia', serif;
+        font-size: 12px;
+        color: rgba(201,168,76,0.4);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Loading screen -->
+    <div id="app-loading">
+      <div class="loading-wordmark">DAPPER</div>
+      <div class="loading-bar"><div class="loading-fill"></div></div>
+      <div class="loading-sub">The Gentleman's AI</div>
+    </div>
+
+    <!-- React mounts here -->
+    <div id="root"></div>
+
+    <!-- React app entry -->
+    <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      // Hide loading screen once React has painted
+      window.addEventListener('DOMContentLoaded', () => {
+        const loading = document.getElementById('app-loading');
+        // Give React a moment to mount
+        setTimeout(() => {
+          loading.classList.add('hidden');
+          setTimeout(() => loading.remove(), 600);
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

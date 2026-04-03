@@ -1,0 +1,26 @@
+<svg width="1290" height="2796" viewBox="0 0 1290 2796" xmlns="http://www.w3.org/2000/svg">
+  <!-- iPhone 15 Pro Max splash — covers all sizes -->
+  <rect width="1290" height="2796" fill="#080f1e"/>
+  <!-- Chalk stripes -->
+  <line x1="150"  y1="0" x2="150"  y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <line x1="300"  y1="0" x2="300"  y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <line x1="450"  y1="0" x2="450"  y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <line x1="600"  y1="0" x2="600"  y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <line x1="750"  y1="0" x2="750"  y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <line x1="900"  y1="0" x2="900"  y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <line x1="1050" y1="0" x2="1050" y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <line x1="1200" y1="0" x2="1200" y2="2796" stroke="#C9A84C" stroke-width="3" opacity="0.07"/>
+  <!-- Icon -->
+  <rect x="495" y="1058" width="300" height="300" rx="67" fill="#0d1627"/>
+  <rect x="495" y="1058" width="300" height="300" rx="67" fill="none" stroke="#C9A84C" stroke-width="3" opacity="0.3"/>
+  <line x1="545" y1="1058" x2="545" y2="1358" stroke="#C9A84C" stroke-width="1.5" opacity="0.15"/>
+  <line x1="620" y1="1058" x2="620" y2="1358" stroke="#C9A84C" stroke-width="1.5" opacity="0.15"/>
+  <line x1="695" y1="1058" x2="695" y2="1358" stroke="#C9A84C" stroke-width="1.5" opacity="0.15"/>
+  <line x1="770" y1="1058" x2="770" y2="1358" stroke="#C9A84C" stroke-width="1.5" opacity="0.15"/>
+  <line x1="740" y1="1058" x2="740" y2="1358" stroke="#C9A84C" stroke-width="1.5" opacity="0.15"/>
+  <text x="645" y="1300" text-anchor="middle" font-family="Georgia,Times New Roman,serif" font-weight="900" font-size="220" fill="#C9A84C">D</text>
+  <!-- Wordmark -->
+  <text x="645" y="1430" text-anchor="middle" font-family="Georgia,Times New Roman,serif" font-weight="700" font-size="72" fill="#C9A84C" letter-spacing="24">DAPPER</text>
+  <!-- Tagline -->
+  <text x="645" y="1500" text-anchor="middle" font-family="-apple-system,Helvetica,sans-serif" font-weight="400" font-size="32" fill="#C9A84C" opacity="0.5" letter-spacing="4">THE GENTLEMAN'S AI</text>
+</svg>
