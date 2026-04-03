@@ -7,7 +7,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth"
-import { auth, googleProvider } from "./firebase.js"
+import { auth, googleProvider } from "../firebase.js"
 
 export function useAuth() {
   const [user,    setUser]    = useState(undefined) // undefined = loading
