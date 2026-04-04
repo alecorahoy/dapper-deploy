@@ -3754,7 +3754,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── TIE ── */}
           <div>
-            <Label>Corbata <span className="font-normal text-gray-400 normal-case">(o '—' si no llevaste)</span></Label>
+            <Label>Tie <span className="font-normal text-gray-400 normal-case">(or '—' if none)</span></Label>
             <input value={form.tie} onChange={e=>set("tie",e.target.value)}
               list="ties-list" placeholder="ej. Burgundy Grenadine"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
@@ -3765,7 +3765,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── SHOES ── */}
           <div>
-            <Label>Zapatos <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Shoes <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
             <input value={form.shoes} onChange={e=>set("shoes",e.target.value)}
               list="shoes-list" placeholder="ej. Black Cap-Toe Oxford"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
@@ -3776,7 +3776,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── ACCESSORIES ── */}
           <div>
-            <Label>Accesorios <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Accessories <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
             <input value={form.accessories} onChange={e=>set("accessories",e.target.value)}
               list="accessories-list" placeholder="ej. White Linen Square, Silver Watch"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
@@ -3797,7 +3797,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── NOTES ── */}
           <div>
-            <Label>Notas <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Notes <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
             <textarea value={form.notes} onChange={e=>set("notes",e.target.value)}
               placeholder="How did it go? Any notes on the look?"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none resize-none"
@@ -4157,7 +4157,7 @@ function CalendarPage({ closetItems, user }) {
           <button onClick={()=>{setLogDate(TODAY);setShowLog(true)}}
             className="w-full py-4 rounded-2xl border-2 border-dashed text-sm font-bold transition-all hover:border-gray-300"
             style={{borderColor:"#e5e7eb",color:"#94a3b8"}}>
-            + Registrar otro outfit
+            + Log another outfit
           </button>
         </div>
       )}
