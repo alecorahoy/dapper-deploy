@@ -2060,7 +2060,7 @@ function getLocalAnalysis(text) {
 
   // Lookup in matrix
   const matrixKey = colorKey + "|" + patternKey
-  if (PATTERN_MATRIX[matrixKey]) return PATTERN_MATRIX[matrixKey]
+  if (PATTERN_MATRIX[matrixKey]) return { ...PATTERN_MATRIX[matrixKey], _isMatrixMatch: true }
 
   // Fallback to base analysis
   const baseMap = {
@@ -2068,7 +2068,7 @@ function getLocalAnalysis(text) {
     grey: ANALYSIS_GREY, blue: ANALYSIS_BLUE, burgundy: ANALYSIS_BURGUNDY,
     brown: ANALYSIS_BROWN, beige: ANALYSIS_BEIGE,
   }
-  return baseMap[colorKey] || ANALYSIS
+  return { ...(baseMap[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -2599,7 +2599,7 @@ function getBestShoesForSuit(suitColor) {
 // ─────────────────────────────────────────────
 
 function AnalyzerPage() {
-  const { analyzeOutfit, analyzeText, isAnalyzing: isVisionAnalyzing } = useClaudeVision()
+  const { analyzeOutfit, analyzeText, generateExoticAnalysis, isAnalyzing: isVisionAnalyzing } = useClaudeVision()
   const [mode, setMode]               = useState("A")
   const [analyzing, setAnalyzing]     = useState(false)
   const [done, setDone]               = useState(false)
@@ -2749,11 +2749,33 @@ function AnalyzerPage() {
           setIsDemo(false)
         }
       } else {
-        // Suit only — 100% local, no API needed
-        console.log("[Dapper Text] Suit only, using local engine (no API)")
-        setAnalysisData(getLocalAnalysis(description))
-        setComboAssessment(null)
-        setIsDemo(false)
+        // Suit only — try local engine first, API only for exotic combos
+        console.log("[Dapper Text] Suit only, trying local engine first")
+        const localResult = getLocalAnalysis(description)
+        if (localResult._isMatrixMatch) {
+          console.log("[Dapper Text] Matrix match — 100% local, no API")
+          setAnalysisData(localResult)
+          setComboAssessment(null)
+          setIsDemo(false)
+        } else {
+          // Exotic combo not in matrix — ask Claude to generate recommendations
+          console.log("[Dapper Text] No matrix match for", localResult._detectedColor, localResult._detectedPattern, "— calling AI")
+          try {
+            const exoticResult = await generateExoticAnalysis(description, localResult._detectedColor, localResult._detectedPattern)
+            if (exoticResult) {
+              setAnalysisData(exoticResult)
+              setIsDemo(false)
+            } else {
+              setAnalysisData(localResult)
+              setIsDemo(false)
+            }
+          } catch(e) {
+            console.log("[Dapper Text] Exotic AI failed, using base fallback")
+            setAnalysisData(localResult)
+            setIsDemo(false)
+          }
+          setComboAssessment(null)
+        }
       }
     } catch(err) {
       setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)

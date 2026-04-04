@@ -201,7 +201,44 @@ export function useClaudeVision() {
     }
   }, [])
 
-  return { analyzeOutfit, analyzeText, isAnalyzing, error, rawResult, clearError: () => setError(null) }
+  const generateExoticAnalysis = useCallback(async (description, colorKey, patternKey) => {
+    setIsAnalyzing(true)
+    setError(null)
+    try {
+      console.log('[Dapper Exotic] Generating for:', colorKey, patternKey)
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 2000,
+          system: 'You are a menswear expert. Return ONLY raw JSON, no markdown, no backticks. Generate shirt and tie recommendations for an unusual suit combination.',
+          messages: [{ role: 'user', content: `Generate recommendations for a ${colorKey} ${patternKey.replace(/_/g," ")} suit. Return this EXACT JSON structure:
+{"suit":{"colorFamily":"string","fabric":"string","pattern":"string","formality":"string","lapel":"string","fit":"string"},"shirts":[{"id":1,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"}]},{"id":2,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"}]},{"id":3,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"3\"","knot":"string","harmony":"string","why":"string"}]}],"packages":[{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":3,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":4,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":3,"tip":"string","shirtColor":"#hex","tieColor":"#hex"}],"styleMantra":"string"}
+Use professional menswear vocabulary. Be specific with hex colors. User description: "${description}"` }],
+        }),
+      })
+      if (!response.ok) throw new Error('API error: ' + response.status)
+      const data = await response.json()
+      const rawText = data.content?.[0]?.text || ''
+      const cleanText = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+      const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
+      const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleanText)
+      if (parsed?.suit && parsed?.shirts) {
+        console.log('[Dapper Exotic] Success — AI generated', parsed.shirts.length, 'shirts')
+        setIsAnalyzing(false)
+        return parsed
+      }
+      throw new Error('Invalid response structure')
+    } catch (err) {
+      console.error('[Dapper Exotic] Error:', err)
+      setError(err.message)
+      setIsAnalyzing(false)
+      return null
+    }
+  }, [])
+
+  return { analyzeOutfit, analyzeText, generateExoticAnalysis, isAnalyzing, error, rawResult, clearError: () => setError(null) }
 }
 
 export { normalizeColor, normalizePattern }
