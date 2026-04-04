@@ -2721,28 +2721,39 @@ function AnalyzerPage() {
 
     try {
 
-      // Lightweight AI: Claude parses color+pattern only (~1s), local engine does the rest
-      const aiResult = await analyzeText(description)
-      if (aiResult.success && aiResult.colorKey) {
-        const aiDesc = aiResult.colorKey + " " + (aiResult.patternKey || "solid").replace(/_/g, " ") + " " + (aiResult.fabric || "")
-        console.log("[Dapper Text] AI parsed:", aiDesc)
-        setAnalysisData(getLocalAnalysis(aiDesc))
-        setIsDemo(false)
-        // Store combo assessment if user mentioned tie/shirt
-        if (aiResult.assessment) {
-          setComboAssessment({
-            assessment: aiResult.assessment,
-            tie: aiResult.tie,
-            shirt: aiResult.shirt,
-            suitColor: aiResult.colorKey
-          })
+      // Hybrid: local engine first, Claude only for combo assessment
+      const desc = description.toLowerCase()
+      const mentionsTie = /tie|corbata|necktie/.test(desc)
+      const mentionsShirt = /shirt|camisa/.test(desc)
+      const needsComboCheck = mentionsTie || mentionsShirt
+
+      if (needsComboCheck) {
+        // User described a specific combo — call Claude for assessment only
+        console.log("[Dapper Text] Combo detected, calling AI for assessment")
+        const aiResult = await analyzeText(description)
+        if (aiResult.success && aiResult.colorKey) {
+          const aiDesc = aiResult.colorKey + " " + (aiResult.patternKey || "solid").replace(/_/g, " ") + " " + (aiResult.fabric || "")
+          setAnalysisData(getLocalAnalysis(aiDesc))
+          setIsDemo(false)
+          if (aiResult.assessment) {
+            setComboAssessment({
+              assessment: aiResult.assessment,
+              tie: aiResult.tie,
+              shirt: aiResult.shirt,
+              suitColor: aiResult.colorKey
+            })
+          }
         } else {
+          setAnalysisData(getLocalAnalysis(description))
           setComboAssessment(null)
+          setIsDemo(false)
         }
       } else {
+        // Suit only — 100% local, no API needed
+        console.log("[Dapper Text] Suit only, using local engine (no API)")
         setAnalysisData(getLocalAnalysis(description))
         setComboAssessment(null)
-        setIsDemo(true)
+        setIsDemo(false)
       }
     } catch(err) {
       setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
