@@ -2703,21 +2703,7 @@ function AnalyzerPage() {
       return
     }
 
-    // ── TEXT MODE, no API key — local smart mode ──
-    if (!OPENAI_API_KEY || OPENAI_API_KEY === "YOUR_OPENAI_KEY_HERE") {
-      setIsDemo(true)
-      setAnalysisData(getLocalAnalysis(textInput))
-      setAnalyzing(true); setProgress(0); setCurrentStep(0)
-      let p=0
-      const iv = setInterval(()=>{
-        p += Math.random()*14+4
-        setCurrentStep(Math.min(Math.floor((p/100)*STEPS.length), STEPS.length-1))
-        if(p>=100){ p=100; clearInterval(iv); setTimeout(()=>{ setAnalyzing(false); setDone(true) },400) }
-        setProgress(Math.min(p,100))
-      },220)
-      return
-    }
-    setIsDemo(false)
+        setIsDemo(false)
 
     // Live AI mode
     const description = mode==="C" && textInput.trim()
