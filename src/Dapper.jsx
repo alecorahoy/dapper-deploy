@@ -2599,7 +2599,7 @@ function getBestShoesForSuit(suitColor) {
 // ─────────────────────────────────────────────
 
 function AnalyzerPage() {
-  const { analyzeOutfit, isAnalyzing: isVisionAnalyzing } = useClaudeVision()
+  const { analyzeOutfit, analyzeText, isAnalyzing: isVisionAnalyzing } = useClaudeVision()
   const [mode, setMode]               = useState("A")
   const [analyzing, setAnalyzing]     = useState(false)
   const [done, setDone]               = useState(false)
@@ -2647,7 +2647,7 @@ function AnalyzerPage() {
     "Finalizing style intelligence…",
   ]
 
-  const SYSTEM_PROMPT = `You are a menswear expert. Return ONLY raw JSON no markdown no backticks. Structure: {"suit":{"colorFamily":"string","fabric":"string","pattern":"string","formality":"string"},"shirts":[{"id":1,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"}]},{"id":2,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"}]},{"id":3,"name":"string","colorCode":"#hex","why":"string","collar":"string","pattern":"string","pocketSquare":{"name":"string","fold":"string","material":"string"},"ties":[{"id":1,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":2,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"},{"id":3,"name":"string","color":"#hex","pattern":"string","material":"string","width":"string","knot":"string","harmony":"string","why":"string"}]}],"packages":[{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":3,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":4,"tip":"string","shirtColor":"#hex","tieColor":"#hex"},{"name":"string","suit":"string","shirt":"string","tie":"string","pocketSquare":"string","shoes":"string","belt":"string","socks":"string","watch":"string","occasion":"string","archetype":"string","confidence":3,"tip":"string","shirtColor":"#hex","tieColor":"#hex"}],"styleMantra":"string"}`
+  const SYSTEM_PROMPT = "" // removed — text mode uses lightweight analyzeText()
 
   const runAnalysis = async () => {
     setKeyError("")
@@ -2720,28 +2720,16 @@ function AnalyzerPage() {
 
     try {
 
-      const res = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 4000,
-          system: SYSTEM_PROMPT,
-          messages: [{ role: "user", content: description }]
-        })
-      })
-
-      if (res.ok) {
-        const json = await res.json()
-        const raw = json?.content?.[0]?.text || ""
-        try {
-          const jsonMatch = raw.match(/\{[\s\S]*\}/); const cleaned = jsonMatch ? jsonMatch[0] : raw.trim()
-          const parsed = JSON.parse(cleaned)
-          if (parsed?.suit && parsed?.shirts) { setAnalysisData(parsed); setIsDemo(false) }
-          else { setAnalysisData(getLocalAnalysis(description)); setIsDemo(true) }
-        } catch(e) { setAnalysisData(getLocalAnalysis(description)); setIsDemo(true) }
+      // Lightweight AI: Claude parses color+pattern only (~1s), local engine does the rest
+      const aiResult = await analyzeText(description)
+      if (aiResult.success && aiResult.colorKey) {
+        const aiDesc = aiResult.colorKey + " " + (aiResult.patternKey || "solid").replace(/_/g, " ") + " " + (aiResult.fabric || "")
+        console.log("[Dapper Text] AI parsed:", aiDesc)
+        setAnalysisData(getLocalAnalysis(aiDesc))
+        setIsDemo(false)
       } else {
-        setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
+        setAnalysisData(getLocalAnalysis(description))
+        setIsDemo(true)
       }
     } catch(err) {
       setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
