@@ -18,8 +18,8 @@ export default async function handler(req) {
   try {
     const body = await req.json()
 
-    // Force small max_tokens to avoid timeout
-    if (body.max_tokens > 2000) body.max_tokens = 2000
+    // Cap at 4000 — exotic analysis needs up to 4000 tokens
+    if (body.max_tokens > 4000) body.max_tokens = 4000
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
