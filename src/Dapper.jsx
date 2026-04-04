@@ -2735,35 +2735,26 @@ function AnalyzerPage() {
 
     try {
 
-      const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      const res = await fetch("/api/analyze", {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${OPENAI_API_KEY}`,
-          "content-type": "application/json",
-        },
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
+          model: "claude-haiku-4-5-20251001",
           max_tokens: 4000,
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: description }
-          ]
+          system: SYSTEM_PROMPT,
+          messages: [{ role: "user", content: description }]
         })
       })
 
       if (res.ok) {
         const json = await res.json()
-        const raw = json?.choices?.[0]?.message?.content || ""
+        const raw = json?.content?.[0]?.text || ""
         try {
-          // Strip markdown code fences GPT sometimes adds despite instructions
-          const cleaned = raw.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim()
+          const cleaned = raw.trim().replace(/^```(?:json)?s*/i, "").replace(/s*```$/i, "").trim()
           const parsed = JSON.parse(cleaned)
           if (parsed?.suit && parsed?.shirts) { setAnalysisData(parsed); setIsDemo(false) }
           else { setAnalysisData(getLocalAnalysis(description)); setIsDemo(true) }
         } catch(e) { setAnalysisData(getLocalAnalysis(description)); setIsDemo(true) }
-      } else if (res.status === 401) {
-        setKeyError("Invalid API key — check platform.openai.com/api-keys")
-        setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
       } else {
         setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
       }
