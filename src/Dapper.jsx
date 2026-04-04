@@ -14,7 +14,7 @@ import {
 // ─────────────────────────────────────────────
 // OPENAI API KEY — paste yours here
 // ─────────────────────────────────────────────
-const OPENAI_API_KEY = "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"
+const OPENAI_API_KEY = ""
 
 // ─────────────────────────────────────────────
 // MOCK DATA (used as fallback / demo mode)
