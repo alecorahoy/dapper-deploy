@@ -2750,7 +2750,7 @@ function AnalyzerPage() {
         const json = await res.json()
         const raw = json?.content?.[0]?.text || ""
         try {
-          const cleaned = raw.trim().replace(/^```(?:json)?s*/i, "").replace(/s*```$/i, "").trim()
+          const cleaned = raw.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim()
           const parsed = JSON.parse(cleaned)
           if (parsed?.suit && parsed?.shirts) { setAnalysisData(parsed); setIsDemo(false) }
           else { setAnalysisData(getLocalAnalysis(description)); setIsDemo(true) }
