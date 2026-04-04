@@ -2606,6 +2606,7 @@ function AnalyzerPage() {
   const [progress, setProgress]       = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [shirtIdx, setShirtIdx]       = useState(0)
+  const [comboAssessment, setComboAssessment] = useState(null)
   const [tieIdx, setTieIdx]           = useState(null)
   const [pkgIdx, setPkgIdx]           = useState(null)
   const [textInput, setTextInput]     = useState("")
@@ -2727,8 +2728,20 @@ function AnalyzerPage() {
         console.log("[Dapper Text] AI parsed:", aiDesc)
         setAnalysisData(getLocalAnalysis(aiDesc))
         setIsDemo(false)
+        // Store combo assessment if user mentioned tie/shirt
+        if (aiResult.assessment) {
+          setComboAssessment({
+            assessment: aiResult.assessment,
+            tie: aiResult.tie,
+            shirt: aiResult.shirt,
+            suitColor: aiResult.colorKey
+          })
+        } else {
+          setComboAssessment(null)
+        }
       } else {
         setAnalysisData(getLocalAnalysis(description))
+        setComboAssessment(null)
         setIsDemo(true)
       }
     } catch(err) {
@@ -2893,7 +2906,7 @@ function AnalyzerPage() {
                   : <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:GOLD}}>✦ AI Analysis</span>
               }
             </div>
-            <button onClick={()=>{setDone(false);setShirtIdx(0);setTieIdx(null);setPkgIdx(null);setPhotoResult(null);setShirtPhotoResult(null);setSuitPhoto(null);setShirtPhoto(null);setCorrecting(false);setCorrection({color:'',pattern:'',fabric:''});setCorrectingShirt(false);setShirtCorrection({color:'',pattern:''})}} className="text-sm text-gray-400 hover:text-gray-600 underline">← New Analysis</button>
+            <button onClick={()=>{setDone(false);setShirtIdx(0);setTieIdx(null);setPkgIdx(null);setComboAssessment(null);setPhotoResult(null);setShirtPhotoResult(null);setSuitPhoto(null);setShirtPhoto(null);setCorrecting(false);setCorrection({color:'',pattern:'',fabric:''});setCorrectingShirt(false);setShirtCorrection({color:'',pattern:''})}} className="text-sm text-gray-400 hover:text-gray-600 underline">← New Analysis</button>
           </div>
 
           {/* Photo detected results — with correction UI */}
@@ -3191,6 +3204,21 @@ function AnalyzerPage() {
             ) : (
               /* ── NO SHIRT PHOTO: Show recommended shirts to choose from ── */
               <>
+                {/* Combo Assessment — shown when user described a specific combination */}
+                {comboAssessment && (
+                  <div className="rounded-2xl p-4 mb-4" style={{background:"linear-gradient(135deg,#1a1207,#2a1f0a)",border:"1px solid rgba(201,168,76,0.3)"}}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">🎯</span>
+                      <span className="text-xs font-black tracking-wider" style={{color:"#C9A84C"}}>YOUR COMBINATION</span>
+                    </div>
+                    <div className="flex gap-2 mb-3">
+                      <span className="px-3 py-1 rounded-full text-xs font-bold" style={{background:"rgba(201,168,76,0.15)",color:"#C9A84C",border:"1px solid rgba(201,168,76,0.25)",textTransform:"capitalize"}}>{comboAssessment.suitColor} suit</span>
+                      {comboAssessment.tie && <span className="px-3 py-1 rounded-full text-xs font-bold" style={{background:"rgba(201,168,76,0.15)",color:"#C9A84C",border:"1px solid rgba(201,168,76,0.25)",textTransform:"capitalize"}}>{comboAssessment.tie.color} {comboAssessment.tie.pattern} tie</span>}
+                      {comboAssessment.shirt && <span className="px-3 py-1 rounded-full text-xs font-bold" style={{background:"rgba(201,168,76,0.15)",color:"#C9A84C",border:"1px solid rgba(201,168,76,0.25)",textTransform:"capitalize"}}>{comboAssessment.shirt.color} shirt</span>}
+                    </div>
+                    <p className="text-sm leading-relaxed" style={{color:"#e8dcc8"}}>{comboAssessment.assessment}</p>
+                  </div>
+                )}
                 <SectionLabel n={2} label="Recommended Shirts"/>
                 <div className="grid grid-cols-3 gap-3 mb-3">
                   {analysisData.shirts.map((s,i)=>(

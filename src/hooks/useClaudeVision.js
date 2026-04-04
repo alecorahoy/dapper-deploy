@@ -26,12 +26,14 @@ const VISION_USER_PROMPT = `Analyze this outfit photograph. Identify every visib
 
 Be precise. Use professional menswear vocabulary. Return ONLY the JSON object.`
 
-const TEXT_SYSTEM_PROMPT = `You extract suit attributes from text descriptions. Return ONLY valid JSON, no markdown, no backticks, no explanation.`
+const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
-const TEXT_USER_PROMPT = (userText) => `Extract the suit color, pattern, and fabric from this description. Map the color to one of these exact keys: black, charcoal, navy, grey, blue, burgundy, brown, beige. Map the pattern to one of these exact keys: solid, chalk_stripe, glen_plaid, herringbone, tweed, linen. If unsure, default to solid.
+const TEXT_USER_PROMPT = (userText) => `Extract ALL garments mentioned from this description. Map suit color to: black, charcoal, navy, grey, blue, burgundy, brown, beige. Map pattern to: solid, chalk_stripe, glen_plaid, herringbone, tweed, linen.
 
-Return ONLY this JSON:
-{"color":"navy","pattern":"solid","fabric":"worsted wool"}
+If a tie or shirt is mentioned, include them. If multiple items are described, provide a brief "assessment" evaluating the combination (1-2 sentences, expert menswear advice).
+
+Return ONLY this JSON (set tie/shirt to null if not mentioned):
+{"suit":{"color":"navy","pattern":"solid","fabric":"worsted wool"},"tie":{"color":"black","pattern":"solid"},"shirt":{"color":"white","pattern":"solid"},"assessment":null}
 
 Description: "${userText}"`
 
@@ -167,7 +169,7 @@ export function useClaudeVision() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
-          max_tokens: 100,
+          max_tokens: 250,
           system: TEXT_SYSTEM_PROMPT,
           messages: [{ role: 'user', content: TEXT_USER_PROMPT(userText) }],
         }),
@@ -181,11 +183,16 @@ export function useClaudeVision() {
       const cleanText = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
       const parsed = JSON.parse(cleanText)
       console.log('[Dapper Text] Parsed:', parsed)
-      const colorKey = normalizeColor(parsed.color) || 'navy'
-      const patternKey = (parsed.pattern || 'solid').toLowerCase().replace(/ /g, '_')
-      const fabric = parsed.fabric || 'worsted wool'
+      const suit = parsed.suit || parsed
+      const colorKey = normalizeColor(suit.color) || 'navy'
+      const patternKey = (suit.pattern || 'solid').toLowerCase().replace(/ /g, '_')
+      const fabric = suit.fabric || 'worsted wool'
+      const tie = parsed.tie || null
+      const shirt = parsed.shirt || null
+      const assessment = parsed.assessment || null
+      console.log('[Dapper Text] Combo:', { colorKey, patternKey, tie, shirt, assessment })
       setIsAnalyzing(false)
-      return { success: true, colorKey, patternKey, fabric }
+      return { success: true, colorKey, patternKey, fabric, tie, shirt, assessment }
     } catch (err) {
       console.error('[Dapper Text] Error:', err)
       setError(err.message)
