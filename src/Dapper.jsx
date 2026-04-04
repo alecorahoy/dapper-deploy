@@ -3646,8 +3646,8 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-5 pb-4 flex-shrink-0" style={{borderBottom:"1px solid #f1f5f9"}}>
           <div>
-            <h2 className="text-xl font-black text-gray-900">Registrar Outfit</h2>
-            <p className="text-xs text-gray-400 mt-0.5">¿Qué te pusiste hoy?</p>
+            <h2 className="text-xl font-black text-gray-900">Log Outfit</h2>
+            <p className="text-xs text-gray-400 mt-0.5">What did you wear today?</p>
           </div>
           <button onClick={onClose}><X size={20} className="text-gray-300"/></button>
         </div>
@@ -3657,7 +3657,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── PHOTO UPLOAD ── */}
           <div>
-            <Label>Foto del outfit <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Outfit Photo <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
             {form.photo ? (
               /* Preview */
               <div className="relative mt-1 rounded-2xl overflow-hidden" style={{height:"200px"}}>
@@ -3694,9 +3694,9 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
                 <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style={{background:"#f1f5f9"}}>
                   <Camera size={26} className="text-gray-300"/>
                 </div>
-                <div className="text-sm font-black text-gray-500 mb-1">Sube una foto de tu look</div>
-                <div className="text-xs text-gray-300">Toca para seleccionar · o arrastra aquí</div>
-                <div className="text-xs text-gray-200 mt-1">JPG, PNG, WEBP · máx. 10 MB</div>
+                <div className="text-sm font-black text-gray-500 mb-1">Upload a photo of your look</div>
+                <div className="text-xs text-gray-300">Tap to select · or drag here</div>
+                <div className="text-xs text-gray-200 mt-1">JPG, PNG, WEBP · max. 10 MB</div>
                 <input type="file" accept="image/*" className="hidden" onChange={handlePhotoInput}/>
               </label>
             )}
@@ -3704,7 +3704,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── DATE ── */}
           <div>
-            <Label>Fecha</Label>
+            <Label>Date</Label>
             <input type="date" value={form.date} onChange={e=>set("date",e.target.value)}
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
@@ -3713,7 +3713,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── SUIT ── */}
           <div>
-            <Label>Traje / Blazer</Label>
+            <Label>Suit / Blazer</Label>
             <input value={form.suit} onChange={e=>set("suit",e.target.value)}
               list="suits-list" placeholder="ej. Navy Chalk Stripe"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
@@ -3743,7 +3743,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── SHIRT ── */}
           <div>
-            <Label>Camisa</Label>
+            <Label>Shirt</Label>
             <input value={form.shirt} onChange={e=>set("shirt",e.target.value)}
               list="shirts-list" placeholder="ej. Crisp White Poplin"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
@@ -3787,7 +3787,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── OCCASION ── */}
           <div>
-            <Label>Ocasión</Label>
+            <Label>Occasion</Label>
             <input value={form.occasion} onChange={e=>set("occasion",e.target.value)}
               placeholder="ej. Board Meeting, cena, entrevista…"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
@@ -3799,7 +3799,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           <div>
             <Label>Notas <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
             <textarea value={form.notes} onChange={e=>set("notes",e.target.value)}
-              placeholder="¿Cómo te fue? ¿Algún comentario del look?"
+              placeholder="How did it go? Any notes on the look?"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none resize-none"
               style={{borderColor:"#f1f5f9"}} rows={2}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -3875,7 +3875,7 @@ function CalendarPage({ closetItems, user }) {
         <button onClick={()=>{setLogDate(TODAY);setShowLog(true)}}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-black text-white transition-all hover:opacity-90"
           style={{background:`linear-gradient(135deg,${NAVY},#1e3a5f)`}}>
-          <Plus size={15}/> Registrar hoy
+          <Plus size={15}/> Log Today
         </button>
       </div>
 
@@ -3994,7 +3994,7 @@ function CalendarPage({ closetItems, user }) {
 
             {/* Upcoming */}
             <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
-              <h3 className="font-black text-sm text-gray-800 mb-3">Próximas Ocasiones</h3>
+              <h3 className="font-black text-sm text-gray-800 mb-3">Upcoming Occasions</h3>
               <div className="space-y-3">
                 {upcoming.map(([k,evt])=>{
                   const d=parseInt(k.split("-")[2])
