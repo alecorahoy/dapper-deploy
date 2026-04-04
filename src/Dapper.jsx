@@ -1967,17 +1967,6 @@ function getAnalysisFromPhotoResult(result) {
   if (!result) return ANALYSIS
 
   // Map color key to base analysis
-  const baseMap = {
-    black:      ANALYSIS_BLACK,
-    charcoal:   ANALYSIS_CHARCOAL,
-    navy:       ANALYSIS,
-    grey:       ANALYSIS_GREY,
-    light_grey: ANALYSIS_LIGHT_GREY,
-    blue:       ANALYSIS_BLUE,
-    burgundy:   ANALYSIS_BURGUNDY,
-    brown:      ANALYSIS_BROWN,
-    beige:      ANALYSIS_BEIGE,
-  }
 
   // Map detected pattern string to matrix key
   const patternToKey = {
@@ -2040,7 +2029,13 @@ function getLocalAnalysis(text) {
 
   // Detect color (with match tracking)
   let colorKey = "navy"
-  let colorMatched = false
+  const baseMap = {
+    black: ANALYSIS_BLACK, charcoal: ANALYSIS_CHARCOAL, navy: ANALYSIS,
+    grey: ANALYSIS_GREY, blue: ANALYSIS_BLUE, burgundy: ANALYSIS_BURGUNDY,
+    brown: ANALYSIS_BROWN, beige: ANALYSIS_BEIGE,
+    green: ANALYSIS, white: ANALYSIS, purple: ANALYSIS, red: ANALYSIS,
+  }
+    let colorMatched = false
   if (/black/.test(t))                                                      { colorKey = "black"; colorMatched = true }
   else if (/charcoal|dark[\s-]?gr[ae]y/.test(t))                          { colorKey = "charcoal"; colorMatched = true }
   else if (/navy|midnight blue|dark blue/.test(t))                         { colorKey = "navy"; colorMatched = true }
@@ -2076,11 +2071,6 @@ function getLocalAnalysis(text) {
   if (colorMatched || patternMatched) return { ...(baseMap[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
 
   // Fallback to base analysis
-  const baseMap = {
-    black: ANALYSIS_BLACK, charcoal: ANALYSIS_CHARCOAL, navy: ANALYSIS,
-    grey: ANALYSIS_GREY, blue: ANALYSIS_BLUE, burgundy: ANALYSIS_BURGUNDY,
-    brown: ANALYSIS_BROWN, beige: ANALYSIS_BEIGE,
-  }
   return { ...(baseMap[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
 }
 
