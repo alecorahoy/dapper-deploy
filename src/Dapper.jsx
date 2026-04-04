@@ -3808,11 +3808,11 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
         {/* Footer */}
         <div className="px-6 py-4 flex gap-3 flex-shrink-0" style={{borderTop:"1px solid #f1f5f9"}}>
-          <button onClick={onClose} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancelar</button>
+          <button onClick={onClose} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
           <button onClick={handleSave} disabled={!form.suit.trim()}
             className="flex-1 py-3 rounded-xl text-sm font-black text-white disabled:opacity-40 transition-all"
             style={{background:NAVY}}>
-            {form.photo ? "Guardar Look 📸" : "Guardar Look"}
+            {form.photo ? "Save Look 📸" : "Save Look"}
           </button>
         </div>
       </div>
