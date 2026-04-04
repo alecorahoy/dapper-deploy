@@ -2038,29 +2038,42 @@ const COLOR_FAMILY_LABELS = {
 function getLocalAnalysis(text) {
   const t = text.toLowerCase()
 
-  // Detect color
+  // Detect color (with match tracking)
   let colorKey = "navy"
-  if (/black/.test(t))                                                      colorKey = "black"
-  else if (/charcoal|dark[\s-]?gr[ae]y/.test(t))                          colorKey = "charcoal"
-  else if (/navy|midnight blue|dark blue/.test(t))                         colorKey = "navy"
-  else if (/light[\s-]?gr[ae]y|pale gr[ae]y|silver gr[ae]y/.test(t))    colorKey = "grey"
-  else if (/medium gr[ae]y|gr[ae]y|grey/.test(t))                         colorKey = "grey"
-  else if (/burgundy|oxblood|wine suit|maroon|claret/.test(t))            colorKey = "burgundy"
-  else if (/beige|camel|tan suit|sand suit|ivory suit|cream suit/.test(t)) colorKey = "beige"
-  else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  colorKey = "brown"
-  else if (/royal blue|bright blue|cobalt|electric blue|blue/.test(t))    colorKey = "blue"
+  let colorMatched = false
+  if (/black/.test(t))                                                      { colorKey = "black"; colorMatched = true }
+  else if (/charcoal|dark[\s-]?gr[ae]y/.test(t))                          { colorKey = "charcoal"; colorMatched = true }
+  else if (/navy|midnight blue|dark blue/.test(t))                         { colorKey = "navy"; colorMatched = true }
+  else if (/light[\s-]?gr[ae]y|pale gr[ae]y|silver gr[ae]y/.test(t))    { colorKey = "grey"; colorMatched = true }
+  else if (/medium gr[ae]y|gr[ae]y|grey/.test(t))                         { colorKey = "grey"; colorMatched = true }
+  else if (/burgundy|oxblood|wine suit|maroon|claret/.test(t))            { colorKey = "burgundy"; colorMatched = true }
+  else if (/beige|camel|tan suit|sand suit|ivory suit|cream suit/.test(t)) { colorKey = "beige"; colorMatched = true }
+  else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
+  else if (/royal blue|bright blue|cobalt|electric blue|blue/.test(t))    { colorKey = "blue"; colorMatched = true }
+  else if (/green|olive|sage|forest|hunter|emerald|moss|teal/.test(t))    { colorKey = "green"; colorMatched = true }
+  else if (/white|cream|ivory|off.white|oyster|ecru/.test(t))             { colorKey = "white"; colorMatched = true }
+  else if (/purple|violet|plum|eggplant|lavender/.test(t))                { colorKey = "purple"; colorMatched = true }
+  else if (/red|crimson|scarlet|rust|orange|terracotta/.test(t))          { colorKey = "red"; colorMatched = true }
 
-  // Detect pattern
+  // Detect pattern (with match tracking)
   let patternKey = "solid"
-  if (/linen/.test(t))                                                      patternKey = "linen"
-  else if (/chalk stripe|pinstripe|pin stripe/.test(t))                    patternKey = "chalk_stripe"
-  else if (/glen plaid|windowpane|window pane|plaid|check/.test(t))       patternKey = "glen_plaid"
-  else if (/herringbone|herring bone/.test(t))                             patternKey = "herringbone"
-  else if (/tweed|donegal|harris/.test(t))                                 patternKey = "tweed"
+  let patternMatched = /solid/.test(t)
+  if (/linen/.test(t))                                                      { patternKey = "linen"; patternMatched = true }
+  else if (/chalk stripe|pinstripe|pin stripe/.test(t))                    { patternKey = "chalk_stripe"; patternMatched = true }
+  else if (/glen plaid|windowpane|window pane|plaid|check/.test(t))       { patternKey = "glen_plaid"; patternMatched = true }
+  else if (/herringbone|herring bone/.test(t))                             { patternKey = "herringbone"; patternMatched = true }
+  else if (/tweed|donegal|harris/.test(t))                                 { patternKey = "tweed"; patternMatched = true }
+  else if (/houndstooth|hounds tooth/.test(t))                             { patternKey = "houndstooth"; patternMatched = true }
+  else if (/birdseye|bird.s eye|nailhead/.test(t))                        { patternKey = "birdseye"; patternMatched = true }
+  else if (/seersucker/.test(t))                                           { patternKey = "seersucker"; patternMatched = true }
+  else if (/flannel/.test(t))                                              { patternKey = "flannel"; patternMatched = true }
+  else if (/stripe/.test(t))                                               { patternKey = "chalk_stripe"; patternMatched = true }
 
   // Lookup in matrix
   const matrixKey = colorKey + "|" + patternKey
   if (PATTERN_MATRIX[matrixKey]) return { ...PATTERN_MATRIX[matrixKey], _isMatrixMatch: true }
+  // Color or pattern detected but not in matrix — exotic combo
+  if (colorMatched || patternMatched) return { ...(baseMap[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
 
   // Fallback to base analysis
   const baseMap = {
