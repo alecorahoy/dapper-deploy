@@ -221,9 +221,33 @@ Use professional menswear vocabulary. Be specific with hex colors. User descript
       if (!response.ok) throw new Error('API error: ' + response.status)
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
-      const cleanText = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+      const cleanText = rawText
+        .replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
       const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
-      const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleanText)
+      const jsonStr = jsonMatch ? jsonMatch[0] : cleanText
+      // Sanitize common Claude JSON mistakes before parsing
+      const sanitized = jsonStr
+        .replace(/,\s*([}\]])/g, '$1')           // trailing commas
+        .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '') // control chars
+        .replace(/"([^"]*)"\s*:/g, (m, k) => `"${k}":`) // normalize keys
+      let parsed
+      try {
+        parsed = JSON.parse(sanitized)
+      } catch(parseErr) {
+        // Last resort: extract just shirts and packages arrays
+        console.warn('[Dapper Exotic] Full parse failed, trying extraction...')
+        const suitM = sanitized.match(/"suit"\s*:\s*(\{[^{}]*\})/)
+        const shirtsM = sanitized.match(/"shirts"\s*:\s*(\[[\s\S]*?\])\s*,\s*"packages"/)
+        const packagesM = sanitized.match(/"packages"\s*:\s*(\[[\s\S]*?\])\s*,?\s*"styleMantra"/)
+        const mantraM = sanitized.match(/"styleMantra"\s*:\s*"([^"]*)"/)
+        if (!shirtsM) throw parseErr
+        parsed = {
+          suit: suitM ? JSON.parse(suitM[1]) : { colorFamily: "green", fabric: "wool", pattern: "houndstooth", formality: "business casual", lapel: "notch", fit: "classic" },
+          shirts: JSON.parse(shirtsM[1]),
+          packages: packagesM ? JSON.parse(packagesM[1]) : [],
+          styleMantra: mantraM ? mantraM[1] : "Command the room with confidence."
+        }
+      }
       if (parsed?.suit && parsed?.shirts) {
         console.log('[Dapper Exotic] Success — AI generated', parsed.shirts.length, 'shirts')
         setIsAnalyzing(false)
