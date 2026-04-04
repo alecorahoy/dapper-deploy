@@ -1,4 +1,4 @@
-export const config = { runtime: 'nodejs', maxDuration: 60 }
+export const config = { runtime: 'edge' }
 
 export default async function handler(req) {
   if (req.method === 'OPTIONS') {
@@ -17,6 +17,10 @@ export default async function handler(req) {
 
   try {
     const body = await req.json()
+
+    // Force small max_tokens to avoid timeout
+    if (body.max_tokens > 2000) body.max_tokens = 2000
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
