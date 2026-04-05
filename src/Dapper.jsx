@@ -3711,7 +3711,6 @@ function AnalyzerPage() {
   const [pkgIdx, setPkgIdx]           = useState(null)
   const [textInput, setTextInput]     = useState("")
   const [analysisData, setAnalysisData] = useState(ANALYSIS)
-  useEffect(() => { setShirtIdx(0) }, [analysisData])
   const [keyError, setKeyError]       = useState("")
   const [isDemo, setIsDemo]           = useState(false)
   const [occasion, setOccasion]       = useState("All")
@@ -3887,7 +3886,7 @@ function AnalyzerPage() {
     }
   }
 
-  const shirt = analysisData?.shirts?.[shirtIdx] ?? analysisData?.shirts?.[0]
+  const shirt = analysisData?.shirts?.[shirtIdx] ?? analysisData?.shirts?.[0] ?? {}
 
   return (
     <div className="max-w-3xl mx-auto">
