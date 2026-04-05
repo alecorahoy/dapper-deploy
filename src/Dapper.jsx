@@ -4356,7 +4356,7 @@ function AnalyzerPage() {
                 )}
                 <SectionLabel n={2} label="Recommended Shirts"/>
                 <div className="grid grid-cols-3 gap-3 mb-3">
-                  {analysisData.shirts.map((s,i)=>(
+                  {(analysisData.shirts || []).map((s,i)=>(
                     <button key={s.id} onClick={()=>{setShirtIdx(i);setTieIdx(null)}}
                       className="p-3 rounded-xl border-2 text-left transition-all bg-white"
                       style={shirtIdx===i?{borderColor:GOLD,boxShadow:"0 2px 12px rgba(201,168,76,0.2)"}:{borderColor:"#f1f5f9"}}>
