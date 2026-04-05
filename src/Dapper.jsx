@@ -1310,6 +1310,7 @@ function classifyShirtPattern(shirtName) {
 }
 
 function filterTiesForSuitAndShirt(ties, suitPatternKey, shirtName) {
+  if (!ties || !ties.length) return []
   const shirtPatternKey = classifyShirtPattern(shirtName)
 
   return ties.map(tie => {
@@ -4375,7 +4376,7 @@ function AnalyzerPage() {
             <SectionLabel n={3} label={`Tie Pairings for "${shirt.name}"`}/>
             {(() => {
               const suitPatKey = getSuitPatternKey(analysisData.suit.pattern)
-              const scoredTies = filterTiesForSuitAndShirt(shirt.ties, suitPatKey, shirt.name)
+              const scoredTies = filterTiesForSuitAndShirt(shirt.ties || [], suitPatKey, shirt.name)
               const hasBadTies = scoredTies.some(t => t.isAvoidable)
               return (
                 <>
