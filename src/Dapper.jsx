@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
 import { useCloset, useWornLog, useCalendarEvents } from './hooks/useFirestore.js'
@@ -3707,7 +3707,7 @@ function AnalyzerPage() {
   const [currentStep, setCurrentStep] = useState(0)
   const [shirtIdx, setShirtIdx]       = useState(0)
   // Reset shirt selection when analysis data changes
-  React.useEffect(() => { setShirtIdx(0) }, [analysisData])
+  useEffect(() => { setShirtIdx(0) }, [analysisData])
   const [comboAssessment, setComboAssessment] = useState(null)
   const [tieIdx, setTieIdx]           = useState(null)
   const [pkgIdx, setPkgIdx]           = useState(null)
