@@ -3706,6 +3706,8 @@ function AnalyzerPage() {
   const [progress, setProgress]       = useState(0)
   const [currentStep, setCurrentStep] = useState(0)
   const [shirtIdx, setShirtIdx]       = useState(0)
+  // Reset shirt selection when analysis data changes
+  React.useEffect(() => { setShirtIdx(0) }, [analysisData])
   const [comboAssessment, setComboAssessment] = useState(null)
   const [tieIdx, setTieIdx]           = useState(null)
   const [pkgIdx, setPkgIdx]           = useState(null)
@@ -3886,7 +3888,7 @@ function AnalyzerPage() {
     }
   }
 
-  const shirt = analysisData.shirts[shirtIdx]
+  const shirt = analysisData?.shirts?.[shirtIdx] ?? analysisData?.shirts?.[0]
 
   return (
     <div className="max-w-3xl mx-auto">
