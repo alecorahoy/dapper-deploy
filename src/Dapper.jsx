@@ -4375,7 +4375,8 @@ function AnalyzerPage() {
             {/* Tie selector — Pattern Intelligence */}
             <SectionLabel n={3} label={`Tie Pairings for "${shirt.name}"`}/>
             {(() => {
-              const suitPatKey = getSuitPatternKey(analysisData.suit.pattern)
+              if (!shirt || !shirt.ties) return null
+              const suitPatKey = getSuitPatternKey(analysisData.suit?.pattern || '')
               const scoredTies = filterTiesForSuitAndShirt(shirt.ties || [], suitPatKey, shirt.name)
               const hasBadTies = scoredTies.some(t => t.isAvoidable)
               return (
