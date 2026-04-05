@@ -4256,7 +4256,7 @@ function AnalyzerPage() {
                 </div>
                 <h3 className="text-xl font-black text-gray-900">{analysisData.suit.colorFamily}</h3>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1 mt-3 text-xs">
-                  {[["Fabric",analysisData.suit.fabric],["Pattern",analysisData.suit.pattern],["Lapel",analysisData.suit.lapel],["Fit",analysisData.suit.fit],["Undertones",analysisData.suit.undertones]].map(([k,v])=>(
+                  {[["Fabric",analysisData?.suit?.fabric],["Pattern",analysisData?.suit?.pattern],["Lapel",analysisData?.suit?.lapel],["Fit",analysisData?.suit?.fit],["Undertones",analysisData?.suit?.undertones]].filter(([k,v])=>v).map(([k,v])=>(
                     <div key={k}><span className="text-gray-400">{k}: </span><span className="text-gray-700 font-semibold">{v}</span></div>
                   ))}
                 </div>
@@ -4396,7 +4396,7 @@ function AnalyzerPage() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 mb-4">
-                    {scoredTies.map((tie,i)=>(
+                    {(scoredTies || []).map((tie,i)=>(
                       <button key={tie.id} onClick={()=>setTieIdx(tieIdx===i?null:i)}
                         className="p-3 rounded-xl border-2 text-left bg-white transition-all relative"
                         style={tieIdx===i
@@ -4427,7 +4427,7 @@ function AnalyzerPage() {
                           </div>
                         </div>
                         <div className="flex gap-1 flex-wrap">
-                          {[tie.harmony,tie.knot,tie.width].map(t=>(
+                          {[tie?.harmony,tie?.knot,tie?.width].filter(Boolean).map(t=>(
                             <span key={t} className="text-xs px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-500">{t}</span>
                           ))}
                         </div>
@@ -4495,7 +4495,7 @@ function AnalyzerPage() {
                   <button className="w-full p-4 text-left flex items-center justify-between" onClick={()=>setPkgIdx(pkgIdx===i?null:i)}>
                     <div className="flex items-center gap-3">
                       <div className="flex -space-x-2">
-                        {[NAVY,pkg.shirtColor,pkg.tieColor].map((c,j)=>(
+                        {[NAVY,pkg?.shirtColor,pkg?.tieColor].filter(Boolean).map((c,j)=>(
                           <div key={j} className="w-7 h-7 rounded-full border-2 border-white" style={{background:c,zIndex:3-j}}/>
                         ))}
                       </div>
@@ -4509,7 +4509,7 @@ function AnalyzerPage() {
                   {pkgIdx===i && (
                     <div className="px-4 pb-4 border-t border-gray-50 pt-3">
                       <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-xs mb-3">
-                        {[["Suit",pkg.suit],["Shirt",pkg.shirt],["Tie",pkg.tie],["Pocket Square",pkg.pocketSquare],["Shoes",pkg.shoes],["Belt",pkg.belt],["Socks",pkg.socks],["Watch",pkg.watch]].map(([k,v])=>(
+                        {[["Suit",pkg?.suit],["Shirt",pkg?.shirt],["Tie",pkg?.tie],["Pocket Square",pkg?.pocketSquare],["Shoes",pkg?.shoes],["Belt",pkg?.belt],["Socks",pkg?.socks],["Watch",pkg?.watch]].filter(([k,v])=>v).map(([k,v])=>(
                           <div key={k}><span className="text-gray-400">{k}: </span><span className="text-gray-700 font-semibold">{v}</span></div>
                         ))}
                       </div>
