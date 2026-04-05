@@ -3033,7 +3033,7 @@ function buildPatternEntry(baseAnalysis, colorKey, patternKey, meta, colorLabel)
       formality: meta.formality,
     },
     shirts: baseAnalysis.shirts,
-    packages: baseAnalysis.packages.map(p => ({
+    packages: (baseAnalysis.packages || []).map(p => ({
       ...p,
       suit: `${colorLabel} ${patternDisplayMap[patternKey]}`,
       tip: patternKey === "solid" ? p.tip :
@@ -3399,7 +3399,7 @@ function filterByOccasion(analysisObj, occasion) {
   if (!re) return analysisObj
 
   // 1 — Try hand-crafted packages first
-  const filtered = analysisObj.packages.filter(p => re.test(p.occasion))
+  const filtered = (analysisObj.packages || []).filter(p => re.test(p.occasion))
   if (filtered.length > 0) return { ...analysisObj, packages: filtered }
 
   // 2 — Fall back to OUTFIT_DB (thousands of local combos, no AI needed)
@@ -4489,7 +4489,7 @@ function AnalyzerPage() {
               )}
             </div>
             <div className="space-y-2">
-              {filterByOccasion(analysisData, occasion).packages.map((pkg,i)=>(
+              {(filterByOccasion(analysisData, occasion).packages || []).map((pkg,i)=>(
                 <div key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden">
                   <button className="w-full p-4 text-left flex items-center justify-between" onClick={()=>setPkgIdx(pkgIdx===i?null:i)}>
                     <div className="flex items-center gap-3">
