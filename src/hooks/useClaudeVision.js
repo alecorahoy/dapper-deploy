@@ -28,7 +28,7 @@ Be precise. Use professional menswear vocabulary. Return ONLY the JSON object.`
 
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
-const TEXT_USER_PROMPT = (userText) => `Extract ALL garments mentioned from this description. Map suit color to: black, charcoal, navy, grey, blue, burgundy, brown, beige. Map pattern to: solid, chalk_stripe, glen_plaid, herringbone, tweed, linen.
+const TEXT_USER_PROMPT = (userText) => `Extract ALL garments mentioned from this description. Map suit color to: black, charcoal, navy, grey, blue, burgundy, brown, beige, green, white, purple, red. Map pattern to: solid, chalk_stripe, glen_plaid, herringbone, tweed, linen.
 
 If a tie or shirt is mentioned, include them. If multiple items are described, provide a brief "assessment" evaluating the combination (1-2 sentences, expert menswear advice).
 
@@ -71,6 +71,9 @@ const normalizeColor = (claudeColor) => {
   if (c.includes('white') || c.includes('cream') || c.includes('ivory') || c.includes('oyster') || c.includes('ecru')) return 'white'
   if (c.includes('light blue') || c.includes('pale blue') || c.includes('powder')) return 'light blue'
   if (c.includes('beige') || c.includes('sand') || c.includes('taupe')) return 'beige'
+  if (c.includes('red') || c.includes('crimson') || c.includes('scarlet') || c.includes('rust') || c.includes('orange') || c.includes('terracotta')) return 'red'
+  if (c.includes('white') || c.includes('cream') || c.includes('ivory') || c.includes('oyster') || c.includes('ecru')) return 'white'
+  if (c.includes('purple') || c.includes('violet') || c.includes('plum') || c.includes('eggplant') || c.includes('lavender')) return 'purple'
   return claudeColor
 }
 
