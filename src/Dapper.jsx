@@ -3083,6 +3083,226 @@ const COLOR_FAMILY_LABELS = {
   beige:      "Beige / Tan / Camel",
 }
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOCAL COMBO ASSESSMENT ENGINE
+// Evaluates suit + tie + shirt + accessory combos WITHOUT any API call.
+// Provides expert menswear advice for common and uncommon combinations.
+// ─────────────────────────────────────────────────────────────────────────────
+
+function parseComboFromText(text) {
+  const t = text.toLowerCase()
+
+  // Extract suit color
+  const suitColors = [
+    [/(?:black)\s*suit|suit.*(?:black)/,"black"],
+    [/(?:charcoal|dark\s*gr[ae]y)\s*suit|suit.*(?:charcoal)/,"charcoal"],
+    [/(?:navy|midnight|dark\s*blue)\s*suit|suit.*(?:navy)/,"navy"],
+    [/(?:grey|gray|silver)\s*suit|suit.*(?:grey|gray)/,"grey"],
+    [/(?:blue|cobalt|royal)\s*suit|suit.*(?:blue)/,"blue"],
+    [/(?:burgundy|wine|oxblood|maroon)\s*suit|suit.*(?:burgundy)/,"burgundy"],
+    [/(?:brown|chocolate|cognac|tobacco)\s*suit|suit.*(?:brown)/,"brown"],
+    [/(?:beige|tan|camel|sand)\s*suit|suit.*(?:beige|tan)/,"beige"],
+    [/(?:green|olive|sage|forest)\s*suit|suit.*(?:green|olive)/,"green"],
+    [/(?:white|cream|ivory)\s*suit|suit.*(?:white|cream|ivory)/,"white"],
+    [/(?:purple|violet|plum)\s*suit|suit.*(?:purple)/,"purple"],
+    [/(?:red|crimson|scarlet)\s*suit|suit.*(?:red)/,"red"],
+  ]
+  let suitColor = null
+  for (const [rx, color] of suitColors) {
+    if (rx.test(t)) { suitColor = color; break }
+  }
+  // Fallback: detect any color word before/near "suit"
+  if (!suitColor) {
+    const colorWords = ["black","charcoal","navy","grey","gray","blue","burgundy","brown","beige","tan","green","olive","white","cream","ivory","purple","red","crimson"]
+    for (const c of colorWords) {
+      if (t.includes(c)) { suitColor = c === "gray" ? "grey" : c === "tan" ? "beige" : c === "cream" || c === "ivory" ? "white" : c === "olive" ? "green" : c === "crimson" ? "red" : c; break }
+    }
+  }
+
+  // Extract tie info
+  let tieColor = null, tiePattern = "solid"
+  const tieMatch = t.match(/(?:(\w+)\s+)?(?:(\w+)\s+)?tie/)
+  if (tieMatch) {
+    const words = [tieMatch[1], tieMatch[2]].filter(Boolean)
+    const colorWords = ["black","charcoal","navy","grey","gray","blue","burgundy","brown","beige","tan","green","olive","white","cream","ivory","purple","red","crimson","gold","silver","yellow","orange","rust","pink","burgundy","maroon","wine"]
+    const patternWords = ["solid","striped","stripe","polka","dot","paisley","knit","grenadine","repp","foulard","plaid","check"]
+    for (const w of words) {
+      if (colorWords.includes(w)) tieColor = w
+      if (patternWords.includes(w)) tiePattern = w
+    }
+    if (!tieColor && suitColor) {
+      // Check if description says "X suit with X tie" (same color repeated)
+      const sameColorRx = new RegExp(suitColor + ".*tie|" + suitColor + "\\s+tie")
+      if (sameColorRx.test(t)) tieColor = suitColor
+    }
+  }
+
+  // Extract shirt info
+  let shirtColor = null
+  const shirtMatch = t.match(/(?:(\w+)\s+)?shirt/)
+  if (shirtMatch && shirtMatch[1]) {
+    shirtColor = shirtMatch[1]
+  }
+
+  // Extract accessories
+  const mentionsBelt = /belt/.test(t)
+  const mentionsShoes = /shoes|shoe|loafer|oxford|derby|brogue/.test(t)
+  const beltColorMatch = t.match(/(\w+)\s+belt/)
+  const shoesColorMatch = t.match(/(\w+)\s+(?:shoes|shoe|loafer|oxford|derby|brogue)/)
+  const beltColor = beltColorMatch ? beltColorMatch[1] : null
+  const shoesColor = shoesColorMatch ? shoesColorMatch[1] : null
+
+  return {
+    suitColor: suitColor || "navy",
+    tieColor,
+    tiePattern,
+    shirtColor,
+    beltColor: mentionsBelt ? (beltColor || suitColor) : null,
+    shoesColor: mentionsShoes ? (shoesColor || suitColor) : null,
+    hasTie: /tie|corbata|necktie/.test(t),
+    hasShirt: /shirt|camisa/.test(t),
+    hasBelt: mentionsBelt,
+    hasShoes: mentionsShoes,
+    isAllSameColor: false, // computed below
+  }
+}
+
+function getLocalComboAssessment(text) {
+  const combo = parseComboFromText(text)
+  const { suitColor, tieColor, shirtColor, beltColor, shoesColor } = combo
+
+  // Detect monochromatic (all same color)
+  const mentionedColors = [suitColor, tieColor, shirtColor, beltColor, shoesColor].filter(Boolean)
+  const uniqueColors = [...new Set(mentionedColors.map(c => {
+    if (["cream","ivory","oyster","ecru"].includes(c)) return "white"
+    if (["grey","gray","silver"].includes(c)) return "grey"
+    if (["tan","camel","sand"].includes(c)) return "beige"
+    return c
+  }))]
+  const isMonochromatic = uniqueColors.length === 1 && mentionedColors.length >= 2
+
+  let assessment = ""
+  const tips = []
+
+  // ── MONOCHROMATIC ASSESSMENT ──
+  if (isMonochromatic) {
+    const color = uniqueColors[0]
+    const monoRules = {
+      white: {
+        verdict: "High risk.",
+        advice: "An all-white ensemble is one of the most difficult looks in menswear. It can read as powerful — think Mediterranean summer sophistication — or it can look like a costume. The key rules: (1) vary the TEXTURES dramatically — linen suit, cotton poplin shirt, silk knit tie, suede shoes. (2) Break the white with one neutral anchor — a brown leather belt, tan suede loafers, or a navy pocket square. (3) Fit must be impeccable — all-white magnifies every flaw. Without texture contrast and one breaking element, this will flatten into a single white mass.",
+        tips: ["Add a brown or tan leather belt to break the white", "Use different textures: linen suit + cotton shirt + silk knit tie", "Consider ivory or cream tie instead of pure white — tonal difference adds depth", "Tan suede loafers are the ideal shoe — they ground the look without competing", "A navy or burgundy pocket square saves this entire outfit"],
+      },
+      black: {
+        verdict: "Formal but risky.",
+        advice: "All-black is either the most sophisticated look in the room or the most boring. In menswear (not fashion), a black suit with a black tie typically signals black-tie formal or funeral. If that is your intent, add a crisp white shirt — that is the essential contrast element. If this is for personal style, vary the textures: matte wool suit, satin grenadine tie, polished leather shoes. Never let everything be the same finish.",
+        tips: ["A white shirt is NON-NEGOTIABLE with all-black — it is the only contrast", "Vary textures: matte wool, silk grenadine, polished leather", "A white pocket square in TV fold completes the look perfectly", "All-black without white reads as costume — add the white element"],
+      },
+      navy: {
+        verdict: "Monochromatic navy works — with care.",
+        advice: "Navy-on-navy is actually one of the easier monochromatic looks because navy has enough depth to show tonal variation. The key: use different shades of navy. A midnight suit with a bright navy grenadine tie creates tonal depth. Add a white or pale blue shirt to break the navy, and brown shoes to ground it. Never use the exact same shade for suit and tie — the slight contrast is everything.",
+        tips: ["Use different SHADES of navy — midnight suit + bright navy tie", "White or pale blue shirt is essential to break the navy", "Brown shoes (not black) add warmth and contrast", "A white linen pocket square is the finishing touch"],
+      },
+      grey: {
+        verdict: "Works well with tonal variation.",
+        advice: "Grey monochromatic is one of the most forgiving tonal looks. Charcoal suit, mid-grey tie, light grey shirt — the gradient creates natural visual movement. The key: ensure at least 2-3 shades of difference between each piece. Add brown or burgundy shoes for warmth.",
+        tips: ["Create a gradient: dark suit → mid tie → light shirt", "Brown or burgundy shoes add essential warmth", "Silver accessories complement perfectly", "A white pocket square provides a clean break"],
+      },
+      red: {
+        verdict: "Extremely bold — not recommended for most settings.",
+        advice: "An all-red combination is the most aggressive statement in menswear. Even in fashion-forward contexts, this reads as costume. The suit itself is already a major statement — the tie and accessories should CONTRAST, not match. A red suit needs: white or ivory shirt, black or charcoal tie, black shoes. Let the suit color speak — everything else should frame it quietly.",
+        tips: ["White shirt is mandatory — it gives the red suit space to breathe", "Black, charcoal, or navy tie grounds the look", "Black shoes and belt are the safest choice", "NEVER match the tie to the suit — let the suit be the only red element"],
+      },
+      purple: {
+        verdict: "Very difficult — not recommended.",
+        advice: "An all-purple ensemble is almost impossible to pull off outside of fashion editorial. Purple is already a statement suit color — matching the tie eliminates the contrast that makes it wearable. Instead: white or pale grey shirt, silver or charcoal tie, black shoes. The purple suit should be the sole statement piece.",
+        tips: ["White shirt provides the essential clean foundation", "Silver or charcoal tie is far more wearable", "Black shoes and belt keep it grounded", "Save the monochromatic look for a pocket square accent, not the whole outfit"],
+      },
+    }
+
+    const rule = monoRules[color] || {
+      verdict: "Monochromatic " + color + " — proceed with caution.",
+      advice: "Wearing the same color head-to-toe can work if you vary textures and shades dramatically. The fundamental rule: no two pieces should be the exact same shade. Add one contrasting element (shoes, belt, or pocket square) to break the monochrome and give the eye somewhere to rest.",
+      tips: ["Vary textures between pieces", "Use at least 2-3 different shades of " + color, "Add one contrasting accessory to break the monochrome", "A white pocket square provides relief in any monochromatic look"],
+    }
+
+    assessment = rule.verdict + " " + rule.advice
+    tips.push(...rule.tips)
+  }
+
+  // ── SAME-COLOR SUIT + TIE (but other pieces differ) ──
+  else if (tieColor && suitColor === tieColor && !isMonochromatic) {
+    assessment = "Matching your tie exactly to your suit color is generally discouraged in classic menswear — the tie should provide contrast, not blend in. When suit and tie are the same color, the tie disappears visually and the outfit loses its focal point. Better approach: choose a tie in a complementary or contrasting color that creates visual interest against your " + suitColor + " suit."
+
+    const contrastMap = {
+      navy: "burgundy, forest green, gold, or silver",
+      charcoal: "burgundy, navy, teal, or silver",
+      black: "silver, burgundy, or deep navy",
+      grey: "burgundy, navy, forest green, or camel",
+      blue: "burgundy, terracotta, navy, or gold",
+      white: "navy, burgundy, charcoal, or black",
+      brown: "navy, burgundy, gold, or forest green",
+      red: "black, charcoal, navy, or gold",
+      green: "burgundy, navy, brown, or gold",
+      purple: "silver, charcoal, gold, or navy",
+      burgundy: "navy, charcoal, forest green, or gold",
+      beige: "navy, burgundy, forest green, or chocolate brown",
+    }
+    tips.push("Better tie colors for a " + suitColor + " suit: " + (contrastMap[suitColor] || "a complementary color"))
+    tips.push("If you want tonal dressing, use a DIFFERENT shade — lighter or darker than the suit")
+    tips.push("A textured tie (grenadine, knit) in the same color family works better than an exact match")
+  }
+
+  // ── GENERAL COMBO (different colors) ──
+  else if (tieColor) {
+    // Good combos
+    const goodCombos = {
+      "navy+burgundy": "The quintessential power pairing. Navy and burgundy is the most authoritative combination in menswear — boardroom-tested, always correct.",
+      "navy+gold": "Gold on navy is warm, confident, and decidedly Italian. A classic for client meetings and presentations.",
+      "charcoal+burgundy": "Charcoal grounds burgundy beautifully. This is polished, serious, and universally flattering.",
+      "charcoal+navy": "Cool and authoritative. Two of menswear's strongest neutrals working together.",
+      "grey+burgundy": "Burgundy warms up grey perfectly. This is one of the most balanced combinations in menswear.",
+      "black+silver": "Black and silver is formal, graphic, and decisive. The correct choice for black-tie adjacent events.",
+      "brown+navy": "Navy tie on a brown suit is earthy and refined — the Italian country gentleman's choice.",
+      "white+navy": "Navy is the strongest anchor for a white suit. Clean, sharp, and properly considered.",
+      "white+black": "Maximum contrast. Black on white is formal and graphic — wear it with total conviction.",
+    }
+    const key1 = suitColor + "+" + tieColor
+    const key2 = tieColor + "+" + suitColor
+    if (goodCombos[key1]) {
+      assessment = goodCombos[key1]
+    } else if (goodCombos[key2]) {
+      assessment = goodCombos[key2]
+    } else {
+      assessment = "Your " + suitColor + " suit with a " + tieColor + " " + (combo.tiePattern || "solid") + " tie — an intentional combination. "
+      assessment += "The key to making this work: ensure your shirt provides enough contrast between the two. A white or pale shirt is almost always the safest foundation for any suit-tie pairing."
+    }
+  }
+
+  // ── NO TIE BUT ACCESSORIES MENTIONED ──
+  else if (combo.hasBelt || combo.hasShoes) {
+    assessment = "Accessories should complement your " + suitColor + " suit, not match it exactly. "
+    if (["navy","charcoal","black","grey"].includes(suitColor)) {
+      assessment += "For a " + suitColor + " suit, black or dark brown leather is always correct for shoes and belt. The rule: shoes and belt must always match each other."
+    } else if (["brown","beige","green"].includes(suitColor)) {
+      assessment += "Earth-toned suits look best with brown leather — from tan to dark chocolate depending on formality. Shoes and belt must always match each other."
+    } else {
+      assessment += "For a " + suitColor + " suit, choose shoes and belt in a neutral — black, dark brown, or tan depending on the occasion. Shoes and belt must always match each other."
+    }
+  }
+
+  if (!assessment) return null
+
+  return {
+    assessment,
+    tie: tieColor ? { color: tieColor, pattern: combo.tiePattern || "solid" } : null,
+    shirt: shirtColor ? { color: shirtColor, pattern: "solid" } : null,
+    suitColor: suitColor,
+    tips, // bonus: local tips
+  }
+}
+
 function getLocalAnalysis(text) {
   const t = text.toLowerCase()
 
@@ -3790,25 +4010,47 @@ function AnalyzerPage() {
       const needsComboCheck = mentionsTie || mentionsShirt
 
       if (needsComboCheck) {
-        // User described a specific combo — call Claude for assessment only
-        console.log("[Dapper Text] Combo detected, calling AI for assessment")
-        const aiResult = await analyzeText(description)
-        if (aiResult.success && aiResult.colorKey) {
-          const aiDesc = aiResult.colorKey + " " + (aiResult.patternKey || "solid").replace(/_/g, " ") + " " + (aiResult.fabric || "")
-          setAnalysisData(getLocalAnalysis(aiDesc))
-          setIsDemo(false)
-          if (aiResult.assessment) {
-            setComboAssessment({
-              assessment: aiResult.assessment,
-              tie: aiResult.tie,
-              shirt: aiResult.shirt,
-              suitColor: aiResult.colorKey
-            })
+        // User described a specific combo — try AI first, local fallback always
+        console.log("[Dapper Text] Combo detected")
+
+        // Always generate a local combo assessment first
+        const localCombo = getLocalComboAssessment(description)
+
+        // Try AI for enhanced assessment
+        let aiWorked = false
+        try {
+          const aiResult = await analyzeText(description)
+          if (aiResult.success && aiResult.colorKey) {
+            const aiDesc = aiResult.colorKey + " " + (aiResult.patternKey || "solid").replace(/_/g, " ") + " " + (aiResult.fabric || "")
+            setAnalysisData(getLocalAnalysis(aiDesc))
+            setIsDemo(false)
+            aiWorked = true
+            // Prefer AI assessment if available, otherwise use local
+            if (aiResult.assessment) {
+              setComboAssessment({
+                assessment: aiResult.assessment,
+                tie: aiResult.tie,
+                shirt: aiResult.shirt,
+                suitColor: aiResult.colorKey,
+                tips: localCombo?.tips || [],
+              })
+            } else if (localCombo) {
+              setComboAssessment(localCombo)
+            }
           }
-        } else {
+        } catch(aiErr) {
+          console.log("[Dapper Text] AI combo failed, using local assessment")
+        }
+
+        // If AI failed or returned nothing useful, use local engine
+        if (!aiWorked) {
           setAnalysisData(getLocalAnalysis(description))
-          setComboAssessment(null)
           setIsDemo(false)
+          if (localCombo) {
+            setComboAssessment(localCombo)
+          } else {
+            setComboAssessment(null)
+          }
         }
       } else {
         // Suit only — try local engine first, API only for exotic combos
@@ -4313,6 +4555,19 @@ function AnalyzerPage() {
                       {comboAssessment.shirt && <span className="px-3 py-1 rounded-full text-xs font-bold" style={{background:"rgba(201,168,76,0.15)",color:"#C9A84C",border:"1px solid rgba(201,168,76,0.25)",textTransform:"capitalize"}}>{comboAssessment.shirt.color} shirt</span>}
                     </div>
                     <p className="text-sm leading-relaxed" style={{color:"#e8dcc8"}}>{comboAssessment.assessment}</p>
+                    {comboAssessment.tips && comboAssessment.tips.length > 0 && (
+                      <div className="mt-3 pt-3" style={{borderTop:"1px solid rgba(201,168,76,0.15)"}}>
+                        <div className="text-xs font-black tracking-wider mb-2" style={{color:"#C9A84C"}}>SUGGESTIONS</div>
+                        <div className="space-y-1.5">
+                          {comboAssessment.tips.map((tip, i) => (
+                            <div key={i} className="flex items-start gap-2 text-xs" style={{color:"#d4c9a8"}}>
+                              <span style={{color:"#C9A84C"}}>•</span>
+                              <span>{tip}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
                 <SectionLabel n={2} label="Recommended Shirts"/>
