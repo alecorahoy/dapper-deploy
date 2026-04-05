@@ -1009,7 +1009,7 @@ function scorePatternCombo(suitPattern, shirtPattern, tiePattern) {
   const activePatterns = [suitPattern, shirtPattern, tiePattern]
     .filter(p => p && !p.includes("solid") && p !== "poplin" && p !== "voile")
   if (activePatterns.length === 0) {
-    return { score: 10, label: "Safe", reason: "All solid — perfectly correct.", tips: [] }
+    return { score: 10, label: "Safe", reason: "All solid — perfectly correct.", tips: [], violations: [], warnings: [] }
   }
 
   // RULE: Same family, similar scale = violation
@@ -2484,45 +2484,6 @@ const PATTERN_MATRIX = {
       {name:"The Burgundy Depth",suit:"Purple Solid",shirt:"Crisp White Poplin",tie:"Burgundy Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Oxford",belt:"Dark brown leather",socks:"Burgundy or purple",watch:"Gold-case watch",occasion:"Creative business, brand events, bold meetings",archetype:"Italian",confidence:4,tip:"Burgundy and purple share deep warm tones — this is the most wearable bold-suit combination.",shirtColor:"#F8F8F8",tieColor:"#722F37"},
       {name:"The Lavender Statement",suit:"Purple Solid",shirt:"Pale Lavender Poplin",tie:"Charcoal Grenadine",pocketSquare:"Lavender Silk — Puff Fold",shoes:"Black Oxford Brogues",belt:"Black leather",socks:"Charcoal or purple",watch:"Silver dress watch",occasion:"Fashion events, gallery openings, creative leadership",archetype:"Avant-Garde",confidence:5,tip:"Monochromatic purple dressing requires the charcoal tie — without that anchor the look loses its edge.",shirtColor:"#E6E6FA",tieColor:"#36454F"},
       {name:"The Navy Restraint",suit:"Purple Solid",shirt:"Crisp White Poplin",tie:"Navy Solid",pocketSquare:"White Linen — TV Fold",shoes:"Black Cap-Toe Oxford",belt:"Black leather",socks:"Navy or charcoal",watch:"Silver watch",occasion:"Creative business formal, important meetings in purple",archetype:"British Classic",confidence:3,tip:"Navy is the most conservative tie choice on a purple suit — it grounds the colour without competing.",shirtColor:"#F8F8F8",tieColor:"#1B3A6B"},
-    ],
-    styleMantra:"Purple is the colour of those who refuse to be invisible — wear it only when you intend to own the conversation."
-  },
-
-  "purple|solid": {
-    suit: { colorFamily:"Purple / Plum", undertones:"Cool violet, regal depth", fabric:"Wool twill, ~260 g/m2", pattern:"Solid", formality:"Smart Casual / Creative Formal", lapel:"Notch lapel", fit:"Slim fit" },
-    shirts: [
-      { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White is the only shirt that gives a purple suit the clean foundation it needs.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Linen",fold:"TV Fold",material:"Irish Linen"}, ties:[
-        {id:1,name:"Silver Grenadine Solid",color:"#A9A9A9",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Silver is the most elegant companion to purple — cool, reflective, aristocratic."},
-        {id:2,name:"Charcoal Solid",color:"#36454F",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Charcoal grounds purple with cool authority."},
-        {id:3,name:"Burgundy Grenadine",color:"#722F37",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Burgundy and purple share the same deep warm spectrum."},
-        {id:4,name:"Gold Knit",color:"#C9A84C",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Gold against purple is regal and warm — deliberately luxurious."},
-        {id:5,name:"Navy Solid",color:"#1B3A6B",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Navy deepens purple into a cool authoritative palette."},
-        {id:6,name:"Black Grenadine",color:"#1a1a1a",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Black on purple and white is graphic, bold, and entirely deliberate."},
-      ]},
-      { id:2, name:"Pale Grey End-on-End", colorCode:"#D3D3D3", why:"Cool grey against purple creates a sophisticated monochromatic cool palette.", collar:"Semi-spread collar", pattern:"End-on-End", pocketSquare:{name:"Silver Silk",fold:"One Point",material:"Silk"}, ties:[
-        {id:1,name:"Silver Grenadine",color:"#A9A9A9",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"Silver and grey and purple — a complete cool monochromatic palette."},
-        {id:2,name:"Charcoal Grenadine",color:"#36454F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Charcoal deepens the grey into a cool anchor against the purple suit."},
-        {id:3,name:"Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy provides warm contrast against the cool grey-purple palette."},
-        {id:4,name:"Navy Solid",color:"#1B3A6B",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Navy stays in the cool register with quiet authority."},
-        {id:5,name:"Gold Solid",color:"#C9A84C",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Complementary",why:"Gold warms the cool grey-purple palette with regal contrast."},
-        {id:6,name:"Mauve Grenadine",color:"#C8A2C8",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Tonal mauve on purple suit with grey shirt — the most daring monochromatic move."},
-      ]},
-      { id:3, name:"Pale Lavender Poplin", colorCode:"#E6E6FA", why:"Lavender against purple suit is the tonal move of the genuinely confident.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"Lavender Silk",fold:"Puff Fold",material:"Silk"}, ties:[
-        {id:1,name:"Charcoal Grenadine",color:"#36454F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Charcoal is the essential anchor in a monochromatic purple-lavender palette."},
-        {id:2,name:"Silver Solid",color:"#A9A9A9",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Silver keeps the cool palette refined — regal restraint."},
-        {id:3,name:"Navy Grenadine",color:"#1B3A6B",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Navy grounds the lavender-purple with cool authority."},
-        {id:4,name:"Gold Knit",color:"#C9A84C",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Gold illuminates the entire cool lavender-purple palette."},
-        {id:5,name:"Burgundy Solid",color:"#722F37",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Burgundy deepens lavender into a complete warm-cool purple composition."},
-        {id:6,name:"Black Solid",color:"#1a1a1a",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Black on lavender on purple is the most graphic monochromatic statement."},
-      ]},
-    ],
-    packages:[
-      {name:"The Regal Authority",suit:"Purple Solid",shirt:"Crisp White Poplin",tie:"Silver Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Black Cap-Toe Oxfords",belt:"Black calf leather",socks:"Charcoal or purple",watch:"Silver dress watch",occasion:"Creative formal, gallery opening, bold client meeting",archetype:"Avant-Garde",confidence:4,tip:"Silver tie on purple and white — let the colour do the work.",shirtColor:"#F8F8F8",tieColor:"#A9A9A9"},
-      {name:"The Gold Standard",suit:"Purple Solid",shirt:"Crisp White Poplin",tie:"Gold Knit",pocketSquare:"White Linen — TV Fold",shoes:"Brown Derby",belt:"Brown leather",socks:"Gold or purple",watch:"Gold dress watch",occasion:"Creative events, brand launches, bold formal",archetype:"Avant-Garde",confidence:5,tip:"Gold and purple is the most regal combination in menswear — wear it with absolute conviction.",shirtColor:"#F8F8F8",tieColor:"#C9A84C"},
-      {name:"The Cool Monochrome",suit:"Purple Solid",shirt:"Pale Grey End-on-End",tie:"Silver Grenadine",pocketSquare:"Silver Silk — One Point",shoes:"Black Oxford",belt:"Black leather",socks:"Charcoal",watch:"Silver dress watch",occasion:"Creative formal, gallery, arts events",archetype:"Avant-Garde",confidence:4,tip:"Grey and silver and purple — the coolest most sophisticated way to wear a purple suit.",shirtColor:"#D3D3D3",tieColor:"#A9A9A9"},
-      {name:"The Burgundy Depth",suit:"Purple Solid",shirt:"Crisp White Poplin",tie:"Burgundy Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Oxford",belt:"Dark brown leather",socks:"Burgundy or purple",watch:"Gold-case watch",occasion:"Creative business, brand events, bold meetings",archetype:"Italian",confidence:4,tip:"Burgundy and purple share deep warm tones — the most wearable bold-suit combination.",shirtColor:"#F8F8F8",tieColor:"#722F37"},
-      {name:"The Lavender Statement",suit:"Purple Solid",shirt:"Pale Lavender Poplin",tie:"Charcoal Grenadine",pocketSquare:"Lavender Silk — Puff Fold",shoes:"Black Oxford Brogues",belt:"Black leather",socks:"Charcoal or purple",watch:"Silver dress watch",occasion:"Fashion events, gallery openings, creative leadership",archetype:"Avant-Garde",confidence:5,tip:"Monochromatic purple requires the charcoal tie — without that anchor the look loses its edge.",shirtColor:"#E6E6FA",tieColor:"#36454F"},
-      {name:"The Navy Restraint",suit:"Purple Solid",shirt:"Crisp White Poplin",tie:"Navy Solid",pocketSquare:"White Linen — TV Fold",shoes:"Black Cap-Toe Oxford",belt:"Black leather",socks:"Navy or charcoal",watch:"Silver watch",occasion:"Creative business formal, important meetings",archetype:"British Classic",confidence:3,tip:"Navy is the most conservative tie on a purple suit — it grounds the colour without competing.",shirtColor:"#F8F8F8",tieColor:"#1B3A6B"},
     ],
     styleMantra:"Purple is the colour of those who refuse to be invisible — wear it only when you intend to own the conversation."
   },
@@ -4252,9 +4213,9 @@ function AnalyzerPage() {
               <div className="flex-1">
                 <div className="flex flex-wrap gap-2 mb-2">
                   <span className="text-xs font-black tracking-wider px-2 py-0.5 rounded-full text-white" style={{background:NAVY}}>SUIT ANALYSIS</span>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:"#fef3c7",color:"#92400e"}}>{analysisData.suit.formality}</span>
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:"#fef3c7",color:"#92400e"}}>{analysisData?.suit?.formality || ""}</span>
                 </div>
-                <h3 className="text-xl font-black text-gray-900">{analysisData.suit.colorFamily}</h3>
+                <h3 className="text-xl font-black text-gray-900">{analysisData?.suit?.colorFamily || ""}</h3>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1 mt-3 text-xs">
                   {[["Fabric",analysisData?.suit?.fabric],["Pattern",analysisData?.suit?.pattern],["Lapel",analysisData?.suit?.lapel],["Fit",analysisData?.suit?.fit],["Undertones",analysisData?.suit?.undertones]].filter(([k,v])=>v).map(([k,v])=>(
                     <div key={k}><span className="text-gray-400">{k}: </span><span className="text-gray-700 font-semibold">{v}</span></div>
@@ -4306,12 +4267,12 @@ function AnalyzerPage() {
                             {combo.score >= 8 ? "✦ Great combination!" : combo.score >= 6 ? "⚡ Works — with the right tie" : "⚠️ Pattern conflict"}
                           </div>
                           <div className="text-xs text-gray-500 mt-0.5">
-                            {analysisData.suit.colorFamily} + {shirtColor} {shirtPatName !== "Solid" ? shirtPatName : "shirt"}
+                            {analysisData?.suit?.colorFamily || ""} + {shirtColor} {shirtPatName !== "Solid" ? shirtPatName : "shirt"}
                           </div>
                           <div className="text-xs mt-1" style={{
                             color: combo.score >= 8 ? "#166534" : combo.score >= 6 ? "#92400e" : "#991b1b"
                           }}>
-                            {combo.tips[0] || combo.warnings[0] || combo.violations[0] || "Pattern combination evaluated."}
+                            {combo.tips?.[0] || combo.warnings?.[0] || combo.violations?.[0] || "Pattern combination evaluated."}
                           </div>
                         </div>
                       </div>
@@ -4367,7 +4328,7 @@ function AnalyzerPage() {
                   ))}
                 </div>
                 <div className="rounded-xl p-3 text-sm text-blue-800 mb-4" style={{background:"#eff6ff",border:"1px solid #bfdbfe"}}>
-                  <strong>{shirt.name}</strong> — {shirt.why}
+                  <strong>{shirt?.name || "Select a shirt"}</strong>{shirt?.why && <span> — {shirt.why}</span>}
                 </div>
               </>
             )}
@@ -4471,8 +4432,8 @@ function AnalyzerPage() {
             {/* Pocket square */}
             <div className="bg-white rounded-xl border border-gray-100 p-4">
               <div className="text-xs font-black tracking-wider text-gray-400 mb-1">POCKET SQUARE</div>
-              <div className="text-sm font-bold text-gray-800">{shirt.pocketSquare.name} — {shirt.pocketSquare.fold}</div>
-              <div className="text-xs text-gray-400">{shirt.pocketSquare.material}</div>
+              <div className="text-sm font-bold text-gray-800">{shirt?.pocketSquare?.name || "Pocket Square"} — {shirt?.pocketSquare?.fold || ""}</div>
+              <div className="text-xs text-gray-400">{shirt?.pocketSquare?.material || ""}</div>
             </div>
           </div>
 
@@ -4528,7 +4489,7 @@ function AnalyzerPage() {
           <div className="rounded-2xl p-6 text-center" style={{background:`linear-gradient(135deg,${NAVY},#1e3a5f)`}}>
             <div className="text-xs font-black tracking-widest mb-3" style={{color:GOLD}}>YOUR STYLE MANTRA</div>
             <p className="text-white text-base font-light italic leading-relaxed">
-              "A navy chalk stripe is not a suit — it is a declaration. Wear it when you need the room to know, before you speak, that you have already won."
+              {analysisData?.styleMantra || "Dress with intention. Every element is a decision — make each one count."}
             </p>
           </div>
         </div>

@@ -72,8 +72,7 @@ const normalizeColor = (claudeColor) => {
   if (c.includes('light blue') || c.includes('pale blue') || c.includes('powder')) return 'light blue'
   if (c.includes('beige') || c.includes('sand') || c.includes('taupe')) return 'beige'
   if (c.includes('red') || c.includes('crimson') || c.includes('scarlet') || c.includes('rust') || c.includes('orange') || c.includes('terracotta')) return 'red'
-  if (c.includes('white') || c.includes('cream') || c.includes('ivory') || c.includes('oyster') || c.includes('ecru')) return 'white'
-  if (c.includes('purple') || c.includes('violet') || c.includes('plum') || c.includes('eggplant') || c.includes('lavender')) return 'purple'
+    if (c.includes('purple') || c.includes('violet') || c.includes('plum') || c.includes('eggplant') || c.includes('lavender')) return 'purple'
   return claudeColor
 }
 
