@@ -3886,7 +3886,8 @@ function AnalyzerPage() {
     }
   }
 
-  const shirt = analysisData?.shirts?.[shirtIdx] ?? analysisData?.shirts?.[0] ?? {}
+  const safeShirtIdx = (analysisData?.shirts && shirtIdx < analysisData.shirts.length) ? shirtIdx : 0
+  const shirt = analysisData?.shirts?.[safeShirtIdx] ?? {}
 
   return (
     <div className="max-w-3xl mx-auto">
