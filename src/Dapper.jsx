@@ -1318,7 +1318,7 @@ function filterTiesForSuitAndShirt(ties, suitPatternKey, shirtName) {
     const result = scorePatternCombo(suitPatternKey, shirtPatternKey, tiePatternKey)
 
     // Boost patterned ties that are DIFFERENT families — these should be recommended
-    let boostedScore = result.score
+    let boostedScore = result?.score ?? 5
     const tiePat   = PATTERN_SCALE[tiePatternKey]?.family || "none"
     const suitFam  = PATTERN_SCALE[suitPatternKey]?.family || "none"
     const shirtFam = PATTERN_SCALE[shirtPatternKey]?.family || "none"
@@ -1354,8 +1354,8 @@ function filterTiesForSuitAndShirt(ties, suitPatternKey, shirtName) {
       ...tie,
       patternScore: boostedScore,
       patternLabel: boostedScore >= 9 ? "Excellent" : boostedScore >= 7 ? "Good" : boostedScore >= 5 ? "Acceptable" : boostedScore >= 3 ? "Risky" : "Avoid",
-      patternWarning: result.violations.length > 0 ? result.violations[0] : null,
-      patternTip: result.tips.length > 0 ? result.tips[0] : (tiePat !== "none" && tiePat !== "texture" ? `${PATTERN_SCALE[tiePatternKey]?.label || ""} — different pattern family from your suit.` : null),
+      patternWarning: (result.violations?.length > 0) ? result.violations[0] : null,
+      patternTip: (result.tips?.length > 0) ? result.tips[0] : (tiePat !== "none" && tiePat !== "texture" ? `${PATTERN_SCALE[tiePatternKey]?.label || ""} — different pattern family from your suit.` : null),
       isRecommended: boostedScore >= 7,
       isAvoidable: boostedScore < 4,
     }
