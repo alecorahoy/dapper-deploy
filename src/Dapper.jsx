@@ -10644,6 +10644,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── COPPER / BRONZE ─────────────────────────────────────────────────────────
+  "copper|solid": {
+    suit: { color: "Copper", pattern: "Solid", hex: "#B87333", fabric: "Lightweight wool or wool-silk blend — burnished warm tone" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy is the essential anchor for a copper suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Copper and forest — the oxidized patina palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor gives the metallic suit gravitas" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep warm contrast — burnished metal meets dark wine" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth softens the copper intensity" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal metallic warmth — copper and gold in harmony" }
+        ],
+        packages: [
+          { name: "Copper Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toe oxfords"] },
+          { name: "Oxidized Patina", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Bronze Authority", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal oxfords"] },
+          { name: "Dark Metal", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Warm Ivory", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Metallic Tonal", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] }
+        ],
+        styleMantra: "Copper solid — the metallics belong in tailoring too. Warm, burnished, and entirely deliberate."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue depth against warm copper — the essential contrast" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor in the cool-warm composition" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three metallics of nature — blue sky, copper, green" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Rich warm contrast through the cool palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth disrupts the cool blue palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool metallic — silver against copper, deliberately chosen" }
+        ],
+        packages: [
+          { name: "Blue Copper", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Dark Cool", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Sky & Metal", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Warm Contrast", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold & Blue", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Silver & Copper", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on copper — cool meets burnished warm. The contrast is the whole point."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic depth anchors ivory and copper" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Patina palette — aged copper, ivory, forest" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal warmth — all burnished earth tones" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark line through ivory and copper warmth" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Metallic triad — copper, ivory, gold" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in the warm ivory-copper story" }
+        ],
+        packages: [
+          { name: "Ivory Copper", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Patina Ivory", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "All Warm", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Authority", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Metallic Trio", items: ["Warm gold grenadine tie", "Ivory pocket square", "Cognac loafers"] },
+          { name: "Ivory Depth", items: ["Burgundy tie", "White pocket square", "Dark brown monks"] }
+        ],
+        styleMantra: "Ivory on copper — the warmth of polished metal softened by pale fabric."
+      }
+    ]
+  },
+
+  "copper|chalk_stripe": {
+    suit: { color: "Copper", pattern: "Chalk Stripe", hex: "#B87333", fabric: "Superfine wool, ivory chalk stripe on burnished copper" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Chalk tradition anchored classically on a bold copper base" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum gravity — copper chalk stripe means real authority" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Patina depth through the warm chalk stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark wine against warm chalk — commanding" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the chalk stripe in warm tonal resonance" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Metallic warmth on a metallic striped suit" }
+        ],
+        packages: [
+          { name: "Copper Authority", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toe oxfords"] },
+          { name: "Maximum Metal", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Patina Stripe", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Dark Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Chalk Tonal", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Metallic Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Cognac monks"] }
+        ],
+        styleMantra: "Copper chalk stripe is not for the cautious. It is the power suit of someone who has already won."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue completes the cool-warm chalk stripe contrast" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor in a cool-warm composition" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth cuts through the metallic suit" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold warm contrast in a cool-warm chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against warm copper stripe — metallic dialogue" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold disrupts the cool palette with metallic warmth" }
+        ],
+        packages: [
+          { name: "Blue Stripe", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Cool Metal", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Patina Blue", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Bold Contrast", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Copper", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] }
+        ],
+        styleMantra: "Pale blue on copper chalk stripe — the cool shirt that makes the warm stripe burn brighter."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic depth through ivory and copper chalk" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth — all burnished earth in stripe form" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Metallic trio — copper stripe, ivory, gold" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through pale warmth and bold stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Patina depth through ivory-copper chalk stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep punctuation in the warm pale stripe" }
+        ],
+        packages: [
+          { name: "Ivory Stripe", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Heritage Metal", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Stripe", items: ["Warm gold grenadine tie", "Ivory pocket square", "Cognac monks"] },
+          { name: "Sharp Ivory", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Patina Ivory", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Deep Ivory Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Ivory on copper chalk stripe — the chalk speaks quietly. The copper does not."
+      }
+    ]
+  },
+
+  "copper|glen_plaid": {
+    suit: { color: "Copper", pattern: "Glen Plaid", hex: "#B87333", fabric: "Wool-cashmere blend, burnished copper and ivory glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic navy grounds the copper plaid geometry" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Patina palette in geometric form — copper and verdigris" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark structure beneath the warm plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep warm contrast within the plaid architecture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth threads through the copper overcheck" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal earth warmth through the warm plaid" }
+        ],
+        packages: [
+          { name: "Copper Plaid Classic", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Verdigris Plaid", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Dark Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Bold Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Plaid", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Earth Plaid", items: ["Cognac knit tie", "No pocket square", "Tan cap-toes"] }
+        ],
+        styleMantra: "Copper glen plaid — geometry dressed in warmth. The plaid that smolders where others merely pattern."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor against warm copper plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — blue sky, copper plaid, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor in a cool-warm plaid composition" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth disrupts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through the copper plaid and blue" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against warm copper — intentional opposition" }
+        ],
+        packages: [
+          { name: "Blue Copper Plaid", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Natural Triad", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Cool Metal Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Bold Blue Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Blue Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on copper glen plaid — the cool shirt makes the warm plaid feel like fire."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "All burnished warmth — copper plaid, ivory, cognac" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and copper geometry" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Patina depth in a pale, warm plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Metallic trio — copper plaid, ivory, gold" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark line through the pale warm plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in a warm, pale composition" }
+        ],
+        packages: [
+          { name: "All Warm Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Copper Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Patina Ivory Plaid", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Metallic Ivory", items: ["Warm gold grenadine tie", "Ivory pocket square", "Cognac monks"] },
+          { name: "Sharp Ivory Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Deep Ivory Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Ivory on copper glen plaid — warmth squared. The plaid glows against the pale shirt."
+      }
+    ]
+  },
+
+  "copper|herringbone": {
+    suit: { color: "Copper", pattern: "Herringbone", hex: "#B87333", fabric: "Mid-weight wool herringbone, burnished copper tones" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy cuts through the warm copper weave decisively" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Verdigris and copper — the oxidized metal palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the textured warm suit" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep wine against the burnished copper weave" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal metallic warmth through the herringbone" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth softens the textured copper intensity" }
+        ],
+        packages: [
+          { name: "Copper Weave Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Oxidized Weave", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Dark Texture", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Wine & Copper", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Metallic Weave", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Pale Texture", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Copper herringbone — the texture magnifies the warmth. A burnished suit with real presence."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool depth into the warm copper weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor in a cool-warm herringbone" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, copper weave, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth breaks through the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold warm contrast in the cool-warm herringbone" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver plays against warm copper intentionally" }
+        ],
+        packages: [
+          { name: "Blue Copper Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Cool Metal Weave", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Sky & Copper", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Bold Weave", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Copper", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on copper herringbone — the coolness of the shirt makes the metallic suit radiate."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth and metal in full warmth — the richest combination" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue anchors ivory and copper warmth" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Patina depth through ivory and textured copper" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Metallic trio — copper weave, ivory, gold" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark structure through warm softness" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in an ivory-copper composition" }
+        ],
+        packages: [
+          { name: "Warm Metal Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Copper Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Patina Ivory", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Metallic Ivory", items: ["Warm gold grenadine tie", "Ivory pocket square", "Cognac monks"] },
+          { name: "Sharp Ivory Weave", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Deep Ivory Weave", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Ivory on copper herringbone — the texture catches light. The pale shirt lets it."
+      }
+    ]
+  },
+
+  "copper|tweed": {
+    suit: { color: "Copper", pattern: "Tweed", hex: "#B87333", fabric: "Donegal tweed, copper base with rust and cream flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Verdigris and copper — the most natural of patinas" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue civilizes the warm copper tweed" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Earthy warmth through the copper flecks" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Autumn hunt — rust, copper, burgundy in tweed form" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the gold and cream flecks in the tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the burnished country suit" }
+        ],
+        packages: [
+          { name: "Copper Donegal", items: ["Forest green wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Naval Copper", items: ["Navy repp tie", "White pocket square", "Brown leather oxfords"] },
+          { name: "Earth Copper", items: ["Cognac wool knit tie", "Cream pocket square", "Tan derby shoes"] },
+          { name: "Autumn Hunt", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Fleck", items: ["Warm gold knit tie", "No pocket square", "Cognac monks"] },
+          { name: "Dark Country", items: ["Charcoal grenadine tie", "White pocket square", "Brown leather loafers"] }
+        ],
+        styleMantra: "Copper tweed is autumn distilled into a suit — the flecks tell you everything about where it came from."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "The warmest possible country combination" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Patina palette at its most natural" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Autumn depth through the copper flecks and ivory" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold amplified by ivory on a copper tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One cool note anchors the warm country palette" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Heather note — the autumn moor in a copper suit" }
+        ],
+        packages: [
+          { name: "Warmest Country", items: ["Cognac wool knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Patina Ivory", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Autumn Ivory", items: ["Burgundy wool tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Gold Ivory Tweed", items: ["Warm gold knit tie", "Ivory pocket square", "Cognac monks"] },
+          { name: "Cool Anchor Tweed", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Heather Copper", items: ["Dusty mauve tie", "Ivory pocket square", "Brown loafers"] }
+        ],
+        styleMantra: "Ivory on copper tweed — all the warmth of autumn with none of its gloom."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through the warm copper tweed" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Sky, copper tweed, forest — three naturals in dialogue" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and copper tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Warm deep contrast in a cool-warm composition" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth disrupts the cool palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver reads beautifully against warm copper tweed" }
+        ],
+        packages: [
+          { name: "Sky & Copper Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Three Naturals", items: ["Forest green wool tie", "White pocket square", "Brown brogues"] },
+          { name: "Earthen Blue", items: ["Cognac wool knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Autumn Blue", items: ["Burgundy wool tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Silver Copper", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on copper tweed — the cool sky above the warm autumn landscape."
+      }
+    ]
+  },
+
+  "copper|linen": {
+    suit: { color: "Copper", pattern: "Linen", hex: "#B87333", fabric: "Italian linen, burnished copper — rich warm slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The sharp cool note in the warmest linen suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Patina linen — copper and green under a summer sky" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth in a metallic linen suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth softens the copper linen" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth for the warmest summer suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One deliberate dark note in the relaxed warm suit" }
+        ],
+        packages: [
+          { name: "Copper Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Brown leather loafers"] },
+          { name: "Patina Summer", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Metallic Summer", items: ["Warm gold knit tie", "No pocket square", "Cognac suede loafers"] },
+          { name: "Pale Copper", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Earth Linen", items: ["Cognac knit tie", "No pocket square", "Chestnut loafers"] },
+          { name: "Dark Summer", items: ["Charcoal knit tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Copper linen — the hottest suit for the hottest days. Wear it like you're not even trying. That's the secret."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor in the warmest linen suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Coastal garden — blue, copper linen, green" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic gold disrupts the cool palette beautifully" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth bridges cool blue and warm copper" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Silver and copper — a deliberate metallic opposition" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth warmth through the cool-warm linen" }
+        ],
+        packages: [
+          { name: "Blue Copper Linen", items: ["Navy tie", "Pale blue pocket square", "Brown leather loafers"] },
+          { name: "Coastal Copper", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Cognac suede loafers"] },
+          { name: "Pale Metal", items: ["Ivory linen tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Silver & Copper", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Blue", items: ["Cognac knit tie", "Pale blue pocket square", "Chestnut loafers"] }
+        ],
+        styleMantra: "Pale blue on copper linen — the cool shore against a warm burnished horizon."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most natural summer combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Metallic trio in the warmest season — copper, ivory, gold" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Patina summer — copper linen, ivory, forest" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "One strong anchor in a warm, pale linen look" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Near-monochrome warmth — the linen texture carries it" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay and copper — the Mediterranean warmth triad" }
+        ],
+        packages: [
+          { name: "All Warm Linen", items: ["Cognac knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Metallic Summer", items: ["Warm gold grenadine tie", "Ivory pocket square", "Cognac suede loafers"] },
+          { name: "Patina Ivory Linen", items: ["Forest green tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Ivory Anchor", items: ["Navy tie", "Ivory pocket square", "Brown leather loafers"] },
+          { name: "Warm Whisper", items: ["Ivory linen tie", "No pocket square", "Cream suede loafers"] },
+          { name: "Mediterranean Trio", items: ["Terracotta tie", "Ivory pocket square", "Tan espadrilles"] }
+        ],
+        styleMantra: "Ivory on copper linen — warmth in every thread. The summer suit that stays with you."
+      }
+    ]
+  },
+
+  "copper|houndstooth": {
+    suit: { color: "Copper", pattern: "Houndstooth", hex: "#B87333", fabric: "Wool blend, burnished copper and ivory houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic navy anchors the warm copper check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Verdigris through the copper houndstooth — the patina look" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark structure through the warm geometric pattern" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep warm contrast in the metallic check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth picks up the ivory check element" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth mirrors the ivory in the houndstooth" }
+        ],
+        packages: [
+          { name: "Copper Check Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Verdigris Check", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Metal Authority", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Dark Metal Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Check", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Ivory Check", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Copper houndstooth — the warmest check in tailoring. Geometric heat, worn without apology."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool depth against warm copper check — precisely calibrated" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, copper check, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor in the cool-warm metallic check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Metallic warmth breaks through the pale blue" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold warm contrast in the cool composition" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver and copper — a metallic tension worth wearing" }
+        ],
+        packages: [
+          { name: "Blue Metal Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Sky & Check", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Cool Metal", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Cognac monks"] },
+          { name: "Bold Blue Check", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on copper houndstooth — the cool shirt turns the warm check into something elemental."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "All burnished warmth — the richest copper combination" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and copper geometry" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Patina through ivory on a copper check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Metallic trio — copper houndstooth, ivory, gold" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark line through pale warmth and copper check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich autumn depth in a warm, pale check" }
+        ],
+        packages: [
+          { name: "Warmest Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Copper Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Patina Ivory Check", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Metallic Ivory Check", items: ["Warm gold grenadine tie", "Ivory pocket square", "Cognac monks"] },
+          { name: "Sharp Ivory Metal", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Autumn Ivory Check", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Ivory on copper houndstooth — warmth squared in geometric form. The check glows. Let it."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -11070,6 +11533,7 @@ function getLocalAnalysis(text) {
         else if (/terracotta suit|terracotta blazer|brick suit|brick red suit|clay suit|clay blazer|burnt orange suit|terra cotta suit|terracotta wool|terracotta linen|terracotta tweed|terracotta herringbone|terracotta houndstooth|brick houndstooth|clay tweed|brick tweed|warm orange suit|adobe suit|sienna suit/.test(t)) { colorKey = "terracotta"; colorMatched = true }
         else if (/lavender suit|lavender blazer|lilac suit|lilac blazer|soft purple suit|light purple suit|pale purple suit|lavender wool|lavender linen|lavender tweed|lavender herringbone|lavender houndstooth|lilac tweed|lilac linen|lilac herringbone|dusty purple suit|lavender glen plaid|lilac glen plaid|soft violet suit/.test(t)) { colorKey = "lavender"; colorMatched = true }
         else if (/ecru suit|ecru blazer|off white suit|off-white suit|raw linen suit|natural linen suit|unbleached suit|ecru wool|ecru linen|ecru tweed|ecru herringbone|ecru houndstooth|ecru glen plaid|warm white suit|natural white suit|greige suit|raw silk suit|ecru chalk stripe|parchment suit|warm off white suit/.test(t)) { colorKey = "ecru"; colorMatched = true }
+        else if (/copper suit|copper blazer|bronze suit|bronze blazer|burnished suit|metallic brown suit|copper wool|copper linen|copper tweed|copper herringbone|copper houndstooth|copper glen plaid|bronze tweed|bronze linen|bronze herringbone|burnished brown suit|copper chalk stripe|warm metallic suit|antique gold suit/.test(t)) { colorKey = "copper"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
