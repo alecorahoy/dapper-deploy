@@ -7868,6 +7868,468 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  "oxblood|solid": {
+    suit: { color: "Oxblood", pattern: "Solid", fabric: "Wool Crepe", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxblood Authority", pocket: "White Linen Square", shoes: "Oxblood Cap-Toe Oxford", belt: "Oxblood Leather", socks: "Charcoal Ribbed" },
+          { label: "Charcoal Depth", pocket: "Charcoal Grenadine Fold", shoes: "Black Oxford", belt: "Black Leather", socks: "Charcoal Fine Knit" },
+          { label: "Gold Richness", pocket: "Gold Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Contrast", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Ivory Elegance", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" },
+          { label: "Silver Refinement", pocket: "Silver Silk Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" }
+        ],
+        styleMantra: "Oxblood solid is the most dramatic suit a man can wear with absolute conviction — deep, rich, and completely impossible to overlook."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Mustard", fabric: "Silk Jacquard", pattern: "Paisley", width: "3-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream & Oxblood", pocket: "Cream Silk Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Camel Wool" },
+          { label: "Charcoal Dot Depth", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Ribbed" },
+          { label: "Gold Warmth", pocket: "Gold Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Knit Contrast", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Green Cotton" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Cream Wool" },
+          { label: "Mustard Paisley", pocket: "Mustard Silk Paisley", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" }
+        ],
+        styleMantra: "Cream tempers oxblood's intensity without dulling it — a warmth that makes the deep red sing rather than shout."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Oxblood", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Navy Ribbed" },
+          { label: "Charcoal Ease", pocket: "Charcoal Linen Fold", shoes: "Black Oxford", belt: "Black Leather", socks: "Charcoal Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Dot", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Silver Repp", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Pale blue cools oxblood into something contemporary and wearable — the contrast that makes a bold suit feel like a considered choice rather than a gamble."
+      }
+    ]
+  },
+
+  "oxblood|chalk_stripe": {
+    suit: { color: "Oxblood", pattern: "Chalk Stripe", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxblood Chalk Classic", pocket: "White Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Charcoal Wool" },
+          { label: "Charcoal Depth", pocket: "Charcoal Grenadine Fold", shoes: "Black Cap-Toe Oxford", belt: "Black Leather", socks: "Charcoal Ribbed" },
+          { label: "Gold Richness", pocket: "Gold Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Dot Contrast", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Ivory Elegance", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" },
+          { label: "Silver Stripe", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" }
+        ],
+        styleMantra: "Oxblood chalk stripe is the most theatrical power suit in existence — the stripe traces light across a deep red canvas, creating a look that owns every room."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Chalk Warmth", pocket: "Cream Silk Fold", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Camel Wool" },
+          { label: "Charcoal Repp", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Ribbed" },
+          { label: "Gold Knit Ease", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Solid", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Forest Green" },
+          { label: "Mustard Geometry", pocket: "Mustard Silk Square", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream on oxblood chalk stripe is autumn richness dressed formally — the warmth of the shirt softens a suit that would otherwise stop traffic."
+      },
+      {
+        color: "Light Blue", fabric: "Chambray", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Chalk Contrast", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Navy Ribbed" },
+          { label: "Charcoal Ease", pocket: "Charcoal Linen Fold", shoes: "Black Oxford", belt: "Black Leather", socks: "Charcoal Cotton" },
+          { label: "Gold Geo Pop", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Ribbed" },
+          { label: "Green Knit Contrast", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Green Cotton" },
+          { label: "Silver Dot", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Chambray blue against oxblood chalk stripe is bold contrast done with intelligence — cool calm meets deep drama, the stripe connects them perfectly."
+      }
+    ]
+  },
+
+  "oxblood|glen_plaid": {
+    suit: { color: "Oxblood", pattern: "Glen Plaid", fabric: "Wool Tweed", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxblood Country Classic", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Charcoal Wool" },
+          { label: "Charcoal Heritage", pocket: "Charcoal Grenadine Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Ribbed" },
+          { label: "Gold Geometry Country", pocket: "Gold Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Dot", pocket: "Forest Green Pocket Square", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Green Wool" },
+          { label: "Mustard Repp", pocket: "Mustard Silk Square", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Oxblood glen plaid is the most daring country suit a man can wear — the colour transforms a classic pattern into something entirely its own."
+      },
+      {
+        color: "Warm Cream", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Silk Jacquard", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream Country Rich", pocket: "Cream Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Camel Wool" },
+          { label: "Charcoal Dot", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Ribbed" },
+          { label: "Gold Knit", pocket: "Gold Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Solid", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Forest Green Wool" },
+          { label: "Mustard Floral", pocket: "Mustard Floral Silk", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream and oxblood glen plaid is an autumn feast for the eyes — warm shirt, rich pattern, and enough depth to make every other look in the room feel unfinished."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Silk Twill", pattern: "Stripe", width: "3-inch", knot: "Pratt" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Oxblood Country", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Navy Ribbed" },
+          { label: "Charcoal Country Ease", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Knit", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Green Cotton" },
+          { label: "Mustard Stripe Pop", pocket: "Mustard Silk Square", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Blue oxford with oxblood glen plaid is cool meeting dramatic — the shirt provides the breathing room the suit's intensity demands."
+      }
+    ]
+  },
+
+  "oxblood|herringbone": {
+    suit: { color: "Oxblood", pattern: "Herringbone", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxblood Herringbone Sharp", pocket: "White Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Charcoal Ribbed" },
+          { label: "Charcoal Grenadine", pocket: "Charcoal Grenadine Fold", shoes: "Black Cap-Toe Oxford", belt: "Black Leather", socks: "Charcoal Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Dot", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Ribbed" },
+          { label: "Silver Stripe", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Oxblood herringbone is depth squared — the weave moves through the red like light through stained glass, commanding and quietly magnificent."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Woven Silk", pattern: "Paisley", width: "3-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream Herringbone Rich", pocket: "Cream Silk Fold", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Camel Wool" },
+          { label: "Charcoal Dot Depth", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Ribbed" },
+          { label: "Gold Solid Warmth", pocket: "Gold Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Knit", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Forest Green" },
+          { label: "Mustard Paisley", pocket: "Mustard Silk Paisley", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream and oxblood herringbone is rich autumn warmth layered with texture — the kind of look that deepens in candlelight and never apologises for itself."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Oxblood Texture", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Navy Ribbed" },
+          { label: "Charcoal Ease", pocket: "Charcoal Linen Fold", shoes: "Black Oxford", belt: "Black Leather", socks: "Charcoal Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Knit Ease", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Green Cotton" },
+          { label: "Silver Dot", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Pale blue against oxblood herringbone provides the cool contrast the deep red needs — composed shirt, dramatic suit, flawless result."
+      }
+    ]
+  },
+
+  "oxblood|tweed": {
+    suit: { color: "Oxblood", pattern: "Tweed", fabric: "Harris Tweed", weight: "Heavy", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Charcoal", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxblood Tweed Command", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Charcoal Wool" },
+          { label: "Charcoal Stripe Heritage", pocket: "Charcoal Silk Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Wool" },
+          { label: "Gold Solid Country", pocket: "Gold Wool Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Gold Wool" },
+          { label: "Forest Dot Country", pocket: "Forest Green Wool Fold", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Green Wool" },
+          { label: "Mustard Knit Warmth", pocket: "Mustard Wool Square", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Wool" },
+          { label: "Ivory Paisley", pocket: "Ivory Silk Paisley", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Oxblood tweed is the most dramatic heavy cloth a man can wear — dark red and raw texture in combination so rich it borders on the mythological."
+      },
+      {
+        color: "Warm Cream", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Woven Silk", pattern: "Paisley", width: "3-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Tweed Richness", pocket: "Cream Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Camel Wool" },
+          { label: "Charcoal Grenadine Country", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Wool" },
+          { label: "Gold Repp Heritage", pocket: "Gold Wool Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Gold Wool" },
+          { label: "Forest Knit Country", pocket: "Forest Green Wool Fold", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Forest Green Wool" },
+          { label: "Mustard Paisley Rich", pocket: "Mustard Silk Paisley", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Wool" },
+          { label: "Ivory Knit Ease", pocket: "Ivory Wool Fold", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream and oxblood tweed is a masterpiece of autumn dressing — heavy, warm, and rich enough to make the season feel like a privilege."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Oxblood Tweed", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Navy Wool" },
+          { label: "Charcoal Country", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Wool Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Knit Country", pocket: "Forest Green Wool Fold", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Forest Green" },
+          { label: "Mustard Warmth", pocket: "Mustard Wool Square", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Silk Paisley", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Blue oxford with oxblood tweed is the relaxed contrast that makes heavy red cloth wearable — calm shirt, dramatic suit, effortless confidence."
+      }
+    ]
+  },
+
+  "oxblood|linen": {
+    suit: { color: "Oxblood", pattern: "Linen", fabric: "Italian Linen", weight: "Light", cut: "Relaxed" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Linen", collar: "Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Oxblood Summer Bold", pocket: "White Linen Square", shoes: "Oxblood Derby", belt: "Oxblood Leather", socks: "No-Show White" },
+          { label: "Charcoal Knit Edge", pocket: "Charcoal Linen Fold", shoes: "Black Canvas Derby", belt: "Black Leather", socks: "No-Show White" },
+          { label: "Gold Summer Warmth", pocket: "Gold Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Nude" },
+          { label: "Forest Linen", pocket: "Forest Green Linen Square", shoes: "Dark Olive Loafer", belt: "Olive Leather", socks: "No-Show White" },
+          { label: "Ivory Dot", pocket: "Ivory Linen Fold", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" },
+          { label: "Mustard Warmth", pocket: "Mustard Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Nude" }
+        ],
+        styleMantra: "Oxblood linen is the summer suit that nobody expects — a dark red in the heat is a statement of absolute individuality, worn only by men who need no approval."
+      },
+      {
+        color: "Warm Cream", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Oxblood Ease", pocket: "Cream Linen Square", shoes: "Oxblood Leather Loafer", belt: "None", socks: "No-Show Nude" },
+          { label: "Navy Anchor Warm", pocket: "Navy Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Gold Linen Easy", pocket: "Gold Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Nude" },
+          { label: "Forest Linen Ease", pocket: "Forest Green Linen Square", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "No-Show White" },
+          { label: "Mustard Autumn", pocket: "Mustard Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Nude" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "No-Show Cream" }
+        ],
+        styleMantra: "Cream linen open-collar with oxblood is Marrakech dressed for the evening — the warmth of the shirt lets the deep red breathe freely."
+      },
+      {
+        color: "Light Blue", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Blue Oxblood Coastal", pocket: "White Linen Square", shoes: "White Canvas Espadrille", belt: "None", socks: "No-Show White" },
+          { label: "Navy Summer", pocket: "Navy Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Charcoal Knit Easy", pocket: "Charcoal Linen Fold", shoes: "Black Canvas Derby", belt: "Black Leather", socks: "No-Show White" },
+          { label: "Gold Summer Ease", pocket: "Gold Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Nude" },
+          { label: "Ivory Coastal", pocket: "Ivory Linen Fold", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" },
+          { label: "Forest Summer", pocket: "Forest Green Linen Square", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "No-Show White" }
+        ],
+        styleMantra: "Light blue linen open-collar with oxblood is the boldest coastal look possible — sky and deep red, summer and drama, completely and beautifully yours."
+      }
+    ]
+  },
+
+  "oxblood|houndstooth": {
+    suit: { color: "Oxblood", pattern: "Houndstooth", fabric: "Wool Blend", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxblood Houndstooth Bold", pocket: "White Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Charcoal Ribbed" },
+          { label: "Charcoal Depth", pocket: "Charcoal Grenadine Fold", shoes: "Black Cap-Toe Oxford", belt: "Black Leather", socks: "Charcoal Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Dot", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Ribbed" },
+          { label: "Silver Stripe", pocket: "Silver Silk Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Oxblood houndstooth is graphic drama at its absolute peak — deep red broken into bold pattern, worn by men for whom ordinary is not an option."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Mustard", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream Houndstooth Rich", pocket: "Cream Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Camel Wool" },
+          { label: "Charcoal Dot Depth", pocket: "Charcoal Linen Fold", shoes: "Black Derby", belt: "Black Leather", socks: "Charcoal Ribbed" },
+          { label: "Gold Knit Warmth", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Forest Solid", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Forest Green" },
+          { label: "Mustard Geometry", pocket: "Mustard Silk Square", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Mustard Cotton" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream softens oxblood houndstooth into something approachable — the pattern and colour are still bold, but now there is warmth to welcome you in."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Charcoal", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Oxblood Pattern", pocket: "White Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Navy Ribbed" },
+          { label: "Charcoal Easy", pocket: "Charcoal Linen Fold", shoes: "Black Oxford", belt: "Black Leather", socks: "Charcoal Cotton" },
+          { label: "Gold Geo Pop", pocket: "Gold Pocket Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Gold Ribbed" },
+          { label: "Forest Knit Ease", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Green Cotton" },
+          { label: "Silver Dot", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Blue oxford with oxblood houndstooth is relaxed mastery of the boldest pattern — the cool shirt keeps the drama from overwhelming, and the result is effortlessly striking."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -8288,6 +8750,7 @@ function getLocalAnalysis(text) {
     else if (/chocolate suit|chocolate blazer|chocolate brown suit|chocolate wool|chocolate tweed|chocolate herringbone|chocolate houndstooth|chocolate linen|dark brown suit|deep brown suit|espresso suit|mahogany suit|walnut suit|mocha suit|cocoa suit/.test(t)) { colorKey = "chocolate"; colorMatched = true }
     else if (/charcoal herringbone|charcoal glen plaid|charcoal tweed|charcoal houndstooth|charcoal chalk stripe|charcoal linen suit|charcoal flannel|charcoal wool suit|charcoal plaid|dark grey suit|dark gray suit|graphite suit|anthracite suit|charcoal stripe/.test(t)) { colorKey = "charcoalexpanded"; colorMatched = true }
     else if (/dove grey suit|dove gray suit|dove grey blazer|mid grey suit|mid gray suit|medium grey suit|medium gray suit|grey flannel suit|gray flannel suit|grey wool suit|gray wool suit|grey herringbone|gray herringbone|grey glen plaid|gray glen plaid|grey tweed suit|gray tweed suit|grey chalk stripe|gray chalk stripe|silver grey suit|light grey suit|light gray suit|pearl grey suit|ash grey suit/.test(t)) { colorKey = "dovegrey"; colorMatched = true }
+    else if (/oxblood suit|oxblood blazer|oxblood wool|oxblood tweed|oxblood herringbone|oxblood houndstooth|oxblood linen|deep burgundy suit|dark burgundy suit|wine suit|wine blazer|claret suit|claret blazer|bordeaux suit|garnet suit|deep red suit|crimson suit|port suit|maroon suit/.test(t)) { colorKey = "oxblood"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
