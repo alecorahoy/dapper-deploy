@@ -4770,6 +4770,7 @@ function getLocalAnalysis(text) {
   else if (/cream suit|ivory suit|cream wool|ivory blazer|cream blazer|cream tweed|cream linen/.test(t)) { colorKey = "cream"; colorMatched = true }
   else if (/powder blue|light blue suit|sky blue suit|baby blue|cornflower blue/.test(t)) { colorKey = "lightblue"; colorMatched = true }
   else if (/pink suit|blush suit|rose suit|pink blazer|blush blazer/.test(t)) { colorKey = "pink"; colorMatched = true }
+  else if (/teal suit|petrol suit|teal blazer|teal wool|teal linen/.test(t)) { colorKey = "teal"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
   else if (/royal blue|bright blue|cobalt|electric blue|blue/.test(t))    { colorKey = "blue"; colorMatched = true }
