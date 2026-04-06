@@ -5558,6 +5558,468 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  "forestgreen|solid": {
+    suit: { color: "Forest Green", pattern: "Solid", fabric: "Wool Crepe", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Verdant Authority", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Depth", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold in the Green", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Brown Earth", pocket: "Brown Silk Fold", shoes: "Dark Tan Derby", belt: "Brown Leather", socks: "Chocolate Ribbed" },
+          { label: "Ivory Elegance", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" },
+          { label: "Rust Warmth", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" }
+        ],
+        styleMantra: "Forest green solid is nature's power suit — deep, grounded, and dressed for the man who doesn't need to shout to be heard."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Woodland Cream", pocket: "Cream Silk Square", shoes: "Cognac Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Brown Repp Forest", pocket: "Brown Linen Fold", shoes: "Dark Brown Derby", belt: "Brown Leather", socks: "Chocolate Ribbed" },
+          { label: "Gold Warmth", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Bloom", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust & Forest", pocket: "Rust Silk Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream softens forest green without weakening it — a woodland palette that feels cultivated and completely modern."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Woven Silk", pattern: "Stripe", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Forest", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Brown Grenadine Ease", pocket: "Brown Silk Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Repp", pocket: "Burgundy Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Stripe Warm", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Pale blue brings a serene intelligence to forest green — the cool of the sky meeting the depth of the woods."
+      }
+    ]
+  },
+
+  "forestgreen|chalk_stripe": {
+    suit: { color: "Forest Green", pattern: "Chalk Stripe", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Chocolate Brown", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Woven Silk", pattern: "Stripe", width: "3-inch", knot: "Pratt" }
+        ],
+        packages: [
+          { label: "Forest Chalk Authority", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Burgundy Stripe", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Gold Chalk Warmth", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Brown Dot Heritage", pocket: "Brown Silk Fold", shoes: "Dark Tan Derby", belt: "Brown Leather", socks: "Chocolate Wool" },
+          { label: "Ivory Paisley", pocket: "Ivory Silk Paisley", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" },
+          { label: "Rust Stripe", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" }
+        ],
+        styleMantra: "Forest green chalk stripe is a revelation — structured enough for the boardroom, bold enough to make everyone look twice."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream Forest Classic", pocket: "Cream Silk Fold", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Brown Stripe Depth", pocket: "Brown Linen Fold", shoes: "Dark Brown Derby", belt: "Brown Leather", socks: "Chocolate Ribbed" },
+          { label: "Gold Knit Warmth", pocket: "Gold Pocket Square", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Bloom", pocket: "Burgundy Floral Silk", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Harmony", pocket: "Rust Silk Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream and forest green chalk stripe is an autumnal evening in formal dress — warm, deep, and unhurried."
+      },
+      {
+        color: "Light Blue", fabric: "Chambray", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Chalk Ease", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Brown Dot Casual", pocket: "Brown Silk Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Gold Geo Pop", pocket: "Gold Pocket Square", shoes: "Tan Loafer", belt: "Tan Leather", socks: "Gold Ribbed" },
+          { label: "Burgundy Repp", pocket: "Burgundy Pocket Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Knit Warmth", pocket: "Rust Silk Square", shoes: "Cognac Derby", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Chambray blue with forest green chalk stripe is relaxed dressing for the man who could wear anything and chooses this."
+      }
+    ]
+  },
+
+  "forestgreen|glen_plaid": {
+    suit: { color: "Forest Green", pattern: "Glen Plaid", fabric: "Wool Tweed", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Chocolate Brown", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Highland Gentleman", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Burgundy Heritage", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Gold Country", pocket: "Gold Silk Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Brown Stripe Earth", pocket: "Brown Silk Fold", shoes: "Dark Tan Derby", belt: "Brown Leather", socks: "Chocolate Wool" },
+          { label: "Rust Dot Warmth", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Forest green glen plaid is the Highland estate reimagined for the modern city — ancient pattern, contemporary conviction."
+      },
+      {
+        color: "Warm Cream", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream Country Heritage", pocket: "Cream Linen Square", shoes: "Dark Tan Brogue", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Brown Repp Classic", pocket: "Brown Silk Fold", shoes: "Dark Brown Derby", belt: "Brown Leather", socks: "Chocolate Wool" },
+          { label: "Gold Knit Country", pocket: "Gold Pocket Square", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Bloom", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust & Forest", pocket: "Rust Silk Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream grounds forest green glen plaid with a gentle warmth — country heritage worn with quiet ease."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Burgundy", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Rust", fabric: "Silk Twill", pattern: "Stripe", width: "3-inch", knot: "Pratt" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Country Ease", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Brown Heritage Casual", pocket: "Brown Linen Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Loafer", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Knit", pocket: "Burgundy Linen Square", shoes: "Oxblood Derby", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Stripe Warmth", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Paisley Refined", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Blue oxford and forest green glen plaid is relaxed Ivy League dressed for the outdoors — studied, natural, quietly sharp."
+      }
+    ]
+  },
+
+  "forestgreen|herringbone": {
+    suit: { color: "Forest Green", pattern: "Herringbone", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Rust", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Green Herringbone Precision", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Texture", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Brown Dot Earth", pocket: "Brown Silk Fold", shoes: "Dark Tan Derby", belt: "Brown Leather", socks: "Chocolate Wool" },
+          { label: "Rust Repp Warmth", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Forest green herringbone catches light like a forest canopy — alive with texture, commanding without effort."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Herringbone Warm", pocket: "Cream Silk Fold", shoes: "Cognac Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Brown Stripe Depth", pocket: "Brown Linen Fold", shoes: "Dark Brown Derby", belt: "Brown Leather", socks: "Chocolate Ribbed" },
+          { label: "Gold Knit Ease", pocket: "Gold Pocket Square", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Bloom", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Warmth", pocket: "Rust Silk Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Tonal Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream and forest green herringbone is the woodland palette dressed for dinner — rich, textured, and deeply intentional."
+      },
+      {
+        color: "Light Blue", fabric: "Chambray", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Green Texture", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Brown Grenadine Ease", pocket: "Brown Silk Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Gold Geo Casual", pocket: "Gold Pocket Square", shoes: "Tan Loafer", belt: "Tan Leather", socks: "Gold Ribbed" },
+          { label: "Burgundy Repp", pocket: "Burgundy Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Knit Warmth", pocket: "Rust Silk Square", shoes: "Cognac Derby", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Paisley Soft", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Chambray blue meets forest green herringbone — the cool of water, the depth of the forest, the ease of a man who has it figured out."
+      }
+    ]
+  },
+
+  "forestgreen|tweed": {
+    suit: { color: "Forest Green", pattern: "Tweed", fabric: "Harris Tweed", weight: "Heavy", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Chocolate Brown", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Forest Tweed Command", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Burgundy Floral Heritage", pocket: "Burgundy Floral Silk", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Gold Country", pocket: "Gold Silk Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Wool" },
+          { label: "Brown Stripe Classic", pocket: "Brown Silk Fold", shoes: "Dark Tan Derby", belt: "Brown Leather", socks: "Chocolate Wool" },
+          { label: "Rust Dot Warmth", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Paisley", pocket: "Ivory Silk Paisley", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Forest green tweed is the suit of the land — heavy, honest, and worn by men who know the difference between dressed and truly dressed."
+      },
+      {
+        color: "Warm Cream", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Paisley", width: "3-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream Tweed Warmth", pocket: "Cream Linen Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Camel Wool" },
+          { label: "Brown Grenadine Earth", pocket: "Brown Silk Fold", shoes: "Dark Brown Derby", belt: "Brown Leather", socks: "Chocolate Wool" },
+          { label: "Gold Repp Country", pocket: "Gold Pocket Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Wool" },
+          { label: "Burgundy Paisley", pocket: "Burgundy Silk Paisley", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Knit Forest", pocket: "Rust Wool Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Rust Wool" },
+          { label: "Ivory Solid Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream and forest green tweed is the English estate at its most magnificent — lived in, beloved, and built to outlast fashion."
+      },
+      {
+        color: "Pale Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Twill", pattern: "Stripe", width: "3-inch", knot: "Pratt" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Tweed Country", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Brown Grenadine Casual", pocket: "Brown Linen Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Loafer", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Dot", pocket: "Burgundy Linen Square", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Rust Stripe Warmth", pocket: "Rust Wool Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Silk Paisley", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Blue oxford with forest green tweed is the unexpected contrast that always works — cool clarity meeting rich, rugged depth."
+      }
+    ]
+  },
+
+  "forestgreen|linen": {
+    suit: { color: "Forest Green", pattern: "Linen", fabric: "Italian Linen", weight: "Light", cut: "Relaxed" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Linen", collar: "Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Rust", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Summer Forest", pocket: "White Linen Square", shoes: "White Leather Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Gold Summer Warmth", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "Burgundy Linen Edge", pocket: "Burgundy Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Brown Knit Ease", pocket: "Brown Linen Fold", shoes: "Tan Derby", belt: "Brown Leather", socks: "No-Show Nude" },
+          { label: "Rust Linen Warmth", pocket: "Rust Linen Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "No-Show Nude" },
+          { label: "Ivory Dot Cool", pocket: "Ivory Linen Fold", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" }
+        ],
+        styleMantra: "Forest green linen with white is the garden party look for men who take style seriously — fresh, effortless, and undeniably bold."
+      },
+      {
+        color: "Warm Cream", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Rust", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Forest Barefoot Ease", pocket: "Cream Linen Square", shoes: "Tan Leather Espadrille", belt: "None", socks: "No-Show Nude" },
+          { label: "Gold Linen Warmth", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "Brown Knit Natural", pocket: "Brown Linen Fold", shoes: "Tan Derby", belt: "Brown Leather", socks: "No-Show Nude" },
+          { label: "Rust & Forest", pocket: "Rust Linen Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "No-Show Nude" },
+          { label: "Burgundy Ease", pocket: "Burgundy Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show White" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" }
+        ],
+        styleMantra: "Cream linen open-collar with forest green is the Italian summer ideal — la dolce vita with the forest as your backdrop."
+      },
+      {
+        color: "Light Blue", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "White", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Rust", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Blue & Green Coast", pocket: "White Linen Square", shoes: "White Canvas Espadrille", belt: "None", socks: "No-Show White" },
+          { label: "Navy Coastal", pocket: "Navy Linen Fold", shoes: "Navy Canvas Derby", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Gold Summer", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "White Knit Ease", pocket: "White Cotton Fold", shoes: "White Leather Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Rust Coastal Warmth", pocket: "Rust Linen Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "No-Show Nude" },
+          { label: "Ivory Shore", pocket: "Ivory Silk Square", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" }
+        ],
+        styleMantra: "Light blue linen with forest green is the natural world at its most stylish — sky and forest, fresh and free."
+      }
+    ]
+  },
+
+  "forestgreen|houndstooth": {
+    suit: { color: "Forest Green", pattern: "Houndstooth", fabric: "Wool Blend", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Chocolate Brown", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Forest Houndstooth Bold", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Depth", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Brown Stripe Earth", pocket: "Brown Silk Fold", shoes: "Dark Tan Derby", belt: "Brown Leather", socks: "Chocolate Ribbed" },
+          { label: "Rust Dot Warmth", pocket: "Rust Silk Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Forest green houndstooth is the statement suit for men who don't need permission — deep, graphic, and completely self-assured."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Houndstooth Warm", pocket: "Cream Linen Square", shoes: "Cognac Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Brown Dot Rich", pocket: "Brown Silk Fold", shoes: "Dark Brown Derby", belt: "Brown Leather", socks: "Chocolate Ribbed" },
+          { label: "Gold Knit Ease", pocket: "Gold Pocket Square", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Burgundy Floral", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Forest Warmth", pocket: "Rust Silk Square", shoes: "Cognac Loafer", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream softens forest green houndstooth into something truly wearable — the pattern stays bold, the look stays approachable."
+      },
+      {
+        color: "Light Blue", fabric: "Chambray", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Rust", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cool Forest Pattern", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Brown Grenadine Ease", pocket: "Brown Silk Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Gold Geo Pop", pocket: "Gold Pocket Square", shoes: "Tan Loafer", belt: "Tan Leather", socks: "Gold Ribbed" },
+          { label: "Burgundy Repp", pocket: "Burgundy Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Rust Knit Warmth", pocket: "Rust Silk Square", shoes: "Cognac Derby", belt: "Cognac Leather", socks: "Rust Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Tan Cap-Toe", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Chambray blue with forest green houndstooth is the relaxed pattern-play of a man who knows exactly what he is doing."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -5973,6 +6435,7 @@ function getLocalAnalysis(text) {
     else if (/rust suit|rust blazer|rust jacket|rust wool|rust linen|rust tweed|rust houndstooth|rust herringbone|rust plaid|orange suit|burnt orange suit|terracotta suit|copper suit|cinnamon suit/.test(t)) { colorKey = "rust"; colorMatched = true }
     else if (/mustard suit|mustard blazer|mustard jacket|mustard wool|mustard linen|mustard tweed|mustard houndstooth|gold suit|gold blazer|golden suit|ochre suit|amber suit|saffron suit|yellow suit|marigold suit/.test(t)) { colorKey = "mustard"; colorMatched = true }
     else if (/navy herringbone|navy glen plaid|navy tweed|navy houndstooth|navy chalk stripe|navy linen suit|navy flannel|midnight navy|dark navy suit|indigo suit|navy wool suit|bengal stripe navy/.test(t)) { colorKey = "navyexpanded"; colorMatched = true }
+    else if (/forest green suit|forest green blazer|dark green suit|deep green suit|hunter green suit|bottle green suit|racing green suit|emerald suit|emerald blazer|pine green suit|woodland green suit|forest green tweed|forest green herringbone|forest green houndstooth|forest green wool/.test(t)) { colorKey = "forestgreen"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
