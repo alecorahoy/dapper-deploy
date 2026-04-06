@@ -5045,6 +5045,8 @@ function getLocalAnalysis(text) {
   else if (/pink suit|blush suit|rose suit|pink blazer|blush blazer/.test(t)) { colorKey = "pink"; colorMatched = true }
   else if (/teal suit|petrol suit|teal blazer|teal wool|teal linen/.test(t)) { colorKey = "teal"; colorMatched = true }
   else if (/tan suit|khaki suit|tan blazer|khaki blazer|tan wool|tan linen/.test(t)) { colorKey = "tan"; colorMatched = true }
+  else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
+  else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
   else if (/royal blue|bright blue|cobalt|electric blue|blue/.test(t))    { colorKey = "blue"; colorMatched = true }
