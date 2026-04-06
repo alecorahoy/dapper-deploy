@@ -10181,6 +10181,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── ECRU / OFF-WHITE EXPANDED ───────────────────────────────────────────────
+  "ecru|solid": {
+    suit: { color: "Ecru", pattern: "Solid", hex: "#C8B89A", fabric: "Superfine wool or raw silk blend — warm natural tone" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth anchors the natural ecru palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Deep navy cuts cleanly through warm ecru" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Natural linen and forest — the organic palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal warmth — gold and ecru are family" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich contrast that gives the pale suit gravitas" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark anchor through the warm natural suit" }
+        ],
+        packages: [
+          { name: "Natural Earth", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toe oxfords"] },
+          { name: "Ecru Classic", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Organic Pair", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Warm Tonal", items: ["Warm gold knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Rich Contrast", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Strong Line", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Ecru solid — natural luxury made deliberate. Raw silk and warm light in suit form."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through warm ecru — always sharp" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and warm suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, ecru, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth disrupts the cool blue palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Rich contrast in the cool-warm composition" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Cool dark anchor through pale blue and ecru" }
+        ],
+        packages: [
+          { name: "Blue & Natural", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Bridge", items: ["Cognac knit tie", "White pocket square", "Tan derbies"] },
+          { name: "Three Naturals", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Break", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Contrast", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Anchor", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal loafers"] }
+        ],
+        styleMantra: "Pale blue on ecru — the cool shirt that makes the warm natural suit complete."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal grey depth anchors the natural suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue structure through grey and ecru" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth disrupts the cool grey palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich warm contrast in a cool-neutral ensemble" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Natural depth — grey shirt, ecru suit, forest tie" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warmth that bridges grey and natural ecru" }
+        ],
+        packages: [
+          { name: "Grey Natural", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Grey Classic", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Warm Break", items: ["Cognac knit tie", "No pocket square", "Tan cap-toes"] },
+          { name: "Rich Natural", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Organic Grey", items: ["Forest green tie", "White pocket square", "Brown loafers"] },
+          { name: "Gold Bridge", items: ["Warm gold knit tie", "White pocket square", "Tan loafers"] }
+        ],
+        styleMantra: "Grey and ecru — two naturals that share a quiet confidence neither needs to announce."
+      }
+    ]
+  },
+
+  "ecru|chalk_stripe": {
+    suit: { color: "Ecru", pattern: "Chalk Stripe", hex: "#C8B89A", fabric: "Superfine wool, warm ivory chalk stripe on ecru" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "The chalk stripe tradition elevated in warm ecru" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth — natural suit, natural tie" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich authority in a warm striped suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the warm chalk stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — gold picks up the chalk stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum structure in a warm natural suit" }
+        ],
+        packages: [
+          { name: "Natural Stripe", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Heritage Stripe", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Rich Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Organic Stripe", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Gold Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Tan monks"] },
+          { name: "Power Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal oxfords"] }
+        ],
+        styleMantra: "Ecru chalk stripe — the warm-weather power suit. All the structure, none of the chill."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool navy grounds the pale blue on warm stripe" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and warm ecru stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic trio — blue, green, natural ecru" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold warm contrast in a cool-warm composition" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through pale blue and warm stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm light disrupts the cool blue palette" }
+        ],
+        packages: [
+          { name: "Blue Stripe", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Stripe", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Organic Blue", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Bold Blue Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Gold Blue", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] }
+        ],
+        styleMantra: "Pale blue cools the ecru chalk stripe to its most refined expression."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth — pale on pale with a warm anchor" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic contrast through ivory and ecru stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — gold, ecru, ivory in harmony" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth in a warm, pale ensemble" },
+          { color: "Ecru (tonal)", hex: "#C8B89A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the stripe does the work" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep punctuation in a warm, pale composition" }
+        ],
+        packages: [
+          { name: "Warm Heritage", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Pale Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Ivory Stripe", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan oxfords"] },
+          { name: "Organic Pale", items: ["Forest green tie", "White pocket square", "Brown loafers"] },
+          { name: "Tonal Natural", items: ["Ecru knit tie", "No pocket square", "Cognac loafers"] },
+          { name: "Deep Pale", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Ivory on ecru chalk stripe — pale on pale, the warmth is the detail."
+      }
+    ]
+  },
+
+  "ecru|glen_plaid": {
+    suit: { color: "Ecru", pattern: "Glen Plaid", hex: "#C8B89A", fabric: "Wool-cashmere blend, warm natural ecru glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic navy frames the natural plaid beautifully" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth woven through the plaid pattern" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Country house palette — ecru plaid and forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the warm overcheck in golden light" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast completes the natural plaid story" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through the warm plaid geometry" }
+        ],
+        packages: [
+          { name: "Natural Plaid", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Heritage Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toes"] },
+          { name: "Country House", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Gold Overcheck", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Deep Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Plaid Authority", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Ecru glen plaid — the country house in cashmere. Relaxed authority worn impeccably."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor to the warm natural plaid" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth warmth bridges cool blue and natural ecru" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, ecru plaid, forest green" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth in a cool-warm plaid ensemble" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast in the natural composition" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool unifier across the blue shirt and plaid" }
+        ],
+        packages: [
+          { name: "Blue Natural", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earthen Plaid", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Sky & Earth", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Natural", items: ["Burgundy tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Silver Natural", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on ecru glen plaid — cool composure in a warm, geometric suit."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most natural combination imaginable" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — gold, ecru, ivory in one look" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep organic depth in a pale natural palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through pale warmth and plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in a warm, pale plaid" },
+          { color: "Ecru (tonal)", hex: "#C8B89A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the plaid is the detail" }
+        ],
+        packages: [
+          { name: "Warmest Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Organic Ivory", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Deep Ivory Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Ecru", items: ["Ecru knit tie", "No pocket square", "Cognac monks"] }
+        ],
+        styleMantra: "Ivory on ecru glen plaid — warmth layered on warmth. Studied nonchalance in its finest form."
+      }
+    ]
+  },
+
+  "ecru|herringbone": {
+    suit: { color: "Ecru", pattern: "Herringbone", hex: "#C8B89A", fabric: "Mid-weight wool herringbone, warm natural ecru tones" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth flows naturally through the herringbone" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Deep structure through the natural weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic harmony — ecru weave and forest green" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal warmth catches the herringbone texture" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich contrast elevates the natural textured suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through warm, woven texture" }
+        ],
+        packages: [
+          { name: "Natural Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toe oxfords"] },
+          { name: "Weave Classic", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Organic Weave", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Texture", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Rich Texture", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Texture", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Ecru herringbone — natural fabric doing natural things. The texture tells the story."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through the warm woven suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and warm ecru" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, weave, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth in a cool-warm herringbone" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold warm contrast in the natural ensemble" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool grey unifies pale blue and ecru weave" }
+        ],
+        packages: [
+          { name: "Blue Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earthen Weave", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Sky & Weave", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Weave", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Weave", items: ["Burgundy tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Silver Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue and ecru herringbone — the cool shirt reveals how warm the suit truly is."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark tonal cool through grey and warm ecru" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through grey and natural weave" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth disrupts the cool grey palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich contrast anchors the natural-grey pairing" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth bridges grey and natural ecru" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic note through the neutral ensemble" }
+        ],
+        packages: [
+          { name: "Grey Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Blue Natural", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Warm Disruption", items: ["Cognac knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Rich Natural", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Bridge", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Organic Grey", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] }
+        ],
+        styleMantra: "Grey on ecru herringbone — two quiet tones, one strong impression."
+      }
+    ]
+  },
+
+  "ecru|tweed": {
+    suit: { color: "Ecru", pattern: "Tweed", hex: "#C8B89A", fabric: "Donegal tweed, warm natural base with brown and cream flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Country tweed's most natural companion" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Natural ecru tweed and forest — the organic country look" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy civilizes the warm natural tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth catches the cream flecks in the tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Hunt-country authority through the warm flecks" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Heather note — found in the finest natural tweeds" }
+        ],
+        packages: [
+          { name: "Donegal Ecru", items: ["Cognac wool knit tie", "Cream pocket square", "Tan derby shoes"] },
+          { name: "Natural Forest", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Natural Naval", items: ["Navy repp tie", "White pocket square", "Brown leather oxfords"] },
+          { name: "Gold Fleck", items: ["Warm gold knit tie", "No pocket square", "Chestnut monks"] },
+          { name: "Hunt Natural", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Heather Fleck", items: ["Dusty mauve tie", "Ivory pocket square", "Brown loafers"] }
+        ],
+        styleMantra: "Ecru tweed — the country suit that was made by the landscape it belongs in."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Warmest possible combination — all natural tones" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical root in the warm natural palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun-gold amplified by ivory and natural tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One sharp cool note in the warmest look" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Rich punctuation through warm flecks and ivory" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Tonal warmth — the most natural of all combinations" }
+        ],
+        packages: [
+          { name: "All Natural", items: ["Cognac wool knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Botanical", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Golden Natural", items: ["Warm gold knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Ivory Naval", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Burgundy Natural", items: ["Burgundy wool tie", "White pocket square", "Chestnut monks"] },
+          { name: "Tan Natural", items: ["Warm tan wool knit tie", "Ivory pocket square", "Tan derbies"] }
+        ],
+        styleMantra: "Ivory on ecru tweed — shades of natural, layers of warmth. The purest country dressing."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Warm earth bridges cool sky and natural tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through the warm textured suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Sky, ecru tweed, forest — all naturals" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth disrupts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Bold warm contrast in a cool-warm composition" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool grey unifies blue and natural tweed" }
+        ],
+        packages: [
+          { name: "Sky & Tweed", items: ["Cognac wool knit tie", "Pale blue pocket square", "Tan derbies"] },
+          { name: "Blue Natural", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "All Naturals", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Break", items: ["Warm gold knit tie", "White pocket square", "Chestnut monks"] },
+          { name: "Burgundy Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Natural", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on ecru tweed — the sky above a natural landscape, worn impeccably."
+      }
+    ]
+  },
+
+  "ecru|linen": {
+    suit: { color: "Ecru", pattern: "Linen", hex: "#C8B89A", fabric: "Italian linen, warm natural ecru — rich slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The natural linen suit's most instinctive partner" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The only deliberate note in the most relaxed suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Raw linen and forest — an organic summer story" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal summer warmth — gold and ecru linen" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on natural linen — Mediterranean perfection" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Warm bloom for an outdoor summer occasion" }
+        ],
+        packages: [
+          { name: "Natural Linen", items: ["Cognac knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Linen Navy", items: ["Navy silk tie", "White linen pocket square", "Brown leather loafers"] },
+          { name: "Organic Summer", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Gold Linen", items: ["Warm gold knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Terra Linen", items: ["Terracotta tie", "White linen pocket square", "Tan espadrilles"] },
+          { name: "Rose Linen", items: ["Dusty rose tie", "White linen pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Ecru linen — the fabric of long lunches, slow summers and impeccable nonchalance."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor in the warmest natural linen suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges pale blue and natural linen" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Coastal garden — blue, ecru linen, forest green" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun breaks through the cool palette naturally" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on cool blue — unexpected and right" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool tonal refinement for a breezy occasion" }
+        ],
+        packages: [
+          { name: "Blue Linen", items: ["Navy tie", "Pale blue pocket square", "Brown leather loafers"] },
+          { name: "Earthen Blue", items: ["Cognac knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Coastal Linen", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Tan suede loafers"] },
+          { name: "Terra Blue", items: ["Terracotta tie", "White linen pocket square", "Tan espadrilles"] },
+          { name: "Silver Linen", items: ["Silver grey tie", "White pocket square", "Light grey suede loafers"] }
+        ],
+        styleMantra: "Pale blue on ecru linen — the Riviera at its most effortlessly dressed."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest linen combination — all natural" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Tonal summer warmth in every element" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Pale and botanical — garden-party precision" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "One sharp note in the most relaxed pale look" },
+          { color: "Ecru (tonal)", hex: "#C8B89A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the linen texture speaks" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on ivory and ecru — the organic triad" }
+        ],
+        packages: [
+          { name: "Warmest Linen", items: ["Cognac knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Golden Linen", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan suede loafers"] },
+          { name: "Pale Garden", items: ["Forest green tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Ivory Anchor", items: ["Navy tie", "Ivory pocket square", "Brown leather loafers"] },
+          { name: "Tonal Natural", items: ["Ecru knit tie", "No pocket square", "Cognac loafers"] },
+          { name: "Clay & Ivory", items: ["Terracotta tie", "Ivory pocket square", "Tan espadrilles"] }
+        ],
+        styleMantra: "Ivory on ecru linen — warmth on warmth. The summer suit for someone with nowhere to be and everywhere to be seen."
+      }
+    ]
+  },
+
+  "ecru|houndstooth": {
+    suit: { color: "Ecru", pattern: "Houndstooth", hex: "#C8B89A", fabric: "Wool blend, warm ecru and ivory houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic anchor — navy grounds the warm natural check" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal warmth through the natural houndstooth" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the warm geometric pattern" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the ivory check element in warm light" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Bold deep contrast in the natural check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark anchor through the warm geometric" }
+        ],
+        packages: [
+          { name: "Natural Check", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Tonal Natural", items: ["Cognac knit tie", "Ivory pocket square", "Tan oxfords"] },
+          { name: "Organic Check", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Check", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Bold Natural Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Check Authority", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal oxfords"] }
+        ],
+        styleMantra: "Ecru houndstooth — the natural check. Warm where grey would be cold, organic where charcoal would be severe."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue depth anchors the warm natural check" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and natural check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic trio — blue, ecru houndstooth, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth in a cool-warm natural check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through the cool-warm composition" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool unifier across pale blue and natural check" }
+        ],
+        packages: [
+          { name: "Blue Natural Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Check", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Organic Blue Check", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Natural", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Blue Check", items: ["Burgundy tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Silver Natural", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on ecru houndstooth — the cool shirt reveals the warmth of the check."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most natural combination in the wardrobe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — gold, ivory, ecru houndstooth" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One cool anchor in an entirely warm composition" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth through the pale natural check" },
+          { color: "Ecru (tonal)", hex: "#C8B89A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the check is the whole statement" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in a pale, warm composition" }
+        ],
+        packages: [
+          { name: "Warmest Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Check", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Ivory Classic Check", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Organic Ivory", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Tonal Ecru Check", items: ["Ecru knit tie", "No pocket square", "Cognac monks"] },
+          { name: "Ivory Depth", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Ivory on ecru houndstooth — the pattern disappears into warmth. Only the elegance remains."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -10606,6 +11069,7 @@ function getLocalAnalysis(text) {
         else if (/sage suit|sage blazer|sage green suit|sage green blazer|sage wool|sage tweed|sage linen|sage herringbone|sage glen plaid|sage houndstooth|dusty green suit|muted green suit|grey green suit|gray green suit|sage chalk stripe|soft green suit|pale green suit|sage flannel/.test(t)) { colorKey = "sage"; colorMatched = true }
         else if (/terracotta suit|terracotta blazer|brick suit|brick red suit|clay suit|clay blazer|burnt orange suit|terra cotta suit|terracotta wool|terracotta linen|terracotta tweed|terracotta herringbone|terracotta houndstooth|brick houndstooth|clay tweed|brick tweed|warm orange suit|adobe suit|sienna suit/.test(t)) { colorKey = "terracotta"; colorMatched = true }
         else if (/lavender suit|lavender blazer|lilac suit|lilac blazer|soft purple suit|light purple suit|pale purple suit|lavender wool|lavender linen|lavender tweed|lavender herringbone|lavender houndstooth|lilac tweed|lilac linen|lilac herringbone|dusty purple suit|lavender glen plaid|lilac glen plaid|soft violet suit/.test(t)) { colorKey = "lavender"; colorMatched = true }
+        else if (/ecru suit|ecru blazer|off white suit|off-white suit|raw linen suit|natural linen suit|unbleached suit|ecru wool|ecru linen|ecru tweed|ecru herringbone|ecru houndstooth|ecru glen plaid|warm white suit|natural white suit|greige suit|raw silk suit|ecru chalk stripe|parchment suit|warm off white suit/.test(t)) { colorKey = "ecru"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
