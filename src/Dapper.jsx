@@ -5096,6 +5096,468 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  "navyexpanded|solid": {
+    suit: { color: "Navy", pattern: "Solid", fabric: "Wool Twill", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Red", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Classic Power", pocket: "White Linen Square", shoes: "Black Cap-Toe Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Silver Elegance", pocket: "Silver Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Gold Accent", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Red Authority", pocket: "Red Silk Square", shoes: "Black Derby", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Green Contrast", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Tonal Navy", pocket: "Navy Silk Square", shoes: "Navy Suede Loafer", belt: "Dark Brown Leather", socks: "Navy Cotton" }
+        ],
+        styleMantra: "Navy solid is the cornerstone of menswear — the suit every man needs, the canvas that makes every tie look intentional."
+      },
+      {
+        color: "Light Blue", fabric: "Pinpoint Oxford", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Tonal Blue Refinement", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Gold Statement", pocket: "Gold Silk Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Sophistication", pocket: "Silver Grey Silk", shoes: "Charcoal Suede Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Brown Dot Ease", pocket: "Brown Silk Fold", shoes: "Dark Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Red Precision", pocket: "Red Silk Square", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Light blue with navy is the clearest expression of the English tradition — understated, confident, and impeccably proportioned."
+      },
+      {
+        color: "White Stripe", fabric: "Bengal Stripe", collar: "Semi-Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Navy", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "City Sharp", pocket: "White Linen Square", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Repp Tradition", pocket: "Navy Silk Fold", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver City", pocket: "Silver Silk Square", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Dot Precision", pocket: "Red Linen Square", shoes: "Black Brogue", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Green Knit Ease", pocket: "Green Pocket Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "Green Cotton" }
+        ],
+        styleMantra: "Bengal stripe with navy and no explanation needed — this is the quintessential City look, worn exactly right."
+      }
+    ]
+  },
+
+  "navyexpanded|chalk_stripe": {
+    suit: { color: "Navy", pattern: "Chalk Stripe", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Red", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Banker's Classic", pocket: "White Linen Square", shoes: "Black Cap-Toe Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Silver Power", pocket: "Silver Silk Fold", shoes: "Charcoal Suede Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Gold Stripe", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Red Stripe Confidence", pocket: "Red Silk Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Tonal Depth", pocket: "Navy Silk Fold", shoes: "Navy Suede Loafer", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Green Dot Precision", pocket: "Forest Green Silk", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" }
+        ],
+        styleMantra: "Navy chalk stripe is the original power suit — three generations of boardroom authority distilled into a single silhouette."
+      },
+      {
+        color: "Light Blue", fabric: "Pinpoint Oxford", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Stripe Authority", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Gold Geometry Power", pocket: "Gold Pocket Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Ease", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Red Dot Precision", pocket: "Red Linen Square", shoes: "Black Brogue", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Green Knit Subtle", pocket: "Green Pocket Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Ivory Refinement", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Light blue softens the navy chalk stripe from imposing to approachable — authority with a human touch."
+      },
+      {
+        color: "White Stripe", fabric: "Bengal Stripe", collar: "Semi-Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Navy", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Double Stripe Mastery", pocket: "White Linen Square", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Gold Strip Authority", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Stripe Depth", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Tonal Repp", pocket: "Navy Silk Fold", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Red Power", pocket: "Red Pocket Square", shoes: "Black Brogue", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Bengal stripe on navy chalk stripe is pattern-mixing for the advanced dresser — the man who knows the rules well enough to layer them."
+      }
+    ]
+  },
+
+  "navyexpanded|glen_plaid": {
+    suit: { color: "Navy", pattern: "Glen Plaid", fabric: "Wool Tweed", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Navy Country Classic", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Gold Geometric", pocket: "Gold Pocket Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Dot", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Repp Heritage", pocket: "Red Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Forest Country", pocket: "Forest Green Silk", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Green Wool" },
+          { label: "Ivory Paisley", pocket: "Ivory Silk Paisley", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Navy glen plaid is the English country house come to the city — pattern with purpose, heritage with edge."
+      },
+      {
+        color: "Light Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Country Casual", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Gold Country", pocket: "Gold Pocket Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Brown Heritage", pocket: "Brown Silk Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Ribbed" },
+          { label: "Red Knit Ease", pocket: "Red Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Green Dot Country", pocket: "Green Pocket Square", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Green Fine Knit" },
+          { label: "Silver Ease", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Cotton" }
+        ],
+        styleMantra: "Button-down with navy glen plaid is relaxed Ivy League — scholarly, studied, and never trying too hard."
+      },
+      {
+        color: "Crisp White", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Red", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Burgundy Heritage", pocket: "Burgundy Floral Silk", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Stripe Heritage", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Wool" },
+          { label: "Red Grenadine", pocket: "Red Grenadine Fold", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Silver Geometry", pocket: "Silver Pocket Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Green Knit Country", pocket: "Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Forest Green" },
+          { label: "Ivory Refinement", pocket: "Ivory Paisley Silk", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Oxford cloth grounds navy glen plaid in classic American tradition — East Coast educated, West Coast ease."
+      }
+    ]
+  },
+
+  "navyexpanded|herringbone": {
+    suit: { color: "Navy", pattern: "Herringbone", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Herringbone Precision", pocket: "White Linen Square", shoes: "Black Cap-Toe Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Gold Geometry", pocket: "Gold Silk Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Stripe", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Repp Authority", pocket: "Red Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Green Dot Subtle", pocket: "Forest Green Silk", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Navy herringbone is texture that whispers — the weave catches light and attention in equal measure."
+      },
+      {
+        color: "Light Blue", fabric: "Pinpoint Oxford", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Herringbone Clean", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Gold Solid Warmth", pocket: "Gold Pocket Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Grenadine", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Red Knit Ease", pocket: "Red Linen Square", shoes: "Black Brogue", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Brown Dot Depth", pocket: "Brown Silk Fold", shoes: "Dark Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Light blue and navy herringbone is the Savile Row ideal made accessible — disciplined, dimensional, and deeply handsome."
+      },
+      {
+        color: "White Stripe", fabric: "Bengal Stripe", collar: "Semi-Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Navy", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "City Herringbone", pocket: "White Linen Square", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Gold City", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Tonal Repp", pocket: "Navy Silk Fold", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Silver Geometry", pocket: "Silver Pocket Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Dot", pocket: "Red Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Derby", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Bengal stripe shirt with navy herringbone is the signature of the man who has mastered the art of wearing pattern on pattern."
+      }
+    ]
+  },
+
+  "navyexpanded|tweed": {
+    suit: { color: "Navy", pattern: "Tweed", fabric: "Harris Tweed", weight: "Heavy", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Navy Tweed Authority", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Gold Geometric Country", pocket: "Gold Pocket Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Wool" },
+          { label: "Silver Stripe Heritage", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Wool" },
+          { label: "Forest Country", pocket: "Forest Green Silk", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Green Wool" },
+          { label: "Red Dot Heritage", pocket: "Red Linen Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Silk Paisley", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Navy tweed is the Highlands in a suit — rugged, principled, and built for both the moor and the meeting room."
+      },
+      {
+        color: "Light Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Tweed Casual", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Gold Country Ease", pocket: "Gold Pocket Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Brown Grenadine", pocket: "Brown Silk Fold", shoes: "Dark Tan Brogue", belt: "Brown Leather", socks: "Chocolate Wool" },
+          { label: "Green Knit Country", pocket: "Green Linen Fold", shoes: "Dark Olive Derby", belt: "Olive Leather", socks: "Forest Green" },
+          { label: "Red Repp Heritage", pocket: "Red Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Button-down blue with navy tweed is relaxed Ivy League taken to its logical, most handsome conclusion."
+      },
+      {
+        color: "White", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Burgundy Floral Heritage", pocket: "Burgundy Floral Silk", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Gold Stripe Warmth", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Wool" },
+          { label: "Silver Grenadine", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Solid Power", pocket: "Red Pocket Square", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Forest Tweed Country", pocket: "Forest Green Linen Fold", shoes: "Dark Olive Brogue", belt: "Olive Leather", socks: "Forest Green Wool" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "White oxford with navy tweed is impeccably clean against raw texture — a study in refined contrasts."
+      }
+    ]
+  },
+
+  "navyexpanded|linen": {
+    suit: { color: "Navy", pattern: "Linen", fabric: "Italian Linen", weight: "Light", cut: "Relaxed" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Linen", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Mediterranean Navy", pocket: "White Linen Square", shoes: "White Leather Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Gold Summer", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "Silver Coastal", pocket: "Silver Silk Fold", shoes: "Tan Canvas Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Red Summer Edge", pocket: "Red Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Green Knit Coast", pocket: "Green Linen Fold", shoes: "Olive Leather Loafer", belt: "Olive Leather", socks: "No-Show White" },
+          { label: "Ivory Dot Ease", pocket: "Ivory Linen Fold", shoes: "Cream Leather Derby", belt: "Tan Leather", socks: "No-Show Cream" }
+        ],
+        styleMantra: "Navy linen with white is the summer suit perfected — the Riviera answer to the city suit's rigid formality."
+      },
+      {
+        color: "Light Blue", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "White", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Coastal Blue Easy", pocket: "White Linen Square", shoes: "White Canvas Espadrille", belt: "None", socks: "No-Show White" },
+          { label: "Gold Coast", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "White Knit Breezy", pocket: "White Cotton Fold", shoes: "White Leather Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Ivory Shore", pocket: "Ivory Silk Square", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" },
+          { label: "Silver Ease", pocket: "Silver Linen Fold", shoes: "Tan Canvas Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Red Summer", pocket: "Red Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" }
+        ],
+        styleMantra: "Light blue linen open-collar under navy — the Capri look for men who take relaxation as seriously as they take style."
+      },
+      {
+        color: "White", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Navy", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Clean Navy Summer", pocket: "White Linen Square", shoes: "White Leather Loafer", belt: "None", socks: "No-Show White" },
+          { label: "Gold Linen Ease", pocket: "Gold Linen Fold", shoes: "Tan Leather Espadrille", belt: "None", socks: "No-Show Nude" },
+          { label: "Burgundy Coast", pocket: "Burgundy Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Tonal Navy", pocket: "Navy Linen Fold", shoes: "Navy Canvas Derby", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Red Summer Pop", pocket: "Red Pocket Square", shoes: "Tan Leather Loafer", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Green Coastal", pocket: "Green Linen Square", shoes: "Olive Canvas Derby", belt: "Olive Leather", socks: "No-Show White" }
+        ],
+        styleMantra: "White linen open-collar with navy is the most effortless summer uniform in existence — clean, coastal, and completely timeless."
+      }
+    ]
+  },
+
+  "navyexpanded|houndstooth": {
+    suit: { color: "Navy", pattern: "Houndstooth", fabric: "Wool Blend", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Navy Houndstooth Statement", pocket: "White Linen Square", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Gold Cotton" },
+          { label: "Silver Stripe Authority", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Repp Power", pocket: "Red Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Green Dot Precision", pocket: "Forest Green Silk", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Navy houndstooth is graphic authority — the pattern that proves you understand menswear at a molecular level."
+      },
+      {
+        color: "Light Blue", fabric: "Pinpoint Oxford", collar: "Button-Down",
+        ties: [
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Blue Houndstooth Ease", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Gold Solid Country", pocket: "Gold Pocket Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Grenadine", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Cotton" },
+          { label: "Red Knit Pop", pocket: "Red Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Brown Dot Casual", pocket: "Brown Silk Fold", shoes: "Tan Brogue", belt: "Brown Leather", socks: "Chocolate Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Derby", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Button-down with navy houndstooth strips away the formality and leaves pure style — relaxed, pattern-forward, effortlessly sharp."
+      },
+      {
+        color: "White Stripe", fabric: "Bengal Stripe", collar: "Semi-Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Navy", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Advanced Pattern Master", pocket: "White Linen Square", shoes: "Black Oxford", belt: "Black Leather", socks: "Navy Ribbed" },
+          { label: "Gold Stripe Confidence", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Tonal Repp Precision", pocket: "Navy Silk Fold", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Cotton" },
+          { label: "Silver Geometry City", pocket: "Silver Pocket Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Dot Statement", pocket: "Red Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Refinement", pocket: "Ivory Paisley Silk", shoes: "Cognac Derby", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Bengal stripe and navy houndstooth is pattern stacking for the fearless — the signature of a man who has truly arrived."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -5510,6 +5972,7 @@ function getLocalAnalysis(text) {
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
     else if (/rust suit|rust blazer|rust jacket|rust wool|rust linen|rust tweed|rust houndstooth|rust herringbone|rust plaid|orange suit|burnt orange suit|terracotta suit|copper suit|cinnamon suit/.test(t)) { colorKey = "rust"; colorMatched = true }
     else if (/mustard suit|mustard blazer|mustard jacket|mustard wool|mustard linen|mustard tweed|mustard houndstooth|gold suit|gold blazer|golden suit|ochre suit|amber suit|saffron suit|yellow suit|marigold suit/.test(t)) { colorKey = "mustard"; colorMatched = true }
+    else if (/navy herringbone|navy glen plaid|navy tweed|navy houndstooth|navy chalk stripe|navy linen suit|navy flannel|midnight navy|dark navy suit|indigo suit|navy wool suit|bengal stripe navy/.test(t)) { colorKey = "navyexpanded"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
