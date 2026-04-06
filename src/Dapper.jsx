@@ -8330,6 +8330,468 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  "cobalt|solid": {
+    suit: { color: "Cobalt Blue", pattern: "Solid", fabric: "Wool Crepe", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Red", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cobalt Command", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Contrast", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Silver Refinement", pocket: "Silver Silk Square", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Ivory Elegance", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" },
+          { label: "Red Energy", pocket: "Red Silk Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" }
+        ],
+        styleMantra: "Cobalt solid is electric confidence in cloth form — vivid, unapologetic, and reserved for men who have completely stopped worrying what anyone thinks."
+      },
+      {
+        color: "Crisp White", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Navy Anchor", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Repp Power", pocket: "Burgundy Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Silver Dot Ease", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Gold Warmth", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Forest Contrast", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "White oxford with cobalt is clean confidence — the shirt grounds the suit's vivid energy and lets the colour do exactly what it was born to do."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream & Cobalt", pocket: "Cream Silk Square", shoes: "Cognac Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Burgundy Depth", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Stripe", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Cream Wool" },
+          { label: "Forest Knit", pocket: "Forest Green Linen Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Fine Knit" }
+        ],
+        styleMantra: "Cream softens cobalt without diminishing it — the warmth of the shirt makes the vivid blue feel less like a statement and more like second nature."
+      }
+    ]
+  },
+
+  "cobalt|chalk_stripe": {
+    suit: { color: "Cobalt Blue", pattern: "Chalk Stripe", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cobalt Chalk Bold", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Burgundy Stripe", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Silver Stripe Harmony", pocket: "Silver Silk Fold", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Red Repp Power", pocket: "Red Linen Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Elegance", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cobalt chalk stripe takes the most traditional suit silhouette and electrifies it — the pale stripe on vivid blue is utterly modern and deeply assured."
+      },
+      {
+        color: "Crisp White", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Burgundy Floral Cobalt", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Navy Anchor", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Gold Grenadine", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Dot", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Forest Knit Contrast", pocket: "Forest Green Linen Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Broadcloth white with cobalt chalk stripe keeps the look crisp and lets the suit's drama breathe — structure and colour in complete agreement."
+      },
+      {
+        color: "Warm Cream", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Cobalt Chalk", pocket: "Cream Silk Fold", shoes: "Cognac Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Burgundy Floral", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Stripe Warmth", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Geometry", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Forest Dot", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" },
+          { label: "Ivory Knit Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream warms cobalt chalk stripe into something deeply wearable — the warm shirt pulls vivid blue back from bold to beautiful."
+      }
+    ]
+  },
+
+  "cobalt|glen_plaid": {
+    suit: { color: "Cobalt Blue", pattern: "Glen Plaid", fabric: "Wool Tweed", weight: "Mid-weight", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cobalt Country Bold", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Burgundy Heritage", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Dot", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Red Repp", pocket: "Red Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cobalt glen plaid is country suiting reimagined for the fearless — the colour transforms a traditional pattern into a thoroughly modern declaration."
+      },
+      {
+        color: "Crisp White", fabric: "Oxford Cloth", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxford Cobalt Easy", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Button-Down", pocket: "Burgundy Linen Square", shoes: "Oxblood Derby", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Solid Ease", pocket: "Gold Pocket Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Knit", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Forest Dot Country", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Button-down oxford with cobalt glen plaid is bold made casual — the relaxed collar takes the vivid suit's edge off and reveals easy confidence underneath."
+      },
+      {
+        color: "Warm Cream", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Cobalt Country", pocket: "Cream Linen Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Camel Wool" },
+          { label: "Burgundy Floral Rich", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Knit Country", pocket: "Gold Pocket Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Grenadine", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Forest Solid", pocket: "Forest Green Linen Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Forest Green" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream and cobalt glen plaid is warmth meeting vibrancy — the shirt grounds the bold pattern and makes a statement look feel like a natural choice."
+      }
+    ]
+  },
+
+  "cobalt|herringbone": {
+    suit: { color: "Cobalt Blue", pattern: "Herringbone", fabric: "Wool Flannel", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Red", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cobalt Herringbone Electric", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Texture", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Silver Stripe", pocket: "Silver Silk Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Red Repp", pocket: "Red Linen Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cobalt herringbone is texture and electricity combined — the weave shimmers through vivid blue like something alive, stopping rooms cold."
+      },
+      {
+        color: "Crisp White", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxford Clean Herringbone", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Floral Rich", pocket: "Burgundy Floral Silk", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Solid Warmth", pocket: "Gold Silk Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Dot", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Forest Knit Contrast", pocket: "Forest Green Linen Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Oxford white keeps cobalt herringbone grounded and lets the texture do the work — precision shirt, electric suit, impeccable result."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Herringbone Cobalt", pocket: "Cream Silk Fold", shoes: "Cognac Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Burgundy Grenadine", pocket: "Burgundy Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Geometry Ease", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Stripe Depth", pocket: "Silver Silk Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Cream Wool" },
+          { label: "Forest Dot", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" }
+        ],
+        styleMantra: "Cream and cobalt herringbone is vibrant warmth — the shirt gives the electric suit somewhere to rest, and both are better for it."
+      }
+    ]
+  },
+
+  "cobalt|tweed": {
+    suit: { color: "Cobalt Blue", pattern: "Tweed", fabric: "Harris Tweed", weight: "Heavy", cut: "Classic" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Floral", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Red", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cobalt Tweed Command", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Wool" },
+          { label: "Burgundy Floral Heritage", pocket: "Burgundy Floral Silk", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Ribbed" },
+          { label: "Gold Solid Country", pocket: "Gold Wool Fold", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Wool" },
+          { label: "Silver Stripe Heritage", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Wool" },
+          { label: "Red Knit Country", pocket: "Red Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Silk Paisley", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cobalt tweed is the unexpected country suit — the rough weight of the cloth and the vivid blue create an irresistible tension between the rugged and the bold."
+      },
+      {
+        color: "Crisp White", fabric: "Oxford Cloth", collar: "Button-Down",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxford Tweed Ease", pocket: "White Linen Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Grenadine", pocket: "Burgundy Linen Square", shoes: "Oxblood Derby", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Solid", pocket: "Gold Wool Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Knit Country", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Forest Dot Country", pocket: "Forest Green Wool Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Silk Paisley", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Button-down with cobalt tweed is relaxed electric energy — the casual collar makes the bold colour feel like something you were simply born wearing."
+      },
+      {
+        color: "Warm Cream", fabric: "Oxford Cloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Jacquard", pattern: "Paisley", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cream Cobalt Tweed", pocket: "Cream Linen Square", shoes: "Cognac Brogue", belt: "Cognac Leather", socks: "Camel Wool" },
+          { label: "Burgundy Paisley", pocket: "Burgundy Silk Paisley", shoes: "Oxblood Monk", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Repp", pocket: "Gold Wool Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Gold Wool" },
+          { label: "Silver Grenadine", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Forest Knit Country", pocket: "Forest Green Wool Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Forest Green" },
+          { label: "Ivory Ease", pocket: "Ivory Silk Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cream warms cobalt tweed from vivid to magnificent — the warmth of the shirt turns electric blue into something that feels inevitable and entirely right."
+      }
+    ]
+  },
+
+  "cobalt|linen": {
+    suit: { color: "Cobalt Blue", pattern: "Linen", fabric: "Italian Linen", weight: "Light", cut: "Relaxed" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Linen", collar: "Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Silk Twill", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cobalt Linen Summer", pocket: "White Linen Square", shoes: "White Leather Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Burgundy Summer Edge", pocket: "Burgundy Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Gold Linen Warmth", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "Silver Knit Coast", pocket: "Silver Linen Fold", shoes: "Tan Canvas Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Red Summer Pop", pocket: "Red Linen Square", shoes: "White Canvas Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Ivory Dot Ease", pocket: "Ivory Linen Fold", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" }
+        ],
+        styleMantra: "Cobalt linen is the summer suit that owns every terrace, every garden, and every beach wedding — vivid, light, and impossible to look away from."
+      },
+      {
+        color: "Crisp White", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Red", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cobalt Open Coast", pocket: "White Linen Square", shoes: "White Canvas Espadrille", belt: "None", socks: "No-Show White" },
+          { label: "Navy Anchor Summer", pocket: "Navy Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Gold Linen Easy", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "Silver Knit Ease", pocket: "Silver Linen Fold", shoes: "Tan Canvas Derby", belt: "Tan Leather", socks: "No-Show White" },
+          { label: "Burgundy Edge", pocket: "Burgundy Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Red Pop Summer", pocket: "Red Linen Square", shoes: "White Canvas Derby", belt: "Tan Leather", socks: "No-Show White" }
+        ],
+        styleMantra: "White linen open-collar with cobalt is the Amalfi Coast dressed for the evening — electric blue, pure white, and the kind of ease that only real confidence creates."
+      },
+      {
+        color: "Warm Cream", fabric: "Linen", collar: "Open Collar",
+        ties: [
+          { color: "None (Open Collar)", fabric: "", pattern: "No Tie", width: "", knot: "" },
+          { color: "Dark Navy", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Linen Blend", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Cobalt Linen", pocket: "Cream Linen Square", shoes: "Tan Leather Espadrille", belt: "None", socks: "No-Show Nude" },
+          { label: "Navy Linen Anchor", pocket: "Navy Linen Fold", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show Navy" },
+          { label: "Gold Easy Summer", pocket: "Gold Linen Fold", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Nude" },
+          { label: "Burgundy Linen Edge", pocket: "Burgundy Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "No-Show White" },
+          { label: "Ivory Tonal Ease", pocket: "Ivory Silk Fold", shoes: "Cream Derby", belt: "Tan Leather", socks: "No-Show Cream" },
+          { label: "Silver Easy", pocket: "Silver Linen Fold", shoes: "Tan Canvas Derby", belt: "Tan Leather", socks: "No-Show White" }
+        ],
+        styleMantra: "Cream linen open-collar with cobalt is Mediterranean warmth meeting electric blue — the warmest, most joyful summer pairing in the entire wardrobe."
+      }
+    ]
+  },
+
+  "cobalt|houndstooth": {
+    suit: { color: "Cobalt Blue", pattern: "Houndstooth", fabric: "Wool Blend", weight: "Mid-weight", cut: "Slim" },
+    shirts: [
+      {
+        color: "Crisp White", fabric: "Poplin", collar: "Spread",
+        ties: [
+          { color: "Deep Navy", fabric: "Silk Twill", pattern: "Solid", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Red", fabric: "Silk Twill", pattern: "Repp Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Cobalt Houndstooth Electric", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Depth", pocket: "Burgundy Grenadine", shoes: "Oxblood Brogue", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Silver Stripe", pocket: "Silver Silk Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Red Repp", pocket: "Red Linen Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Ivory Paisley", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Cobalt houndstooth is graphic electricity — bold colour, bold pattern, and the absolute conviction of a man who wears both without blinking."
+      },
+      {
+        color: "Crisp White", fabric: "Oxford Cloth", collar: "Button-Down",
+        ties: [
+          { color: "Deep Navy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Silver Grey", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" },
+          { color: "Forest Green", fabric: "Woven Silk", pattern: "Dot", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Ivory", fabric: "Woven Silk", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Oxford Houndstooth Easy", pocket: "White Linen Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Ribbed" },
+          { label: "Burgundy Button-Down", pocket: "Burgundy Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Solid Ease", pocket: "Gold Pocket Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Knit", pocket: "Silver Silk Fold", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Grey Ribbed" },
+          { label: "Forest Dot", pocket: "Forest Green Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" },
+          { label: "Ivory Refined", pocket: "Ivory Paisley Silk", shoes: "Cognac Cap-Toe", belt: "Cognac Leather", socks: "Cream Wool" }
+        ],
+        styleMantra: "Button-down oxford with cobalt houndstooth is the relaxed version of a bold statement — casual collar, electric pattern, effortless authority."
+      },
+      {
+        color: "Warm Cream", fabric: "Broadcloth", collar: "Semi-Spread",
+        ties: [
+          { color: "Dark Navy", fabric: "Silk Twill", pattern: "Solid", width: "3-inch", knot: "Four-in-Hand" },
+          { color: "Burgundy", fabric: "Grenadine Silk", pattern: "Solid", width: "3-inch", knot: "Half Windsor" },
+          { color: "Gold", fabric: "Woven Silk", pattern: "Geometric", width: "3-inch", knot: "Pratt" },
+          { color: "Silver Grey", fabric: "Woven Silk", pattern: "Stripe", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Ivory", fabric: "Silk Jacquard", pattern: "Paisley", width: "3.25-inch", knot: "Half Windsor" },
+          { color: "Forest Green", fabric: "Silk Knit", pattern: "Solid", width: "2.75-inch", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Houndstooth Cobalt", pocket: "Cream Silk Fold", shoes: "Cognac Oxford", belt: "Tan Leather", socks: "Camel Wool" },
+          { label: "Burgundy Grenadine Rich", pocket: "Burgundy Linen Square", shoes: "Oxblood Oxford", belt: "Oxblood Leather", socks: "Burgundy Fine Knit" },
+          { label: "Gold Geometry", pocket: "Gold Pocket Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Gold Cotton" },
+          { label: "Silver Stripe Depth", pocket: "Silver Silk Square", shoes: "Charcoal Cap-Toe", belt: "Dark Brown Leather", socks: "Grey Fine Knit" },
+          { label: "Ivory Tonal", pocket: "Ivory Silk Fold", shoes: "Tan Suede Derby", belt: "Tan Leather", socks: "Cream Wool" },
+          { label: "Forest Knit Contrast", pocket: "Forest Green Linen Fold", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Green Cotton" }
+        ],
+        styleMantra: "Cream softens cobalt houndstooth into something approachable and still deeply impressive — warm restraint meeting bold graphic energy, perfectly balanced."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -8751,6 +9213,7 @@ function getLocalAnalysis(text) {
     else if (/charcoal herringbone|charcoal glen plaid|charcoal tweed|charcoal houndstooth|charcoal chalk stripe|charcoal linen suit|charcoal flannel|charcoal wool suit|charcoal plaid|dark grey suit|dark gray suit|graphite suit|anthracite suit|charcoal stripe/.test(t)) { colorKey = "charcoalexpanded"; colorMatched = true }
     else if (/dove grey suit|dove gray suit|dove grey blazer|mid grey suit|mid gray suit|medium grey suit|medium gray suit|grey flannel suit|gray flannel suit|grey wool suit|gray wool suit|grey herringbone|gray herringbone|grey glen plaid|gray glen plaid|grey tweed suit|gray tweed suit|grey chalk stripe|gray chalk stripe|silver grey suit|light grey suit|light gray suit|pearl grey suit|ash grey suit/.test(t)) { colorKey = "dovegrey"; colorMatched = true }
     else if (/oxblood suit|oxblood blazer|oxblood wool|oxblood tweed|oxblood herringbone|oxblood houndstooth|oxblood linen|deep burgundy suit|dark burgundy suit|wine suit|wine blazer|claret suit|claret blazer|bordeaux suit|garnet suit|deep red suit|crimson suit|port suit|maroon suit/.test(t)) { colorKey = "oxblood"; colorMatched = true }
+    else if (/cobalt suit|cobalt blazer|cobalt blue suit|royal blue suit|royal blue blazer|electric blue suit|bright blue suit|vivid blue suit|sapphire suit|sapphire blazer|cobalt wool|cobalt tweed|cobalt herringbone|cobalt houndstooth|cobalt linen|klein blue suit/.test(t)) { colorKey = "cobalt"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
