@@ -8792,6 +8792,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── SAGE GREEN ──────────────────────────────────────────────────────────────
+  "sage|solid": {
+    suit: { color: "Sage Green", pattern: "Solid", hex: "#8FAF8C", fabric: "Lightweight wool or linen blend" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Unexpected warmth against sage" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich contrast, grounded sophistication" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Four-in-hand", styleNote: "Classic anchor for the muted green" },
+          { color: "Warm Caramel", hex: "#C68642", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth that elevates sage" },
+          { color: "Soft Lavender", hex: "#B5A0C8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Botanically inspired, quietly elegant" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Refined restraint, serious edge" }
+        ],
+        packages: [
+          { name: "Garden Party", items: ["Dusty rose tie", "White pocket square", "Tan suede loafers"] },
+          { name: "The Botanist", items: ["Lavender tie", "Cream linen pocket square", "Light brown oxfords"] },
+          { name: "Classic Anchor", items: ["Navy stripe tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Earth & Green", items: ["Warm caramel knit tie", "No pocket square", "Chestnut monks"] },
+          { name: "Deep Contrast", items: ["Burgundy tie", "White pocket square", "Black oxfords"] },
+          { name: "Modern Grey", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Crisp white and sage — the palette of a garden in full bloom."
+      },
+      {
+        color: "Soft Blush", hex: "#F0C4BC", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal softness, ultra-refined" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Bleached-out luxury" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep green grounds the soft palette" },
+          { color: "Warm Terracotta", hex: "#C4622D", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Clay warmth against dusty hues" },
+          { color: "Sage (tonal)", hex: "#8FAF8C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Monochromatic calm" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Half Windsor", styleNote: "Structured contrast in a soft look" }
+        ],
+        packages: [
+          { name: "Dusty Romance", items: ["Dusty mauve tie", "Blush pocket square", "Nude suede loafers"] },
+          { name: "Soft Monochrome", items: ["Sage tonal tie", "White pocket square", "Light tan loafers"] },
+          { name: "Garden Depth", items: ["Forest green tie", "Ivory pocket square", "Brown oxfords"] },
+          { name: "Clay & Bloom", items: ["Terracotta tie", "White linen pocket square", "Tan derbies"] },
+          { name: "Ivory Mist", items: ["Ivory knit tie", "No pocket square", "Cream suede loafers"] },
+          { name: "Navy Anchor", items: ["Navy tie", "Blush pocket square fold", "Dark brown oxfords"] }
+        ],
+        styleMantra: "Blush and sage share a quiet poetry — wear it like a whispered compliment."
+      },
+      {
+        color: "Ice Blue", hex: "#CAE0E8", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Dusty Blue", hex: "#7A9DB5", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool tones in harmony" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth cuts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Bold focal point in a cool composition" },
+          { color: "Sage (tonal)", hex: "#8FAF8C", fabric: "Grenadine", knot: "Four-in-hand", styleNote: "Blends seamlessly into the suit" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool grey unifies the icy tones" },
+          { color: "Terracotta", hex: "#C4622D", fabric: "Silk", knot: "Half Windsor", styleNote: "Warm pop in a cool landscape" }
+        ],
+        packages: [
+          { name: "Nordic Cool", items: ["Dusty blue tie", "White pocket square", "Light grey suede shoes"] },
+          { name: "Earth & Ice", items: ["Warm tan tie", "No pocket square", "Chestnut loafers"] },
+          { name: "Cool Contrast", items: ["Burgundy tie", "White pocket square", "Tan oxfords"] },
+          { name: "Tonal Sage", items: ["Sage grenadine tie", "Ice blue pocket square", "Brown monks"] },
+          { name: "Silver Mist", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Landing", items: ["Terracotta tie", "White linen pocket square", "Brown cap-toes"] }
+        ],
+        styleMantra: "Ice blue and sage — two muted naturals that make each other sing."
+      }
+    ]
+  },
+
+  "sage|chalk_stripe": {
+    suit: { color: "Sage Green", pattern: "Chalk Stripe", hex: "#8FAF8C", fabric: "Superfine wool, ivory chalk stripe" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Classic stripe authority with sage base" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Unexpected softness on a structured suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Anchors the chalk stripe tradition" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Luminous accent, boardroom-ready" },
+          { color: "Soft Lavender", hex: "#B5A0C8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Breaks the formality gently" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum gravity in a striped suit" }
+        ],
+        packages: [
+          { name: "Stripe Authority", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toe oxfords"] },
+          { name: "Soft Structure", items: ["Dusty rose tie", "Cream pocket square", "Tan oxfords"] },
+          { name: "Navy Foundation", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Standard", items: ["Warm gold knit tie", "White pocket square", "Brown monks"] },
+          { name: "Lavender Break", items: ["Soft lavender tie", "White pocket square", "Light brown loafers"] },
+          { name: "Power Grey", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Chalk stripe on sage: the forgotten dandy's power move — structured but never stiff."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Half Windsor", styleNote: "Triple-blue harmony, perfectly calibrated" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth against the cool palette" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Muted and intriguing" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Traditional authority, never wrong" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep tonal depth in the green family" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Clean and understated" }
+        ],
+        packages: [
+          { name: "Blue Chord", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Warm Break", items: ["Warm tan knit tie", "White pocket square", "Chestnut monks"] },
+          { name: "Muted Drama", items: ["Dusty mauve tie", "White pocket square", "Tan loafers"] },
+          { name: "Stripe Classic", items: ["Burgundy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Garden Depth", items: ["Forest green tie", "White linen pocket square", "Brown cap-toes"] },
+          { name: "Silver Line", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue softens the sage chalk stripe into something genuinely poetic."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm cognac warms the ivory-sage dialogue" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Bloom of color on a neutral ground" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic contrast, always correct" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Sun-kissed warmth on a cool suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor to ivory softness" },
+          { color: "Terracotta", hex: "#C4622D", fabric: "Silk", knot: "Four-in-hand", styleNote: "Earthy warmth, unexpected and compelling" }
+        ],
+        packages: [
+          { name: "Cognac Heritage", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Bloom & Stripe", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] },
+          { name: "Ivory Classic", items: ["Navy tie", "Ivory pocket square", "Black cap-toes"] },
+          { name: "Golden Hour", items: ["Warm gold tie", "White pocket square", "Brown monks"] },
+          { name: "Sharp Anchor", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal oxfords"] },
+          { name: "Clay Warmth", items: ["Terracotta tie", "Ivory pocket square", "Chestnut loafers"] }
+        ],
+        styleMantra: "Ivory on sage chalk stripe — understated elegance with a heritage backbone."
+      }
+    ]
+  },
+
+  "sage|glen_plaid": {
+    suit: { color: "Sage Green", pattern: "Glen Plaid", hex: "#8FAF8C", fabric: "Wool-cashmere blend, tonal sage glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Floral softness against geometric texture" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic anchor to the plaid structure" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Threads of warmth through sage plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich authority in a tailored classic" },
+          { color: "Soft Lavender", hex: "#B5A0C8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Unexpected botanical harmony" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Quiet strength beneath the plaid pattern" }
+        ],
+        packages: [
+          { name: "Garden Plaid", items: ["Dusty rose tie", "White pocket square", "Tan oxfords"] },
+          { name: "Navy Framework", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Thread", items: ["Warm gold knit tie", "White pocket square", "Chestnut monks"] },
+          { name: "Heritage Authority", items: ["Burgundy grenadine tie", "White pocket square", "Brown brogues"] },
+          { name: "Lavender Garden", items: ["Soft lavender tie", "White pocket square", "Light brown loafers"] },
+          { name: "Dark Anchor", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Sage glen plaid is the country gentleman's suit — worn in the city, dreaming of the hills."
+      },
+      {
+        color: "Soft Blush", hex: "#F0C4BC", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Softly layered botanical palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Half Windsor", styleNote: "Crisp structure in a soft composition" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep green roots the soft palette" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun-baked warmth in a muted look" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Bleached softness in a floral palette" },
+          { color: "Cognac", hex: "#9B4E1C", fabric: "Silk", knot: "Half Windsor", styleNote: "Warm cognac grounds the blush-sage pairing" }
+        ],
+        packages: [
+          { name: "Dusty Blooms", items: ["Dusty mauve tie", "Blush pocket square", "Nude suede loafers"] },
+          { name: "Structured Soft", items: ["Navy tie", "White pocket square", "Brown oxfords"] },
+          { name: "Deep Green Root", items: ["Forest green tie", "White pocket square", "Tan brogues"] },
+          { name: "Sun & Blush", items: ["Warm tan knit tie", "Blush pocket square", "Chestnut loafers"] },
+          { name: "Ivory Garden", items: ["Ivory grenadine tie", "Cream pocket square", "Tan loafers"] },
+          { name: "Cognac Warmth", items: ["Cognac tie", "Ivory pocket square", "Brown monks"] }
+        ],
+        styleMantra: "Blush on sage glen plaid — a romantic take on country tailoring."
+      },
+      {
+        color: "Light Grey", hex: "#D3D3D3", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Strong focal point in a muted ensemble" },
+          { color: "Dusty Blue", hex: "#7A9DB5", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool grey and blue unite effortlessly" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warmth cuts through the grey-sage cool" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Pratt", styleNote: "Tonal depth, restrained and sharp" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk jacquard", knot: "Half Windsor", styleNote: "Classic trio — grey, sage, navy" },
+          { color: "Terracotta", hex: "#C4622D", fabric: "Silk", knot: "Four-in-hand", styleNote: "Earthy warmth disrupts the cool harmony beautifully" }
+        ],
+        packages: [
+          { name: "Grey Authority", items: ["Burgundy tie", "White pocket square", "Black cap-toe oxfords"] },
+          { name: "Cool Trio", items: ["Dusty blue tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Warmth", items: ["Warm gold knit tie", "White pocket square", "Brown monks"] },
+          { name: "Tonal Grey", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Classic Three", items: ["Navy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Clay Disruption", items: ["Terracotta tie", "White linen pocket square", "Tan loafers"] }
+        ],
+        styleMantra: "Grey on sage glen plaid — muted sophistication with a countryside backbone."
+      }
+    ]
+  },
+
+  "sage|herringbone": {
+    suit: { color: "Sage Green", pattern: "Herringbone", hex: "#8FAF8C", fabric: "Mid-weight wool herringbone weave, sage tones" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm floral energy meets cool texture" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich depth through the herringbone weave" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Traditional anchor for a textural suit" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth plays well with green texture" },
+          { color: "Soft Lavender", hex: "#B5A0C8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Unexpected violet note in the green story" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Restrained power in a textured suit" }
+        ],
+        packages: [
+          { name: "Dusty Texture", items: ["Dusty rose tie", "White pocket square", "Tan loafers"] },
+          { name: "Herringbone Classic", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Navy Grounding", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Tan Harmony", items: ["Warm tan knit tie", "No pocket square", "Chestnut monks"] },
+          { name: "Lavender Lift", items: ["Soft lavender tie", "White pocket square", "Brown brogues"] },
+          { name: "Textured Authority", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Herringbone sage is texture elevated — like wearing a landscape."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Half Windsor", styleNote: "Depth into a pale, cool shirt" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth disrupts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Classic contrast, works every time" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Muted dusty tones in soft harmony" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep forest roots the pale composition" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool and unifying across all three" }
+        ],
+        packages: [
+          { name: "Blue Depth", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Golden Break", items: ["Warm gold knit tie", "White pocket square", "Brown monks"] },
+          { name: "Bold Contrast", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dusty Cool", items: ["Dusty mauve tie", "White pocket square", "Grey suede loafers"] },
+          { name: "Forest Root", items: ["Forest green tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Silver Mist", items: ["Silver grey tie", "Grey pocket square", "Charcoal loafers"] }
+        ],
+        styleMantra: "Pale blue opens the sage herringbone up — cool, composed, completely assured."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm cognac anchors ivory softness" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Romantic warmth in a textured ensemble" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic and unimpeachable" },
+          { color: "Sage (tonal)", hex: "#8FAF8C", fabric: "Grenadine", knot: "Four-in-hand", styleNote: "Monochromatic depth through texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk", knot: "Pratt", styleNote: "Luminous accent warms the ivory" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong line through a soft composition" }
+        ],
+        packages: [
+          { name: "Ivory Heritage", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Soft Bloom", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Ivory Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Tonal Sage", items: ["Sage grenadine tie", "No pocket square", "Brown monks"] },
+          { name: "Gold Warmth", items: ["Warm gold tie", "White pocket square", "Chestnut loafers"] },
+          { name: "Sharp Contrast", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal oxfords"] }
+        ],
+        styleMantra: "Ivory and sage herringbone — the texture does the talking, you just have to show up."
+      }
+    ]
+  },
+
+  "sage|tweed": {
+    suit: { color: "Sage Green", pattern: "Tweed", hex: "#8FAF8C", fabric: "Donegal tweed with sage base and flecks of cream and brown" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Country tweed warmth — the natural partner" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Hunt-country authority through the flecks" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Catches the cream flecks in the tweed" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool grenadine", knot: "Pratt", styleNote: "Deep green roots the sage tweed beautifully" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue civilizes the country tweed" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Unexpected bloom among the flecks" }
+        ],
+        packages: [
+          { name: "Donegal Classic", items: ["Cognac wool knit tie", "Cream pocket square", "Tan derby shoes"] },
+          { name: "Hunt Country", items: ["Burgundy tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Fleck", items: ["Warm gold knit tie", "No pocket square", "Chestnut monks"] },
+          { name: "Forest Root", items: ["Forest green wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Civilized Country", items: ["Navy repp tie", "White pocket square", "Brown oxfords"] },
+          { name: "Garden Bloom", items: ["Dusty rose tie", "Cream pocket square", "Tan loafers"] }
+        ],
+        styleMantra: "Sage tweed is the countryside calling — answer it in style."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Tan on ivory in the tweed tradition" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical partnership" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Deep red punctuates the warm palette" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth through the flecks" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Muted wildflower in the tweed landscape" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Strong anchor through soft ivory" }
+        ],
+        packages: [
+          { name: "Ivory Country", items: ["Warm tan wool tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Botanical Pair", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Red Punctuation", items: ["Burgundy wool tie", "White pocket square", "Chestnut monks"] },
+          { name: "Heritage Brown", items: ["Cognac knit tie", "No pocket square", "Tan derby shoes"] },
+          { name: "Wildflower", items: ["Dusty mauve tie", "Ivory pocket square", "Brown loafers"] },
+          { name: "Navy Structure", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] }
+        ],
+        styleMantra: "Ivory on sage tweed — the Fitzgerald-era estate look, but modern."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Warm cognac bridges blue and green" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Navy unifies the cool palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun-golden warmth in a cool composition" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Soft pink bloom amid texture" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Rich contrast in a subtle palette" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Depth within the green story" }
+        ],
+        packages: [
+          { name: "Blue & Tweed", items: ["Cognac wool knit tie", "Pale blue pocket square", "Tan derbies"] },
+          { name: "Cool Anchor", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Golden Country", items: ["Warm gold knit tie", "White pocket square", "Brown monks"] },
+          { name: "Soft Bloom", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] },
+          { name: "Rich Contrast", items: ["Burgundy grenadine tie", "White pocket square", "Brown brogues"] },
+          { name: "Forest Depth", items: ["Forest green tie", "White pocket square", "Chestnut cap-toes"] }
+        ],
+        styleMantra: "Pale blue on sage tweed — like a clear sky over rolling green hills."
+      }
+    ]
+  },
+
+  "sage|linen": {
+    suit: { color: "Sage Green", pattern: "Linen", hex: "#8FAF8C", fabric: "Italian linen, muted sage — natural slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Garden party perfection in warm months" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun-baked warmth for the linen suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The only formal note in a relaxed suit" },
+          { color: "Soft Lavender", hex: "#B5A0C8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Botanical and breezy" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sunlit warmth through linen texture" },
+          { color: "Terracotta", hex: "#C4622D", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth — Mediterranean garden energy" }
+        ],
+        packages: [
+          { name: "Garden Party", items: ["Dusty rose linen tie", "White linen pocket square", "White suede loafers"] },
+          { name: "Sun Baked", items: ["Warm tan knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Linen Navy", items: ["Navy silk tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Botanical Breeze", items: ["Soft lavender tie", "White pocket square", "Tan loafers"] },
+          { name: "Golden Linen", items: ["Warm gold knit tie", "No pocket square", "Chestnut loafers"] },
+          { name: "Terracotta Garden", items: ["Terracotta tie", "White linen pocket square", "Tan espadrilles"] }
+        ],
+        styleMantra: "Sage linen in summer is the Italian Riviera — sprezzatura in every crease."
+      },
+      {
+        color: "Soft Blush", hex: "#F0C4BC", fabric: "Fine cotton",
+        ties: [
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Maximum softness for a warm day" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Dusty roses and sage — a garden palette" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth ties blush to sage" },
+          { color: "Terracotta", hex: "#C4622D", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth pops against the soft palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "One strong note anchors the softness" },
+          { color: "Cognac", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm and grounding in a breezy look" }
+        ],
+        packages: [
+          { name: "Soft Hour", items: ["Ivory linen tie", "Blush pocket square", "Nude suede loafers"] },
+          { name: "Garden Dusty", items: ["Dusty mauve tie", "White pocket square", "Light brown loafers"] },
+          { name: "Blush & Earth", items: ["Warm tan tie", "Blush pocket square fold", "Tan loafers"] },
+          { name: "Clay Garden", items: ["Terracotta tie", "White pocket square", "Tan leather sandals or loafers"] },
+          { name: "One Anchor", items: ["Navy tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Cognac Warmth", items: ["Cognac knit tie", "Ivory pocket square", "Chestnut loafers"] }
+        ],
+        styleMantra: "Blush on sage linen — the palette of a summer wedding by the water."
+      },
+      {
+        color: "Ice Blue", hex: "#CAE0E8", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun breaking through the cool tones" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool blue depth, structured in a relaxed suit" },
+          { color: "Terracotta", hex: "#C4622D", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm clay against cool linen" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Warmth breaks the cool blue-green palette" },
+          { color: "Sage (tonal)", hex: "#8FAF8C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Monochromatic cool and botanical" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy refinement, clean and minimal" }
+        ],
+        packages: [
+          { name: "Sun & Ice", items: ["Warm gold knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Cool Depth", items: ["Navy tie", "Ice blue pocket square", "Brown leather loafers"] },
+          { name: "Clay & Ice", items: ["Terracotta tie", "White linen pocket square", "Tan espadrilles"] },
+          { name: "Warm Break", items: ["Dusty rose tie", "White pocket square", "Nude loafers"] },
+          { name: "Botanical Cool", items: ["Sage grenadine tie", "No pocket square", "Light brown loafers"] },
+          { name: "Silver Ice", items: ["Silver grey tie", "White pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Ice blue and sage linen — coastal cool that doesn't try too hard."
+      }
+    ]
+  },
+
+  "sage|houndstooth": {
+    suit: { color: "Sage Green", pattern: "Houndstooth", hex: "#8FAF8C", fabric: "Wool blend, sage and cream houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Floral warmth softens the houndstooth geometry" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Classic contrast, proven by decades of tailoring" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Structured anchor to the pattern" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the cream check in warm tones" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep green deepens the sage houndstooth" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "#4A4A4A", knot: "Half Windsor", styleNote: "Maximum gravity with pattern authority" }
+        ],
+        packages: [
+          { name: "Check & Bloom", items: ["Dusty rose tie", "White pocket square", "Tan oxfords"] },
+          { name: "Houndstooth Heritage", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Check Classic", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Check", items: ["Warm gold knit tie", "No pocket square", "Brown monks"] },
+          { name: "Forest Check", items: ["Forest green tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Pattern Authority", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal oxfords"] }
+        ],
+        styleMantra: "Sage houndstooth — the pattern that says you studied the rulebook and chose to make it interesting."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Half Windsor", styleNote: "Blue deepens into the houndstooth naturally" },
+          { color: "Warm Tan", hex: "#C4A882", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth cuts the cool blue-sage" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold statement in a cool ensemble" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Dusty tones in measured harmony" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Unifying cool across all elements" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Depth in the botanical palette" }
+        ],
+        packages: [
+          { name: "Blue Check", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Earth Break", items: ["Warm tan knit tie", "White pocket square", "Chestnut monks"] },
+          { name: "Bold Check", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dusty Pattern", items: ["Dusty mauve tie", "White pocket square", "Grey suede loafers"] },
+          { name: "Silver Cool", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Green Depth", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] }
+        ],
+        styleMantra: "Pale blue brings out the cool restraint in sage houndstooth — effortlessly polished."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth on an ivory-sage combination" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Romantic softness over bold pattern" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic and unassailable" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Golden light on a pale, patterned suit" },
+          { color: "Sage (tonal)", hex: "#8FAF8C", fabric: "Grenadine", knot: "Four-in-hand", styleNote: "Monochromatic confidence, pattern does the work" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep punctuation in a pale composition" }
+        ],
+        packages: [
+          { name: "Ivory Heritage", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Soft Pattern", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Ivory Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Golden Houndstooth", items: ["Warm gold grenadine tie", "White pocket square", "Brown monks"] },
+          { name: "Tonal Check", items: ["Sage grenadine tie", "No pocket square", "Brown loafers"] },
+          { name: "Deep Punctuation", items: ["Burgundy tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Ivory on sage houndstooth — the pattern speaks in a quiet voice, but everyone listens."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -9214,6 +9677,7 @@ function getLocalAnalysis(text) {
     else if (/dove grey suit|dove gray suit|dove grey blazer|mid grey suit|mid gray suit|medium grey suit|medium gray suit|grey flannel suit|gray flannel suit|grey wool suit|gray wool suit|grey herringbone|gray herringbone|grey glen plaid|gray glen plaid|grey tweed suit|gray tweed suit|grey chalk stripe|gray chalk stripe|silver grey suit|light grey suit|light gray suit|pearl grey suit|ash grey suit/.test(t)) { colorKey = "dovegrey"; colorMatched = true }
     else if (/oxblood suit|oxblood blazer|oxblood wool|oxblood tweed|oxblood herringbone|oxblood houndstooth|oxblood linen|deep burgundy suit|dark burgundy suit|wine suit|wine blazer|claret suit|claret blazer|bordeaux suit|garnet suit|deep red suit|crimson suit|port suit|maroon suit/.test(t)) { colorKey = "oxblood"; colorMatched = true }
     else if (/cobalt suit|cobalt blazer|cobalt blue suit|royal blue suit|royal blue blazer|electric blue suit|bright blue suit|vivid blue suit|sapphire suit|sapphire blazer|cobalt wool|cobalt tweed|cobalt herringbone|cobalt houndstooth|cobalt linen|klein blue suit/.test(t)) { colorKey = "cobalt"; colorMatched = true }
+        else if (/sage suit|sage blazer|sage green suit|sage green blazer|sage wool|sage tweed|sage linen|sage herringbone|sage glen plaid|sage houndstooth|dusty green suit|muted green suit|grey green suit|gray green suit|sage chalk stripe|soft green suit|pale green suit|sage flannel/.test(t)) { colorKey = "sage"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
