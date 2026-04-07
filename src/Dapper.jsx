@@ -14811,6 +14811,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── CORAL ───────────────────────────────────────────────────────────────────
+  "coral|solid": {
+    suit: { color: "Coral", pattern: "Solid", hex: "#FF6B6B", fabric: "Lightweight wool or linen blend — warm orange-pink, vivid and summery" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy is the essential anchor for a coral suit — grounds the vivid warmth" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth softens the vivid coral" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sunlit warmth on warm coral — the beach palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor cuts decisively through vivid coral" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth — coral and rose in warm accord" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Tropical pairing — coral and forest, full of colour" }
+        ],
+        packages: [
+          { name: "Coral Classic", items: ["Navy repp tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Pale Coral", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Beach Gold", items: ["Warm gold knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Dark Anchor", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Tonal Warm", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] },
+          { name: "Tropical", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] }
+        ],
+        styleMantra: "Coral solid — the suit that belongs in every warm month. Vivid, warm, and worn only by those who understand summer."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue cuts cleanly through vivid coral" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool-vivid composition" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sunlit warmth disrupts the cool blue palette" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical trio — pale blue, coral, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark anchor through the cool-vivid palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against vivid coral — precise contrast" }
+        ],
+        packages: [
+          { name: "Blue Coral", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Pale Blue Coral", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Gold Blue Coral", items: ["Warm gold knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Tropical Blue", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Dark Blue Coral", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Silver Coral", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on coral — the cool ocean against a warm shore. The most summery contrast in tailoring."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the warm ivory-coral" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Sun-warm gold on ivory and coral — the warmest summer" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal bloom — coral suit, ivory shirt, rose tie" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical depth through the warm pale palette" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Near-monochrome warmth — vivid suit, pale shirt and tie" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "One strong anchor in the warmest combination" }
+        ],
+        packages: [
+          { name: "Ivory Coral Classic", items: ["Navy tie", "Ivory pocket square", "Tan leather loafers"] },
+          { name: "Golden Coral", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan suede loafers"] },
+          { name: "Rose Ivory Coral", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tropical Ivory", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Pale Coral", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Ivory Coral", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Ivory on coral — warm on vivid. The summer suit that dresses the golden hour in tailoring."
+      }
+    ]
+  },
+
+  "coral|chalk_stripe": {
+    suit: { color: "Coral", pattern: "Chalk Stripe", hex: "#FF6B6B", fabric: "Superfine wool, white chalk stripe on vivid coral" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Chalk tradition on the most vivid possible striped suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the chalk stripe on coral" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Gold picks up the chalk stripe in warm light" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark authority in the most vivid chalk stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Tropical depth through the coral chalk stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth on the vivid stripe" }
+        ],
+        packages: [
+          { name: "Coral Stripe", items: ["Navy repp tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Pale Stripe", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Gold Chalk", items: ["Warm gold grenadine tie", "White pocket square", "Tan monks"] },
+          { name: "Dark Coral Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Tropical Stripe", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Rose Stripe", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Coral chalk stripe — the most vivid power suit. Structure has never looked this warm."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and vivid coral stripe" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-vivid stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth through the cool coral stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical cool — blue, coral stripe, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue vivid stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool precision against the vivid chalk stripe" }
+        ],
+        packages: [
+          { name: "Blue Coral Stripe", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Pale Blue Stripe", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Tropical Stripe Blue", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Dark brown loafers"] },
+          { name: "Silver Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on coral chalk stripe — the cool shirt makes the vivid stripe feel like a force of summer."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the pale ivory-vivid stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal sun warmth through ivory and coral stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on ivory in the coral chalk stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical depth through the pale vivid stripe" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale on vivid — the chalk stripe is the detail" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "One dark anchor through the warmest stripe" }
+        ],
+        packages: [
+          { name: "Ivory Coral Classic Stripe", items: ["Navy tie", "Ivory pocket square", "Tan leather loafers"] },
+          { name: "Golden Coral Stripe", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan monks"] },
+          { name: "Rose Ivory Stripe", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tropical Ivory Stripe", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Pale Coral Stripe", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Ivory Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Ivory on coral chalk stripe — pale warmth over vivid structure. The stripe does everything."
+      }
+    ]
+  },
+
+  "coral|glen_plaid": {
+    suit: { color: "Coral", pattern: "Glen Plaid", hex: "#FF6B6B", fabric: "Wool-cashmere blend, vivid coral and ivory glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the vivid coral plaid geometry" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth catches the ivory overcheck" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold picks up the warm overcheck element" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor beneath the vivid plaid structure" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Tropical — coral plaid and forest in geometric form" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth through the vivid plaid" }
+        ],
+        packages: [
+          { name: "Coral Plaid Classic", items: ["Navy repp tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Pale Plaid", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Gold Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Dark Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Tropical Plaid", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Rose Plaid", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Coral glen plaid — vivid geometry. Colour and pattern together, neither apologising for the other."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue through pale blue and vivid coral plaid" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-vivid plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth in the cool coral plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical cool trio — blue, coral plaid, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the blue vivid plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against the vivid warm plaid" }
+        ],
+        packages: [
+          { name: "Blue Coral Plaid", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Pale Blue Plaid", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Tropical Blue Plaid", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Dark Blue Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Dark brown loafers"] },
+          { name: "Silver Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on coral glen plaid — the cool shirt makes the vivid plaid glow like a sunset."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through ivory and vivid coral plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Summer warmth through ivory and the vivid plaid" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal bloom on ivory in the vivid coral plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical depth through the pale vivid plaid" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale on vivid — the plaid geometry is everything" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "One dark note through the warmest plaid" }
+        ],
+        packages: [
+          { name: "Ivory Coral Plaid", items: ["Navy tie", "Ivory pocket square", "Tan leather loafers"] },
+          { name: "Golden Plaid", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan monks"] },
+          { name: "Rose Ivory Plaid", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tropical Ivory Plaid", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Pale Coral Plaid", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Ivory Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Ivory on coral glen plaid — the most summery geometric suit. Wear it at peak afternoon."
+      }
+    ]
+  },
+
+  "coral|herringbone": {
+    suit: { color: "Coral", pattern: "Herringbone", hex: "#FF6B6B", fabric: "Mid-weight wool herringbone, vivid coral in warm woven texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy grounds the vivid coral herringbone decisively" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth softens the vivid textured suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold catches the herringbone weave in warm light" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark structure through the vivid textured coral" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Tropical depth in the vivid herringbone" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal bloom through the warm coral texture" }
+        ],
+        packages: [
+          { name: "Coral Weave", items: ["Navy repp tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Pale Weave", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Gold Texture", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Dark Weave", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Tropical Weave", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Rose Weave", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Coral herringbone — vivid colour, woven texture. The warmest suit in the most tactile form."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and vivid herringbone" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-vivid weave" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth in the cool coral texture" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical trio — blue, coral weave, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue vivid weave" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against the vivid warm texture" }
+        ],
+        packages: [
+          { name: "Blue Coral Weave", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Pale Blue Weave", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Tropical Blue Weave", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Dark brown loafers"] },
+          { name: "Silver Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on coral herringbone — the cool shirt reveals every warm thread of the vivid weave."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through ivory and vivid coral weave" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Summer warmth through ivory and the vivid texture" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal bloom on ivory in the vivid coral weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical depth through the pale vivid weave" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale on vivid — the texture speaks alone" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "One dark anchor through the vivid warm texture" }
+        ],
+        packages: [
+          { name: "Ivory Coral Weave", items: ["Navy tie", "Ivory pocket square", "Tan leather loafers"] },
+          { name: "Golden Weave", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan monks"] },
+          { name: "Rose Ivory Weave", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tropical Ivory Weave", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Pale Coral Weave", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Ivory Weave", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Ivory on coral herringbone — the texture glows vivid through the pale warmth."
+      }
+    ]
+  },
+
+  "coral|tweed": {
+    suit: { color: "Coral", pattern: "Tweed", hex: "#FF6B6B", fabric: "Donegal tweed, vivid coral base with peach and ivory flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue civilizes the most vivid Donegal" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the ivory flecks in the coral tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm gold catches the peach flecks beautifully" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the most vivid tweed" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Tropical contrast through the vivid flecked tweed" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm tonal bloom in the coral tweed flecks" }
+        ],
+        packages: [
+          { name: "Coral Donegal", items: ["Navy repp tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Ivory Fleck", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Gold Fleck Coral", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Dark Coral Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Tropical Tweed", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Rose Fleck", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Coral tweed — the most vivid Donegal ever made. The flecks are summer, the fabric is warmth."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and vivid coral tweed" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth mirrors the flecks through the cool palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth disrupts the cool palette naturally" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical trio — pale blue, coral tweed, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue vivid tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against the vivid coral flecks" }
+        ],
+        packages: [
+          { name: "Blue Coral Tweed", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Pale Blue Tweed", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Tropical Blue Tweed", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Dark brown loafers"] },
+          { name: "Silver Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on coral tweed — the cool sky above the most vivid country suit. Unexpected and perfect."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through ivory and the vivid coral flecks" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold through ivory and peach flecks — summer warmth" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal bloom on ivory through the coral flecks" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical depth through the pale vivid tweed" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale on vivid — the flecks carry the whole story" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "One strong anchor through the vivid pale tweed" }
+        ],
+        packages: [
+          { name: "Ivory Coral Tweed", items: ["Navy tie", "Ivory pocket square", "Tan leather loafers"] },
+          { name: "Golden Coral Tweed", items: ["Warm gold knit tie", "Ivory pocket square", "Tan monks"] },
+          { name: "Rose Ivory Tweed", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tropical Ivory Tweed", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Pale Coral Tweed", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Ivory Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Ivory on coral tweed — the peach and ivory flecks tell a summer story. You just have to wear it."
+      }
+    ]
+  },
+
+  "coral|linen": {
+    suit: { color: "Coral", pattern: "Linen", hex: "#FF6B6B", fabric: "Italian linen, vivid coral — warm orange-pink with natural slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The essential anchor in the most vivid linen suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth in the most vivid summer suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Summer gold in the vivid coral linen" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Tropical — coral linen and forest green" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Tonal warm bloom in the vivid linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One dark anchor in the most vivid summer suit" }
+        ],
+        packages: [
+          { name: "Coral Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Tan leather loafers"] },
+          { name: "Pale Coral Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Gold Summer", items: ["Warm gold knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Tropical Linen", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Rose Linen", items: ["Dusty rose linen tie", "White linen pocket square", "Nude suede loafers"] },
+          { name: "Dark Coral Linen", items: ["Charcoal knit tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Coral linen — the most vivid summer suit. Wear it at noon on the hottest day. You earned it."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor in the most vivid linen suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth through the cool vivid linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth disrupts the cool palette vividly" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Tropical cool — blue, coral linen, forest" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool precision against the vivid linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark anchor in the coolest coral composition" }
+        ],
+        packages: [
+          { name: "Blue Coral Linen", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Pale Blue Linen", items: ["Ivory linen tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Tan suede loafers"] },
+          { name: "Tropical Blue Linen", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Silver Coral Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "Grey pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Pale blue on coral linen — the Amalfi Coast. Cool water, vivid shore, impeccably dressed."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "One deep anchor in the warmest summer look" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Warm gold through ivory and vivid coral linen" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Tonal bloom on ivory in the vivid linen suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Tropical depth through the pale vivid linen" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Near-monochrome warmth — the linen colour is everything" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One dark note in the palest vivid combination" }
+        ],
+        packages: [
+          { name: "Ivory Coral Linen", items: ["Navy tie", "Ivory pocket square", "Tan leather loafers"] },
+          { name: "Golden Linen", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan suede loafers"] },
+          { name: "Rose Ivory Linen", items: ["Dusty rose linen tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tropical Ivory Linen", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Pale Coral Mono", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Ivory Linen", items: ["Charcoal knit tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Ivory on coral linen — the warmest summer afternoon in suit form. Nothing needs to be added."
+      }
+    ]
+  },
+
+  "coral|houndstooth": {
+    suit: { color: "Coral", pattern: "Houndstooth", hex: "#FF6B6B", fabric: "Wool blend, vivid coral and ivory houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic anchor to the most vivid houndstooth" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the ivory check on vivid coral" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth catches the ivory check element" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark anchor through the vivid geometric" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Tropical through the vivid coral check" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth through the vivid geometric" }
+        ],
+        packages: [
+          { name: "Coral Check", items: ["Navy repp tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Pale Check", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Gold Check Coral", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Dark Check", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Tropical Check", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Rose Check", items: ["Dusty rose tie", "White pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Coral houndstooth — vivid geometry. The most summery check ever cut in wool."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and vivid coral check" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool vivid check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Sun warmth through the cool coral check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical trio — pale blue, coral check, forest" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue vivid check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool precision against the vivid warm check" }
+        ],
+        packages: [
+          { name: "Blue Coral Check", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Pale Blue Check", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Tropical Blue Check", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Dark Blue Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Dark brown loafers"] },
+          { name: "Silver Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on coral houndstooth — the cool shore and the vivid check in perfect summer contrast."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through ivory and vivid coral check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Summer warmth through ivory and vivid check" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal bloom on ivory in the vivid coral check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Four-in-hand", styleNote: "Tropical depth through the pale vivid check" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale on vivid — the check glows through the ivory" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "One dark note through the warmest check" }
+        ],
+        packages: [
+          { name: "Ivory Coral Check", items: ["Navy tie", "Ivory pocket square", "Tan leather loafers"] },
+          { name: "Golden Check", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan monks"] },
+          { name: "Rose Ivory Check", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tropical Ivory Check", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Pale Coral Check", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Ivory Check", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Ivory on coral houndstooth — vivid check, pale warmth. The ivory pattern glows against the summer ground."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -15246,6 +15709,7 @@ function getLocalAnalysis(text) {
         else if (/midnight blue suit|midnight blue blazer|midnight suit|midnight blazer|dark navy suit|deep blue suit|ink blue suit|midnight wool|midnight linen|midnight tweed|midnight herringbone|midnight houndstooth|midnight glen plaid|midnight chalk stripe|deep ink suit|dark ink suit|near black blue suit|indigo suit|dark indigo suit/.test(t)) { colorKey = "midnight"; colorMatched = true }
         else if (/bottle green suit|bottle green blazer|bottle suit|deep green suit|dark green suit|rich green suit|hunter green suit|bottle wool|bottle linen|bottle tweed|bottle herringbone|bottle houndstooth|bottle glen plaid|hunter green blazer|british racing green suit|deep bottle suit|saturated green suit|dark hunter suit/.test(t)) { colorKey = "bottle"; colorMatched = true }
         else if (/caramel suit|caramel blazer|caramel brown suit|golden brown suit|warm brown suit|caramel wool|caramel linen|caramel tweed|caramel herringbone|caramel houndstooth|caramel glen plaid|caramel chalk stripe|mid brown suit|golden mid brown|toffee suit|amber brown suit|warm mid brown suit/.test(t)) { colorKey = "caramel"; colorMatched = true }
+        else if (/coral suit|coral blazer|coral linen|coral tweed|coral wool|coral herringbone|coral houndstooth|coral glen plaid|coral chalk stripe|orange pink suit|warm pink suit|vivid pink suit|bright pink suit|salmon suit|salmon blazer|melon suit|tropical pink suit|summer coral suit/.test(t)) { colorKey = "coral"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
