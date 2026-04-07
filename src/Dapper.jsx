@@ -13885,6 +13885,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── BOTTLE GREEN ────────────────────────────────────────────────────────────
+  "bottle|solid": {
+    suit: { color: "Bottle Green", pattern: "Solid", hex: "#006A4E", fabric: "Superfine wool — deep, rich, saturated dark green" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep wine against deep green — rich and authoritative" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold on bottle green — the heraldic combination" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark on dark — navy anchors the deep green" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver cuts through the deep rich green" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth grounds the deep green suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the darkest green" }
+        ],
+        packages: [
+          { name: "Bottle Classic", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toe oxfords"] },
+          { name: "Heraldic Green", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Authority", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Green", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Earthy Green", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Ivory Green", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Bottle green solid — the deepest green in tailoring. Richer than forest, darker than sage, more saturated than olive. This is the green that means it."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and deep green" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich warm contrast in the cool-dark green" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic gold through the pale blue composition" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through pale blue and dark green" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and deep green" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor through the blue-green composition" }
+        ],
+        packages: [
+          { name: "Blue Bottle", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Berry Blue Green", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Blue Green", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Blue Green", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Blue Green", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Dark Blue Green", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on bottle green — the cool shirt reveals the depth of the darkest green suit."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich deep contrast — the estate palette" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Heraldic gold on ivory in a bottle green suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through ivory and deep green" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and dark green" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the pale warm combination" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark anchor through ivory and bottle green" }
+        ],
+        packages: [
+          { name: "Estate Green", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ivory Heraldic", items: ["Gold grenadine tie", "Ivory pocket square", "Dark brown monks"] },
+          { name: "Ivory Earth Green", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toes"] },
+          { name: "Ivory Classic Green", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Silver Ivory Green", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Ivory Green", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Ivory on bottle green — the estate in winter. Rich, deep, and utterly commanding."
+      }
+    ]
+  },
+
+  "bottle|chalk_stripe": {
+    suit: { color: "Bottle Green", pattern: "Chalk Stripe", hex: "#006A4E", fabric: "Superfine wool, ivory chalk stripe on deep bottle green" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "The dark power stripe — bottle green, chalk, burgundy" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Heraldic gold picks up the ivory chalk stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Double dark — navy through bottle green chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the chalk on deep bottle green" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the dark striped suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum dark authority in the green chalk stripe" }
+        ],
+        packages: [
+          { name: "Green Power Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Heraldic Stripe", items: ["Gold grenadine tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Stripe", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Silver Chalk Green", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Stripe Green", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Bottle Authority", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Bottle green chalk stripe — the power suit in its most unexpected colour. Structured, deep, and impossible to forget."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and dark stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Rich warm contrast in the cool dark stripe" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic warmth disrupts the cool stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue-green stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool authority through pale blue and dark stripe" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through cool blue and green stripe" }
+        ],
+        packages: [
+          { name: "Blue Green Stripe", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Berry Blue Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Blue Stripe", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Green Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Earth Blue Stripe", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] }
+        ],
+        styleMantra: "Pale blue on bottle green chalk stripe — the cool shirt reveals the depth of the dark stripe."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Estate palette through ivory and green chalk stripe" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Heraldic trio — green stripe, ivory, gold" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm heritage through the pale striped ensemble" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through ivory and the dark stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark line through the pale chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the ivory-green stripe" }
+        ],
+        packages: [
+          { name: "Estate Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Ivory Stripe", items: ["Gold grenadine tie", "Ivory pocket square", "Dark brown monks"] },
+          { name: "Heritage Stripe", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Classic Stripe", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Ivory Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Silver Ivory Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Ivory on bottle green chalk stripe — the stripe cuts deep through the pale warmth. Heritage and authority."
+      }
+    ]
+  },
+
+  "bottle|glen_plaid": {
+    suit: { color: "Bottle Green", pattern: "Glen Plaid", hex: "#006A4E", fabric: "Wool-cashmere blend, deep bottle green and charcoal glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep berry through the dark green plaid geometry" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic gold picks up the charcoal overcheck" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark authority reinforces the bottle green plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver catches the charcoal overcheck on deep green" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the dark green plaid structure" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the dark geometric" }
+        ],
+        packages: [
+          { name: "Green Plaid Classic", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Heraldic Plaid", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Green Plaid", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Silver Plaid Green", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Green Plaid", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Ivory Dark Plaid", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Bottle green glen plaid — deep colour, geometric authority. The country suit for someone who takes both seriously."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue anchor through pale blue and dark green plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich contrast through pale blue and green plaid" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic warmth through the cool plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through the blue-green plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor through the pale blue plaid" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth cuts through the cool green plaid" }
+        ],
+        packages: [
+          { name: "Blue Green Plaid", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Berry Plaid Blue", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Plaid Blue", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Blue Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Blue Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Earth Blue Plaid", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] }
+        ],
+        styleMantra: "Pale blue on bottle green glen plaid — cool light through a very dark geometry."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Estate richness — ivory, bottle green plaid, burgundy" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Heraldic trio in plaid form — green, ivory, gold" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm heritage through the pale dark plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and the dark plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the ivory-green plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through ivory and dark green plaid" }
+        ],
+        packages: [
+          { name: "Ivory Estate Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Ivory Plaid", items: ["Gold grenadine tie", "Ivory pocket square", "Dark brown monks"] },
+          { name: "Heritage Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Classic Plaid", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Silver Ivory Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Ivory Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Ivory on bottle green glen plaid — pale warmth over deep green geometry. The estate look at its most refined."
+      }
+    ]
+  },
+
+  "bottle|herringbone": {
+    suit: { color: "Bottle Green", pattern: "Herringbone", hex: "#006A4E", fabric: "Mid-weight wool herringbone, deep saturated bottle green" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep wine through the rich green texture" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic gold catches the herringbone weave" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark navy deepens the bottle green texture" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the rich dark weave" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the deep textured green" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the richest herringbone" }
+        ],
+        packages: [
+          { name: "Green Weave Classic", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Heraldic Weave", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Green Weave", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Silver Green Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Green Weave", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Ivory Dark Weave", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Bottle green herringbone — the richest texture in the richest green. Every thread earns its place."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and dark green weave" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich contrast through cool blue and dark texture" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic warmth in the cool herringbone" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue-green weave" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and deep green texture" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the pale blue-dark green weave" }
+        ],
+        packages: [
+          { name: "Blue Green Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Berry Blue Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Blue Weave", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Blue Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Blue Weave", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on bottle green herringbone — the cool shirt reveals every thread of the rich dark weave."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Estate depth through ivory and the dark green weave" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Heraldic warmth on ivory in a bottle green herringbone" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm heritage through the pale dark texture" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and dark green weave" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the ivory-green texture" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the pale organic texture" }
+        ],
+        packages: [
+          { name: "Estate Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Ivory Weave", items: ["Gold grenadine tie", "Ivory pocket square", "Dark brown monks"] },
+          { name: "Heritage Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Classic Weave", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Silver Ivory Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Ivory Weave", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Ivory on bottle green herringbone — pale warmth over rich texture. The weave does the work."
+      }
+    ]
+  },
+
+  "bottle|tweed": {
+    suit: { color: "Bottle Green", pattern: "Tweed", hex: "#006A4E", fabric: "Donegal tweed, deep bottle green base with forest and gold flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Berry depth through the dark green flecked tweed" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the gold flecks in the bottle green tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval authority through the richest country tweed" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Earthy warmth through the dark flecked texture" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver catches the lighter flecks in the tweed" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the darkest Donegal" }
+        ],
+        packages: [
+          { name: "Green Donegal", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Fleck Green", items: ["Gold knit tie", "No pocket square", "Dark brown monks"] },
+          { name: "Naval Green Tweed", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Earth Green Tweed", items: ["Cognac wool knit tie", "Cream pocket square", "Tan derby shoes"] },
+          { name: "Silver Fleck Green", items: ["Silver grey tie", "White pocket square", "Charcoal suede derbies"] },
+          { name: "Ivory Dark Tweed", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Bottle green tweed — the darkest Donegal in the deepest green. The moor in full colour."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and dark green tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Rich warmth through cool blue and dark tweed" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic warmth through the cool tweed palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver across the blue-dark green tweed" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and dark tweed flecks" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue-dark tweed" }
+        ],
+        packages: [
+          { name: "Sky Green Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Berry Blue Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Blue Tweed", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Blue Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Blue Tweed", items: ["Cognac wool knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on bottle green tweed — the clear sky above the richest green moor."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Estate warmth through ivory and the dark green tweed" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic gold on ivory in the bottle green tweed" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Heritage warmth through the pale dark flecked suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and dark green tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the ivory and dark flecks" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark anchor through the pale flecked palette" }
+        ],
+        packages: [
+          { name: "Ivory Estate Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Ivory Tweed", items: ["Gold knit tie", "Ivory pocket square", "Dark brown monks"] },
+          { name: "Heritage Green Tweed", items: ["Cognac wool knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Classic Tweed", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Silver Ivory Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Ivory Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Ivory on bottle green tweed — the flecks catch the eye. The depth does the rest."
+      }
+    ]
+  },
+
+  "bottle|linen": {
+    suit: { color: "Bottle Green", pattern: "Linen", hex: "#006A4E", fabric: "Italian linen, deep bottle green — rich dark slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The cool anchor in the richest summer suit" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Deep wine in the dark linen — evening weight, day worn" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic gold in the darkest summer suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth for the richest linen suit" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver cuts through the dark linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth against the deepest summer linen" }
+        ],
+        packages: [
+          { name: "Green Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Dark brown leather loafers"] },
+          { name: "Dark Summer Green", items: ["Burgundy silk tie", "White linen pocket square", "Black leather loafers"] },
+          { name: "Heraldic Linen", items: ["Gold knit tie", "No pocket square", "Dark brown loafers"] },
+          { name: "Earth Green Linen", items: ["Cognac knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Silver Green Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ivory Dark Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Bottle green linen — the darkest summer suit in the richest colour. Wears the day like it owns it."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Blue depth through pale blue and dark green linen" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Rich warm contrast in the cool dark linen" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic warmth in the cool dark linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Metallic cool through pale blue and dark linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-dark linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark cool — the linen texture is the detail" }
+        ],
+        packages: [
+          { name: "Blue Green Linen", items: ["Navy tie", "Pale blue pocket square", "Dark brown leather loafers"] },
+          { name: "Berry Blue Linen", items: ["Burgundy tie", "White pocket square", "Black leather loafers"] },
+          { name: "Gold Blue Linen", items: ["Gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Silver Blue Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ivory Blue Linen", items: ["Ivory linen tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on bottle green linen — the pale sky against the deepest green. Striking in any season."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Estate richness — ivory, dark green linen, burgundy" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Heraldic trio in summer form — green linen, ivory, gold" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm heritage through the pale dark linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Classic anchor through ivory and dark green linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver through the ivory-dark linen" },
+          { color: "Ivory (tonal)", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale on dark — the linen texture is everything" }
+        ],
+        packages: [
+          { name: "Estate Summer", items: ["Burgundy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Gold Ivory Linen", items: ["Gold grenadine tie", "Ivory pocket square", "Dark brown loafers"] },
+          { name: "Heritage Summer", items: ["Cognac knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Ivory Classic Linen", items: ["Navy tie", "Ivory pocket square", "Brown leather loafers"] },
+          { name: "Silver Ivory Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Pale Dark Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Ivory on bottle green linen — the palest warmth over the richest dark. The contrast is the elegance."
+      }
+    ]
+  },
+
+  "bottle|houndstooth": {
+    suit: { color: "Bottle Green", pattern: "Houndstooth", hex: "#006A4E", fabric: "Wool blend, deep bottle green and ivory houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep berry against the dark green check — rich authority" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic gold catches the ivory check element" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark navy deepens the bottle green houndstooth" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the ivory check on deep green ground" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the rich dark check" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the ivory check element" }
+        ],
+        packages: [
+          { name: "Green Check Classic", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Heraldic Check", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Check Green", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Check Green", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Check Green", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Ivory Check Green", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Bottle green houndstooth — the richest check. Deep green ground, ivory pattern — a heraldic geometry."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and dark green check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich contrast through cool blue and green houndstooth" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heraldic warmth in the cool check palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue-green check" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges pale blue and rich check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the pale blue-dark check" }
+        ],
+        packages: [
+          { name: "Blue Green Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Berry Blue Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Blue Check", items: ["Gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Blue Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Earth Blue Check", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Dark Blue Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on bottle green houndstooth — the cool light reveals the depth and pattern of the dark check."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Estate palette through ivory and the dark check" },
+          { color: "Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Heraldic warmth on ivory in the green houndstooth" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm heritage through the pale dark check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and bottle green check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the ivory-dark check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through ivory and the rich check" }
+        ],
+        packages: [
+          { name: "Ivory Estate Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Ivory Check", items: ["Gold grenadine tie", "Ivory pocket square", "Dark brown monks"] },
+          { name: "Heritage Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ivory Classic Check", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Silver Ivory Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Ivory Check", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Ivory on bottle green houndstooth — pale warmth over the richest check. The ivory pattern glows against the deep green ground."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -14318,6 +14781,7 @@ function getLocalAnalysis(text) {
         else if (/champagne suit|champagne blazer|champagne linen|champagne tweed|champagne wool|champagne herringbone|champagne houndstooth|champagne glen plaid|pale gold suit|light gold suit|warm white suit|golden suit|golden blazer|champagne chalk stripe|pale champagne suit|luminous suit|straw suit|wheat suit/.test(t)) { colorKey = "champagne"; colorMatched = true }
         else if (/moss suit|moss blazer|moss green suit|moss green blazer|moss wool|moss linen|moss tweed|moss herringbone|moss houndstooth|moss glen plaid|moss chalk stripe|lichen suit|lichen green suit|murky green suit|yellow green suit|muted yellow green suit|dark sage suit|swamp green suit|fern suit|fern green suit/.test(t)) { colorKey = "moss"; colorMatched = true }
         else if (/midnight blue suit|midnight blue blazer|midnight suit|midnight blazer|dark navy suit|deep blue suit|ink blue suit|midnight wool|midnight linen|midnight tweed|midnight herringbone|midnight houndstooth|midnight glen plaid|midnight chalk stripe|deep ink suit|dark ink suit|near black blue suit|indigo suit|dark indigo suit/.test(t)) { colorKey = "midnight"; colorMatched = true }
+        else if (/bottle green suit|bottle green blazer|bottle suit|deep green suit|dark green suit|rich green suit|hunter green suit|bottle wool|bottle linen|bottle tweed|bottle herringbone|bottle houndstooth|bottle glen plaid|hunter green blazer|british racing green suit|deep bottle suit|saturated green suit|dark hunter suit/.test(t)) { colorKey = "bottle"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
