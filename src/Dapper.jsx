@@ -19040,6 +19040,22 @@ const remainingColors = [
 // The PATTERN_MATRIX lookup function handles the fallback
 
 
+const _BASE_MAP = {
+  camel:    ANALYSIS_BROWN,
+  black:    ANALYSIS_BLACK,
+  charcoal: ANALYSIS_CHARCOAL,
+  navy:     ANALYSIS,
+  grey:     ANALYSIS_GREY,
+  blue:     ANALYSIS_BLUE,
+  burgundy: ANALYSIS_BURGUNDY,
+  brown:    ANALYSIS_BROWN,
+  beige:    ANALYSIS_BEIGE,
+  green:    ANALYSIS,
+  white:    ANALYSIS,
+  purple:   ANALYSIS,
+  red:      ANALYSIS,
+}
+
 function getAnalysisFromPhotoResult(result) {
   if (!result) return ANALYSIS
 
@@ -19075,13 +19091,7 @@ function getAnalysisFromPhotoResult(result) {
   }
 
   // Fallback: use base analysis + inject detected metadata
-  const baseMap = {
-    camel: ANALYSIS_BROWN, black: ANALYSIS_BLACK, charcoal: ANALYSIS_CHARCOAL,
-    navy: ANALYSIS, grey: ANALYSIS_GREY, blue: ANALYSIS_BLUE, burgundy: ANALYSIS_BURGUNDY,
-    brown: ANALYSIS_BROWN, beige: ANALYSIS_BEIGE, green: ANALYSIS, white: ANALYSIS,
-    purple: ANALYSIS, red: ANALYSIS,
-  }
-  const base = baseMap[result.colorKey] || ANALYSIS
+  const base = _BASE_MAP[result.colorKey] || ANALYSIS
   return {
     ...base,
     suit: {
@@ -19333,13 +19343,7 @@ function getLocalAnalysis(text) {
 
   // Detect color (with match tracking)
   let colorKey = "navy"
-  const baseMap = {
-    camel: ANALYSIS_BROWN,
-    black: ANALYSIS_BLACK, charcoal: ANALYSIS_CHARCOAL, navy: ANALYSIS,
-    grey: ANALYSIS_GREY, blue: ANALYSIS_BLUE, burgundy: ANALYSIS_BURGUNDY,
-    brown: ANALYSIS_BROWN, beige: ANALYSIS_BEIGE,
-    green: ANALYSIS, white: ANALYSIS, purple: ANALYSIS, red: ANALYSIS,
-  }
+
     let colorMatched = false
   if (/black/.test(t))                                                      { colorKey = "black"; colorMatched = true }
   else if (/charcoal|dark[\s-]?gr[ae]y/.test(t))                          { colorKey = "charcoal"; colorMatched = true }
@@ -19413,10 +19417,10 @@ function getLocalAnalysis(text) {
   const matrixKey = colorKey + "|" + patternKey
   if (PATTERN_MATRIX[matrixKey]) return { ...PATTERN_MATRIX[matrixKey], _isMatrixMatch: true }
   // Color or pattern detected but not in matrix — exotic combo
-  if (colorMatched || patternMatched) return { ...(baseMap[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
+  if (colorMatched || patternMatched) return { ...(_BASE_MAP[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
 
   // Fallback to base analysis
-  return { ...(baseMap[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
+  return { ...(_BASE_MAP[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
