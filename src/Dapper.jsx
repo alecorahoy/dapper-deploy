@@ -12033,6 +12033,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── AUBERGINE / PLUM ────────────────────────────────────────────────────────
+  "aubergine|solid": {
+    suit: { color: "Aubergine", pattern: "Solid", hex: "#3D0C02", fabric: "Superfine wool or wool-silk blend — deep dark purple-brown" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against deep aubergine — a precise metallic tension" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom against deep plum — adjacent in the colour wheel" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold on deep aubergine — the Byzantine combination" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark on dark — navy deepens the aubergine mystery" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep botanical pairing — plum and forest in full darkness" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth breaks the darkness of the suit" }
+        ],
+        packages: [
+          { name: "Aubergine Silver", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toe oxfords"] },
+          { name: "Plum Bloom", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Byzantine Gold", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Deep Dark", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Botanical", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ivory Plum", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Aubergine solid — the darkest statement suit. Worn by those who understand that restraint and drama are not opposites."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue depth anchors the pale shirt on dark plum" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool metallic through pale blue and deep plum" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth disrupts the cool palette against dark aubergine" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm pink bridges pale blue and deep plum" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor in the cool-dark composition" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-dark palette" }
+        ],
+        packages: [
+          { name: "Blue Plum", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Silver Plum", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Plum", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Rose Blue Plum", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Dark Blue Plum", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Ivory Blue Plum", items: ["Ivory knit tie", "Pale blue pocket square", "Tan loafers"] }
+        ],
+        styleMantra: "Pale blue on aubergine — the cool shirt illuminates the depth of the dark suit."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Tonal cool through grey and dark aubergine" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue anchor in the cool-dark palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold cuts through cool grey and deep plum" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the purple family" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through grey and the darkest purple" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep warm family — aubergine and burgundy are kin" }
+        ],
+        packages: [
+          { name: "Grey Plum", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Plum", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Grey Plum", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Mauve Grey Plum", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Ivory Grey Plum", items: ["Ivory knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Burgundy Grey Plum", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on aubergine — cool composure over deep darkness. The grey shirt makes the suit feel inevitable."
+      }
+    ]
+  },
+
+  "aubergine|chalk_stripe": {
+    suit: { color: "Aubergine", pattern: "Chalk Stripe", hex: "#3D0C02", fabric: "Superfine wool, pale chalk stripe on deep aubergine" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver picks up the chalk stripe on deep plum" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Byzantine gold through the dark chalk stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Double dark — navy through deep plum stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on the darkest chalk stripe" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the chalk in the stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum dark authority in the plum chalk stripe" }
+        ],
+        packages: [
+          { name: "Silver Plum Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Byzantine Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Stripe", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Rose Plum Stripe", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Chalk Echo", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Plum Authority", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Aubergine chalk stripe — the power suit taken to its deepest, most dramatic conclusion."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue deepens against dark plum chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool — pale blue, silver, aubergine stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold disrupts the cool pale palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor through the pale blue stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom cuts through the cool dark stripe" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool stripe palette" }
+        ],
+        packages: [
+          { name: "Blue Plum Stripe", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Metal Blue Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Rose Blue Stripe", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Ivory Blue Stripe", items: ["Ivory knit tie", "Pale blue pocket square", "Tan loafers"] }
+        ],
+        styleMantra: "Pale blue on aubergine chalk stripe — the cool shirt makes the dark stripe feel like a force of nature."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey scale through the dark aubergine chalk stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Gold cuts through grey and deep plum stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue through the cool grey-dark stripe" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal dusty warmth within the purple family" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through grey and dark plum stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal severity in the dark chalk stripe" }
+        ],
+        packages: [
+          { name: "Grey Plum Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Gold Grey Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Dark brown monks"] },
+          { name: "Navy Grey Stripe", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Mauve Grey Stripe", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Ivory Grey Stripe", items: ["Ivory knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Dark Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on aubergine chalk stripe — cool restraint over the darkest stripe. The grey shirt is the calm before the impact."
+      }
+    ]
+  },
+
+  "aubergine|glen_plaid": {
+    suit: { color: "Aubergine", pattern: "Glen Plaid", hex: "#3D0C02", fabric: "Wool-cashmere blend, deep aubergine and charcoal glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver picks up the overcheck in the dark plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the dark geometric plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Deep navy reinforces the aubergine plaid structure" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the darkest glen plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Dark botanical depth through the dark plaid geometry" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the dark plaid structure" }
+        ],
+        packages: [
+          { name: "Silver Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Byzantine Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Plaid", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Rose Plaid Dark", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Forest Plaid", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ivory Plaid Dark", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Aubergine glen plaid — the dark country suit at its most dramatic. Pattern with real depth."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor against dark aubergine plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through pale blue and dark plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth disrupts the cool-dark combination" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor through pale blue and deep plaid" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the cool-dark plaid palette" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Dark forest through pale blue and aubergine plaid" }
+        ],
+        packages: [
+          { name: "Blue Dark Plaid", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Metal Plaid Blue", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Plaid Blue", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Cool Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Rose Dark Plaid", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Forest Plaid Blue", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Pale blue on aubergine glen plaid — the cool light on a very dark geometry."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey scale into the dark aubergine plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue structure through the cool grey-dark plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth through the cool grey and dark plaid" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the purple-plum family" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal dark — cool grey and deep plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Dark botanical note through grey and aubergine plaid" }
+        ],
+        packages: [
+          { name: "Grey Dark Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Dark Plaid", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Dark Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Mauve Dark Plaid", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Darkest Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Forest Dark Plaid", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on aubergine glen plaid — the cool shirt makes the dark plaid geometry reveal itself slowly."
+      }
+    ]
+  },
+
+  "aubergine|herringbone": {
+    suit: { color: "Aubergine", pattern: "Herringbone", hex: "#3D0C02", fabric: "Mid-weight wool herringbone, deep aubergine with subtle dark weave" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic silver through the dark herringbone weave" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the deep textured suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark navy deepens the aubergine texture" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom against the darkest herringbone" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Dark botanical depth through the dark weave" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth catches the texture of the dark weave" }
+        ],
+        packages: [
+          { name: "Silver Weave", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Byzantine Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Texture", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Rose Dark Weave", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Forest Weave", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ivory Dark Weave", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Aubergine herringbone — the texture adds darkness to darkness. Every thread a deliberate shade of deep."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and dark weave" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through pale blue and deep texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth disrupts the cool-dark herringbone" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor in the pale blue-dark weave" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm pink through pale blue and deep purple weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Botanical depth cuts through the cool-dark texture" }
+        ],
+        packages: [
+          { name: "Blue Dark Weave", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Metal Blue Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Rose Blue Weave", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Forest Blue Weave", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Pale blue on aubergine herringbone — the cool shirt reveals every thread of the dark weave."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal scale into the dark herringbone" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold through cool grey and dark aubergine weave" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue through grey and dark texture" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the purple family" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through grey and the darkest weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal depth — all dark, all textured" }
+        ],
+        packages: [
+          { name: "Grey Dark Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Gold Grey Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Navy Grey Weave", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Mauve Dark Weave", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Ivory Grey Weave", items: ["Ivory knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Darkest Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on aubergine herringbone — cool tone, dark texture. Every detail working in shadow."
+      }
+    ]
+  },
+
+  "aubergine|tweed": {
+    suit: { color: "Aubergine", pattern: "Tweed", hex: "#3D0C02", fabric: "Donegal tweed, deep aubergine base with plum and charcoal flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver catches the dark flecks in the aubergine tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold picks up the charcoal flecks in warm light" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval depth through the dark flecked country suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Dark forest through the darkest tweed — brooding perfection" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the darkest Donegal" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Deep family warmth — aubergine and burgundy share the flecks" }
+        ],
+        packages: [
+          { name: "Silver Plum Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede derbies"] },
+          { name: "Gold Plum Tweed", items: ["Warm gold knit tie", "No pocket square", "Dark brown monks"] },
+          { name: "Naval Plum", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Forest Plum", items: ["Forest green wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Plum Tweed", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Burgundy Fleck", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Aubergine tweed — the darkest Donegal. The moor at dusk, woven into a suit."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and dark flecks" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through pale blue and dark tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth disrupts the cool dark tweed palette" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, aubergine tweed, dark forest" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the cool-dark composition" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor — the flecks carry the detail" }
+        ],
+        packages: [
+          { name: "Sky Plum Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Metal Blue Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Forest Blue Tweed", items: ["Forest green wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Blue Tweed", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on aubergine tweed — the pale sky above the darkest moor."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool grey scale into the dark aubergine flecks" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the cool grey-dark tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold cuts through cool grey and dark flecks" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the deep purple family" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Dark botanical depth through the cool grey tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Deep family — burgundy and aubergine share the palette" }
+        ],
+        packages: [
+          { name: "Grey Plum Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Tweed", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Mauve Dark Tweed", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Tweed", items: ["Forest green wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Burgundy Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on aubergine tweed — the cool shirt and the dark flecks in quiet, powerful dialogue."
+      }
+    ]
+  },
+
+  "aubergine|linen": {
+    suit: { color: "Aubergine", pattern: "Linen", hex: "#3D0C02", fabric: "Italian linen, deep aubergine — rich dark slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Metallic cool in the darkest summer suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Byzantine gold through the dark linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The coolest note in the darkest summer suit" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Warm bloom against deep plum linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth against the deepest summer suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Dark botanical in the darkest linen suit" }
+        ],
+        packages: [
+          { name: "Dark Linen Metal", items: ["Silver grey tie", "White linen pocket square", "Charcoal suede loafers"] },
+          { name: "Byzantine Linen", items: ["Warm gold knit tie", "No pocket square", "Dark brown loafers"] },
+          { name: "Dark Summer", items: ["Navy silk tie", "White linen pocket square", "Black leather loafers"] },
+          { name: "Rose Plum Linen", items: ["Dusty rose linen tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Ivory Dark Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Forest Plum Linen", items: ["Forest green linen tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Aubergine linen — the darkest summer suit. Evening weight, day worn. Entirely your own."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool hierarchy — pale blue, navy, deep aubergine linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "All cool metallic for the darkest summer suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth cuts through the cool-dark palette" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Warm bloom through pale blue and deep plum linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-dark linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark cool — the linen texture is the detail" }
+        ],
+        packages: [
+          { name: "Blue Plum Linen", items: ["Navy tie", "Pale blue pocket square", "Black leather loafers"] },
+          { name: "Metal Blue Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Rose Blue Linen", items: ["Dusty rose linen tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Ivory Blue Linen", items: ["Ivory linen tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on aubergine linen — the coolest shirt on the darkest summer suit. Dramatic by design."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Grey tonal scale into the dark linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey and dark linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Deep blue through the cool grey summer look" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the dark purple family" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth through grey and deep linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark — near-monochrome in linen" }
+        ],
+        packages: [
+          { name: "Grey Plum Linen", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Navy Grey Linen", items: ["Navy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Mauve Plum Linen", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Ivory Grey Linen", items: ["Ivory linen tie", "White pocket square", "Tan suede loafers"] },
+          { name: "Darkest Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Grey on aubergine linen — cool tone, dark depth. The summer suit that refuses to be ordinary."
+      }
+    ]
+  },
+
+  "aubergine|houndstooth": {
+    suit: { color: "Aubergine", pattern: "Houndstooth", hex: "#3D0C02", fabric: "Wool blend, deep aubergine and charcoal houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the charcoal check on deep aubergine" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold picks up the charcoal check element" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark authority through the dark geometric check" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the darkest houndstooth" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Dark forest through the deep geometric check" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the darkest check" }
+        ],
+        packages: [
+          { name: "Silver Plum Check", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Byzantine Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Check Authority", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Rose Plum Check", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Forest Plum Check", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ivory Plum Check", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Aubergine houndstooth — the darkest check. Geometric depth taken to the very edge of shadow."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool hierarchy — pale blue, navy, dark aubergine check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through pale blue and dark check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth disrupts the cool-dark check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through pale blue and dark houndstooth" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through pale blue and deep plum check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Dark forest through pale blue and aubergine check" }
+        ],
+        packages: [
+          { name: "Blue Dark Check", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Metal Check Blue", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Check Blue", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Check Blue", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Rose Dark Check", items: ["Dusty rose tie", "White pocket square", "Burgundy suede loafers"] },
+          { name: "Forest Dark Check", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Pale blue on aubergine houndstooth — the cool light reveals every dark geometric detail."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey scale into the darkest houndstooth" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold through the cool grey and dark check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue structure through the cool grey check" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the aubergine family" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through grey and the dark check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal severity — the check is everything" }
+        ],
+        packages: [
+          { name: "Grey Plum Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Gold Grey Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Navy Grey Check", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Mauve Plum Check", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Ivory Dark Check", items: ["Ivory knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Darkest Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on aubergine houndstooth — every shade cool, every check deep. The most serious geometric suit."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -12462,6 +12925,7 @@ function getLocalAnalysis(text) {
         else if (/copper suit|copper blazer|bronze suit|bronze blazer|burnished suit|metallic brown suit|copper wool|copper linen|copper tweed|copper herringbone|copper houndstooth|copper glen plaid|bronze tweed|bronze linen|bronze herringbone|burnished brown suit|copper chalk stripe|warm metallic suit|antique gold suit/.test(t)) { colorKey = "copper"; colorMatched = true }
         else if (/gunmetal suit|gunmetal blazer|smoke suit|smoke grey suit|dark grey suit|dark cool grey suit|gunmetal wool|gunmetal linen|gunmetal tweed|gunmetal herringbone|gunmetal houndstooth|gunmetal glen plaid|smoke tweed|smoke linen|smoke herringbone|dark metallic suit|anthracite suit|iron grey suit|steel grey suit|dark charcoal suit/.test(t)) { colorKey = "gunmetal"; colorMatched = true }
         else if (/blush suit|blush blazer|dusty pink suit|dusty pink blazer|soft pink suit|pale pink suit|blush wool|blush linen|blush tweed|blush herringbone|blush houndstooth|blush glen plaid|dusty rose suit|rose suit|pink suit|soft rose suit|powder pink suit|blush chalk stripe|light pink suit/.test(t)) { colorKey = "blush"; colorMatched = true }
+        else if (/aubergine suit|aubergine blazer|plum suit|plum blazer|deep purple suit|dark purple suit|eggplant suit|aubergine wool|aubergine linen|aubergine tweed|aubergine herringbone|aubergine houndstooth|plum tweed|plum linen|plum herringbone|plum houndstooth|dark plum suit|eggplant blazer|aubergine glen plaid|deep violet suit/.test(t)) { colorKey = "aubergine"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
