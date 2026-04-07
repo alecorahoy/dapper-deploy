@@ -19041,19 +19041,59 @@ const remainingColors = [
 
 
 const _BASE_MAP = {
-  camel:    ANALYSIS_BROWN,
-  black:    ANALYSIS_BLACK,
-  charcoal: ANALYSIS_CHARCOAL,
-  navy:     ANALYSIS,
-  grey:     ANALYSIS_GREY,
-  blue:     ANALYSIS_BLUE,
-  burgundy: ANALYSIS_BURGUNDY,
-  brown:    ANALYSIS_BROWN,
-  beige:    ANALYSIS_BEIGE,
-  green:    ANALYSIS,
-  white:    ANALYSIS,
-  purple:   ANALYSIS,
-  red:      ANALYSIS,
+  // Original families
+  black:        ANALYSIS_BLACK,
+  charcoal:     ANALYSIS_CHARCOAL,
+  navy:         ANALYSIS,
+  grey:         ANALYSIS_GREY,
+  blue:         ANALYSIS_BLUE,
+  burgundy:     ANALYSIS_BURGUNDY,
+  brown:        ANALYSIS_BROWN,
+  beige:        ANALYSIS_BEIGE,
+  green:        ANALYSIS,
+  white:        ANALYSIS,
+  purple:       ANALYSIS,
+  red:          ANALYSIS,
+  // Named families — all map to nearest base
+  lightblue:    ANALYSIS_BLUE,
+  cobalt:       ANALYSIS_BLUE,
+  midnight:     ANALYSIS,
+  slate:        ANALYSIS_CHARCOAL,
+  dovegrey:     ANALYSIS_GREY,
+  gunmetal:     ANALYSIS_CHARCOAL,
+  pewter:       ANALYSIS_GREY,
+  camel:        ANALYSIS_BROWN,
+  tan:          ANALYSIS_BROWN,
+  beige:        ANALYSIS_BEIGE,
+  taupe:        ANALYSIS_BEIGE,
+  wheat:        ANALYSIS_BEIGE,
+  fawn:         ANALYSIS_BEIGE,
+  caramel:      ANALYSIS_BROWN,
+  chocolate:    ANALYSIS_BROWN,
+  copper:       ANALYSIS_BROWN,
+  rust:         ANALYSIS_BROWN,
+  terracotta:   ANALYSIS_BROWN,
+  coral:        ANALYSIS_BURGUNDY,
+  oxblood:      ANALYSIS_BURGUNDY,
+  wine:         ANALYSIS_BURGUNDY,
+  scarlet:      ANALYSIS_BURGUNDY,
+  pink:         ANALYSIS_BURGUNDY,
+  blush:        ANALYSIS_BURGUNDY,
+  lavender:     ANALYSIS_GREY,
+  aubergine:    ANALYSIS_BURGUNDY,
+  olive:        ANALYSIS_GREY,
+  forestgreen:  ANALYSIS_GREY,
+  sage:         ANALYSIS_GREY,
+  moss:         ANALYSIS_GREY,
+  teal:         ANALYSIS_BLUE,
+  teal2:        ANALYSIS_BLUE,
+  jade:         ANALYSIS_GREY,
+  bottle:       ANALYSIS_GREY,
+  mustard:      ANALYSIS_BROWN,
+  champagne:    ANALYSIS_BEIGE,
+  ecru:         ANALYSIS_BEIGE,
+  cream:        ANALYSIS,
+  ivory:        ANALYSIS,
 }
 
 function getAnalysisFromPhotoResult(result) {
@@ -19075,6 +19115,7 @@ function getAnalysisFromPhotoResult(result) {
 
   const colorKey   = result.colorKey === "light_grey" ? "grey" : result.colorKey
   const patternKey = patternToKey[result.patternInfo.pattern] || "solid"
+  console.log('[Dapper Matrix] colorKey:', colorKey, '| patternKey:', patternKey, '| inMatrix:', !!(PATTERN_MATRIX[colorKey+'|'+patternKey]))
 
   // Check if fabric looks like linen
   const isLinen = result.fabricStr && result.fabricStr.toLowerCase().includes("linen")
