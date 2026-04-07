@@ -19075,6 +19075,12 @@ function getAnalysisFromPhotoResult(result) {
   }
 
   // Fallback: use base analysis + inject detected metadata
+  const baseMap = {
+    camel: ANALYSIS_BROWN, black: ANALYSIS_BLACK, charcoal: ANALYSIS_CHARCOAL,
+    navy: ANALYSIS, grey: ANALYSIS_GREY, blue: ANALYSIS_BLUE, burgundy: ANALYSIS_BURGUNDY,
+    brown: ANALYSIS_BROWN, beige: ANALYSIS_BEIGE, green: ANALYSIS, white: ANALYSIS,
+    purple: ANALYSIS, red: ANALYSIS,
+  }
   const base = baseMap[result.colorKey] || ANALYSIS
   return {
     ...base,
