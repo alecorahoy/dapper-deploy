@@ -20918,6 +20918,9 @@ function AnalyzerPage() {
                             const patternInfo = { pattern: correction.pattern, fabric: correction.fabric || photoResult.fabricStr, formality: photoResult.patternInfo.formality }
                             const newResult = { ...photoResult, colorKey, colorLabel: correction.color, patternInfo, fabricStr: correction.fabric || photoResult.fabricStr }
                             const analysis = getAnalysisFromPhotoResult(newResult)
+                            console.log('[Dapper Correct] newResult:', JSON.stringify(newResult).substring(0,200))
+                            console.log('[Dapper Correct] analysis:', analysis ? 'HAS DATA — shirts:' + analysis?.shirts?.length : 'NULL/UNDEFINED')
+                            if (!analysis) { console.error('[Dapper Correct] getAnalysisFromPhotoResult returned null'); return; }
                             setAnalysisData(analysis)
                             setPhotoResult(newResult)
                             setCorrecting(false)
