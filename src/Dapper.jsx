@@ -12959,6 +12959,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── MOSS GREEN ──────────────────────────────────────────────────────────────
+  "moss|solid": {
+    suit: { color: "Moss Green", pattern: "Solid", hex: "#8A9A5B", fabric: "Lightweight wool or linen blend — deep muted yellow-green" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth is moss green's most natural companion" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep berry against the murky green — forest floor drama" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the murkier green with clean authority" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen and gold — the most organic pairing" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor cuts through the murky yellow-green" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay and moss — the earthen landscape in a suit" }
+        ],
+        packages: [
+          { name: "Moss Classic", items: ["Cognac knit tie", "White pocket square", "Tan cap-toe oxfords"] },
+          { name: "Forest Floor", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Navy Moss", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Lichen Gold", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Dark Moss", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Clay & Moss", items: ["Terracotta tie", "White pocket square", "Chestnut loafers"] }
+        ],
+        styleMantra: "Moss solid — the green that looks like it grew somewhere. Earthy, murky, and entirely deliberate."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through the cool-warm moss" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges pale blue and murky green" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen warmth disrupts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold warm contrast in the cool-green composition" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through pale blue and murky moss" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth bridges cool blue and earthy green" }
+        ],
+        packages: [
+          { name: "Blue Moss", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earthen Blue", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Lichen Blue", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Moss", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Moss", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Clay Blue Moss", items: ["Terracotta tie", "White pocket square", "Chestnut loafers"] }
+        ],
+        styleMantra: "Pale blue on moss — the sky above the forest floor. Cool light on a murky green world."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth — ivory, moss, cognac in organic accord" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Lichen gold amplified by ivory warmth" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast through the organic pale ensemble" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and murky green" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on ivory in a moss suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through the organic pale palette" }
+        ],
+        packages: [
+          { name: "Ivory Moss", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Lichen Ivory", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Berry Ivory Moss", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Ivory Classic Moss", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Clay Ivory Moss", items: ["Terracotta tie", "Ivory pocket square", "Chestnut loafers"] },
+          { name: "Dark Ivory Moss", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Ivory on moss — the forest floor in morning light. Organic warmth at its most refined."
+      }
+    ]
+  },
+
+  "moss|chalk_stripe": {
+    suit: { color: "Moss Green", pattern: "Chalk Stripe", hex: "#8A9A5B", fabric: "Superfine wool, ivory chalk stripe on deep muted moss" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth through the earthy chalk stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Chalk tradition anchored on an organic striped suit" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Berry depth through the moss chalk stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Lichen gold picks up the ivory chalk stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark authority in the earthy striped suit" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on the organic chalk stripe" }
+        ],
+        packages: [
+          { name: "Moss Heritage Stripe", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Chalk Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Berry Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Lichen Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Tan monks"] },
+          { name: "Dark Moss Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Clay Stripe", items: ["Terracotta tie", "White pocket square", "Chestnut derbies"] }
+        ],
+        styleMantra: "Moss chalk stripe — the earthy power suit. Structure born from the forest floor."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through the pale blue on moss stripe" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and organic stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen warmth disrupts the cool stripe palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through the cool-earthy stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor through pale blue and moss stripe" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth in the cool-organic stripe" }
+        ],
+        packages: [
+          { name: "Blue Moss Stripe", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earthen Stripe Blue", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Lichen Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Blue Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Clay Blue Stripe", items: ["Terracotta tie", "White pocket square", "Chestnut loafers"] }
+        ],
+        styleMantra: "Pale blue on moss chalk stripe — cool composure over the earthiest chalk stripe."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth in the organic pale chalk stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Lichen gold through the pale organic stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and moss stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Berry depth in the pale earthy chalk stripe" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on ivory in the moss chalk stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through the pale organic stripe" }
+        ],
+        packages: [
+          { name: "Ivory Moss Stripe", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Lichen Ivory Stripe", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Ivory Classic Stripe", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Berry Ivory Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Clay Ivory Stripe", items: ["Terracotta tie", "Ivory pocket square", "Chestnut loafers"] },
+          { name: "Dark Ivory Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Ivory on moss chalk stripe — organic warmth striped with quiet authority."
+      }
+    ]
+  },
+
+  "moss|glen_plaid": {
+    suit: { color: "Moss Green", pattern: "Glen Plaid", hex: "#8A9A5B", fabric: "Wool-cashmere blend, deep moss and tan glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth woven into the organic plaid structure" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy grounds the murky green plaid geometry" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Forest floor depth through the plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen gold picks up the tan overcheck" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor beneath the earthy plaid structure" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay and moss in geometric form — the landscape suit" }
+        ],
+        packages: [
+          { name: "Earthy Plaid", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Moss Plaid Classic", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Forest Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Lichen Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Dark Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Landscape Plaid", items: ["Terracotta tie", "White pocket square", "Chestnut cap-toes"] }
+        ],
+        styleMantra: "Moss glen plaid — the landscape in a jacket. You can almost smell the forest floor."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and earthy plaid" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth warmth bridges cool blue and organic plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen warmth through the cool plaid palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Deep contrast in the cool-organic plaid" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay bridges pale blue and organic green plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the blue-moss plaid" }
+        ],
+        packages: [
+          { name: "Blue Moss Plaid", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earthen Plaid Blue", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Lichen Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Berry Blue Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Clay Blue Plaid", items: ["Terracotta tie", "White pocket square", "Chestnut loafers"] },
+          { name: "Dark Blue Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on moss glen plaid — sky above an overgrown garden, structured in wool."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most organic plaid combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Lichen gold through the pale organic plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and moss plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Berry depth in the organic pale plaid" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth in the ivory-moss plaid landscape" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through the organic pale palette" }
+        ],
+        packages: [
+          { name: "Organic Ivory Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Lichen Ivory Plaid", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Ivory Classic Plaid", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Berry Ivory Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Clay Ivory Plaid", items: ["Terracotta tie", "Ivory pocket square", "Chestnut cap-toes"] },
+          { name: "Dark Ivory Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Ivory on moss glen plaid — the organic country suit in its most refined expression."
+      }
+    ]
+  },
+
+  "moss|herringbone": {
+    suit: { color: "Moss Green", pattern: "Herringbone", hex: "#8A9A5B", fabric: "Mid-weight wool herringbone, deep muted moss tones" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth flows naturally through the moss herringbone" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Berry depth through the murky woven texture" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy grounds the organic herringbone weave" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen gold catches the herringbone texture" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the earthy woven suit" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth against the organic green weave" }
+        ],
+        packages: [
+          { name: "Moss Weave Earth", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Berry Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Navy Weave", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Lichen Weave", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Dark Weave", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] },
+          { name: "Clay Weave", items: ["Terracotta tie", "White pocket square", "Chestnut cap-toes"] }
+        ],
+        styleMantra: "Moss herringbone — organic texture in the murkiest green. The weave makes it feel grown, not made."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and organic weave" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth warmth bridges cool blue and murky green" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen warmth in the cool herringbone palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through cool blue and organic weave" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay bridges pale blue and the organic green weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor through the blue-moss texture" }
+        ],
+        packages: [
+          { name: "Blue Moss Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Weave", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Lichen Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Berry Blue Weave", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Clay Blue Weave", items: ["Terracotta tie", "White pocket square", "Chestnut loafers"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on moss herringbone — the cool sky above the organic green weave."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "All organic warmth — ivory, moss weave, earth" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Lichen gold amplified by the ivory shirt" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Berry depth through the pale organic weave" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and moss herringbone" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on ivory in the organic textured suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through the pale organic texture" }
+        ],
+        packages: [
+          { name: "Ivory Moss Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Lichen Ivory Weave", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Berry Ivory Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Ivory Classic Weave", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Clay Ivory Weave", items: ["Terracotta tie", "Ivory pocket square", "Chestnut loafers"] },
+          { name: "Dark Ivory Weave", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Ivory on moss herringbone — organic warmth through organic texture. Nothing synthetic about any of it."
+      }
+    ]
+  },
+
+  "moss|tweed": {
+    suit: { color: "Moss Green", pattern: "Tweed", hex: "#8A9A5B", fabric: "Donegal tweed, moss base with tan, rust and ochre flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "The most natural moss tweed companion — earth on earth" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Berry depth through the ochre and rust flecks" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the ochre and gold flecks in the moss tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue civilizes the earthiest tweed" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Rust and clay — living in the flecks of the moss tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the organic flecked texture" }
+        ],
+        packages: [
+          { name: "Moss Donegal", items: ["Cognac wool knit tie", "Cream pocket square", "Tan derby shoes"] },
+          { name: "Berry Fleck", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ochre Fleck", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Naval Moss", items: ["Navy repp tie", "White pocket square", "Brown leather oxfords"] },
+          { name: "Rust Fleck", items: ["Terracotta tie", "White pocket square", "Chestnut cap-toes"] },
+          { name: "Dark Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Moss tweed — the most organic country suit ever made. The flecks are the forest, the fabric is the floor."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and organic flecked tweed" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and moss flecks" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Ochre warmth disrupts the cool palette naturally" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Berry depth in the cool-organic tweed" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Rust fleck warmth through the cool-earthy suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue moss tweed" }
+        ],
+        packages: [
+          { name: "Sky Moss Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earthen Blue Tweed", items: ["Cognac wool knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Ochre Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Berry Blue Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rust Blue Tweed", items: ["Terracotta tie", "White pocket square", "Chestnut loafers"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on moss tweed — the clear sky above the most organic suit on earth."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "The warmest possible moss tweed combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Ochre gold amplified by the ivory warmth" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Berry punctuation in the pale organic flecked suit" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Rust and clay on ivory — the warmest triad" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One cool anchor in the warmest organic look" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong dark line through the pale organic flecks" }
+        ],
+        packages: [
+          { name: "Warmest Moss Tweed", items: ["Cognac wool knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Ochre Ivory Tweed", items: ["Warm gold knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Berry Ivory Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rust Ivory Tweed", items: ["Terracotta tie", "Ivory pocket square", "Chestnut loafers"] },
+          { name: "Ivory Naval Tweed", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Dark Ivory Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown derbies"] }
+        ],
+        styleMantra: "Ivory on moss tweed — the ochre and rust flecks tell the whole story. You just wear it."
+      }
+    ]
+  },
+
+  "moss|linen": {
+    suit: { color: "Moss Green", pattern: "Linen", hex: "#8A9A5B", fabric: "Italian linen, deep muted moss — organic yellow-green slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The organic linen suit's most instinctive partner" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The one cool note in the most organic summer suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen gold through the organic linen texture" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Berry depth in the earthy summer suit" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Clay and moss linen — the landscape in a summer suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark anchor through the organic linen" }
+        ],
+        packages: [
+          { name: "Moss Linen Earth", items: ["Cognac knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Navy Moss Linen", items: ["Navy silk tie", "White linen pocket square", "Brown leather loafers"] },
+          { name: "Lichen Linen", items: ["Warm gold knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Berry Linen", items: ["Burgundy silk tie", "White linen pocket square", "Dark brown loafers"] },
+          { name: "Landscape Linen", items: ["Terracotta linen tie", "White pocket square", "Chestnut loafers"] },
+          { name: "Dark Organic Linen", items: ["Charcoal knit tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Moss linen — the organic summer suit. Wears like nature intended, looks like you planned it all along."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor through the pale blue-moss linen" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and organic linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen gold through the cool organic palette" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Clay warmth bridges cool blue and earthy linen" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Bold organic contrast in the cool linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark cool through the pale blue organic linen" }
+        ],
+        packages: [
+          { name: "Blue Moss Linen", items: ["Navy tie", "Pale blue pocket square", "Brown leather loafers"] },
+          { name: "Earth Blue Linen", items: ["Cognac knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Lichen Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Tan suede loafers"] },
+          { name: "Clay Blue Linen", items: ["Terracotta linen tie", "White pocket square", "Chestnut loafers"] },
+          { name: "Berry Blue Linen", items: ["Burgundy tie", "White linen pocket square", "Dark brown loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on moss linen — the cool summer sky above the most organic suit in the wardrobe."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest organic linen combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Lichen gold amplified by the ivory warmth" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Clay warmth on ivory in the organic linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "One cool anchor in the warmest organic summer look" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Berry depth in the pale organic summer suit" },
+          { color: "Moss (tonal)", hex: "#8A9A5B", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic organic — the linen texture is everything" }
+        ],
+        packages: [
+          { name: "Organic Ivory Linen", items: ["Cognac knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Lichen Ivory Linen", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan suede loafers"] },
+          { name: "Clay Ivory Linen", items: ["Terracotta linen tie", "Ivory pocket square", "Chestnut loafers"] },
+          { name: "Ivory Classic Linen", items: ["Navy tie", "Ivory pocket square", "Brown leather loafers"] },
+          { name: "Berry Ivory Linen", items: ["Burgundy tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Tonal Organic", items: ["Moss knit tie", "No pocket square", "Olive suede loafers"] }
+        ],
+        styleMantra: "Ivory on moss linen — organic warmth at its most refined. The fabric has been somewhere. You can feel it."
+      }
+    ]
+  },
+
+  "moss|houndstooth": {
+    suit: { color: "Moss Green", pattern: "Houndstooth", hex: "#8A9A5B", fabric: "Wool blend, deep moss and tan houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the organic moss check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Berry depth in the earthy geometric" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the murky green check structure" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen gold catches the tan check element" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth through the organic houndstooth" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the earthy geometric" }
+        ],
+        packages: [
+          { name: "Organic Check", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Berry Check Moss", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Moss Check Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Lichen Check", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Clay Check", items: ["Terracotta tie", "White pocket square", "Chestnut cap-toes"] },
+          { name: "Dark Check Moss", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Moss houndstooth — the organic check. Where grey houndstooth is tailored, moss houndstooth is alive."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and organic check" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth warmth bridges cool blue and moss check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Lichen warmth through the cool check palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold organic contrast in the cool blue check" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay bridges cool blue and earthy check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue organic check" }
+        ],
+        packages: [
+          { name: "Blue Moss Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Check", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Lichen Blue Check", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Berry Blue Check", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Clay Blue Check", items: ["Terracotta tie", "White pocket square", "Chestnut loafers"] },
+          { name: "Dark Blue Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on moss houndstooth — cool sky above the organic check. The earth and the air in one suit."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most organic check combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Lichen gold through the pale organic check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Berry depth through the ivory organic check" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on ivory in the moss check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Classic anchor through ivory and moss houndstooth" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong anchor through the pale organic check" }
+        ],
+        packages: [
+          { name: "Organic Ivory Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Lichen Ivory Check", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Berry Ivory Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Clay Ivory Check", items: ["Terracotta tie", "Ivory pocket square", "Chestnut loafers"] },
+          { name: "Ivory Classic Check", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Dark Ivory Check", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Ivory on moss houndstooth — the organic check in its most refined, unhurried form."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -13390,6 +13853,7 @@ function getLocalAnalysis(text) {
         else if (/blush suit|blush blazer|dusty pink suit|dusty pink blazer|soft pink suit|pale pink suit|blush wool|blush linen|blush tweed|blush herringbone|blush houndstooth|blush glen plaid|dusty rose suit|rose suit|pink suit|soft rose suit|powder pink suit|blush chalk stripe|light pink suit/.test(t)) { colorKey = "blush"; colorMatched = true }
         else if (/aubergine suit|aubergine blazer|plum suit|plum blazer|deep purple suit|dark purple suit|eggplant suit|aubergine wool|aubergine linen|aubergine tweed|aubergine herringbone|aubergine houndstooth|plum tweed|plum linen|plum herringbone|plum houndstooth|dark plum suit|eggplant blazer|aubergine glen plaid|deep violet suit/.test(t)) { colorKey = "aubergine"; colorMatched = true }
         else if (/champagne suit|champagne blazer|champagne linen|champagne tweed|champagne wool|champagne herringbone|champagne houndstooth|champagne glen plaid|pale gold suit|light gold suit|warm white suit|golden suit|golden blazer|champagne chalk stripe|pale champagne suit|luminous suit|straw suit|wheat suit/.test(t)) { colorKey = "champagne"; colorMatched = true }
+        else if (/moss suit|moss blazer|moss green suit|moss green blazer|moss wool|moss linen|moss tweed|moss herringbone|moss houndstooth|moss glen plaid|moss chalk stripe|lichen suit|lichen green suit|murky green suit|yellow green suit|muted yellow green suit|dark sage suit|swamp green suit|fern suit|fern green suit/.test(t)) { colorKey = "moss"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
