@@ -18052,6 +18052,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── SCARLET / CRIMSON ───────────────────────────────────────────────────────
+  "scarlet|solid": {
+    suit: { color: "Scarlet", pattern: "Solid", hex: "#FF2400", fabric: "Lightweight wool or linen blend — vivid bright red, bold and unapologetic" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy is the only anchor strong enough for vivid scarlet" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark grey cuts through the vivid red decisively" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold on scarlet — the most regal combination" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Black and scarlet — the most dramatic anchor possible" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth softens the vivid red slightly" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver reads against vivid scarlet with precision" }
+        ],
+        packages: [
+          { name: "Scarlet Classic", items: ["Navy repp tie", "White pocket square", "Black cap-toe oxfords"] },
+          { name: "Scarlet Authority", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Regal Red", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Scarlet Drama", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Red", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Silver Scarlet", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Scarlet solid — the most vivid suit in the wardrobe. Not for the hesitant. Worn with certainty or not at all."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "The cool-warm contrast taken to its most vivid extreme" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through pale blue and vivid scarlet" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool-vivid combination" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool metallic through the pale blue-scarlet" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool-vivid palette" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum contrast through cool blue and vivid red" }
+        ],
+        packages: [
+          { name: "Blue Scarlet", items: ["Navy tie", "Pale blue pocket square", "Black cap-toes"] },
+          { name: "Dark Blue Scarlet", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Blue Scarlet", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Silver Blue Scarlet", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ivory Blue Scarlet", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Black Blue Scarlet", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Pale blue on scarlet — the coolest shirt against the hottest suit. The contrast is the whole statement."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue anchor through cool grey and vivid scarlet" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the grey-scarlet composition" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal through the cool shirt and vivid suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold cuts through cool grey and vivid red" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark contrast in the cool composition" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool grey-scarlet" }
+        ],
+        packages: [
+          { name: "Grey Scarlet", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Grey Scarlet", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Silver Scarlet", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Scarlet", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Grey Scarlet", items: ["Black grenadine tie", "Grey pocket square", "Black cap-toes"] },
+          { name: "Ivory Grey Scarlet", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Grey on scarlet — the cool shirt makes the vivid red even more vivid. Composed certainty."
+      }
+    ]
+  },
+
+  "scarlet|chalk_stripe": {
+    suit: { color: "Scarlet", pattern: "Chalk Stripe", hex: "#FF2400", fabric: "Superfine wool, white chalk stripe on vivid scarlet" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "The boldest chalk stripe ever made. Navy is the only answer." },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark structure in the most vivid striped suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Regal gold picks up the chalk stripe on scarlet" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Black and scarlet chalk — maximum drama, maximum authority" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the chalk stripe on vivid red" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the chalk stripe on scarlet" }
+        ],
+        packages: [
+          { name: "Scarlet Stripe", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Scarlet Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Regal Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Black monks"] },
+          { name: "Scarlet Drama Stripe", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Chalk", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Chalk Ivory", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Scarlet chalk stripe — the most audacious power suit in existence. You either own the room or you don't wear it."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue through pale blue and scarlet stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue-scarlet stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool metallic across the vivid chalk stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool scarlet stripe" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum drama through pale blue and scarlet stripe" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-vivid stripe" }
+        ],
+        packages: [
+          { name: "Blue Scarlet Stripe", items: ["Navy tie", "Pale blue pocket square", "Black cap-toes"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Blue Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Blue Stripe", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Blue Stripe", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Pale blue on scarlet chalk stripe — the coolest shirt on the boldest stripe."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and scarlet stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey scarlet stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool grey tonal into the vivid stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool grey stripe" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark anchor in the cool grey stripe" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool stripe palette" }
+        ],
+        packages: [
+          { name: "Grey Scarlet Stripe", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Grey Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Silver Grey Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Stripe", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Grey Stripe", items: ["Black grenadine tie", "Grey pocket square", "Black cap-toes"] },
+          { name: "Ivory Grey Stripe", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Grey on scarlet chalk stripe — the cool composure before the vivid statement."
+      }
+    ]
+  },
+
+  "scarlet|glen_plaid": {
+    suit: { color: "Scarlet", pattern: "Glen Plaid", hex: "#FF2400", fabric: "Wool-cashmere blend, vivid scarlet and charcoal glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy grounds the vivid scarlet plaid geometry" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the vivid geometric" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold picks up the charcoal overcheck on scarlet" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark structure in the vivid plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver catches the charcoal overcheck" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the vivid plaid geometry" }
+        ],
+        packages: [
+          { name: "Scarlet Plaid", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Scarlet Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Regal Plaid", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Drama Plaid", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Plaid Scarlet", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ivory Scarlet Plaid", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Scarlet glen plaid — the most vivid geometric suit. Pattern and colour together in full conviction."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue anchor through pale blue and vivid scarlet plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and scarlet plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool metallic through the blue-scarlet plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool vivid plaid" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum contrast through pale blue and scarlet plaid" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale through the cool-vivid plaid palette" }
+        ],
+        packages: [
+          { name: "Blue Scarlet Plaid", items: ["Navy tie", "Pale blue pocket square", "Black cap-toes"] },
+          { name: "Dark Blue Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Blue Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Blue Plaid", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Blue Plaid", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Pale blue on scarlet glen plaid — the cool composure that makes the vivid geometry inevitable."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and vivid scarlet plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey scarlet plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal into the vivid plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey plaid" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark in the cool grey vivid plaid" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool grey scarlet" }
+        ],
+        packages: [
+          { name: "Grey Scarlet Plaid", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Grey Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Silver Grey Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Plaid", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Grey Plaid", items: ["Black grenadine tie", "Grey pocket square", "Black cap-toes"] },
+          { name: "Ivory Grey Plaid", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Grey on scarlet glen plaid — cool restraint in the most vivid geometric suit."
+      }
+    ]
+  },
+
+  "scarlet|herringbone": {
+    suit: { color: "Scarlet", pattern: "Herringbone", hex: "#FF2400", fabric: "Mid-weight wool herringbone, vivid scarlet in bold woven texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy is the only anchor for scarlet herringbone" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark structure through the vivid woven texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold catches the scarlet herringbone in light" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark anchor through the vivid texture" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the vivid red weave" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the vivid herringbone" }
+        ],
+        packages: [
+          { name: "Scarlet Weave", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Scarlet Weave", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Regal Weave", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Drama Weave", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Scarlet Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ivory Scarlet Weave", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Scarlet herringbone — vivid colour in woven form. The texture doubles the impact."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue anchor through pale blue and scarlet weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and vivid texture" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue-scarlet herringbone" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool vivid weave" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum contrast through pale blue and scarlet weave" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth completes the cool-vivid texture" }
+        ],
+        packages: [
+          { name: "Blue Scarlet Weave", items: ["Navy tie", "Pale blue pocket square", "Black cap-toes"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Blue Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Blue Weave", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Blue Weave", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Pale blue on scarlet herringbone — the cool shirt reveals every vivid thread."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and vivid scarlet weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey-scarlet texture" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal through the vivid herringbone" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey-vivid weave" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark through the cool grey vivid texture" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool grey scarlet weave" }
+        ],
+        packages: [
+          { name: "Grey Scarlet Weave", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Grey Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Silver Grey Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Weave", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Grey Weave", items: ["Black grenadine tie", "Grey pocket square", "Black cap-toes"] },
+          { name: "Ivory Grey Weave", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Grey on scarlet herringbone — cool tone, vivid texture. Nothing else needed."
+      }
+    ]
+  },
+
+  "scarlet|tweed": {
+    suit: { color: "Scarlet", pattern: "Tweed", hex: "#FF2400", fabric: "Donegal tweed, vivid scarlet base with crimson and ivory flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue civilizes the most vivid Donegal" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the vivid flecked tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold picks up the ivory flecks in scarlet tweed" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark through the vivid flecked texture" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth mirrors the ivory flecks in scarlet tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver catches the lighter flecks in scarlet tweed" }
+        ],
+        packages: [
+          { name: "Scarlet Donegal", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Scarlet Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Regal Tweed", items: ["Warm gold knit tie", "No pocket square", "Black monks"] },
+          { name: "Drama Tweed", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Fleck Scarlet", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Silver Fleck Scarlet", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Scarlet tweed — the most vivid Donegal imaginable. The flecks are fire."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue anchor through pale blue and scarlet tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and vivid flecks" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through the blue-scarlet tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool vivid tweed" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum contrast through pale blue and scarlet flecks" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth mirrors the flecks through the cool palette" }
+        ],
+        packages: [
+          { name: "Blue Scarlet Tweed", items: ["Navy tie", "Pale blue pocket square", "Black cap-toes"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Blue Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Blue Tweed", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Blue Tweed", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Pale blue on scarlet tweed — the cool sky above the most vivid Donegal."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and vivid scarlet flecks" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey scarlet tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal — the flecks emerge vivid through cool grey" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey vivid flecks" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark in the cool grey-scarlet tweed" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool grey vivid flecks" }
+        ],
+        packages: [
+          { name: "Grey Scarlet Tweed", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Grey Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Silver Grey Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Tweed", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Grey Tweed", items: ["Black grenadine tie", "Grey pocket square", "Black cap-toes"] },
+          { name: "Ivory Grey Tweed", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Grey on scarlet tweed — the cool shirt makes the vivid flecks burn brighter."
+      }
+    ]
+  },
+
+  "scarlet|linen": {
+    suit: { color: "Scarlet", pattern: "Linen", hex: "#FF2400", fabric: "Italian linen, vivid scarlet — bold red with natural slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The only anchor in the most vivid summer suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark structure in the vivid linen suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold in the scarlet linen suit" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Maximum contrast in the most vivid linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth against vivid scarlet linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against the vivid scarlet linen" }
+        ],
+        packages: [
+          { name: "Scarlet Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Black leather loafers"] },
+          { name: "Dark Scarlet Linen", items: ["Charcoal knit tie", "White pocket square", "Black leather loafers"] },
+          { name: "Regal Linen", items: ["Warm gold knit tie", "No pocket square", "Black loafers"] },
+          { name: "Drama Linen", items: ["Black silk tie", "White linen pocket square", "Black leather loafers"] },
+          { name: "Ivory Scarlet Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Silver Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Scarlet linen — the most vivid summer suit. Worn at noon in full sun with complete conviction."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The cool-warm contrast at summer's most vivid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark through pale blue and scarlet linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool metallic through pale blue and vivid linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool vivid linen" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Maximum contrast in the coolest-hottest combination" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth through pale blue and vivid scarlet" }
+        ],
+        packages: [
+          { name: "Blue Scarlet Linen", items: ["Navy tie", "Pale blue pocket square", "Black leather loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "White pocket square", "Black leather loafers"] },
+          { name: "Silver Blue Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Black loafers"] },
+          { name: "Black Blue Linen", items: ["Black silk tie", "White pocket square", "Black leather loafers"] },
+          { name: "Ivory Blue Linen", items: ["Ivory linen tie", "Pale blue pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Pale blue on scarlet linen — the coolest and the hottest. Summer at its most deliberate."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Blue through grey and vivid scarlet linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark cool through the grey-scarlet linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Grey tonal into the vivid scarlet linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through cool grey and vivid linen" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Maximum dark through the cool grey vivid linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth through the cool grey scarlet linen" }
+        ],
+        packages: [
+          { name: "Grey Scarlet Linen", items: ["Navy tie", "White pocket square", "Black leather loafers"] },
+          { name: "Dark Grey Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Silver Grey Linen", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Linen", items: ["Warm gold knit tie", "White pocket square", "Black loafers"] },
+          { name: "Black Grey Linen", items: ["Black silk tie", "Grey pocket square", "Black leather loafers"] },
+          { name: "Ivory Grey Linen", items: ["Ivory linen tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Grey on scarlet linen — the cool shirt on the most vivid summer suit. Restraint serving conviction."
+      }
+    ]
+  },
+
+  "scarlet|houndstooth": {
+    suit: { color: "Scarlet", pattern: "Houndstooth", hex: "#FF2400", fabric: "Wool blend, vivid scarlet and charcoal houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "The only anchor strong enough for scarlet houndstooth" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark mirrors the charcoal check on vivid scarlet" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold against the scarlet houndstooth" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark through the vivid geometric" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver catches the charcoal check on scarlet" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the most vivid check" }
+        ],
+        packages: [
+          { name: "Scarlet Check", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Scarlet Check", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Regal Check", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Drama Check", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Scarlet Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ivory Scarlet Check", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Scarlet houndstooth — the most vivid check in tailoring. Charcoal geometry on fire-red ground."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through pale blue and vivid scarlet check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and vivid check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue-scarlet check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool vivid check" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum contrast through pale blue and scarlet check" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale through the cool-vivid check palette" }
+        ],
+        packages: [
+          { name: "Blue Scarlet Check", items: ["Navy tie", "Pale blue pocket square", "Black cap-toes"] },
+          { name: "Dark Blue Check", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Silver Blue Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Blue Check", items: ["Black grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Blue Check", items: ["Ivory knit tie", "Pale blue pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Pale blue on scarlet houndstooth — the cool shirt makes the vivid check burn."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through cool grey and vivid scarlet check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the grey-scarlet check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal into the vivid check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey scarlet check" },
+          { color: "Black", hex: "#1A1A1A", fabric: "Silk grenadine", knot: "Half Windsor", styleNote: "Maximum dark through the cool grey vivid check" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth through the cool grey scarlet check" }
+        ],
+        packages: [
+          { name: "Grey Scarlet Check", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Grey Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Silver Grey Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Check", items: ["Warm gold knit tie", "White pocket square", "Black monks"] },
+          { name: "Black Grey Check", items: ["Black grenadine tie", "Grey pocket square", "Black cap-toes"] },
+          { name: "Ivory Grey Check", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Grey on scarlet houndstooth — every check vivid, every tone cool. Nothing accidental."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -18494,6 +18957,7 @@ function getLocalAnalysis(text) {
         else if (/pewter suit|pewter blazer|pewter grey suit|pewter gray suit|pewter wool|pewter linen|pewter tweed|pewter herringbone|pewter houndstooth|pewter glen plaid|pewter chalk stripe|metallic grey suit|metallic gray suit|light gunmetal suit|cool mid grey suit|cool mid gray suit|steel grey suit|steel gray suit/.test(t)) { colorKey = "pewter"; colorMatched = true }
         else if (/jade suit|jade blazer|jade green suit|jade green blazer|jade wool|jade linen|jade tweed|jade herringbone|jade houndstooth|jade glen plaid|jade chalk stripe|emerald suit|emerald blazer|emerald green suit|rich green suit|bright green suit|vivid green suit|jewel green suit|gemstone green suit/.test(t)) { colorKey = "jade"; colorMatched = true }
         else if (/wheat suit|wheat blazer|straw suit|straw blazer|pale yellow suit|light yellow suit|wheat wool|wheat linen|wheat tweed|wheat herringbone|wheat houndstooth|wheat glen plaid|wheat chalk stripe|straw linen|straw tweed|golden yellow suit|harvest suit|pale gold suit|hay suit/.test(t)) { colorKey = "wheat"; colorMatched = true }
+        else if (/scarlet suit|scarlet blazer|crimson suit|crimson blazer|bright red suit|vivid red suit|scarlet wool|scarlet linen|scarlet tweed|scarlet herringbone|scarlet houndstooth|scarlet glen plaid|scarlet chalk stripe|crimson wool|crimson tweed|fire red suit|bold red suit|vermillion suit|signal red suit/.test(t)) { colorKey = "scarlet"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
