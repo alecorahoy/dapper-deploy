@@ -19335,17 +19335,49 @@ const _BASE_MAP = {
   ivory:        ANALYSIS,
 }
 
+const COLOR_TO_HEX = {
+  "White":"#F8F8F8","Ivory White":"#FFFFF0","Pale Blue":"#B8D4E8","Pale Pink":"#F8D7DA",
+  "Light Blue":"#ADD8E6","Blue Oxford":"#89B4D4","Cream":"#FFFDD0","Ecru":"#F5F0E1",
+  "Pale Yellow":"#FDFFC2","White":"#F8F8F8",
+}
 function normalizeMatrixResult(entry) {
   if (!entry) return entry
-  // If packages already at top level and non-empty, return as-is
-  if (entry.packages && entry.packages.length > 0) return entry
-  // Collect packages from inside shirts (new-style entries)
-  const packages = []
-  ;(entry.shirts || []).forEach(shirt => {
-    ;(shirt.packages || []).forEach(pkg => packages.push(pkg))
-  })
-  if (packages.length > 0) return { ...entry, packages }
-  return entry
+
+  // Normalize shirts from new-style {color,pattern,fabric,ties[]} 
+  // to old-style {id,name,colorCode,why,ties[{id,name,color,pattern,material,width,knot,harmony,why}]}
+  const rawShirts = entry.shirts || []
+  const needsShirtNorm = rawShirts.length > 0 && !rawShirts[0].colorCode
+  const shirts = needsShirtNorm ? rawShirts.map((s, si) => ({
+    id: si + 1,
+    name: (s.color || "White") + (s.pattern && s.pattern !== "Solid" ? " " + s.pattern : "") + " " + (s.fabric || ""),
+    colorCode: COLOR_TO_HEX[s.color] || "#F8F8F8",
+    why: s.fabric ? s.fabric + " — " + (s.collar || "spread") + " collar, " + (s.cuffs || "button") + " cuffs." : "A versatile choice that complements this suit beautifully.",
+    collar: s.collar,
+    ties: (s.ties || []).map((t, ti) => ({
+      id: ti + 1,
+      name: (t.color || "") + " " + (t.pattern || "Solid"),
+      color: "#555555",
+      pattern: t.pattern || "Solid",
+      material: t.fabric || "Silk",
+      width: t.width === "Slim" ? '2.5"' : '3"',
+      knot: t.knot || "Four-in-Hand",
+      harmony: "Complementary",
+      why: (t.color || "") + " " + (t.pattern || "") + " tie — a classic pairing with this suit.",
+    })),
+  })) : rawShirts
+
+  // Collect packages from top level or from inside shirts
+  let packages = entry.packages && entry.packages.length > 0
+    ? entry.packages
+    : shirts.flatMap(s => s.packages || [])
+
+  // Ensure packages have occasion field for filtering
+  packages = packages.map(p => ({
+    ...p,
+    occasion: p.occasion || "Business Casual",
+  }))
+
+  return { ...entry, shirts, packages }
 }
 
 function getAnalysisFromPhotoResult(result) {
