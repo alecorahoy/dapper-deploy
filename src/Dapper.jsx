@@ -15737,6 +15737,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── WINE / CLARET ───────────────────────────────────────────────────────────
+  "wine|solid": {
+    suit: { color: "Wine", pattern: "Solid", hex: "#722F37", fabric: "Superfine wool — deep red-purple, darker and richer than burgundy" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver cuts through the deep red-purple" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold against deep wine — the velvet palace palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark on dark — navy deepens the wine severity" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom against deep wine — adjacent in the palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the deep red-purple suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep forest against deep wine — the autumn estate" }
+        ],
+        packages: [
+          { name: "Wine Silver", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toe oxfords"] },
+          { name: "Velvet Palace", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Wine Classic", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Rose Wine", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] },
+          { name: "Wine Authority", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Estate Wine", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Wine solid — deeper than burgundy, darker than red. The suit that carries the weight of the room without raising its voice."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and deep wine" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through pale blue and dark red-purple" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool-dark combination" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the blue-wine palette" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical contrast through pale blue and wine" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom bridges pale blue and deep wine" }
+        ],
+        packages: [
+          { name: "Blue Wine", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Silver Blue Wine", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Wine", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Wine", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Forest Blue Wine", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Blue Wine", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wine — the cool shirt reveals the depth of the dark red-purple suit."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal through the cool grey and deep wine" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through the cool grey-wine palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through cool grey and deep wine" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through cool grey and deep red-purple" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Dusty warmth within the red-purple family" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through the cool grey wine palette" }
+        ],
+        packages: [
+          { name: "Grey Wine", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Wine", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Grey Wine", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Grey Wine", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Mauve Grey Wine", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Wine", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on wine — the cool shirt steadies the deep red-purple into something controlled and grave."
+      }
+    ]
+  },
+
+  "wine|chalk_stripe": {
+    suit: { color: "Wine", pattern: "Chalk Stripe", hex: "#722F37", fabric: "Superfine wool, ivory chalk stripe on deep wine" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the chalk stripe on deep wine" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Regal gold through the dark chalk stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark on dark — the deepest power stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum severity in the deep wine chalk stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Estate depth through the dark chalk stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on the darkest chalk stripe" }
+        ],
+        packages: [
+          { name: "Wine Chalk", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Palace Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Power Stripe", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Wine Authority", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Estate Stripe", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Dark Stripe", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Wine chalk stripe — the darkest power suit with a stripe. Authority taken to its richest extreme."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue through pale blue and dark wine stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the pale blue dark stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool dark stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the pale blue wine stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through the cool dark stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through pale blue and dark stripe" }
+        ],
+        packages: [
+          { name: "Blue Wine Stripe", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Silver Blue Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Forest Blue Stripe", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Blue Stripe", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wine chalk stripe — the cool shirt makes the dark stripe feel like ceremony."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal into the deep wine chalk stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue structure through the cool grey dark stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through grey and dark wine stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal severity — the stripe is everything" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Dusty warmth within the red-purple stripe family" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through the cool grey dark stripe" }
+        ],
+        packages: [
+          { name: "Grey Wine Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Stripe", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Grey Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Darkest Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Mauve Grey Stripe", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Stripe", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on wine chalk stripe — cool restraint over the darkest stripe. Everything deliberate."
+      }
+    ]
+  },
+
+  "wine|glen_plaid": {
+    suit: { color: "Wine", pattern: "Glen Plaid", hex: "#722F37", fabric: "Wool-cashmere blend, deep wine and charcoal glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver catches the charcoal overcheck on deep wine" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the dark wine plaid geometry" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark navy reinforces the deep wine plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark authority through the deep red-purple plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep estate — wine plaid and forest in geometry" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the darkest glen plaid" }
+        ],
+        packages: [
+          { name: "Wine Plaid Silver", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Palace Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Wine Plaid", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Wine Authority Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Estate Plaid", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Dark Plaid", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Wine glen plaid — deep colour, geometric authority. The estate house in its darkest wool."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and deep wine plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through the blue dark plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth in the cool dark plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and deep wine plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through the cool dark plaid" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through the cool deep plaid" }
+        ],
+        packages: [
+          { name: "Blue Wine Plaid", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Silver Blue Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Forest Blue Plaid", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Blue Plaid", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wine glen plaid — cool light through very dark geometry. Commanding and composed."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal into the deep wine plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through cool grey and dark plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey dark plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal severity — the dark plaid is everything" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the wine-purple family" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through the cool grey wine plaid" }
+        ],
+        packages: [
+          { name: "Grey Wine Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Plaid", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Grey Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Wine Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Mauve Grey Plaid", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Plaid", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on wine glen plaid — composed restraint in the darkest geometric suit. Nothing is accidental."
+      }
+    ]
+  },
+
+  "wine|herringbone": {
+    suit: { color: "Wine", pattern: "Herringbone", hex: "#722F37", fabric: "Mid-weight wool herringbone, deep wine in rich dark weave" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic silver through the deep wine herringbone" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold catches the dark herringbone weave" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark navy deepens the wine texture" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the deep textured suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Estate depth through the dark woven texture" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom against the darkest herringbone" }
+        ],
+        packages: [
+          { name: "Wine Weave Silver", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Palace Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Wine Weave", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Wine Dark Texture", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Estate Weave", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Dark Weave", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Wine herringbone — the darkest texture in the richest red. Every thread deliberate, every weave grave."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and dark wine weave" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through pale blue and dark texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool dark herringbone" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and dark wine weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through the cool dark texture" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through pale blue and dark weave" }
+        ],
+        packages: [
+          { name: "Blue Wine Weave", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Silver Blue Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Forest Blue Weave", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Blue Weave", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wine herringbone — the cool shirt reveals every thread of the dark rich weave."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal through the deep wine herringbone" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and dark wine texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey dark weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal depth through the cool dark texture" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the wine-purple family" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through grey and dark wine weave" }
+        ],
+        packages: [
+          { name: "Grey Wine Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Weave", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Grey Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Wine Texture", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Mauve Grey Weave", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Weave", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on wine herringbone — cool, composed, and quietly devastating."
+      }
+    ]
+  },
+
+  "wine|tweed": {
+    suit: { color: "Wine", pattern: "Tweed", hex: "#722F37", fabric: "Donegal tweed, deep wine base with claret and charcoal flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver catches the charcoal flecks in the wine tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the dark flecked texture" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue through the dark wine Donegal" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep forest through the dark wine flecks" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the dark claret flecked tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the richest country suit" }
+        ],
+        packages: [
+          { name: "Wine Donegal", items: ["Silver grey tie", "White pocket square", "Charcoal suede derbies"] },
+          { name: "Palace Tweed", items: ["Warm gold knit tie", "No pocket square", "Dark brown monks"] },
+          { name: "Naval Wine Tweed", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Forest Wine Tweed", items: ["Forest green wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Dark Tweed", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] },
+          { name: "Dark Wine Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Black loafers"] }
+        ],
+        styleMantra: "Wine tweed — the darkest Donegal in the deepest red. The moor in winter, woven for the estate."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and deep wine tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through the blue dark flecked tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool dark tweed" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep forest through pale blue and wine tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark through the pale blue and dark flecked tweed" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through pale blue and dark claret flecks" }
+        ],
+        packages: [
+          { name: "Blue Wine Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Forest Blue Tweed", items: ["Forest green wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Rose Blue Tweed", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wine tweed — the pale winter sky above the darkest claret landscape."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver picks up the charcoal flecks in the wine tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and dark wine flecks" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through cool grey and dark tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal depth through the cool grey wine tweed" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the wine-purple family" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Estate depth through grey and dark wine flecks" }
+        ],
+        packages: [
+          { name: "Grey Wine Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Tweed", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Wine Tweed Grey", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Mauve Wine Tweed", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Tweed", items: ["Forest green wool tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on wine tweed — the cool shirt and the dark claret flecks in precise, wintry dialogue."
+      }
+    ]
+  },
+
+  "wine|linen": {
+    suit: { color: "Wine", pattern: "Linen", hex: "#722F37", fabric: "Italian linen, deep wine — dark red-purple with cool slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor in the darkest summer suit" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Metallic cool in the deep wine linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold in the darkest linen suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth against deep wine linen" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Estate depth in the dark summer suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark anchor in the richest linen suit" }
+        ],
+        packages: [
+          { name: "Wine Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Black leather loafers"] },
+          { name: "Silver Dark Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Palace Linen", items: ["Warm gold knit tie", "No pocket square", "Dark brown loafers"] },
+          { name: "Ivory Dark Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Estate Linen", items: ["Forest green linen tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Dark Wine Linen", items: ["Charcoal knit tie", "White pocket square", "Black leather loafers"] }
+        ],
+        styleMantra: "Wine linen — the darkest summer suit in the richest red. Evening weight in the afternoon light."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor through pale blue and dark wine linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Metallic cool across the blue dark linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool dark linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth through the cool dark wine linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark through the pale blue dark linen" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Deep botanical through the cool dark linen" }
+        ],
+        packages: [
+          { name: "Blue Wine Linen", items: ["Navy tie", "Pale blue pocket square", "Black leather loafers"] },
+          { name: "Silver Blue Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Ivory Blue Linen", items: ["Ivory linen tie", "Pale blue pocket square", "Tan suede loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Forest Blue Linen", items: ["Forest green linen tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Pale blue on wine linen — the cool summer sky against the darkest evening red. Striking always."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Grey tonal into the deep wine linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Blue through cool grey and dark wine linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey dark linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark through the cool grey wine linen" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the wine-purple summer palette" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Estate depth through grey and dark wine linen" }
+        ],
+        packages: [
+          { name: "Grey Wine Linen", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Navy Grey Linen", items: ["Navy tie", "White pocket square", "Black leather loafers"] },
+          { name: "Gold Grey Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Dark Wine Linen Grey", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Mauve Wine Linen", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Linen", items: ["Forest green linen tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Grey on wine linen — dark summer suit, cool restraint. The evening worn in afternoon light."
+      }
+    ]
+  },
+
+  "wine|houndstooth": {
+    suit: { color: "Wine", pattern: "Houndstooth", hex: "#722F37", fabric: "Wool blend, deep wine and charcoal houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the charcoal check on deep wine ground" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold catches the charcoal check element" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark navy deepens the wine houndstooth" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark authority through the deep red-purple check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Estate depth in the dark geometric" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the darkest houndstooth" }
+        ],
+        packages: [
+          { name: "Wine Check Silver", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Palace Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Wine Check", items: ["Navy repp tie", "White pocket square", "Black cap-toes"] },
+          { name: "Wine Authority Check", items: ["Charcoal grenadine tie", "White pocket square", "Black oxfords"] },
+          { name: "Estate Check", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Dark Check", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Wine houndstooth — the darkest check in the richest red. Charcoal geometric on deep wine ground — deeply commanding."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and deep wine check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue dark check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal warmth through the cool dark check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and wine check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through cool blue and dark check" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through pale blue and dark wine check" }
+        ],
+        packages: [
+          { name: "Blue Wine Check", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Silver Blue Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Forest Blue Check", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Blue Check", items: ["Dusty rose tie", "White pocket square", "Dark plum suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wine houndstooth — the cool light reveals the depth of the dark check. Precise and powerful."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal into the deep wine houndstooth" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through cool grey and dark wine check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Regal gold through the cool grey dark check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal depth — the check is everything" },
+          { color: "Dusty Mauve", hex: "#9B7B8A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Tonal warmth within the wine-purple family" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Deep botanical through grey and dark wine check" }
+        ],
+        packages: [
+          { name: "Grey Wine Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Check", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Gold Grey Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Wine Check Grey", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Mauve Wine Check", items: ["Dusty mauve tie", "Grey pocket square", "Mauve suede loafers"] },
+          { name: "Forest Grey Check", items: ["Forest green tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Grey on wine houndstooth — every tone cool, every check deep. The most serious dark geometric suit."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -16174,6 +16637,7 @@ function getLocalAnalysis(text) {
         else if (/caramel suit|caramel blazer|caramel brown suit|golden brown suit|warm brown suit|caramel wool|caramel linen|caramel tweed|caramel herringbone|caramel houndstooth|caramel glen plaid|caramel chalk stripe|mid brown suit|golden mid brown|toffee suit|amber brown suit|warm mid brown suit/.test(t)) { colorKey = "caramel"; colorMatched = true }
         else if (/coral suit|coral blazer|coral linen|coral tweed|coral wool|coral herringbone|coral houndstooth|coral glen plaid|coral chalk stripe|orange pink suit|warm pink suit|vivid pink suit|bright pink suit|salmon suit|salmon blazer|melon suit|tropical pink suit|summer coral suit/.test(t)) { colorKey = "coral"; colorMatched = true }
         else if (/teal suit|teal blazer|teal linen|teal tweed|teal wool|teal herringbone|teal houndstooth|teal glen plaid|teal chalk stripe|blue green suit|blue-green suit|jewel blue suit|vivid teal suit|teal green suit|peacock suit|peacock blazer|teal colored suit/.test(t)) { colorKey = "teal2"; colorMatched = true }
+        else if (/wine suit|wine blazer|claret suit|claret blazer|deep red suit|dark red suit|wine wool|wine linen|wine tweed|wine herringbone|wine houndstooth|wine glen plaid|wine chalk stripe|claret wool|claret tweed|claret herringbone|dark crimson suit|rich red suit|deep burgundy suit|dark wine suit/.test(t)) { colorKey = "wine"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
