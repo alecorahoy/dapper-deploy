@@ -17589,6 +17589,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── WHEAT / STRAW ───────────────────────────────────────────────────────────
+  "wheat|solid": {
+    suit: { color: "Wheat", pattern: "Solid", hex: "#F5DEB3", fabric: "Lightweight wool or linen blend — pale warm yellow, the colour of ripe grain" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy is the essential anchor for pale wheat" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth grounds the pale yellow suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Harvest palette — wheat and forest in a suit" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast through the pale warm yellow" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold — wheat and gold are family" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom against the pale yellow suit" }
+        ],
+        packages: [
+          { name: "Wheat Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toe oxfords"] },
+          { name: "Harvest Earth", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toes"] },
+          { name: "Wheat & Forest", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Berry Wheat", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Grain", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Rose Wheat", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Wheat solid — the colour of harvest, worn as a suit. Pale, warm, and entirely confident."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and warm wheat" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and pale yellow" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, wheat, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth disrupts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Rich contrast through the cool wheat palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against the pale warm yellow" }
+        ],
+        packages: [
+          { name: "Blue Wheat", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Wheat", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Sky & Harvest", items: ["Forest green tie", "White linen pocket square", "Brown loafers"] },
+          { name: "Gold Blue Wheat", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Berry Blue Wheat", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Wheat", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wheat — the cool sky above the grain field. Timeless and completely natural."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest pale combination — all harvest warmth" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — ivory, wheat, gold in pale layers" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Harvest depth through the pale warm palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the palest warm combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in the pale warm story" },
+          { color: "Wheat (tonal)", hex: "#F5DEB3", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — paleness as the statement" }
+        ],
+        packages: [
+          { name: "Palest Harvest", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Wheat", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Harvest Forest", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Wheat", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Berry Ivory Wheat", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Wheat", items: ["Wheat knit tie", "No pocket square", "Cognac loafers"] }
+        ],
+        styleMantra: "Ivory on wheat — pale on pale, warm on warm. The harvest field in the softest light."
+      }
+    ]
+  },
+
+  "wheat|chalk_stripe": {
+    suit: { color: "Wheat", pattern: "Chalk Stripe", hex: "#F5DEB3", fabric: "Superfine wool, ivory chalk stripe on pale warm wheat" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Chalk tradition on the most sunlit striped suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the pale harvest stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Harvest depth through the pale chalk stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast in the pale warm stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal gold picks up the chalk stripe on wheat" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Strong structure in the pale striped suit" }
+        ],
+        packages: [
+          { name: "Wheat Stripe", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Harvest Stripe", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Forest Stripe", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Berry Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gold Chalk", items: ["Warm gold grenadine tie", "White pocket square", "Tan monks"] },
+          { name: "Dark Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Wheat chalk stripe — the pale summer power suit. Every stripe a thread of sunlight."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and harvest stripe" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earth warmth bridges cool blue and wheat stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Natural trio — blue, wheat stripe, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth through the cool stripe palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast in the cool harvest stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through pale blue and wheat stripe" }
+        ],
+        packages: [
+          { name: "Blue Wheat Stripe", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Stripe", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Natural Blue Stripe", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Berry Blue Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on wheat chalk stripe — the cool sky making the harvest stripe glow."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth — the palest chalk stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — ivory, wheat stripe, gold" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through ivory and pale stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Natural depth through the pale harvest stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep contrast in the pale warm chalk stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on ivory in the wheat stripe" }
+        ],
+        packages: [
+          { name: "Heritage Wheat Stripe", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Stripe", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Ivory Classic Stripe", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Natural Ivory Stripe", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Berry Ivory Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Ivory Stripe", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Ivory on wheat chalk stripe — warm on warm, the stripe barely visible. Understated harvest elegance."
+      }
+    ]
+  },
+
+  "wheat|glen_plaid": {
+    suit: { color: "Wheat", pattern: "Glen Plaid", hex: "#F5DEB3", fabric: "Wool-cashmere blend, pale warm wheat and ivory glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy frames the pale harvest plaid geometry" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the pale plaid structure" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Harvest landscape — wheat plaid and forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold picks up the warm overcheck element" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast in the pale geometric" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through the pale harvest plaid" }
+        ],
+        packages: [
+          { name: "Wheat Plaid", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Harvest Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toes"] },
+          { name: "Landscape Plaid", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Gold Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Berry Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Plaid", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Wheat glen plaid — the harvest field in geometric form. Pale, warm, and deeply natural."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and harvest plaid" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and wheat plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Sky, wheat plaid, forest — all naturals" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth through the cool plaid palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against the pale warm plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through the cool harvest plaid" }
+        ],
+        packages: [
+          { name: "Blue Wheat Plaid", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Plaid", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Natural Blue Plaid", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Silver Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Berry Blue Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Pale blue on wheat glen plaid — the cool sky above the harvest geometry."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The palest, warmest plaid combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — ivory, wheat plaid, gold" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Natural depth through the pale warm plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the palest warm plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in the pale harvest plaid" },
+          { color: "Wheat (tonal)", hex: "#F5DEB3", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic pale warmth — the plaid is the whisper" }
+        ],
+        packages: [
+          { name: "Palest Harvest Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Plaid", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Natural Ivory Plaid", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Plaid", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Berry Ivory Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Harvest Plaid", items: ["Wheat knit tie", "No pocket square", "Cognac loafers"] }
+        ],
+        styleMantra: "Ivory on wheat glen plaid — pale geometry in harvest colours. Quietly extraordinary."
+      }
+    ]
+  },
+
+  "wheat|herringbone": {
+    suit: { color: "Wheat", pattern: "Herringbone", hex: "#F5DEB3", fabric: "Mid-weight wool herringbone, pale warm wheat in fine golden weave" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy gives the pale herringbone its backbone" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the pale golden weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Harvest organic — wheat weave and forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold catches the herringbone in light" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast through the pale warm texture" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the pale harvest weave" }
+        ],
+        packages: [
+          { name: "Wheat Weave", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Harvest Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Natural Weave", items: ["Forest green tie", "White pocket square", "Brown loafers"] },
+          { name: "Gold Texture", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Berry Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Weave", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Wheat herringbone — pale golden texture that catches every angle of light. The harvest woven into tailoring."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and harvest weave" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and pale weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Sky, wheat weave, forest — natural trio" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth through the cool texture" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through pale blue and wheat weave" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through the cool pale texture" }
+        ],
+        packages: [
+          { name: "Blue Wheat Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Weave", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Natural Blue Weave", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Silver Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Berry Blue Weave", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Pale blue on wheat herringbone — the cool sky makes the pale golden weave glow."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, palest herringbone combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — ivory, wheat weave, gold" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Natural depth through the pale warm texture" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the palest warm weave" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep contrast in the pale harvest texture" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on ivory in the pale golden weave" }
+        ],
+        packages: [
+          { name: "Palest Harvest Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Weave", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Natural Ivory Weave", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Weave", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Berry Ivory Weave", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Ivory Weave", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Ivory on wheat herringbone — pale on pale, the golden texture barely visible. That is the entire point."
+      }
+    ]
+  },
+
+  "wheat|tweed": {
+    suit: { color: "Wheat", pattern: "Tweed", hex: "#F5DEB3", fabric: "Donegal tweed, pale wheat base with gold and cream flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "The harvest Donegal's most natural companion" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Harvest landscape — wheat flecks and forest" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval authority through the palest country suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the gold flecks in the wheat tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Deep contrast through the pale golden flecks" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom catches the cream flecks warmly" }
+        ],
+        packages: [
+          { name: "Wheat Donegal", items: ["Cognac wool knit tie", "Cream pocket square", "Tan derby shoes"] },
+          { name: "Harvest Forest", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Naval Wheat Tweed", items: ["Navy repp tie", "White pocket square", "Brown leather oxfords"] },
+          { name: "Gold Fleck Wheat", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Berry Wheat Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Fleck", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Wheat tweed — the palest Donegal. Gold and cream flecks in a pale harvest landscape."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and wheat tweed" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and golden flecks" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Sky, wheat flecks, forest — all naturals" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden fleck warmth through the cool palette" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through pale blue and golden flecks" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Bold contrast through the pale harvest tweed" }
+        ],
+        packages: [
+          { name: "Blue Wheat Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Tweed", items: ["Cognac wool knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Natural Blue Tweed", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Silver Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Berry Blue Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] }
+        ],
+        styleMantra: "Pale blue on wheat tweed — the clear sky above the palest harvest Donegal."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "The warmest, palest tweed combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold amplified by ivory on pale wheat tweed" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Natural depth through the pale harvest flecks" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One cool anchor in the warmest pale tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Deep contrast through the pale golden flecks" },
+          { color: "Wheat (tonal)", hex: "#F5DEB3", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the flecks carry the look" }
+        ],
+        packages: [
+          { name: "Palest Tweed", items: ["Cognac wool knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Tweed", items: ["Warm gold knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Natural Ivory Tweed", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Tweed", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Berry Ivory Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Harvest Tweed", items: ["Wheat knit tie", "No pocket square", "Cognac loafers"] }
+        ],
+        styleMantra: "Ivory on wheat tweed — the palest flecks in the palest suit. All warmth, no noise."
+      }
+    ]
+  },
+
+  "wheat|linen": {
+    suit: { color: "Wheat", pattern: "Linen", hex: "#F5DEB3", fabric: "Italian linen, pale warm wheat — golden yellow with natural slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The one deliberate note in the palest linen suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth for the harvest linen suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Harvest organic — wheat linen and forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold through the pale yellow linen" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Clay warmth on wheat — the Mediterranean harvest" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Warm bloom in the palest summer suit" }
+        ],
+        packages: [
+          { name: "Wheat Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Tan leather loafers"] },
+          { name: "Harvest Linen", items: ["Cognac knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Natural Linen", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Gold Linen", items: ["Warm gold knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Mediterranean Harvest", items: ["Terracotta linen tie", "White linen pocket square", "Tan espadrilles"] },
+          { name: "Rose Linen", items: ["Dusty rose linen tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Wheat linen — the summer suit of ripe fields and open skies. Wears the season like it grew there."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor through pale blue and harvest linen" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and pale linen" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Sky, wheat linen, forest — the harvest palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth through the cool harvest linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against the pale warm linen" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Clay warmth bridges cool blue and wheat linen" }
+        ],
+        packages: [
+          { name: "Blue Wheat Linen", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Earth Blue Linen", items: ["Cognac knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Natural Blue Linen", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Tan suede loafers"] },
+          { name: "Silver Wheat Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Clay Blue Linen", items: ["Terracotta linen tie", "White pocket square", "Tan espadrilles"] }
+        ],
+        styleMantra: "Pale blue on wheat linen — the summer sky above the harvest field."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, palest summer combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Tonal warmth — ivory, wheat linen, gold" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Natural depth through the pale harvest linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "One deep note in the palest summer look" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Clay on ivory in a wheat linen — warmth on warmth" },
+          { color: "Wheat (tonal)", hex: "#F5DEB3", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Near-monochrome warmth — the linen is the whole statement" }
+        ],
+        packages: [
+          { name: "Palest Summer", items: ["Cognac knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Gold Ivory Linen", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan suede loafers"] },
+          { name: "Natural Ivory Linen", items: ["Forest green tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Ivory Classic Linen", items: ["Navy tie", "Ivory pocket square", "Brown leather loafers"] },
+          { name: "Harvest Triad", items: ["Terracotta linen tie", "Ivory pocket square", "Tan espadrilles"] },
+          { name: "Tonal Wheat Linen", items: ["Wheat knit tie", "No pocket square", "Cream suede loafers"] }
+        ],
+        styleMantra: "Ivory on wheat linen — pale on pale on pale. The most luminous summer suit in the wardrobe."
+      }
+    ]
+  },
+
+  "wheat|houndstooth": {
+    suit: { color: "Wheat", pattern: "Houndstooth", hex: "#F5DEB3", fabric: "Wool blend, pale warm wheat and ivory houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic anchor to the palest, warmest check" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the pale harvest check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Harvest depth through the pale geometric" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold catches the ivory check warmly" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast in the palest check" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom through the pale harvest check" }
+        ],
+        packages: [
+          { name: "Wheat Check", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Harvest Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan oxfords"] },
+          { name: "Natural Check", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Check Wheat", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Berry Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Check", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Wheat houndstooth — the palest check. Warm ground, ivory pattern — harvest geometry at its most refined."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and harvest check" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and pale check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Sky, wheat check, forest — harvest naturals" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Golden warmth through the cool pale check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against the pale warm check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through the pale harvest check" }
+        ],
+        packages: [
+          { name: "Blue Wheat Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Check", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Natural Blue Check", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Silver Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Berry Blue Check", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] }
+        ],
+        styleMantra: "Pale blue on wheat houndstooth — the cool sky reveals the pale harvest check in full warmth."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The palest, warmest check combination in the wardrobe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — ivory, wheat check, gold. The check dissolves." },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Natural depth through the pale warm check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One cool anchor in the palest combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep punctuation in the pale warm check" },
+          { color: "Wheat (tonal)", hex: "#F5DEB3", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the check nearly disappears" }
+        ],
+        packages: [
+          { name: "Palest Harvest Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Check", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Natural Ivory Check", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Check", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Berry Ivory Check", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Harvest Check", items: ["Wheat knit tie", "No pocket square", "Cognac loafers"] }
+        ],
+        styleMantra: "Ivory on wheat houndstooth — the check disappears into warmth. The palest geometric suit imaginable."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -18030,6 +18493,7 @@ function getLocalAnalysis(text) {
         else if (/taupe suit|taupe blazer|greige suit|greige blazer|taupe wool|taupe linen|taupe tweed|taupe herringbone|taupe houndstooth|taupe glen plaid|taupe chalk stripe|warm grey suit|warm gray suit|grey brown suit|gray brown suit|mushroom suit|stone suit|stone blazer|warm neutral suit|mink suit|mink blazer/.test(t)) { colorKey = "taupe"; colorMatched = true }
         else if (/pewter suit|pewter blazer|pewter grey suit|pewter gray suit|pewter wool|pewter linen|pewter tweed|pewter herringbone|pewter houndstooth|pewter glen plaid|pewter chalk stripe|metallic grey suit|metallic gray suit|light gunmetal suit|cool mid grey suit|cool mid gray suit|steel grey suit|steel gray suit/.test(t)) { colorKey = "pewter"; colorMatched = true }
         else if (/jade suit|jade blazer|jade green suit|jade green blazer|jade wool|jade linen|jade tweed|jade herringbone|jade houndstooth|jade glen plaid|jade chalk stripe|emerald suit|emerald blazer|emerald green suit|rich green suit|bright green suit|vivid green suit|jewel green suit|gemstone green suit/.test(t)) { colorKey = "jade"; colorMatched = true }
+        else if (/wheat suit|wheat blazer|straw suit|straw blazer|pale yellow suit|light yellow suit|wheat wool|wheat linen|wheat tweed|wheat herringbone|wheat houndstooth|wheat glen plaid|wheat chalk stripe|straw linen|straw tweed|golden yellow suit|harvest suit|pale gold suit|hay suit/.test(t)) { colorKey = "wheat"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
