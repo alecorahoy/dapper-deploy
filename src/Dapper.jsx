@@ -12496,6 +12496,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── CHAMPAGNE ───────────────────────────────────────────────────────────────
+  "champagne|solid": {
+    suit: { color: "Champagne", pattern: "Solid", hex: "#F7E7CE", fabric: "Superfine wool or raw silk blend — warm luminous pale gold" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth grounds the luminous champagne" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Deep navy is the essential anchor for champagne" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold — champagne suit and gold tie in warm accord" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the luminous pale gold" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich deep contrast — the darkest note on the palest suit" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on warm gold — the celebration palette" }
+        ],
+        packages: [
+          { name: "Champagne Classic", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toe oxfords"] },
+          { name: "Navy Anchor", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Tonal Gold", items: ["Warm gold knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Organic Champagne", items: ["Forest green tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Deep Contrast", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Celebration Bloom", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Champagne solid — luminous, warm, and quietly extraordinary. The suit that makes every room feel like a celebration."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and warm champagne" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and luminous gold" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, champagne, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm gold disrupts the cool palette beautifully" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Rich contrast in the cool-warm champagne" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against warm champagne — a refined tension" }
+        ],
+        packages: [
+          { name: "Blue Champagne", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Bridge", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Three Naturals", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Break", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Contrast", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Champagne", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on champagne — the cool shirt reveals the warmth of the luminous suit."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest possible champagne combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal warmth — ivory, champagne, gold in luminous layers" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth through the pale warm palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the palest warm combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in the pale warm story" },
+          { color: "Champagne (tonal)", hex: "#F7E7CE", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — pale on pale, luminous and deliberate" }
+        ],
+        packages: [
+          { name: "Warmest Champagne", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Organic Ivory", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Deep Ivory", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Champagne", items: ["Champagne knit tie", "No pocket square", "Cream suede loafers"] }
+        ],
+        styleMantra: "Ivory on champagne — warm on warm, pale on pale. The most luminous combination in tailoring."
+      }
+    ]
+  },
+
+  "champagne|chalk_stripe": {
+    suit: { color: "Champagne", pattern: "Chalk Stripe", hex: "#F7E7CE", fabric: "Superfine wool, white chalk stripe on warm champagne" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Chalk tradition anchored on the most luminous striped suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth through the warm chalk stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast — the darkest note on the palest stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "The chalk stripe picks up the gold in warm light" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the luminous chalk stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on the palest chalk stripe" }
+        ],
+        packages: [
+          { name: "Champagne Stripe", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Heritage Stripe", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Deep Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Chalk", items: ["Warm gold grenadine tie", "White pocket square", "Tan monks"] },
+          { name: "Organic Stripe", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Rose Stripe", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Champagne chalk stripe — the power suit dressed in celebration. Structured warmth, luminous authority."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor in the cool-warm champagne stripe" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and luminous chalk stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic trio — blue, champagne stripe, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal warmth disrupts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast in the cool-warm chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver cuts through the warm stripe precisely" }
+        ],
+        packages: [
+          { name: "Blue Champagne Stripe", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Stripe Blue", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Organic Blue Stripe", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Stripe Blue", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on champagne chalk stripe — the cool shirt makes the warm stripe glow."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth — the palest chalk stripe combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal luminosity — ivory, champagne, gold in stripe form" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One deep anchor through the palest warm stripe" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth in the pale warm stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation through the luminous pale stripe" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on ivory in the champagne chalk stripe" }
+        ],
+        packages: [
+          { name: "Heritage Pale Stripe", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Stripe", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Ivory Classic Stripe", items: ["Navy tie", "Ivory pocket square", "Dark brown cap-toes"] },
+          { name: "Organic Ivory Stripe", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Deep Ivory Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Ivory Stripe", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Ivory on champagne chalk stripe — warm on warm, luminous on luminous. The stripe is almost invisible. The elegance is not."
+      }
+    ]
+  },
+
+  "champagne|glen_plaid": {
+    suit: { color: "Champagne", pattern: "Glen Plaid", hex: "#F7E7CE", fabric: "Wool-cashmere blend, warm champagne and ivory glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic navy frames the luminous champagne plaid" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Heritage warmth threads through the plaid geometry" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the pale gold plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold picks up the warm overcheck in light" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast in the luminous plaid" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the champagne plaid geometry" }
+        ],
+        packages: [
+          { name: "Champagne Plaid", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Heritage Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toes"] },
+          { name: "Organic Plaid", items: ["Forest green tie", "White pocket square", "Brown derbies"] },
+          { name: "Gold Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Deep Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Plaid", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Champagne glen plaid — the luminous country suit. Geometry in gold, worn with effortless authority."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and warm plaid" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and gold plaid" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, champagne plaid, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold warmth in the cool plaid palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through cool blue and gold plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver reads cleanly against the warm gold plaid" }
+        ],
+        packages: [
+          { name: "Blue Gold Plaid", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Plaid", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Organic Blue Plaid", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Blue Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Silver Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on champagne glen plaid — the cool composure that makes the warm plaid luminous."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most natural champagne combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal gold warmth — ivory, champagne plaid, gold" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth in the pale warm plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the palest warm plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in the luminous pale plaid" },
+          { color: "Champagne (tonal)", hex: "#F7E7CE", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the plaid geometry is everything" }
+        ],
+        packages: [
+          { name: "Warmest Plaid", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Plaid", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Organic Ivory Plaid", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Plaid", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Deep Ivory Plaid", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Gold Plaid", items: ["Champagne knit tie", "No pocket square", "Cream suede loafers"] }
+        ],
+        styleMantra: "Ivory on champagne glen plaid — warmth in geometric form. Luminosity without effort."
+      }
+    ]
+  },
+
+  "champagne|herringbone": {
+    suit: { color: "Champagne", pattern: "Herringbone", hex: "#F7E7CE", fabric: "Mid-weight wool herringbone, warm champagne tones in fine weave" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the pale gold herringbone" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Deep navy anchor through the luminous weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the warm champagne texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold catches the herringbone in warm light" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast elevates the pale textured suit" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the pale gold herringbone" }
+        ],
+        packages: [
+          { name: "Champagne Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan cap-toes"] },
+          { name: "Navy Weave", items: ["Navy repp tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Organic Weave", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Texture", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Rich Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Weave", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Champagne herringbone — the texture catches the light. A luminous suit made more so by the weave."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor in the cool-warm herringbone" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and champagne weave" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, champagne weave, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth in the cool herringbone palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast through cool blue and warm weave" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through pale blue and gold herringbone" }
+        ],
+        packages: [
+          { name: "Blue Champagne Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Blue Weave", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Organic Blue Weave", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Blue Weave", items: ["Burgundy tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Silver Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on champagne herringbone — the cool shirt lets the warm weave do its work."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most natural herringbone combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Luminous tonal warmth — ivory, champagne weave, gold" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth through the pale warm weave" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep anchor through the palest herringbone" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Deep punctuation in the luminous pale weave" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on ivory in the pale gold texture" }
+        ],
+        packages: [
+          { name: "Warmest Weave", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Weave", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Organic Ivory Weave", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Weave", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Deep Ivory Weave", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Rose Ivory Weave", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Ivory on champagne herringbone — the texture glows. Everything warm, nothing wasted."
+      }
+    ]
+  },
+
+  "champagne|tweed": {
+    suit: { color: "Champagne", pattern: "Tweed", hex: "#F7E7CE", fabric: "Donegal tweed, warm champagne base with cream and gold flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "The most natural champagne tweed companion" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the pale gold flecked tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue civilizes the warmest country tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Picks up the gold flecks in the champagne tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Deep contrast through the warm flecked texture" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom catches the cream flecks in light" }
+        ],
+        packages: [
+          { name: "Champagne Donegal", items: ["Cognac wool knit tie", "Cream pocket square", "Tan derby shoes"] },
+          { name: "Organic Country", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Naval Champagne", items: ["Navy repp tie", "White pocket square", "Brown leather oxfords"] },
+          { name: "Gold Fleck", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Deep Fleck", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Fleck", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Champagne tweed — the palest country suit. The flecks catch the light like gold dust in morning sun."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool anchor through pale blue and champagne tweed" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and gold flecks" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, champagne flecks, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold disrupts the cool palette warmly" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Bold warm contrast in the cool-warm tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver reads beautifully against warm gold flecks" }
+        ],
+        packages: [
+          { name: "Sky Champagne Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earthen Blue Tweed", items: ["Cognac wool knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Organic Blue Tweed", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Burgundy Tweed Blue", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on champagne tweed — the clear sky above the golden field."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit wool", knot: "Four-in-hand", styleNote: "The warmest, most luminous country combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold amplified by ivory on the palest champagne tweed" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth in the pale warm flecked palette" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One deep anchor in the warmest country look" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom on ivory in the champagne tweed" },
+          { color: "Champagne (tonal)", hex: "#F7E7CE", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the flecks are the only detail" }
+        ],
+        packages: [
+          { name: "Golden Country", items: ["Cognac wool knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Tweed", items: ["Warm gold knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Organic Ivory Tweed", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Tweed", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Rose Ivory Tweed", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Tonal Country", items: ["Champagne knit tie", "No pocket square", "Cream suede loafers"] }
+        ],
+        styleMantra: "Ivory on champagne tweed — the flecks catch the light like gold dust. The most luminous of all country suits."
+      }
+    ]
+  },
+
+  "champagne|linen": {
+    suit: { color: "Champagne", pattern: "Linen", hex: "#F7E7CE", fabric: "Italian linen, warm champagne — pale gold with natural slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The essential anchor in the most luminous linen suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth for the warmest linen suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Organic summer — champagne linen and forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold in the palest gold linen suit" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Celebration bloom in the champagne linen" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on gold linen — Mediterranean summer" }
+        ],
+        packages: [
+          { name: "Champagne Linen", items: ["Navy silk tie", "White linen pocket square", "Tan leather loafers"] },
+          { name: "Earth Linen", items: ["Cognac knit tie", "No pocket square", "Tan loafers"] },
+          { name: "Organic Summer", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Gold Linen", items: ["Warm gold knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Rose Summer", items: ["Dusty rose linen tie", "Ivory pocket square", "Nude suede loafers"] },
+          { name: "Terra Summer", items: ["Terracotta tie", "White linen pocket square", "Tan espadrilles"] }
+        ],
+        styleMantra: "Champagne linen — the summer suit that glows in every light. Wear it where the light is best."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor in the warmest linen suit" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth bridges cool blue and pale gold linen" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Coastal organic — blue, champagne linen, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth disrupts the cool palette naturally" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against the pale gold linen" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Warm bloom in the cool-warm linen palette" }
+        ],
+        packages: [
+          { name: "Blue Gold Linen", items: ["Navy tie", "Pale blue pocket square", "Tan leather loafers"] },
+          { name: "Earth Blue Linen", items: ["Cognac knit tie", "White pocket square", "Tan loafers"] },
+          { name: "Coastal Linen", items: ["Forest green linen tie", "White pocket square", "Brown leather loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Tan suede loafers"] },
+          { name: "Silver Champagne", items: ["Silver grey tie", "White pocket square", "Light grey suede loafers"] },
+          { name: "Rose Blue Linen", items: ["Dusty rose linen tie", "White pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Pale blue on champagne linen — the cool shore beside a golden afternoon."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Fine cotton",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest summer combination — all golden warmth" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Four-in-hand", styleNote: "Tonal gold — ivory shirt, champagne linen, gold tie" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Linen-silk blend", knot: "Four-in-hand", styleNote: "Organic depth in the pale warm linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "One strong note in the most luminous summer look" },
+          { color: "Champagne (tonal)", hex: "#F7E7CE", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic gold — the linen texture is the whole story" },
+          { color: "Terracotta", hex: "#CB6D51", fabric: "Silk", knot: "Four-in-hand", styleNote: "Clay warmth on ivory and pale gold — the warmest triad" }
+        ],
+        packages: [
+          { name: "All Gold Linen", items: ["Cognac knit tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Tonal Gold Linen", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan suede loafers"] },
+          { name: "Organic Ivory Linen", items: ["Forest green tie", "White pocket square", "Tan leather loafers"] },
+          { name: "Ivory Classic Linen", items: ["Navy tie", "Ivory pocket square", "Brown leather loafers"] },
+          { name: "Champagne Mono", items: ["Champagne knit tie", "No pocket square", "Cream suede loafers"] },
+          { name: "Warmest Triad", items: ["Terracotta tie", "Ivory pocket square", "Tan espadrilles"] }
+        ],
+        styleMantra: "Ivory on champagne linen — the palest gold in summer light. Warmth so complete it becomes luminous."
+      }
+    ]
+  },
+
+  "champagne|houndstooth": {
+    suit: { color: "Champagne", pattern: "Houndstooth", hex: "#F7E7CE", fabric: "Wool blend, warm champagne and ivory houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic anchor to the palest, warmest houndstooth" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm earth through the pale gold check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Organic depth through the luminous check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold picks up the warm element in the houndstooth" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep contrast in the luminous pale check" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom catches the ivory check warmly" }
+        ],
+        packages: [
+          { name: "Champagne Check", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Heritage Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan oxfords"] },
+          { name: "Organic Check", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Check", items: ["Warm gold knit tie", "No pocket square", "Tan monks"] },
+          { name: "Deep Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Rose Check", items: ["Dusty rose tie", "Ivory pocket square", "Nude suede loafers"] }
+        ],
+        styleMantra: "Champagne houndstooth — the warmest check. Where grey houndstooth is classic, champagne is luminous."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool depth against the warm champagne check" },
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Earthy warmth bridges cool blue and warm check" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Three naturals — sky, champagne check, forest" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal gold through the cool blue palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Bold contrast in the cool-warm check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver reads cleanly against warm pale check" }
+        ],
+        packages: [
+          { name: "Blue Gold Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Earth Check Blue", items: ["Cognac knit tie", "White pocket square", "Tan cap-toes"] },
+          { name: "Organic Blue Check", items: ["Forest green tie", "White linen pocket square", "Brown brogues"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Tan monks"] },
+          { name: "Bold Check Blue", items: ["Burgundy tie", "White pocket square", "Dark brown derbies"] },
+          { name: "Silver Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on champagne houndstooth — the cool shirt reveals how warm the check truly glows."
+      },
+      {
+        color: "Soft Ivory", hex: "#FFFFF0", fabric: "Luxury cotton broadcloth",
+        ties: [
+          { color: "Cognac Brown", hex: "#9B4E1C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "The warmest, most luminous check combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Tonal gold — ivory, champagne check, gold in perfect warmth" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Organic depth through the pale warm check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "One cool anchor in the warmest check combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool-silk blend", knot: "Half Windsor", styleNote: "Rich punctuation in the luminous pale check" },
+          { color: "Champagne (tonal)", hex: "#F7E7CE", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Monochromatic warmth — the check nearly disappears in gold" }
+        ],
+        packages: [
+          { name: "Warmest Check", items: ["Cognac knit tie", "Ivory pocket square", "Tan brogues"] },
+          { name: "Gold Ivory Check", items: ["Warm gold grenadine tie", "Ivory pocket square", "Tan loafers"] },
+          { name: "Organic Ivory Check", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] },
+          { name: "Ivory Classic Check", items: ["Navy tie", "Ivory pocket square", "Dark brown oxfords"] },
+          { name: "Deep Ivory Check", items: ["Burgundy tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Tonal Gold Check", items: ["Champagne knit tie", "No pocket square", "Cream suede loafers"] }
+        ],
+        styleMantra: "Ivory on champagne houndstooth — the pattern glows warm. Only the finest eye even catches the check."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -12926,6 +13389,7 @@ function getLocalAnalysis(text) {
         else if (/gunmetal suit|gunmetal blazer|smoke suit|smoke grey suit|dark grey suit|dark cool grey suit|gunmetal wool|gunmetal linen|gunmetal tweed|gunmetal herringbone|gunmetal houndstooth|gunmetal glen plaid|smoke tweed|smoke linen|smoke herringbone|dark metallic suit|anthracite suit|iron grey suit|steel grey suit|dark charcoal suit/.test(t)) { colorKey = "gunmetal"; colorMatched = true }
         else if (/blush suit|blush blazer|dusty pink suit|dusty pink blazer|soft pink suit|pale pink suit|blush wool|blush linen|blush tweed|blush herringbone|blush houndstooth|blush glen plaid|dusty rose suit|rose suit|pink suit|soft rose suit|powder pink suit|blush chalk stripe|light pink suit/.test(t)) { colorKey = "blush"; colorMatched = true }
         else if (/aubergine suit|aubergine blazer|plum suit|plum blazer|deep purple suit|dark purple suit|eggplant suit|aubergine wool|aubergine linen|aubergine tweed|aubergine herringbone|aubergine houndstooth|plum tweed|plum linen|plum herringbone|plum houndstooth|dark plum suit|eggplant blazer|aubergine glen plaid|deep violet suit/.test(t)) { colorKey = "aubergine"; colorMatched = true }
+        else if (/champagne suit|champagne blazer|champagne linen|champagne tweed|champagne wool|champagne herringbone|champagne houndstooth|champagne glen plaid|pale gold suit|light gold suit|warm white suit|golden suit|golden blazer|champagne chalk stripe|pale champagne suit|luminous suit|straw suit|wheat suit/.test(t)) { colorKey = "champagne"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
