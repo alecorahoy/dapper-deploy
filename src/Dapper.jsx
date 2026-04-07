@@ -11107,6 +11107,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── GUNMETAL / SMOKE ────────────────────────────────────────────────────────
+  "gunmetal|solid": {
+    suit: { color: "Gunmetal", pattern: "Solid", hex: "#2C3539", fabric: "Superfine wool — dark cool grey with a metallic undertone" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic tonal — silver against gunmetal, deliberate and sharp" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep wine cuts through the dark metallic suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark on dark — navy deepens the gunmetal severity" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Unexpected warmth against the cold metallic suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold against gunmetal — the only warmth the suit needs" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool blue on cool grey — a precisely calibrated chill" }
+        ],
+        packages: [
+          { name: "Metallic Tonal", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toe oxfords"] },
+          { name: "Gunmetal Classic", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toe oxfords"] },
+          { name: "Dark Depth", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Warm Disruption", items: ["Dusty rose tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold on Metal", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Cold Precision", items: ["Ice blue tie", "White pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Gunmetal solid — the suit that makes charcoal look apologetic. Cold, precise, and completely in control."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Three cool tones — pale blue, navy, gunmetal in hierarchy" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "All cool metal — the most composed combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through two cool tones" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold against pale blue and gunmetal — rare and striking" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal cool depth — all grey, all deliberate" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "One warm bloom in an entirely cool composition" }
+        ],
+        packages: [
+          { name: "Cool Hierarchy", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "All Metal", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Break", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold & Smoke", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Tonal Dark", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Rose Smoke", items: ["Dusty rose tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue cools gunmetal further still — an ensemble of pure, composed restraint."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Tonal grey scale — three shades of cool in perfect order" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue anchor through the cool grey palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep warm contrast cuts through the cool grey stack" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Single warm note against the cool tonal ensemble" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool blue sheen through the grey tonal palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Near-monochrome severity — the coolest possible stack" }
+        ],
+        packages: [
+          { name: "Grey Scale", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Deep Anchor", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Contrast Warmth", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Smoke", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Smoke", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Stack", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on gunmetal — a tonal scale of cool. Every shade chosen, nothing left to chance."
+      }
+    ]
+  },
+
+  "gunmetal|chalk_stripe": {
+    suit: { color: "Gunmetal", pattern: "Chalk Stripe", hex: "#2C3539", fabric: "Superfine wool, silver chalk stripe on dark gunmetal" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "The chalk stripe reflects silver — tonal metallic authority" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "The essential power stripe — dark suit, dark tie, white shirt" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Double stripe — chalk and repp, perfectly calibrated" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "One gold note in the darkest chalk stripe" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool blue picks up the silver chalk stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Near-invisible depth — all dark, all deliberate" }
+        ],
+        packages: [
+          { name: "Silver Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toe oxfords"] },
+          { name: "Stripe Power", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Double Stripe", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Gold Chalk", items: ["Warm gold grenadine tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Chalk", items: ["Ice blue tie", "White pocket square", "Grey suede loafers"] },
+          { name: "Dark Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Gunmetal chalk stripe — the darkest power suit. Every boardroom, every negotiation, every room you need to own."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue deepens against the gunmetal chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic tonal — the stripe, the tie, the shirt all cool" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Warm contrast in a cool, striped composition" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold disrupts the cool precision deliberately" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "All cool, all dark — maximum restraint" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "One warm note in the coolest chalk stripe" }
+        ],
+        packages: [
+          { name: "Cool Stripe", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Metal Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Bold Contrast", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Disruption", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Cool", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Rose Stripe", items: ["Dusty rose tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on gunmetal chalk stripe — the cool shirt makes the dark stripe sharper still."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey scale at its most architectural" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Dark blue structure through the grey stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the cool dark stripe" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool through the grey-gunmetal stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Warm gold against the grey stripe — a single statement" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "The most tonal possible chalk stripe look" }
+        ],
+        packages: [
+          { name: "Architectural Grey", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Dark Blue Stripe", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Warm Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Ice Stripe", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Gold Grey Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Tonal Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on gunmetal chalk stripe — every tone a degree of cool. Worn by those who have nothing to prove."
+      }
+    ]
+  },
+
+  "gunmetal|glen_plaid": {
+    suit: { color: "Gunmetal", pattern: "Glen Plaid", hex: "#2C3539", fabric: "Wool-cashmere blend, dark gunmetal and silver glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver picks up the overcheck in the dark plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep warm contrast through the dark geometric" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark on dark — navy reinforces the plaid's authority" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold picks up the silver overcheck in warm light" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool icy blue through the dark cool plaid" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the darkest of glen plaids" }
+        ],
+        packages: [
+          { name: "Silver Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Dark Plaid Classic", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Depth", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Gold Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Plaid", items: ["Ice blue tie", "White pocket square", "Grey suede loafers"] },
+          { name: "Rose Dark", items: ["Dusty rose tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Gunmetal glen plaid — the dark country suit. Pattern with authority, texture with menace."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue deepens the dark plaid geometry" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "All cool — pale blue, silver, gunmetal plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through cool blue and dark plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth in the cool plaid composition" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark cool — the plaid does everything else" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool on cool — the iciest plaid combination" }
+        ],
+        packages: [
+          { name: "Blue Dark Plaid", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Cool Metal Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Break Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Plaid Blue", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Cool Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Ice Plaid Blue", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Pale blue on gunmetal glen plaid — the cool shirt illuminates the dark geometry."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "The grey scale at maximum precision" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue cuts through the grey-gunmetal plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich warm contrast in the cool dark plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Near-monochrome — the plaid pattern is the only detail" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One warm note cuts through the cool grey plaid" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy contrast in the dark cool plaid" }
+        ],
+        packages: [
+          { name: "Grey Plaid Scale", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Plaid", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Warm Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Tonal Dark", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Gold Grey Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Grey Plaid", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Grey on gunmetal glen plaid — restraint as a statement. The pattern speaks so you don't have to."
+      }
+    ]
+  },
+
+  "gunmetal|herringbone": {
+    suit: { color: "Gunmetal", pattern: "Herringbone", hex: "#2C3539", fabric: "Mid-weight wool herringbone, dark gunmetal with cool metallic sheen" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic grey through the dark herringbone weave" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep wine cuts through the dark textured suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark on dark — the texture is the contrast" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold catches the metallic sheen of the herringbone" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool blue through the dark cool weave" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm unexpected bloom against dark texture" }
+        ],
+        packages: [
+          { name: "Metal Weave", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Herringbone Classic", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Texture", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Gold Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Weave", items: ["Ice blue tie", "White pocket square", "Grey suede loafers"] },
+          { name: "Rose Dark Weave", items: ["Dusty rose tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Gunmetal herringbone — the dark suit with texture. Every thread a deliberate shade of serious."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool depth through the pale blue on dark herringbone" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "All cool metallic — the composed choice" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through cool blue and dark weave" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold against pale blue and dark herringbone — striking" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark — the weave carries the look" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — the iciest herringbone combination" }
+        ],
+        packages: [
+          { name: "Blue Dark Weave", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Metal Blue Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Blue Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Ice Blue Weave", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Pale blue on gunmetal herringbone — the cool shirt reveals every thread of the dark weave."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey scale herringbone — three shades of cool authority" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue structure through the grey herringbone" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the cool dark weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal depth — all grey, all texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Single warm note through the cool grey weave" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool ice through the grey herringbone stack" }
+        ],
+        packages: [
+          { name: "Grey Weave Scale", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Weave", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Warm Grey Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Darkest Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Gold Grey Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Grey Weave", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Grey on gunmetal herringbone — the tonal dark suit. Texture, shade, and silence doing all the work."
+      }
+    ]
+  },
+
+  "gunmetal|tweed": {
+    suit: { color: "Gunmetal", pattern: "Tweed", hex: "#2C3539", fabric: "Donegal tweed, dark gunmetal base with silver and charcoal flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver picks up the metallic flecks in the dark tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Warm depth through the dark flecked texture" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Deep blue civilizes the dark gunmetal tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold catches the silver flecks in warm light" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Dark forest through the dark tweed — brooding and natural" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the darkest country suit" }
+        ],
+        packages: [
+          { name: "Silver Fleck", items: ["Silver grey tie", "White pocket square", "Charcoal suede derby shoes"] },
+          { name: "Gunmetal Donegal", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Naval Dark", items: ["Navy repp tie", "White pocket square", "Brown leather oxfords"] },
+          { name: "Gold Fleck Dark", items: ["Warm gold knit tie", "No pocket square", "Dark brown monks"] },
+          { name: "Forest Dark", items: ["Forest green tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Rose Dark Tweed", items: ["Dusty rose tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Gunmetal tweed — the dark country suit. Worn for the moor, not the manor. Wear it in both."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and dark tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through the pale blue and flecked dark tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Warm contrast in a cool-dark composition" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Sky, gunmetal tweed, dark forest — all naturals" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth against pale blue and dark flecks" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark cool — the flecks carry all the detail" }
+        ],
+        packages: [
+          { name: "Sky & Dark Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Metal Blue Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Blue Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Forest Blue Tweed", items: ["Forest green tie", "White pocket square", "Brown brogues"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on gunmetal tweed — the clear sky above a dark, flecked landscape."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey on grey on dark flecks — tonal precision" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue anchor through the cool grey tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Rich warm contrast in the cool dark flecked suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal depth — all dark, all cool" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One warm note in the coolest country suit" },
+          { color: "Forest Green", hex: "#2D5A27", fabric: "Wool-silk blend", knot: "Pratt", styleNote: "Dark forest through cool grey and gunmetal tweed" }
+        ],
+        packages: [
+          { name: "Grey Tweed Scale", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Dark Tweed", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Warm Dark Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Darkest Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Gold Grey Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Forest Grey Tweed", items: ["Forest green tie", "White pocket square", "Brown cap-toes"] }
+        ],
+        styleMantra: "Grey on gunmetal tweed — the dark country suit at its most composed. Worn by those who know the moor well."
+      }
+    ]
+  },
+
+  "gunmetal|linen": {
+    suit: { color: "Gunmetal", pattern: "Linen", hex: "#2C3539", fabric: "Italian linen, dark gunmetal — cool metallic slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The cool anchor in the darkest summer suit" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Metallic cool through a dark linen suit" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "The darkest summer look with warm punctuation" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold against gunmetal linen — summer's darkest warmth" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Icy cool in the dark linen suit — surprising and right" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom in the coolest summer suit" }
+        ],
+        packages: [
+          { name: "Dark Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Dark brown leather loafers"] },
+          { name: "Metal Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Summer", items: ["Burgundy silk tie", "White linen pocket square", "Black leather loafers"] },
+          { name: "Gold Dark Linen", items: ["Warm gold knit tie", "No pocket square", "Dark brown loafers"] },
+          { name: "Ice Linen", items: ["Ice blue linen tie", "White pocket square", "Grey suede loafers"] },
+          { name: "Rose Dark Linen", items: ["Dusty rose tie", "White linen pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Gunmetal linen — the dark summer suit. Most men won't wear it. That's precisely why you should."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool hierarchy — pale blue, navy, dark gunmetal linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "All cool metallic for the summer occasion" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "The coolest possible summer combination" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One warm disruption in the coolest palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Bold warm contrast in the cool dark linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark — everything cool, everything deliberate" }
+        ],
+        packages: [
+          { name: "Cool Linen Hierarchy", items: ["Navy tie", "Pale blue pocket square", "Dark brown loafers"] },
+          { name: "Metal Summer", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ice Linen Blue", items: ["Ice blue linen tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Gold Break Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Bold Blue Linen", items: ["Burgundy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Dark Cool Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on gunmetal linen — the coolest summer suit with the sharpest contrast."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Grey scale in linen form — cool from shirt to suit" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Deep blue anchor in the cool linen palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "One warm note in a pale, cool summer look" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Icy coolness across the grey linen palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Near-monochrome — the linen texture is the only detail" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold disrupts the cool grey linen deliberately" }
+        ],
+        packages: [
+          { name: "Grey Linen Scale", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Navy Grey Linen", items: ["Navy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Warm Grey Linen", items: ["Burgundy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Ice Grey Linen", items: ["Ice blue linen tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Grey Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Grey Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Grey on gunmetal linen — cool in every sense. The summer suit that refuses to warm up."
+      }
+    ]
+  },
+
+  "gunmetal|houndstooth": {
+    suit: { color: "Gunmetal", pattern: "Houndstooth", hex: "#2C3539", fabric: "Wool blend, dark gunmetal and silver houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the check element in the dark houndstooth" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich warm contrast in the darkest check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Dark authority through the dark geometric" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold picks up the silver check in warm light" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool through the dark metallic check" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm unexpected note in the darkest houndstooth" }
+        ],
+        packages: [
+          { name: "Silver Check", items: ["Silver grey tie", "White pocket square", "Charcoal cap-toes"] },
+          { name: "Dark Check Classic", items: ["Burgundy grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Dark Authority", items: ["Navy repp tie", "White pocket square", "Black oxfords"] },
+          { name: "Gold Check Dark", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Check", items: ["Ice blue tie", "White pocket square", "Grey suede loafers"] },
+          { name: "Rose Dark Check", items: ["Dusty rose tie", "White pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Gunmetal houndstooth — the darkest check. Where charcoal houndstooth is classic, this is severe. Wear it knowing the difference."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool hierarchy through pale blue and dark check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "All cool — the metallic check and silver tie" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through cool blue and dark check" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "The coldest check combination — ice and gunmetal" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth against the cool pale blue check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark cool — the check is every detail you need" }
+        ],
+        packages: [
+          { name: "Blue Dark Check", items: ["Navy tie", "Pale blue pocket square", "Black oxfords"] },
+          { name: "Metal Check Blue", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Check Blue", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Ice Check Blue", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Gold Check Blue", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Dark Check Blue", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on gunmetal houndstooth — the cool shirt and the dark check in precise, cold harmony."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "The grey scale at its most geometric and severe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue cuts through the grey check stack" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich warm contrast in the cool dark check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum severity — the check is the only detail" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One warm point through the cool grey check" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool across the grey houndstooth palette" }
+        ],
+        packages: [
+          { name: "Grey Check Scale", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Check", items: ["Navy tie", "White pocket square", "Black cap-toes"] },
+          { name: "Warm Grey Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Darkest Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Gold Grey Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Grey Check", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Grey on gunmetal houndstooth — the tonal dark check. Every shade of cool in geometric form."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -11534,6 +11997,7 @@ function getLocalAnalysis(text) {
         else if (/lavender suit|lavender blazer|lilac suit|lilac blazer|soft purple suit|light purple suit|pale purple suit|lavender wool|lavender linen|lavender tweed|lavender herringbone|lavender houndstooth|lilac tweed|lilac linen|lilac herringbone|dusty purple suit|lavender glen plaid|lilac glen plaid|soft violet suit/.test(t)) { colorKey = "lavender"; colorMatched = true }
         else if (/ecru suit|ecru blazer|off white suit|off-white suit|raw linen suit|natural linen suit|unbleached suit|ecru wool|ecru linen|ecru tweed|ecru herringbone|ecru houndstooth|ecru glen plaid|warm white suit|natural white suit|greige suit|raw silk suit|ecru chalk stripe|parchment suit|warm off white suit/.test(t)) { colorKey = "ecru"; colorMatched = true }
         else if (/copper suit|copper blazer|bronze suit|bronze blazer|burnished suit|metallic brown suit|copper wool|copper linen|copper tweed|copper herringbone|copper houndstooth|copper glen plaid|bronze tweed|bronze linen|bronze herringbone|burnished brown suit|copper chalk stripe|warm metallic suit|antique gold suit/.test(t)) { colorKey = "copper"; colorMatched = true }
+        else if (/gunmetal suit|gunmetal blazer|smoke suit|smoke grey suit|dark grey suit|dark cool grey suit|gunmetal wool|gunmetal linen|gunmetal tweed|gunmetal herringbone|gunmetal houndstooth|gunmetal glen plaid|smoke tweed|smoke linen|smoke herringbone|dark metallic suit|anthracite suit|iron grey suit|steel grey suit|dark charcoal suit/.test(t)) { colorKey = "gunmetal"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
