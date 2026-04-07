@@ -60,19 +60,64 @@ const normalizePattern = (claudePattern) => {
 const normalizeColor = (claudeColor) => {
   if (!claudeColor) return 'navy'
   const c = claudeColor.toLowerCase()
-  if (c.includes('navy') || c.includes('midnight') || c.includes('indigo')) return 'navy'
-  if (c.includes('charcoal') || c.includes('slate') || c.includes('anthracite')) return 'charcoal'
+  // IMPORTANT: specific checks must come BEFORE generic ones (e.g. 'light blue' before 'blue')
+  // Light blues — map to 'lightblue' to match PATTERN_MATRIX key
+  if (c.includes('light blue') || c.includes('pale blue') || c.includes('powder blue') ||
+      c.includes('baby blue') || c.includes('sky blue') || c.includes('ice blue') ||
+      c.includes('cornflower') || c.includes('dusty blue') || c.includes('soft blue')) return 'lightblue'
+  // Dark blues
+  if (c.includes('midnight')) return 'midnight'
+  if (c.includes('navy') || c.includes('indigo') || c.includes('dark blue')) return 'navy'
+  // Mid blues
+  if (c.includes('cobalt') || c.includes('electric blue') || c.includes('royal blue')) return 'cobalt'
+  if (c.includes('blue') || c.includes('french blue')) return 'blue'
+  // Greys — specific before generic
+  if (c.includes('charcoal') || c.includes('anthracite') || c.includes('dark grey') || c.includes('dark gray')) return 'charcoal'
+  if (c.includes('slate')) return 'slate'
+  if (c.includes('dove')) return 'dovegrey'
+  if (c.includes('gunmetal') || c.includes('pewter')) return 'gunmetal'
   if (c.includes('grey') || c.includes('gray') || c.includes('silver')) return 'grey'
   if (c.includes('black') || c.includes('onyx') || c.includes('ebony')) return 'black'
-  if (c.includes('brown') || c.includes('chocolate') || c.includes('espresso') || c.includes('camel') || c.includes('tan') || c.includes('khaki') || c.includes('caramel')) return 'brown'
-  if (c.includes('blue') || c.includes('cobalt') || c.includes('french blue') || c.includes('sky')) return 'blue'
-  if (c.includes('green') || c.includes('olive') || c.includes('forest') || c.includes('sage') || c.includes('moss')) return 'green'
-  if (c.includes('burgundy') || c.includes('wine') || c.includes('claret') || c.includes('oxblood')) return 'burgundy'
-  if (c.includes('white') || c.includes('cream') || c.includes('ivory') || c.includes('oyster') || c.includes('ecru')) return 'white'
-  if (c.includes('light blue') || c.includes('pale blue') || c.includes('powder')) return 'light blue'
+  // Browns — specific before generic
+  if (c.includes('chocolate') || c.includes('espresso') || c.includes('dark brown')) return 'chocolate'
+  if (c.includes('caramel')) return 'caramel'
+  if (c.includes('camel')) return 'camel'
+  if (c.includes('tan') || c.includes('khaki')) return 'tan'
+  if (c.includes('fawn') || c.includes('buff')) return 'fawn'
+  if (c.includes('wheat') || c.includes('straw')) return 'wheat'
+  if (c.includes('copper') || c.includes('bronze')) return 'copper'
+  if (c.includes('brown') || c.includes('walnut')) return 'brown'
+  // Greens — specific before generic
+  if (c.includes('bottle') || c.includes('racing green')) return 'bottle'
+  if (c.includes('forest') || c.includes('hunter') || c.includes('dark green')) return 'forestgreen'
+  if (c.includes('sage')) return 'sage'
+  if (c.includes('moss')) return 'moss'
+  if (c.includes('olive') || c.includes('army green') || c.includes('military')) return 'olive'
+  if (c.includes('jade')) return 'jade'
+  if (c.includes('teal') || c.includes('petrol')) return 'teal'
+  if (c.includes('green') || c.includes('emerald') || c.includes('mint')) return 'green'
+  // Reds — specific before generic
+  if (c.includes('scarlet') || c.includes('crimson') || c.includes('vermillion')) return 'scarlet'
+  if (c.includes('oxblood')) return 'oxblood'
+  if (c.includes('burgundy') || c.includes('claret') || c.includes('dark red')) return 'burgundy'
+  if (c.includes('wine') || c.includes('maroon')) return 'wine'
+  if (c.includes('terracotta') || c.includes('clay')) return 'terracotta'
+  if (c.includes('coral') || c.includes('salmon')) return 'coral'
+  if (c.includes('rust') || c.includes('burnt sienna')) return 'rust'
+  if (c.includes('red') || c.includes('orange')) return 'red'
+  // Pinks & purples
+  if (c.includes('blush') || c.includes('dusty pink') || c.includes('pale pink') || c.includes('soft pink')) return 'blush'
+  if (c.includes('pink') || c.includes('rose')) return 'pink'
+  if (c.includes('aubergine') || c.includes('eggplant') || c.includes('plum') || c.includes('deep purple')) return 'aubergine'
+  if (c.includes('lavender') || c.includes('lilac') || c.includes('pale purple')) return 'lavender'
+  if (c.includes('purple') || c.includes('violet')) return 'purple'
+  // Yellows & neutrals
+  if (c.includes('mustard') || c.includes('gold') || c.includes('golden')) return 'mustard'
+  if (c.includes('champagne')) return 'champagne'
+  if (c.includes('ecru') || c.includes('parchment')) return 'ecru'
+  if (c.includes('cream') || c.includes('ivory')) return 'cream'
+  if (c.includes('white') || c.includes('oyster') || c.includes('off-white')) return 'white'
   if (c.includes('beige') || c.includes('sand') || c.includes('taupe')) return 'beige'
-  if (c.includes('red') || c.includes('crimson') || c.includes('scarlet') || c.includes('rust') || c.includes('orange') || c.includes('terracotta')) return 'red'
-    if (c.includes('purple') || c.includes('violet') || c.includes('plum') || c.includes('eggplant') || c.includes('lavender')) return 'purple'
   return claudeColor
 }
 
