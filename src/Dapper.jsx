@@ -19335,6 +19335,19 @@ const _BASE_MAP = {
   ivory:        ANALYSIS,
 }
 
+function normalizeMatrixResult(entry) {
+  if (!entry) return entry
+  // If packages already at top level and non-empty, return as-is
+  if (entry.packages && entry.packages.length > 0) return entry
+  // Collect packages from inside shirts (new-style entries)
+  const packages = []
+  ;(entry.shirts || []).forEach(shirt => {
+    ;(shirt.packages || []).forEach(pkg => packages.push(pkg))
+  })
+  if (packages.length > 0) return { ...entry, packages }
+  return entry
+}
+
 function getAnalysisFromPhotoResult(result) {
   if (!result) return ANALYSIS
 
@@ -19363,7 +19376,7 @@ function getAnalysisFromPhotoResult(result) {
   // Look up in PATTERN_MATRIX first
   const matrixKey = colorKey + "|" + finalPatternKey
   if (PATTERN_MATRIX[matrixKey]) {
-    const matrixResult = PATTERN_MATRIX[matrixKey]
+    const matrixResult = normalizeMatrixResult(PATTERN_MATRIX[matrixKey])
     if (result.colorLabel) {
       return { ...matrixResult, suit: { ...matrixResult.suit, colorFamily: result.colorLabel } }
     }
@@ -19695,7 +19708,7 @@ function getLocalAnalysis(text) {
 
   // Lookup in matrix
   const matrixKey = colorKey + "|" + patternKey
-  if (PATTERN_MATRIX[matrixKey]) return { ...PATTERN_MATRIX[matrixKey], _isMatrixMatch: true }
+  if (PATTERN_MATRIX[matrixKey]) return { ...normalizeMatrixResult(PATTERN_MATRIX[matrixKey]), _isMatrixMatch: true }
   // Color or pattern detected but not in matrix — exotic combo
   if (colorMatched || patternMatched) return { ...(_BASE_MAP[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
 
