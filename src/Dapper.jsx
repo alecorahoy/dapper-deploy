@@ -15274,6 +15274,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── TEAL ────────────────────────────────────────────────────────────────────
+  "teal2|solid": {
+    suit: { color: "Teal", pattern: "Solid", hex: "#008080", fabric: "Superfine wool or linen blend — vivid blue-green, cool and saturated" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy is the essential anchor for a teal suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold against teal — the jewel-tone combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich warm contrast cuts through vivid teal" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver against cool teal — refined and precise" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the vivid blue-green suit" },
+          { color: "Dusty Rose", hex: "#C9928B", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm bloom against the cool vivid teal" }
+        ],
+        packages: [
+          { name: "Teal Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toe oxfords"] },
+          { name: "Jewel Tone", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Teal Contrast", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Silver Teal", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Anchor", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Warm Bloom", items: ["Dusty rose tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Teal solid — the jewel-tone suit. Vivid, cool, and worn only by those with absolute conviction."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Three cool tones — pale blue, navy, vivid teal" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "All cool — pale blue, silver, teal. Composed." },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth disrupts the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the cool tonal palette" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool anchor through the blue teal" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool through pale blue and vivid teal" }
+        ],
+        packages: [
+          { name: "Cool Teal Trio", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Teal", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Teal", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Blue Teal", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Blue Teal", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Ice Teal", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Pale blue on teal — blue on blue-green, cool upon cool. The most composed jewel-tone combination."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool tonal — grey and teal in precise cool accord" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue anchor through the cool grey-teal" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth cuts through the cool grey palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through cool grey and vivid teal" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey-teal" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision through the cool grey and teal" }
+        ],
+        packages: [
+          { name: "Grey Teal", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Teal", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Teal", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Grey Teal", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Grey Teal", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Ice Grey Teal", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Grey on teal — the cool shirt steadies the vivid suit into something genuinely composed."
+      }
+    ]
+  },
+
+  "teal2|chalk_stripe": {
+    suit: { color: "Teal", pattern: "Chalk Stripe", hex: "#008080", fabric: "Superfine wool, ivory chalk stripe on vivid teal" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Chalk tradition on the most vivid striped suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Gold catches the chalk stripe on vivid teal" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep warm contrast in the vivid chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the chalk stripe on teal" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark authority in the vivid striped suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the chalk stripe on vivid teal" }
+        ],
+        packages: [
+          { name: "Teal Stripe", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Jewel Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Dark brown monks"] },
+          { name: "Contrast Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Silver Chalk", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Teal Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Chalk Ivory", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Teal chalk stripe — the jewel-tone power suit. Every stripe vivid, every room taken."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue through pale blue and vivid teal stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the teal chalk stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold warmth through the cool vivid stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Warm contrast in the cool-vivid chalk stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through pale blue and teal stripe" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, vivid teal stripe" }
+        ],
+        packages: [
+          { name: "Blue Teal Stripe", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Blue Stripe", items: ["Burgundy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Ice Teal Stripe", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Pale blue on teal chalk stripe — cool composure over the most vivid stripe."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal into the vivid teal chalk stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through grey and vivid stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth through the cool grey stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the cool grey teal stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the grey vivid stripe" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision through the grey teal stripe" }
+        ],
+        packages: [
+          { name: "Grey Teal Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Stripe", items: ["Navy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Grey Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Grey Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Dark Grey Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Ice Stripe", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Grey on teal chalk stripe — cool restraint over vivid structure. Every stripe deliberate."
+      }
+    ]
+  },
+
+  "teal2|glen_plaid": {
+    suit: { color: "Teal", pattern: "Glen Plaid", hex: "#008080", fabric: "Wool-cashmere blend, vivid teal and silver glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy grounds the vivid teal plaid geometry" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel gold picks up the silver overcheck on teal" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the overcheck in the vivid plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the vivid blue-green plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor beneath the vivid plaid structure" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the vivid geometric" }
+        ],
+        packages: [
+          { name: "Teal Plaid Classic", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Jewel Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Plaid Teal", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Plaid Teal", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Plaid Teal", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Plaid Teal", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Teal glen plaid — vivid geometry in the jewel-tone palette. Pattern with conviction."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and vivid teal plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue teal plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel gold through the cool plaid" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, vivid teal plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast in the cool vivid plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark cool through the blue teal plaid" }
+        ],
+        packages: [
+          { name: "Blue Teal Plaid", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Teal Plaid", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Warm Blue Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Blue Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on teal glen plaid — cool light on vivid geometry. Nothing ordinary here."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver tonal into the vivid teal plaid" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Deep blue through the cool grey teal plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth through the cool grey plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through grey and vivid plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey teal plaid" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision in the grey teal plaid" }
+        ],
+        packages: [
+          { name: "Grey Teal Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Plaid", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Grey Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Grey Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Ice Grey Plaid", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Grey on teal glen plaid — composed restraint over vivid geometry. The cool shirt earns the suit."
+      }
+    ]
+  },
+
+  "teal2|herringbone": {
+    suit: { color: "Teal", pattern: "Herringbone", hex: "#008080", fabric: "Mid-weight wool herringbone, vivid teal in fine cool weave" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the vivid teal herringbone" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel gold catches the vivid herringbone in light" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the vivid cool weave" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the vivid texture" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the vivid blue-green weave" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the vivid herringbone" }
+        ],
+        packages: [
+          { name: "Teal Weave", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Jewel Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Weave Teal", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Warm Weave Teal", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Teal Weave", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Weave Teal", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Teal herringbone — vivid colour in textured form. The weave adds dimension to the jewel tone."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and vivid weave" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue teal texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth in the cool herringbone palette" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — the coldest jewel-tone weave combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through cool blue and vivid weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the pale blue teal texture" }
+        ],
+        packages: [
+          { name: "Blue Teal Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Teal Weave", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Warm Blue Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on teal herringbone — cool and vivid in the same weave. Completely assured."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool tonal — grey and vivid teal through texture" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through grey and vivid weave" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Single jewel warmth in the cool grey texture" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through cool grey and vivid weave" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision through the grey teal herringbone" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark — grey, charcoal, vivid teal weave" }
+        ],
+        packages: [
+          { name: "Grey Teal Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Weave", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Grey Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Grey Weave", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Teal Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on teal herringbone — cool restraint over vivid texture. Every thread a degree of composed."
+      }
+    ]
+  },
+
+  "teal2|tweed": {
+    suit: { color: "Teal", pattern: "Tweed", hex: "#008080", fabric: "Donegal tweed, vivid teal base with silver and navy flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy picks up the navy flecks in the teal tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver catches the metallic flecks in the vivid tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel gold through the vivid flecked texture" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Warm depth through the vivid teal flecks" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the most vivid Donegal" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the vivid country suit" }
+        ],
+        packages: [
+          { name: "Teal Donegal", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Silver Fleck Teal", items: ["Silver grey tie", "White pocket square", "Charcoal suede derbies"] },
+          { name: "Jewel Tweed", items: ["Warm gold knit tie", "No pocket square", "Dark brown monks"] },
+          { name: "Berry Fleck Teal", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Ivory Teal Tweed", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Teal Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Teal tweed — the most vivid Donegal. Silver and navy flecks in a jewel-tone landscape."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and vivid teal tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool metallic across the blue vivid tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth through the cool teal tweed" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, vivid teal flecks" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Warm contrast through cool blue and vivid tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark through the pale blue vivid tweed" }
+        ],
+        packages: [
+          { name: "Sky Teal Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Jewel Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Teal Tweed", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Berry Blue Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on teal tweed — the clear cool sky above the most vivid country landscape."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver picks up the metallic flecks in the teal tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and vivid teal flecks" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth through the cool grey tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Warm contrast through grey and vivid flecks" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool through the grey teal tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum tonal dark through the cool vivid tweed" }
+        ],
+        packages: [
+          { name: "Grey Teal Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Tweed", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Berry Grey Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Grey Tweed", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Teal Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on teal tweed — the silver flecks emerge from the vivid ground. Cool and jewel-bright."
+      }
+    ]
+  },
+
+  "teal2|linen": {
+    suit: { color: "Teal", pattern: "Linen", hex: "#008080", fabric: "Italian linen, vivid teal — cool blue-green with natural slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor in the most vivid summer suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth in the vivid linen suit" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool metallic against vivid teal linen" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth against the vivid cool linen" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm contrast in the vivid summer suit" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "One dark anchor in the most vivid linen" }
+        ],
+        packages: [
+          { name: "Teal Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Dark brown leather loafers"] },
+          { name: "Jewel Linen", items: ["Warm gold knit tie", "No pocket square", "Dark brown loafers"] },
+          { name: "Silver Teal Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ivory Teal Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Berry Teal Linen", items: ["Burgundy silk tie", "White linen pocket square", "Dark brown loafers"] },
+          { name: "Dark Teal Linen", items: ["Charcoal knit tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Teal linen — the jewel-tone summer suit. Cool, vivid, and impossible to ignore in any light."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Three cool blues — pale, navy, vivid teal linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "All cool — pale blue, silver, teal linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth disrupts the cool linen palette" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "The coldest jewel-tone summer combination" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm contrast through the cool vivid linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark through the cool vivid linen palette" }
+        ],
+        packages: [
+          { name: "Blue Teal Linen", items: ["Navy tie", "Pale blue pocket square", "Dark brown leather loafers"] },
+          { name: "Silver Blue Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Ice Teal Linen", items: ["Ice blue linen tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Berry Blue Linen", items: ["Burgundy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on teal linen — three cool tones from shirt to suit. The Riviera in jewel-tone."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool tonal — grey into the vivid teal linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Blue through grey and vivid linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Single jewel warmth in the cool grey linen" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Icy precision through the grey teal linen" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Warm contrast through cool grey and vivid linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark through the cool vivid linen" }
+        ],
+        packages: [
+          { name: "Grey Teal Linen", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Navy Grey Linen", items: ["Navy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Gold Grey Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Ice Grey Linen", items: ["Ice blue linen tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Berry Grey Linen", items: ["Burgundy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Dark Grey Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Grey on teal linen — the cool shirt steadies the jewel-tone summer suit into pure composure."
+      }
+    ]
+  },
+
+  "teal2|houndstooth": {
+    suit: { color: "Teal", pattern: "Houndstooth", hex: "#008080", fabric: "Wool blend, vivid teal and silver houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the vivid teal check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the check element on vivid teal ground" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel gold picks up the silver check warmly" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the vivid geometric" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the silver check on vivid teal" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the vivid blue-green check" }
+        ],
+        packages: [
+          { name: "Teal Check Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Check Teal", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Jewel Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Check Teal", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ivory Teal Check", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Teal Check", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] }
+        ],
+        styleMantra: "Teal houndstooth — the jewel-tone check. Silver geometric on the most vivid ground in tailoring."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and vivid teal check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue teal check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Jewel warmth in the cool check palette" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, vivid teal check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the cool vivid check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through pale blue and vivid check" }
+        ],
+        packages: [
+          { name: "Blue Teal Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Teal Check", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Warm Blue Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Blue Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on teal houndstooth — the cool light reveals the vivid check in full. Impossible to overlook."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver tonal into the vivid teal check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and vivid houndstooth" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Single jewel warmth in the cool grey check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through cool grey and vivid check" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision through the grey teal check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark — the check is the statement" }
+        ],
+        packages: [
+          { name: "Grey Teal Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Check", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Warm Grey Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Grey Check", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Teal Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on teal houndstooth — cool tonal restraint over the most vivid check. The grey earns the suit."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -15710,6 +16173,7 @@ function getLocalAnalysis(text) {
         else if (/bottle green suit|bottle green blazer|bottle suit|deep green suit|dark green suit|rich green suit|hunter green suit|bottle wool|bottle linen|bottle tweed|bottle herringbone|bottle houndstooth|bottle glen plaid|hunter green blazer|british racing green suit|deep bottle suit|saturated green suit|dark hunter suit/.test(t)) { colorKey = "bottle"; colorMatched = true }
         else if (/caramel suit|caramel blazer|caramel brown suit|golden brown suit|warm brown suit|caramel wool|caramel linen|caramel tweed|caramel herringbone|caramel houndstooth|caramel glen plaid|caramel chalk stripe|mid brown suit|golden mid brown|toffee suit|amber brown suit|warm mid brown suit/.test(t)) { colorKey = "caramel"; colorMatched = true }
         else if (/coral suit|coral blazer|coral linen|coral tweed|coral wool|coral herringbone|coral houndstooth|coral glen plaid|coral chalk stripe|orange pink suit|warm pink suit|vivid pink suit|bright pink suit|salmon suit|salmon blazer|melon suit|tropical pink suit|summer coral suit/.test(t)) { colorKey = "coral"; colorMatched = true }
+        else if (/teal suit|teal blazer|teal linen|teal tweed|teal wool|teal herringbone|teal houndstooth|teal glen plaid|teal chalk stripe|blue green suit|blue-green suit|jewel blue suit|vivid teal suit|teal green suit|peacock suit|peacock blazer|teal colored suit/.test(t)) { colorKey = "teal2"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
