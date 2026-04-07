@@ -18515,6 +18515,427 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  "fawn|solid": {
+    suit: { color: "Fawn", pattern: "Solid", fabric: "Wool Flannel", lapel: "Notch", buttons: "Two-Button", pocket: "Patch", vent: "Side Vents", lining: "Champagne Silk" },
+    shirts: [
+      { color: "Ivory White", pattern: "Solid", fabric: "Egyptian Cotton Poplin", collar: "Spread", cuffs: "French",
+        ties: [
+          { color: "Burgundy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Chocolate Brown", pattern: "Micro Dot", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Rust Orange", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Olive Green", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Prince Albert" }
+        ],
+        packages: [
+          { label: "Country Gentleman", pocket_square: "Ivory Linen with Burgundy Border", shoes: "Dark Tan Brogues", belt: "Dark Tan Leather", socks: "Burgundy Wool", watch: "Bronze Case Field Watch" },
+          { label: "Forest Walk", pocket_square: "Forest Green Wool Pocket Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Forest Green Merino", watch: "Khaki Canvas Strap Watch" },
+          { label: "Heritage Club", pocket_square: "Chocolate Pocket Square with White Edge", shoes: "Chestnut Monk Strap", belt: "Chestnut Leather", socks: "Chocolate Cotton", watch: "Brown Leather Dress Watch" },
+          { label: "Maritime Classic", pocket_square: "White Linen with Navy Trim", shoes: "Navy Suede Loafers", belt: "Navy Blue Belt", socks: "Navy Blue Cotton", watch: "Navy Dial Stainless Watch" },
+          { label: "Harvest Warmth", pocket_square: "Rust Linen Square", shoes: "Tan Suede Chukka Boot", belt: "Tan Suede Belt", socks: "Rust Wool", watch: "Copper Dial Watch" },
+          { label: "Gentleman Sportsman", pocket_square: "Olive Paisley Pocket Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Olive Wool", watch: "Green Canvas Strap Watch" }
+        ]
+      },
+      { color: "Pale Blue", pattern: "Solid", fabric: "Pinpoint Oxford", collar: "Point", cuffs: "Button",
+        ties: [
+          { color: "Dark Brown", pattern: "Herringbone Weave", fabric: "Wool Silk Blend", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Caramel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Russet", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Teal", pattern: "Solid", fabric: "Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Wine", pattern: "Micro Check", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Charcoal", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Countryside Ease", pocket_square: "Pale Blue Silk Pocket Square", shoes: "Dark Brown Longwing Brogue", belt: "Dark Brown Leather", socks: "Tan Merino", watch: "Brown Leather Strap Watch" },
+          { label: "Warm Honey", pocket_square: "Caramel Linen Square", shoes: "Caramel Suede Loafer", belt: "Tan Leather", socks: "Caramel Cotton", watch: "Gold Case Dress Watch" },
+          { label: "Autumn Warmth", pocket_square: "Rust Wool Square", shoes: "Russet Oxford", belt: "Russet Leather", socks: "Rust Wool", watch: "Copper Toned Watch" },
+          { label: "Ocean Breeze", pocket_square: "Teal Silk Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Teal Cotton", watch: "Stainless Steel Dive Watch" },
+          { label: "Vine and Wool", pocket_square: "Wine Linen Pocket Square", shoes: "Dark Tan Derby", belt: "Tan Leather", socks: "Wine Merino", watch: "Rose Gold Case Watch" },
+          { label: "Urban Dusk", pocket_square: "Charcoal Wool Pocket Square", shoes: "Charcoal Suede Desert Boot", belt: "Dark Brown Leather", socks: "Charcoal Cotton", watch: "Gunmetal Watch" }
+        ]
+      },
+      { color: "Ecru", pattern: "Subtle Stripe", fabric: "Zephyr Cotton", collar: "Cutaway", cuffs: "French",
+        ties: [
+          { color: "Chocolate", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Terracotta", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Pin Dot", fabric: "Silk", width: "Slim", knot: "Pratt" },
+          { color: "Sage Green", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Burgundy", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Champagne", pattern: "Solid", fabric: "Satin Silk", width: "Standard", knot: "Full Windsor" }
+        ],
+        packages: [
+          { label: "Sun-Bleached Gentleman", pocket_square: "Chocolate Linen Square", shoes: "Chocolate Double Monk", belt: "Chocolate Leather", socks: "Ecru Cotton", watch: "Brown Leather Dress Watch" },
+          { label: "Desert Sage", pocket_square: "Terracotta Linen Square", shoes: "Tan Woven Loafer", belt: "Tan Leather", socks: "Terracotta Cotton", watch: "Bronze Dial Watch" },
+          { label: "Pale and Proper", pocket_square: "White Linen with Navy Tip", shoes: "Dark Navy Derby", belt: "Navy Leather", socks: "Navy Cotton", watch: "Navy Dial Watch" },
+          { label: "Garden Party", pocket_square: "Sage Silk Pocket Square", shoes: "Tan Suede Tassel Loafer", belt: "Tan Suede Belt", socks: "Sage Merino", watch: "Green Dial Dress Watch" },
+          { label: "Harvest Twilight", pocket_square: "Burgundy Paisley Pocket Square", shoes: "Burgundy Cap Toe Oxford", belt: "Burgundy Leather", socks: "Burgundy Wool", watch: "Silver Case Watch" },
+          { label: "Luminous Formal", pocket_square: "Champagne Silk Pocket Square", shoes: "Champagne Velvet Loafer", belt: "Tan Patent Leather", socks: "Ivory Cotton", watch: "Gold Dress Watch" }
+        ]
+      }
+    ],
+    styleMantra: "Fawn flannel carries the warmth of open fields — a palette that speaks quietly and commands completely."
+  },
+  "fawn|chalk_stripe": {
+    suit: { color: "Fawn", pattern: "Chalk Stripe", fabric: "Chalk Stripe Worsted Wool", lapel: "Peak", buttons: "Two-Button", pocket: "Besom", vent: "Double Vent", lining: "Ivory Bemberg" },
+    shirts: [
+      { color: "Crisp White", pattern: "Solid", fabric: "Thomas Mason Poplin", collar: "Spread", cuffs: "French",
+        ties: [
+          { color: "Deep Burgundy", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Navy Blue", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Dark Green", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Chocolate", pattern: "Micro Weave", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Camel", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Charcoal", pattern: "Pin Dot", fabric: "Silk", width: "Standard", knot: "Pratt" }
+        ],
+        packages: [
+          { label: "Savile Row Authority", pocket_square: "White Linen Flat Fold", shoes: "Black Cap Toe Oxford", belt: "Black Leather", socks: "Burgundy Over-the-Calf", watch: "Silver Dress Watch" },
+          { label: "Club Power", pocket_square: "Navy Repp Stripe Pocket Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Wool", watch: "Navy Dial Watch" },
+          { label: "Hunting Lodge", pocket_square: "Dark Green Linen Square", shoes: "Dark Green Suede Derby", belt: "Dark Brown Leather", socks: "Forest Green Wool", watch: "Bronze Case Watch" },
+          { label: "Estate Manager", pocket_square: "Brown Silk Pocket Square", shoes: "Chestnut Brogue", belt: "Chestnut Leather", socks: "Chocolate Merino", watch: "Brown Leather Dress Watch" },
+          { label: "Camel Classic", pocket_square: "Camel Cashmere Square", shoes: "Tan Cap Toe Oxford", belt: "Tan Leather", socks: "Camel Merino", watch: "Gold Tonneau Watch" },
+          { label: "City Fog", pocket_square: "Charcoal Silk Pocket Square", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Charcoal Wool", watch: "Gunmetal Dress Watch" }
+        ]
+      },
+      { color: "Light Blue", pattern: "Fine Stripe", fabric: "Egyptian Cotton", collar: "Spread", cuffs: "French",
+        ties: [
+          { color: "Burgundy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Rust", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Slate Blue", pattern: "Micro Dot", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Tan", pattern: "Solid", fabric: "Wool Knit", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "British Racing", pocket_square: "Burgundy Silk Pocket Square", shoes: "Dark Brown Longwing", belt: "Dark Brown Leather", socks: "Burgundy Over-the-Calf", watch: "Rose Gold Watch" },
+          { label: "Estate Classic", pocket_square: "Chocolate Linen Square", shoes: "Dark Tan Monk Strap", belt: "Chestnut Leather", socks: "Chocolate Wool", watch: "Brown Leather Watch" },
+          { label: "Amber Harvest", pocket_square: "Rust Pocket Square", shoes: "Russet Brogue", belt: "Russet Leather", socks: "Rust Cotton", watch: "Copper Dial Watch" },
+          { label: "Blue Chalk", pocket_square: "Slate Blue Silk Square", shoes: "Slate Suede Derby", belt: "Dark Navy Belt", socks: "Slate Blue Wool", watch: "Blue Dial Watch" },
+          { label: "Forest Authority", pocket_square: "Forest Green Pocket Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Forest Merino", watch: "Green Dial Watch" },
+          { label: "Warm Stripe", pocket_square: "Tan Cashmere Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Tan Merino", watch: "Champagne Dial Watch" }
+        ]
+      },
+      { color: "Pale Pink", pattern: "Solid", fabric: "Luxury Twill Cotton", collar: "Semi-Spread", cuffs: "French",
+        ties: [
+          { color: "Chocolate Brown", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Burgundy", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Camel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Sage", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Rust", pattern: "Solid", fabric: "Wool", width: "Standard", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Rose and Fawn", pocket_square: "White Linen with Pink Edge", shoes: "Chestnut Longwing", belt: "Chestnut Leather", socks: "Pink Merino", watch: "Rose Gold Dress Watch" },
+          { label: "Chalk and Navy", pocket_square: "Navy Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Wool", watch: "Navy Dial Watch" },
+          { label: "Twilight Garden", pocket_square: "Burgundy Paisley Square", shoes: "Burgundy Cap Toe", belt: "Burgundy Leather", socks: "Burgundy Over-the-Calf", watch: "Silver Case Watch" },
+          { label: "Warm Blush", pocket_square: "Camel Pocket Square", shoes: "Camel Derby", belt: "Tan Leather", socks: "Camel Cotton", watch: "Gold Case Watch" },
+          { label: "Sage Garden", pocket_square: "Sage Silk Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Sage Wool", watch: "Green Canvas Watch" },
+          { label: "Autumn Blush", pocket_square: "Rust Linen Square", shoes: "Russet Derby", belt: "Russet Leather", socks: "Rust Merino", watch: "Bronze Case Watch" }
+        ]
+      }
+    ],
+    styleMantra: "Chalk stripes on fawn are the quiet grammar of Savile Row — structure without severity, authority without effort."
+  },
+  "fawn|glen_plaid": {
+    suit: { color: "Fawn", pattern: "Glen Plaid", fabric: "Glen Plaid Milled Wool", lapel: "Notch", buttons: "Three-Button", pocket: "Patch", vent: "Side Vents", lining: "Champagne Jacquard" },
+    shirts: [
+      { color: "White", pattern: "Solid", fabric: "Broadcloth", collar: "Spread", cuffs: "French",
+        ties: [
+          { color: "Burgundy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Chocolate", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Micro Dot", fabric: "Silk", width: "Standard", knot: "Pratt" },
+          { color: "Caramel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Rust", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Scottish Estate", pocket_square: "Ivory Linen Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Burgundy Wool", watch: "Bronze Field Watch" },
+          { label: "Highland Walk", pocket_square: "Forest Green Wool Square", shoes: "Tan Brogue", belt: "Tan Leather", socks: "Forest Merino", watch: "Green Dial Watch" },
+          { label: "Moor and Tweed", pocket_square: "Chocolate Silk Square", shoes: "Chestnut Longwing", belt: "Chestnut Leather", socks: "Chocolate Cotton", watch: "Brown Leather Watch" },
+          { label: "Aristocratic Blue", pocket_square: "Navy Pocket Square", shoes: "Dark Navy Derby", belt: "Navy Leather", socks: "Navy Wool", watch: "Navy Dial Watch" },
+          { label: "Autumn Estate", pocket_square: "Caramel Cashmere Square", shoes: "Caramel Suede Loafer", belt: "Tan Leather", socks: "Caramel Merino", watch: "Gold Watch" },
+          { label: "Harvest Glen", pocket_square: "Rust Wool Square", shoes: "Russet Brogue", belt: "Russet Leather", socks: "Rust Merino", watch: "Copper Dial Watch" }
+        ]
+      },
+      { color: "Blue Oxford", pattern: "Oxford Weave", fabric: "OCBD Cotton", collar: "Button-Down", cuffs: "Button",
+        ties: [
+          { color: "Burgundy", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Dark Brown", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Olive", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Rust Orange", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Teal", pattern: "Solid", fabric: "Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Wine", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Prep School Legacy", pocket_square: "Burgundy Pocket Square", shoes: "Dark Brown Penny Loafer", belt: "Dark Brown Leather", socks: "Burgundy Argyle", watch: "Gold Case Watch" },
+          { label: "Gentleman Hunter", pocket_square: "Brown Linen Square", shoes: "Dark Tan Chukka", belt: "Tan Leather", socks: "Brown Merino", watch: "Khaki Canvas Watch" },
+          { label: "Field and Stream", pocket_square: "Olive Wool Square", shoes: "Olive Suede Derby", belt: "Dark Brown Leather", socks: "Olive Wool", watch: "Green Canvas Watch" },
+          { label: "Autumn Fire", pocket_square: "Rust Linen Square", shoes: "Russet Brogue", belt: "Russet Leather", socks: "Rust Cotton", watch: "Bronze Watch" },
+          { label: "Coastal Plaid", pocket_square: "Teal Silk Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Teal Cotton", watch: "Silver Watch" },
+          { label: "Purple Valley", pocket_square: "Wine Paisley Square", shoes: "Burgundy Derby", belt: "Burgundy Leather", socks: "Wine Merino", watch: "Rose Gold Watch" }
+        ]
+      },
+      { color: "Cream", pattern: "Solid", fabric: "Superfine Cotton", collar: "Tab", cuffs: "French",
+        ties: [
+          { color: "Dark Navy", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Chocolate", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Burgundy", pattern: "Micro Check", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Rust", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Caramel", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Ivory Glen", pocket_square: "White Linen Square", shoes: "Dark Navy Derby", belt: "Navy Leather", socks: "Navy Wool", watch: "Silver Dress Watch" },
+          { label: "Glen Chocolate", pocket_square: "Chocolate Silk Square", shoes: "Chocolate Double Monk", belt: "Chocolate Leather", socks: "Chocolate Over-the-Calf", watch: "Brown Leather Watch" },
+          { label: "Manor Burgundy", pocket_square: "Burgundy Pocket Square", shoes: "Burgundy Oxford", belt: "Burgundy Leather", socks: "Burgundy Wool", watch: "Silver Case Watch" },
+          { label: "Fern and Fawn", pocket_square: "Forest Pocket Square", shoes: "Dark Olive Monk", belt: "Dark Brown Leather", socks: "Forest Wool", watch: "Bronze Dial Watch" },
+          { label: "Ember Cream", pocket_square: "Rust Silk Square", shoes: "Russet Longwing", belt: "Russet Leather", socks: "Rust Merino", watch: "Copper Toned Watch" },
+          { label: "Honey Glen", pocket_square: "Caramel Cashmere Square", shoes: "Caramel Derby", belt: "Tan Leather", socks: "Caramel Cotton", watch: "Gold Dress Watch" }
+        ]
+      }
+    ],
+    styleMantra: "Glen plaid on fawn is the language of landed gentry — ancient patterns worn with modern ease, roots worn proudly."
+  },
+  "fawn|herringbone": {
+    suit: { color: "Fawn", pattern: "Herringbone", fabric: "Herringbone Tweed Wool", lapel: "Notch", buttons: "Two-Button", pocket: "Patch", vent: "Single Vent", lining: "Warm Amber Silk" },
+    shirts: [
+      { color: "White", pattern: "Solid", fabric: "Sea Island Cotton", collar: "Spread", cuffs: "French",
+        ties: [
+          { color: "Chocolate Brown", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Burgundy", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Rust", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Pin Dot", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Camel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Autumnal Scholar", pocket_square: "White Linen with Chocolate Edge", shoes: "Chestnut Longwing Brogue", belt: "Chestnut Leather", socks: "Chocolate Wool", watch: "Brown Leather Watch" },
+          { label: "Woodland Prestige", pocket_square: "Forest Wool Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Forest Green Merino", watch: "Green Dial Watch" },
+          { label: "Crimson Manor", pocket_square: "Burgundy Linen Square", shoes: "Burgundy Cap Toe", belt: "Burgundy Leather", socks: "Burgundy Over-the-Calf", watch: "Silver Watch" },
+          { label: "Harvest Light", pocket_square: "Rust Pocket Square", shoes: "Russet Brogue", belt: "Russet Leather", socks: "Rust Merino", watch: "Bronze Case Watch" },
+          { label: "Pale Navy", pocket_square: "Navy Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Cotton", watch: "Navy Dial Watch" },
+          { label: "Honey Weave", pocket_square: "Camel Cashmere Square", shoes: "Tan Derby", belt: "Tan Leather", socks: "Camel Merino", watch: "Gold Watch" }
+        ]
+      },
+      { color: "Ecru", pattern: "Subtle Stripe", fabric: "Zephyr Cotton", collar: "Spread", cuffs: "Button",
+        ties: [
+          { color: "Terracotta", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Dark Brown", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Teal", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Olive", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Burgundy", pattern: "Micro Weave", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Slate Blue", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Clay and Fawn", pocket_square: "Terracotta Linen Square", shoes: "Tan Suede Loafer", belt: "Tan Leather", socks: "Terracotta Cotton", watch: "Bronze Watch" },
+          { label: "Deep Roots", pocket_square: "Chocolate Paisley Square", shoes: "Dark Brown Monk", belt: "Dark Brown Leather", socks: "Chocolate Wool", watch: "Brown Leather Watch" },
+          { label: "Herringbone Teal", pocket_square: "Teal Silk Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Teal Merino", watch: "Teal Dial Watch" },
+          { label: "Field Marshal", pocket_square: "Olive Wool Square", shoes: "Olive Derby", belt: "Dark Brown Leather", socks: "Olive Merino", watch: "Canvas Strap Watch" },
+          { label: "Harvest Prestige", pocket_square: "Burgundy Pocket Square", shoes: "Burgundy Brogue", belt: "Burgundy Leather", socks: "Burgundy Wool", watch: "Silver Watch" },
+          { label: "Fawn and Fog", pocket_square: "Slate Blue Pocket Square", shoes: "Grey Suede Desert Boot", belt: "Dark Brown Leather", socks: "Slate Wool", watch: "Steel Watch" }
+        ]
+      },
+      { color: "Pale Yellow", pattern: "Solid", fabric: "Fine Poplin", collar: "Point", cuffs: "Button",
+        ties: [
+          { color: "Chocolate", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Rust", pattern: "Micro Check", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Olive Brown", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Burgundy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Half Windsor" }
+        ],
+        packages: [
+          { label: "Straw and Soil", pocket_square: "Chocolate Linen Square", shoes: "Chocolate Longwing", belt: "Chocolate Leather", socks: "Tan Merino", watch: "Brown Leather Watch" },
+          { label: "Mustard Glen", pocket_square: "Forest Green Pocket Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Forest Wool", watch: "Bronze Watch" },
+          { label: "Sailor Heritage", pocket_square: "Navy Pocket Square", shoes: "Dark Brown Derby", belt: "Dark Navy Belt", socks: "Navy Cotton", watch: "Navy Dial Watch" },
+          { label: "Amber Rush", pocket_square: "Rust Silk Square", shoes: "Russet Brogue", belt: "Russet Leather", socks: "Rust Wool", watch: "Copper Dial Watch" },
+          { label: "Pastoral Olive", pocket_square: "Olive Wool Square", shoes: "Olive Suede Monk", belt: "Dark Brown Leather", socks: "Olive Merino", watch: "Green Canvas Watch" },
+          { label: "Pale Harvest", pocket_square: "Burgundy Pocket Square", shoes: "Burgundy Cap Toe", belt: "Burgundy Leather", socks: "Burgundy Wool", watch: "Silver Dress Watch" }
+        ]
+      }
+    ],
+    styleMantra: "Fawn herringbone is the texture of tradition — every chevron a quiet nod to the looms that clothed generations."
+  },
+  "fawn|tweed": {
+    suit: { color: "Fawn", pattern: "Tweed", fabric: "Shetland Tweed", lapel: "Notch", buttons: "Three-Button", pocket: "Patch with Flap", vent: "Side Vents", lining: "Warm Tan Bemberg" },
+    shirts: [
+      { color: "White", pattern: "Solid", fabric: "Brushed Cotton", collar: "Button-Down", cuffs: "Button",
+        ties: [
+          { color: "Burgundy", pattern: "Solid", fabric: "Wool Knit", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Repp Stripe", fabric: "Wool Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Chocolate Brown", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Rust Orange", pattern: "Solid", fabric: "Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Caramel", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Solid", fabric: "Wool Knit", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Shetland Classic", pocket_square: "Ivory Wool Pocket Square", shoes: "Dark Brown Brogue", belt: "Dark Brown Leather", socks: "Burgundy Wool", watch: "Bronze Case Field Watch" },
+          { label: "Green Highlands", pocket_square: "Forest Wool Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Forest Green Wool", watch: "Canvas Strap Watch" },
+          { label: "Harvest Tweed", pocket_square: "Chocolate Pocket Square", shoes: "Chestnut Brogue", belt: "Chestnut Leather", socks: "Chocolate Wool", watch: "Brown Leather Watch" },
+          { label: "Ember Tweed", pocket_square: "Rust Wool Square", shoes: "Russet Longwing", belt: "Russet Leather", socks: "Rust Wool", watch: "Copper Dial Watch" },
+          { label: "Caramel Moorland", pocket_square: "Caramel Cashmere Square", shoes: "Caramel Derby", belt: "Tan Leather", socks: "Caramel Merino", watch: "Gold Case Watch" },
+          { label: "Tweed and Navy", pocket_square: "Navy Wool Square", shoes: "Navy Suede Derby", belt: "Dark Brown Leather", socks: "Navy Wool", watch: "Navy Dial Watch" }
+        ]
+      },
+      { color: "Blue Oxford", pattern: "Oxford Weave", fabric: "Brushed Oxford Cotton", collar: "Button-Down", cuffs: "Button",
+        ties: [
+          { color: "Chocolate", pattern: "Repp Stripe", fabric: "Silk Wool", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Burgundy", pattern: "Solid", fabric: "Wool Knit", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Olive", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Camel", pattern: "Solid", fabric: "Wool Knit", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Teal", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Wine", pattern: "Solid", fabric: "Wool Knit", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Blue Tweed Scholar", pocket_square: "Chocolate Linen Square", shoes: "Dark Brown Longwing", belt: "Dark Brown Leather", socks: "Chocolate Merino", watch: "Brown Leather Watch" },
+          { label: "Country Manor", pocket_square: "Burgundy Wool Square", shoes: "Burgundy Brogue", belt: "Burgundy Leather", socks: "Burgundy Wool", watch: "Silver Watch" },
+          { label: "Pastoral Blue", pocket_square: "Olive Pocket Square", shoes: "Olive Suede Chukka", belt: "Dark Brown Leather", socks: "Olive Wool", watch: "Bronze Watch" },
+          { label: "Sun and Straw", pocket_square: "Camel Cashmere Square", shoes: "Camel Suede Loafer", belt: "Tan Leather", socks: "Camel Cotton", watch: "Gold Watch" },
+          { label: "Moorland Teal", pocket_square: "Teal Silk Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Teal Merino", watch: "Steel Watch" },
+          { label: "Vintage Wine", pocket_square: "Wine Wool Square", shoes: "Dark Tan Derby", belt: "Tan Leather", socks: "Wine Merino", watch: "Rose Gold Watch" }
+        ]
+      },
+      { color: "Cream", pattern: "Subtle Check", fabric: "Cream Cotton Flannel", collar: "Spread", cuffs: "Button",
+        ties: [
+          { color: "Forest Green", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Rust", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Micro Dot", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Chocolate", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Burgundy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Tan", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Cream Tweed Estate", pocket_square: "Forest Linen Square", shoes: "Dark Olive Brogue", belt: "Dark Brown Leather", socks: "Forest Green Wool", watch: "Bronze Dial Watch" },
+          { label: "Ember and Cream", pocket_square: "Rust Pocket Square", shoes: "Russet Derby", belt: "Russet Leather", socks: "Rust Cotton", watch: "Copper Watch" },
+          { label: "Pale Navy Tweed", pocket_square: "Navy Silk Square", shoes: "Dark Brown Oxford", belt: "Dark Brown Leather", socks: "Navy Cotton", watch: "Navy Watch" },
+          { label: "Root and Branch", pocket_square: "Chocolate Wool Square", shoes: "Chestnut Longwing", belt: "Chestnut Leather", socks: "Chocolate Merino", watch: "Brown Leather Watch" },
+          { label: "Autumn Estate", pocket_square: "Burgundy Pocket Square", shoes: "Burgundy Cap Toe", belt: "Burgundy Leather", socks: "Burgundy Wool", watch: "Silver Watch" },
+          { label: "Warmth of Wool", pocket_square: "Tan Cashmere Square", shoes: "Tan Longwing", belt: "Tan Leather", socks: "Tan Merino", watch: "Gold Dress Watch" }
+        ]
+      }
+    ],
+    styleMantra: "Fawn tweed is the suit of the open moor — rough at touch, refined at heart, impossible to imitate."
+  },
+  "fawn|linen": {
+    suit: { color: "Fawn", pattern: "Linen", fabric: "Belgian Linen", lapel: "Notch", buttons: "Two-Button", pocket: "Patch", vent: "Single Vent", lining: "Unlined" },
+    shirts: [
+      { color: "White", pattern: "Solid", fabric: "Linen", collar: "Spread", cuffs: "Button",
+        ties: [
+          { color: "Chocolate Brown", pattern: "Solid", fabric: "Grenadine Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Repp Stripe", fabric: "Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Rust Orange", pattern: "Solid", fabric: "Knit Linen", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Sage Green", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Terracotta", pattern: "Solid", fabric: "Knit Linen", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Olive", pattern: "Repp Stripe", fabric: "Silk", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Linen and Leather", pocket_square: "White Linen Square", shoes: "Dark Tan Suede Loafer", belt: "Tan Leather", socks: "No-Show Tan Cotton", watch: "Brown Leather Dress Watch" },
+          { label: "Mediterranean Blue", pocket_square: "Navy Linen Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Cotton", watch: "Navy Dial Watch" },
+          { label: "Sahara Linen", pocket_square: "Rust Linen Square", shoes: "Tan Woven Espadrille Loafer", belt: "Tan Leather", socks: "Rust No-Show", watch: "Bronze Watch" },
+          { label: "Garden Sage", pocket_square: "Sage Linen Square", shoes: "Olive Suede Loafer", belt: "Tan Leather", socks: "Sage Cotton", watch: "Green Dial Watch" },
+          { label: "Terracotta Sun", pocket_square: "Terracotta Linen Square", shoes: "Tan Canvas Loafer", belt: "Tan Leather", socks: "Terracotta Cotton", watch: "Bronze Dial Watch" },
+          { label: "Olive Coast", pocket_square: "Olive Linen Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Olive No-Show", watch: "Canvas Strap Watch" }
+        ]
+      },
+      { color: "Pale Blue", pattern: "Solid", fabric: "Linen", collar: "Spread", cuffs: "Button",
+        ties: [
+          { color: "Navy", pattern: "Solid", fabric: "Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Chocolate", pattern: "Solid", fabric: "Linen Knit", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Caramel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Sage", pattern: "Solid", fabric: "Linen", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Rust", pattern: "Solid", fabric: "Linen Knit", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Teal", pattern: "Solid", fabric: "Silk", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Riviera Fawn", pocket_square: "White Linen Square", shoes: "Navy Suede Loafer", belt: "Navy Leather Belt", socks: "No-Show Navy", watch: "Navy Dial Watch" },
+          { label: "Sahel Blue", pocket_square: "Chocolate Linen Square", shoes: "Dark Tan Derby", belt: "Tan Leather", socks: "Tan No-Show", watch: "Brown Leather Watch" },
+          { label: "Coastal Honey", pocket_square: "Caramel Linen Square", shoes: "Caramel Woven Loafer", belt: "Tan Leather", socks: "Caramel No-Show", watch: "Gold Watch" },
+          { label: "Garden Blue", pocket_square: "Sage Linen Square", shoes: "Olive Suede Derby", belt: "Tan Leather", socks: "Sage No-Show", watch: "Green Canvas Watch" },
+          { label: "Blue and Amber", pocket_square: "Rust Pocket Square", shoes: "Russet Loafer", belt: "Russet Leather", socks: "Rust No-Show", watch: "Copper Dial Watch" },
+          { label: "Aqua Coast", pocket_square: "Teal Linen Square", shoes: "White Leather Derby", belt: "Tan Leather", socks: "Teal No-Show", watch: "Steel Dive Watch" }
+        ]
+      },
+      { color: "Ecru", pattern: "Solid", fabric: "Lightweight Linen", collar: "Open Collar", cuffs: "Button",
+        ties: [
+          { color: "Chocolate", pattern: "Solid", fabric: "Linen", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Burgundy", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Navy", pattern: "Micro Dot", fabric: "Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Terracotta", pattern: "Solid", fabric: "Linen Knit", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Caramel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Parchment and Earth", pocket_square: "Chocolate Linen Square", shoes: "Dark Tan Derby", belt: "Tan Leather", socks: "Tan No-Show", watch: "Bronze Watch" },
+          { label: "Sunbaked Elegance", pocket_square: "Burgundy Linen Square", shoes: "Burgundy Derby", belt: "Burgundy Leather", socks: "Ecru No-Show", watch: "Rose Gold Watch" },
+          { label: "Pale Coast", pocket_square: "Navy Linen Square", shoes: "Dark Brown Loafer", belt: "Dark Brown Leather", socks: "Navy No-Show", watch: "Navy Dial Watch" },
+          { label: "Desert Terracotta", pocket_square: "Terracotta Linen Square", shoes: "Tan Canvas Loafer", belt: "Tan Leather", socks: "Terracotta No-Show", watch: "Bronze Dial Watch" },
+          { label: "Ecru Forest", pocket_square: "Forest Linen Square", shoes: "Dark Olive Loafer", belt: "Dark Brown Leather", socks: "Forest No-Show", watch: "Canvas Watch" },
+          { label: "Honey Ecru", pocket_square: "Caramel Linen Square", shoes: "Caramel Suede Loafer", belt: "Tan Leather", socks: "Caramel No-Show", watch: "Gold Watch" }
+        ]
+      }
+    ],
+    styleMantra: "Fawn linen is the grammar of summer ease — loose, light, and utterly unhurried in the heat of the day."
+  },
+  "fawn|houndstooth": {
+    suit: { color: "Fawn", pattern: "Houndstooth", fabric: "Houndstooth Wool", lapel: "Notch", buttons: "Two-Button", pocket: "Besom", vent: "Double Vent", lining: "Ivory Jacquard" },
+    shirts: [
+      { color: "White", pattern: "Solid", fabric: "Egyptian Cotton", collar: "Spread", cuffs: "French",
+        ties: [
+          { color: "Burgundy", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Chocolate Brown", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Navy", pattern: "Micro Dot", fabric: "Silk", width: "Standard", knot: "Pratt" },
+          { color: "Rust", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Charcoal", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Hound and Crown", pocket_square: "White Linen Flat Fold", shoes: "Burgundy Cap Toe Oxford", belt: "Burgundy Leather", socks: "Burgundy Over-the-Calf", watch: "Silver Dress Watch" },
+          { label: "Check and Leather", pocket_square: "Chocolate Silk Square", shoes: "Chestnut Longwing", belt: "Chestnut Leather", socks: "Chocolate Wool", watch: "Brown Leather Watch" },
+          { label: "Hunting Green", pocket_square: "Forest Wool Square", shoes: "Dark Olive Brogue", belt: "Dark Brown Leather", socks: "Forest Green Wool", watch: "Bronze Watch" },
+          { label: "Hound and Navy", pocket_square: "Navy Pocket Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Navy Cotton", watch: "Navy Dial Watch" },
+          { label: "Amber Check", pocket_square: "Rust Linen Square", shoes: "Russet Brogue", belt: "Russet Leather", socks: "Rust Merino", watch: "Copper Dial Watch" },
+          { label: "Fog and Fawn", pocket_square: "Charcoal Pocket Square", shoes: "Charcoal Derby", belt: "Dark Brown Leather", socks: "Charcoal Wool", watch: "Gunmetal Watch" }
+        ]
+      },
+      { color: "Pale Blue", pattern: "Solid", fabric: "Pinpoint Oxford", collar: "Point", cuffs: "French",
+        ties: [
+          { color: "Chocolate", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Burgundy", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Rust", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Caramel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Teal", pattern: "Solid", fabric: "Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Forest Green", pattern: "Micro Check", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Blue Hound", pocket_square: "Chocolate Linen Square", shoes: "Chestnut Double Monk", belt: "Chestnut Leather", socks: "Chocolate Merino", watch: "Brown Leather Watch" },
+          { label: "Twilight Hound", pocket_square: "Burgundy Pocket Square", shoes: "Burgundy Oxford", belt: "Burgundy Leather", socks: "Burgundy Over-the-Calf", watch: "Silver Watch" },
+          { label: "Autumn Hound", pocket_square: "Rust Wool Square", shoes: "Russet Brogue", belt: "Russet Leather", socks: "Rust Cotton", watch: "Bronze Dial Watch" },
+          { label: "Honey Blue", pocket_square: "Caramel Cashmere Square", shoes: "Caramel Suede Loafer", belt: "Tan Leather", socks: "Caramel Cotton", watch: "Gold Watch" },
+          { label: "Coastal Hound", pocket_square: "Teal Silk Square", shoes: "Dark Brown Derby", belt: "Dark Brown Leather", socks: "Teal Merino", watch: "Steel Watch" },
+          { label: "Fern and Check", pocket_square: "Forest Green Square", shoes: "Dark Olive Derby", belt: "Dark Brown Leather", socks: "Forest Wool", watch: "Canvas Strap Watch" }
+        ]
+      },
+      { color: "Cream", pattern: "Solid", fabric: "Luxury Cotton Twill", collar: "Spread", cuffs: "French",
+        ties: [
+          { color: "Dark Navy", pattern: "Solid", fabric: "Grenadine Silk", width: "Standard", knot: "Half Windsor" },
+          { color: "Burgundy", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Chocolate", pattern: "Paisley", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Rust", pattern: "Solid", fabric: "Knit Wool", width: "Slim", knot: "Four-in-Hand" },
+          { color: "Forest Green", pattern: "Repp Stripe", fabric: "Silk", width: "Standard", knot: "Four-in-Hand" },
+          { color: "Caramel", pattern: "Solid", fabric: "Knit Silk", width: "Slim", knot: "Four-in-Hand" }
+        ],
+        packages: [
+          { label: "Ivory Hound", pocket_square: "White Linen Square", shoes: "Dark Navy Oxford", belt: "Navy Leather", socks: "Navy Over-the-Calf", watch: "Silver Dress Watch" },
+          { label: "Cream and Crimson", pocket_square: "Burgundy Silk Square", shoes: "Burgundy Cap Toe", belt: "Burgundy Leather", socks: "Burgundy Wool", watch: "Silver Case Watch" },
+          { label: "Manor Check", pocket_square: "Chocolate Pocket Square", shoes: "Chocolate Longwing", belt: "Chocolate Leather", socks: "Chocolate Merino", watch: "Brown Leather Watch" },
+          { label: "Parchment Ember", pocket_square: "Rust Linen Square", shoes: "Russet Derby", belt: "Russet Leather", socks: "Rust Wool", watch: "Copper Dial Watch" },
+          { label: "Cream and Forest", pocket_square: "Forest Wool Square", shoes: "Dark Olive Brogue", belt: "Dark Brown Leather", socks: "Forest Merino", watch: "Bronze Watch" },
+          { label: "Pale Honey Hound", pocket_square: "Caramel Cashmere Square", shoes: "Tan Oxford", belt: "Tan Leather", socks: "Camel Merino", watch: "Gold Dress Watch" }
+        ]
+      }
+    ],
+    styleMantra: "Fawn houndstooth breaks the silence of plain cloth — bold enough to be noticed, refined enough to be remembered."
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -18958,6 +19379,7 @@ function getLocalAnalysis(text) {
         else if (/jade suit|jade blazer|jade green suit|jade green blazer|jade wool|jade linen|jade tweed|jade herringbone|jade houndstooth|jade glen plaid|jade chalk stripe|emerald suit|emerald blazer|emerald green suit|rich green suit|bright green suit|vivid green suit|jewel green suit|gemstone green suit/.test(t)) { colorKey = "jade"; colorMatched = true }
         else if (/wheat suit|wheat blazer|straw suit|straw blazer|pale yellow suit|light yellow suit|wheat wool|wheat linen|wheat tweed|wheat herringbone|wheat houndstooth|wheat glen plaid|wheat chalk stripe|straw linen|straw tweed|golden yellow suit|harvest suit|pale gold suit|hay suit/.test(t)) { colorKey = "wheat"; colorMatched = true }
         else if (/scarlet suit|scarlet blazer|crimson suit|crimson blazer|bright red suit|vivid red suit|scarlet wool|scarlet linen|scarlet tweed|scarlet herringbone|scarlet houndstooth|scarlet glen plaid|scarlet chalk stripe|crimson wool|crimson tweed|fire red suit|bold red suit|vermillion suit|signal red suit/.test(t)) { colorKey = "scarlet"; colorMatched = true }
+        else if (/fawn suit|fawn blazer|buff suit|buff blazer|fawn wool|fawn linen|fawn tweed|fawn herringbone|fawn houndstooth|fawn glen plaid|fawn chalk stripe|buff wool|buff linen|buff tweed|buff herringbone|buff houndstooth|buff glen plaid|buff chalk stripe|pale tan suit|pale tan blazer|warm buff suit|warm buff blazer|light fawn suit|soft fawn suit/.test(t)) { colorKey = "fawn"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
