@@ -20384,7 +20384,72 @@ function AnalyzerPage() {
                         <div className="flex gap-2 pt-1">
                           <button onClick={()=>{
                             // Apply correction and re-run analysis
-                            const colorMap = {"White":"white","Ivory":"white","Cream":"white","Light Blue":"blue","Sky Blue":"blue","Powder Blue":"blue","Baby Blue":"blue","French Blue":"blue","Blue":"blue","Cobalt":"blue","Royal Blue":"blue","Navy":"navy","Midnight Navy":"navy","Indigo":"navy","Light Grey":"grey","Silver":"grey","Grey":"grey","Slate":"charcoal","Charcoal":"charcoal","Black":"black","Beige":"beige","Tan":"beige","Camel":"brown","Khaki":"beige","Brown":"brown","Chocolate":"brown","Espresso":"brown","Olive":"green","Green":"green","Forest Green":"green","Mint":"green","Sage":"green","Pink":"burgundy","Blush":"burgundy","Rose":"burgundy","Red":"burgundy","Crimson":"burgundy","Burgundy":"burgundy","Wine":"burgundy","Claret":"burgundy","Oxblood":"burgundy","Lavender":"grey","Purple":"navy","Plum":"burgundy","Yellow":"beige","Mustard":"brown","Gold":"brown","Orange":"brown","Rust":"brown","Terracotta":"brown"}
+                            const colorMap = {
+                              // Whites & creams
+                              "White":"white","Oyster White":"white","Off-White":"white",
+                              "Ivory":"white","Ivory White":"white",
+                              "Cream":"cream","Cream White":"cream",
+                              "Ecru":"ecru","Parchment":"ecru","Sand":"ecru",
+                              "Champagne":"champagne","Champagne Gold":"champagne",
+                              // Blues — light
+                              "Light Blue":"lightblue","Sky Blue":"lightblue","Powder Blue":"lightblue",
+                              "Baby Blue":"lightblue","Pale Blue":"lightblue","Cornflower Blue":"lightblue",
+                              "Dusty Blue":"lightblue","Soft Blue":"lightblue",
+                              // Blues — mid
+                              "Blue":"blue","French Blue":"blue","Royal Blue":"blue",
+                              "Bright Blue":"blue","Electric Blue":"blue",
+                              "Cobalt":"cobalt","Cobalt Blue":"cobalt",
+                              "Periwinkle":"blue","Steel Blue":"slate",
+                              // Blues — dark
+                              "Navy":"navy","Navy Blue":"navy","Midnight Navy":"navy",
+                              "Midnight Blue":"midnight","Midnight":"midnight",
+                              "Indigo":"navy","Dark Blue":"navy",
+                              // Greys
+                              "Light Grey":"grey","Silver":"grey","Pale Grey":"grey",
+                              "Grey":"grey","Medium Grey":"grey","Gray":"grey",
+                              "Dove Grey":"dovegrey","Dove Gray":"dovegrey","Dove":"dovegrey",
+                              "Slate":"slate","Slate Grey":"slate","Slate Blue":"slate",
+                              "Charcoal":"charcoal","Charcoal Grey":"charcoal","Dark Grey":"charcoal","Anthracite":"charcoal",
+                              "Gunmetal":"gunmetal","Gunmetal Grey":"gunmetal","Pewter":"pewter",
+                              // Black
+                              "Black":"black","Jet Black":"black","Onyx":"black","Ebony":"black",
+                              // Browns — light/warm
+                              "Beige":"beige","Sand Beige":"beige","Khaki":"beige","Taupe":"taupe",
+                              "Wheat":"wheat","Straw":"wheat","Golden Wheat":"wheat",
+                              "Fawn":"fawn","Buff":"fawn","Pale Tan":"fawn",
+                              "Tan":"tan","Tan Beige":"tan","Khaki Tan":"tan",
+                              "Camel":"camel","Camel Tan":"camel","Warm Camel":"camel",
+                              "Caramel":"caramel","Caramel Brown":"caramel","Warm Caramel":"caramel",
+                              // Browns — mid/dark
+                              "Brown":"brown","Medium Brown":"brown","Walnut":"brown",
+                              "Chocolate":"chocolate","Chocolate Brown":"chocolate","Dark Chocolate":"chocolate","Espresso":"chocolate",
+                              "Copper":"copper","Copper Brown":"copper","Burnt Orange":"copper",
+                              // Greens
+                              "Green":"green","Bright Green":"green","Emerald":"green",
+                              "Olive":"olive","Olive Green":"olive","Army Green":"olive","Military Green":"olive",
+                              "Forest Green":"forestgreen","Dark Green":"forestgreen","Hunter Green":"forestgreen","Bottle Green":"bottle","Bottle":"bottle","Racing Green":"bottle",
+                              "Sage":"sage","Sage Green":"sage","Muted Green":"sage","Soft Green":"sage",
+                              "Moss":"moss","Moss Green":"moss","Deep Moss":"moss",
+                              "Jade":"jade","Jade Green":"jade",
+                              "Teal":"teal","Petrol":"teal","Teal Blue":"teal",
+                              // Reds & pinks
+                              "Red":"red","Bright Red":"red","Vivid Red":"red",
+                              "Scarlet":"scarlet","Crimson":"scarlet","Fire Red":"scarlet","Vermillion":"scarlet",
+                              "Burgundy":"burgundy","Wine":"wine","Claret":"burgundy","Dark Red":"burgundy",
+                              "Oxblood":"oxblood","Deep Burgundy":"oxblood",
+                              "Rust":"rust","Rust Orange":"rust","Burnt Sienna":"rust","Terracotta":"terracotta","Clay":"terracotta",
+                              "Coral":"coral","Salmon":"coral","Coral Pink":"coral",
+                              // Pinks & blush
+                              "Pink":"pink","Rose Pink":"pink","Dusty Pink":"blush",
+                              "Blush":"blush","Blush Pink":"blush","Pale Pink":"blush","Soft Pink":"blush",
+                              // Purples
+                              "Purple":"purple","Violet":"purple","Bright Purple":"purple",
+                              "Lavender":"lavender","Pale Purple":"lavender","Soft Lavender":"lavender",
+                              "Plum":"aubergine","Aubergine":"aubergine","Eggplant":"aubergine","Deep Purple":"aubergine",
+                              // Yellows & mustards
+                              "Mustard":"mustard","Gold":"mustard","Golden":"mustard","Mustard Yellow":"mustard",
+                              "Yellow":"mustard",
+                            }
                             const patMap = {"Solid":"solid","Chalk Stripe / Pinstripe":"chalk_stripe","Glen Plaid / Check":"glen_plaid","Herringbone":"herringbone","Tweed":"tweed","Houndstooth":"glen_plaid","Linen":"linen"}
                             const colorKey  = colorMap[correction.color] || photoResult.colorKey
                             const patternKey = patMap[correction.pattern] || "solid"
