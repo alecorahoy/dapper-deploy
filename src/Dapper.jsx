@@ -17126,6 +17126,469 @@ const PATTERN_MATRIX = {
     ]
   },
 
+  // ─── JADE ────────────────────────────────────────────────────────────────────
+  "jade|solid": {
+    suit: { color: "Jade", pattern: "Solid", hex: "#00A86B", fabric: "Superfine wool or linen blend — rich emerald-green with a cool blue undertone" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the vivid jade with deep authority" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gold on jade — the gemstone palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep wine against jade — jewel on jewel" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver cuts through the rich green" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the vivid jade suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the rich cool green" }
+        ],
+        packages: [
+          { name: "Jade Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toe oxfords"] },
+          { name: "Gemstone Gold", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jade Jewel", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Silver Jade", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Jade", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Jade", items: ["Ivory knit tie", "White pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Jade solid — the gemstone suit. Richer than sage, cooler than bottle, more vivid than forest. This is green at its most jewel-like."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Cool blue anchor through pale blue and rich jade" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool through the blue-jade palette" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth through the cool palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich contrast through the cool jade" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor in the cool blue-jade composition" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool through the pale blue and rich green" }
+        ],
+        packages: [
+          { name: "Blue Jade", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Jade", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gemstone Blue", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Blue", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Jade", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Ice Jade", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Pale blue on jade — the cool shirt reveals the depth of the gemstone suit."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool tonal — grey and jade in measured contrast" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through the cool grey-jade" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold cuts through cool grey" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Rich warm contrast through the cool grey-jade" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey jade" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool across the grey-jade palette" }
+        ],
+        packages: [
+          { name: "Grey Jade", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Jade", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Jade", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Grey Jade", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Grey Jade", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] },
+          { name: "Ice Grey Jade", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] }
+        ],
+        styleMantra: "Grey on jade — the cool shirt steadies the gemstone suit into something both vivid and composed."
+      }
+    ]
+  },
+
+  "jade|chalk_stripe": {
+    suit: { color: "Jade", pattern: "Chalk Stripe", hex: "#00A86B", fabric: "Superfine wool, ivory chalk stripe on rich jade" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic chalk on the richest green stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Silk grenadine", knot: "Pratt", styleNote: "Gemstone gold picks up the chalk stripe on jade" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Deep jewel contrast through the jade chalk stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver mirrors the chalk on jade" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Maximum authority in the jade chalk stripe" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the chalk stripe on jade" }
+        ],
+        packages: [
+          { name: "Jade Stripe", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gemstone Stripe", items: ["Warm gold grenadine tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Silver Chalk Jade", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Dark Jade Stripe", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Chalk Ivory", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Jade chalk stripe — the gemstone power suit. Authority in the richest green."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and jade stripe" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue jade chalk" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth through the cool stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Repp stripe silk", knot: "Half Windsor", styleNote: "Jewel contrast in the cool jade stripe" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, jade chalk stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the pale blue jade stripe" }
+        ],
+        packages: [
+          { name: "Blue Jade Stripe", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Stripe", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Blue Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Ice Jade Stripe", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Dark Blue Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on jade chalk stripe — the cool shirt makes the gemstone stripe glow."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool tonal into the jade chalk stripe" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue structure through grey and jade stripe" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold through the cool grey stripe" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Warm contrast through the cool grey jade stripe" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision through the grey jade stripe" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey stripe" }
+        ],
+        packages: [
+          { name: "Grey Jade Stripe", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Stripe", items: ["Navy tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gold Grey Stripe", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Wine Grey Stripe", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Jade Stripe", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Jade Stripe", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on jade chalk stripe — cool composure through the gemstone stripe."
+      }
+    ]
+  },
+
+  "jade|glen_plaid": {
+    suit: { color: "Jade", pattern: "Glen Plaid", hex: "#00A86B", fabric: "Wool-cashmere blend, rich jade and silver glen plaid" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Sea island cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the jade plaid geometry" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold picks up the silver overcheck on jade" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the overcheck in the jade plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through the jade plaid geometry" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor beneath the vivid plaid" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the gemstone geometric" }
+        ],
+        packages: [
+          { name: "Jade Plaid Classic", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Gemstone Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Plaid Jade", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Jewel Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Dark Jade Plaid", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Jade Plaid", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Jade glen plaid — gemstone geometry. The richest green in plaid form."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and jade plaid" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue jade plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth through the cool plaid" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, jade plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through pale blue and jade plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark through the pale blue jade plaid" }
+        ],
+        packages: [
+          { name: "Blue Jade Plaid", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Plaid", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Jade Plaid", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Jewel Blue Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on jade glen plaid — cool composure through gemstone geometry."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver tonal into the jade plaid — gemstone and metal" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and the jade plaid" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth through the cool grey plaid" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through grey and jade plaid" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool across the grey jade plaid" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey jade plaid" }
+        ],
+        packages: [
+          { name: "Grey Jade Plaid", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Plaid", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Plaid", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Grey Plaid", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Jade Plaid Grey", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Jade Plaid", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on jade glen plaid — cool restraint over gemstone geometry. The pattern earns attention."
+      }
+    ]
+  },
+
+  "jade|herringbone": {
+    suit: { color: "Jade", pattern: "Herringbone", hex: "#00A86B", fabric: "Mid-weight wool herringbone, rich jade in vivid cool weave" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Navy anchors the jade herringbone texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold catches the jade herringbone in light" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Cool silver through the rich green weave" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through the jade texture" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark through the vivid gemstone weave" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the rich jade texture" }
+        ],
+        packages: [
+          { name: "Jade Weave", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Gemstone Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Silver Jade Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Jewel Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Jade Weave", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Jade Weave", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Jade herringbone — gemstone colour in textured form. The weave adds depth to the richest green."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue depth through pale blue and jade weave" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue jade texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth through the cool herringbone" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, jade herringbone" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through the cool jade weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark through pale blue and jade texture" }
+        ],
+        packages: [
+          { name: "Blue Jade Weave", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Weave", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Jade Weave", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Jewel Blue Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on jade herringbone — the cool shirt reveals the depth of the gemstone weave."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Grey tonal through the jade herringbone" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and jade texture" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold through the cool grey weave" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through the grey jade texture" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision through the grey jade weave" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey jade texture" }
+        ],
+        packages: [
+          { name: "Grey Jade Weave", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Weave", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Weave", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Grey Weave", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Grey Weave", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Jade Weave", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on jade herringbone — cool composure through gemstone texture. Every thread a shade of vivid."
+      }
+    ]
+  },
+
+  "jade|tweed": {
+    suit: { color: "Jade", pattern: "Tweed", hex: "#00A86B", fabric: "Donegal tweed, rich jade base with emerald and silver flecks" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Naval blue through the richest Donegal" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver catches the metallic flecks in jade tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold through the vivid flecked texture" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Jewel depth through the jade tweed flecks" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth against the most vivid Donegal" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the gemstone country suit" }
+        ],
+        packages: [
+          { name: "Jade Donegal", items: ["Navy repp tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Silver Fleck Jade", items: ["Silver grey tie", "White pocket square", "Charcoal suede derbies"] },
+          { name: "Gemstone Tweed", items: ["Warm gold knit tie", "No pocket square", "Dark brown monks"] },
+          { name: "Jewel Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Ivory Jade Tweed", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Jade Tweed", items: ["Charcoal grenadine tie", "White pocket square", "Dark brown loafers"] }
+        ],
+        styleMantra: "Jade tweed — the gemstone Donegal. Emerald and silver flecks in the richest green landscape."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Pinpoint Oxford cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through pale blue and jade tweed" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue jade tweed" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth through the cool jade tweed" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, jade flecks" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Jewel contrast through pale blue and jade tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark through pale blue and jade flecks" }
+        ],
+        packages: [
+          { name: "Blue Jade Tweed", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Tweed", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Jade Tweed", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Jewel Blue Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on jade tweed — the clear sky above the most vivid gemstone landscape."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver picks up the metallic flecks in the jade tweed" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and jade tweed flecks" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold through the cool grey tweed" },
+          { color: "Burgundy", hex: "#800020", fabric: "Wool grenadine", knot: "Half Windsor", styleNote: "Jewel contrast through grey and jade flecks" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy cool through the grey jade tweed" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark through the cool grey jade tweed" }
+        ],
+        packages: [
+          { name: "Grey Jade Tweed", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede derbies"] },
+          { name: "Navy Grey Tweed", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Tweed", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Grey Tweed", items: ["Burgundy wool tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Grey Tweed", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Jade Tweed", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on jade tweed — the emerald flecks emerge. Cool and gemstone-bright."
+      }
+    ]
+  },
+
+  "jade|linen": {
+    suit: { color: "Jade", pattern: "Linen", hex: "#00A86B", fabric: "Italian linen, rich jade — vivid cool green with natural slub texture" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Lightweight cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "The essential anchor in the most vivid summer suit" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold in the jade linen suit" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool silver against the vivid jade linen" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Jewel contrast in the vivid linen suit" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Silk-linen blend", knot: "Four-in-hand", styleNote: "Pale warmth against vivid jade linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark anchor in the gemstone summer suit" }
+        ],
+        packages: [
+          { name: "Jade Linen Classic", items: ["Navy silk tie", "White linen pocket square", "Dark brown leather loafers"] },
+          { name: "Gemstone Linen", items: ["Warm gold knit tie", "No pocket square", "Dark brown loafers"] },
+          { name: "Silver Jade Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Jewel Linen", items: ["Burgundy silk tie", "White linen pocket square", "Dark brown loafers"] },
+          { name: "Ivory Jade Linen", items: ["Ivory linen tie", "No pocket square", "Tan suede loafers"] },
+          { name: "Dark Jade Linen", items: ["Charcoal knit tie", "White pocket square", "Dark brown leather loafers"] }
+        ],
+        styleMantra: "Jade linen — the gemstone summer suit. Vivid, cool, and unforgettable in any heat."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Cool anchor through pale blue and jade linen" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Metallic cool across the blue jade linen" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "All cool — the most composed jade summer" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth disrupts the cool linen palette" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Jewel contrast through the cool jade linen" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Dark through the pale blue jade linen" }
+        ],
+        packages: [
+          { name: "Blue Jade Linen", items: ["Navy tie", "Pale blue pocket square", "Dark brown leather loafers"] },
+          { name: "Silver Blue Linen", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Ice Jade Linen", items: ["Ice blue linen tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Gold Blue Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Jewel Blue Linen", items: ["Burgundy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Dark Blue Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Pale blue on jade linen — the cool sea against a vivid green shore."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Lightweight cotton",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Four-in-hand", styleNote: "Cool tonal — grey into vivid jade linen" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk", knot: "Four-in-hand", styleNote: "Blue through grey and jade linen" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold through the cool grey linen" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Linen-silk", knot: "Four-in-hand", styleNote: "Icy cool across the grey jade linen" },
+          { color: "Burgundy", hex: "#800020", fabric: "Silk", knot: "Four-in-hand", styleNote: "Jewel contrast through the cool grey jade" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Tonal dark — the jade linen glows through" }
+        ],
+        packages: [
+          { name: "Grey Jade Linen", items: ["Silver grey tie", "Grey pocket square", "Charcoal suede loafers"] },
+          { name: "Navy Grey Linen", items: ["Navy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Gold Grey Linen", items: ["Warm gold knit tie", "White pocket square", "Dark brown loafers"] },
+          { name: "Ice Grey Linen", items: ["Ice blue linen tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Jewel Grey Linen", items: ["Burgundy tie", "White pocket square", "Dark brown leather loafers"] },
+          { name: "Dark Jade Linen", items: ["Charcoal knit tie", "Grey pocket square", "Charcoal suede loafers"] }
+        ],
+        styleMantra: "Grey on jade linen — the cool shirt makes the gemstone linen vivid in comparison."
+      }
+    ]
+  },
+
+  "jade|houndstooth": {
+    suit: { color: "Jade", pattern: "Houndstooth", hex: "#00A86B", fabric: "Wool blend, rich jade and ivory houndstooth" },
+    shirts: [
+      {
+        color: "Crisp White", hex: "#FFFFFF", fabric: "Egyptian cotton poplin",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp stripe", knot: "Half Windsor", styleNote: "Classic anchor to the vivid jade check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver mirrors the ivory check on jade ground" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold catches the ivory check element" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through the vivid jade check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark anchor through the gemstone geometric" },
+          { color: "Ivory", hex: "#FFFFF0", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Pale warmth echoes the ivory check on jade" }
+        ],
+        packages: [
+          { name: "Jade Check Classic", items: ["Navy repp tie", "White pocket square", "Dark brown cap-toes"] },
+          { name: "Silver Jade Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gemstone Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Jade Check", items: ["Charcoal grenadine tie", "White pocket square", "Black cap-toes"] },
+          { name: "Ivory Jade Check", items: ["Ivory knit tie", "No pocket square", "Tan suede loafers"] }
+        ],
+        styleMantra: "Jade houndstooth — the gemstone check. Ivory pattern on rich jade ground — vivid and precise."
+      },
+      {
+        color: "Pale Blue", hex: "#D6E8F0", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through pale blue and jade check" },
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Metallic cool across the blue jade check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone warmth through the cool check" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "All cool — pale, ice, jade check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through pale blue and jade check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Dark through the pale blue jade check" }
+        ],
+        packages: [
+          { name: "Blue Jade Check", items: ["Navy tie", "Pale blue pocket square", "Dark brown oxfords"] },
+          { name: "Silver Blue Check", items: ["Silver grey tie", "White pocket square", "Charcoal suede loafers"] },
+          { name: "Gold Blue Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Ice Jade Check", items: ["Ice blue tie", "Pale blue pocket square", "Grey suede loafers"] },
+          { name: "Jewel Blue Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Dark Blue Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal derbies"] }
+        ],
+        styleMantra: "Pale blue on jade houndstooth — the cool shirt reveals the gemstone check in full vivid detail."
+      },
+      {
+        color: "Soft Grey", hex: "#D3D3D3", fabric: "Fine cotton twill",
+        ties: [
+          { color: "Silver Grey", hex: "#A8A8A8", fabric: "Silk jacquard", knot: "Pratt", styleNote: "Silver tonal into the vivid jade check" },
+          { color: "Navy", hex: "#1B2A4A", fabric: "Silk repp", knot: "Half Windsor", styleNote: "Blue through grey and jade check" },
+          { color: "Warm Gold", hex: "#C9A84C", fabric: "Knit silk", knot: "Four-in-hand", styleNote: "Gemstone gold through the cool grey check" },
+          { color: "Burgundy", hex: "#800020", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Jewel contrast through grey and jade check" },
+          { color: "Ice Blue", hex: "#CAE0E8", fabric: "Silk", knot: "Four-in-hand", styleNote: "Icy precision across the grey jade check" },
+          { color: "Charcoal", hex: "#4A4A4A", fabric: "Grenadine silk", knot: "Half Windsor", styleNote: "Tonal dark — the jade check glows through the grey" }
+        ],
+        packages: [
+          { name: "Grey Jade Check", items: ["Silver grey tie", "Grey pocket square", "Charcoal derbies"] },
+          { name: "Navy Grey Check", items: ["Navy tie", "White pocket square", "Dark brown oxfords"] },
+          { name: "Gold Grey Check", items: ["Warm gold knit tie", "White pocket square", "Dark brown monks"] },
+          { name: "Jewel Grey Check", items: ["Burgundy grenadine tie", "White pocket square", "Dark brown brogues"] },
+          { name: "Ice Jade Check", items: ["Ice blue tie", "Grey pocket square", "Grey suede loafers"] },
+          { name: "Dark Jade Check", items: ["Charcoal grenadine tie", "Grey pocket square", "Charcoal cap-toes"] }
+        ],
+        styleMantra: "Grey on jade houndstooth — the cool grey shirt and the vivid gemstone check in measured, striking dialogue."
+      }
+    ]
+  },
+
 }
 
 // ─── Auto-generate remaining 6 colors × 6 patterns from base analysis data ───
@@ -17566,6 +18029,7 @@ function getLocalAnalysis(text) {
         else if (/wine suit|wine blazer|claret suit|claret blazer|deep red suit|dark red suit|wine wool|wine linen|wine tweed|wine herringbone|wine houndstooth|wine glen plaid|wine chalk stripe|claret wool|claret tweed|claret herringbone|dark crimson suit|rich red suit|deep burgundy suit|dark wine suit/.test(t)) { colorKey = "wine"; colorMatched = true }
         else if (/taupe suit|taupe blazer|greige suit|greige blazer|taupe wool|taupe linen|taupe tweed|taupe herringbone|taupe houndstooth|taupe glen plaid|taupe chalk stripe|warm grey suit|warm gray suit|grey brown suit|gray brown suit|mushroom suit|stone suit|stone blazer|warm neutral suit|mink suit|mink blazer/.test(t)) { colorKey = "taupe"; colorMatched = true }
         else if (/pewter suit|pewter blazer|pewter grey suit|pewter gray suit|pewter wool|pewter linen|pewter tweed|pewter herringbone|pewter houndstooth|pewter glen plaid|pewter chalk stripe|metallic grey suit|metallic gray suit|light gunmetal suit|cool mid grey suit|cool mid gray suit|steel grey suit|steel gray suit/.test(t)) { colorKey = "pewter"; colorMatched = true }
+        else if (/jade suit|jade blazer|jade green suit|jade green blazer|jade wool|jade linen|jade tweed|jade herringbone|jade houndstooth|jade glen plaid|jade chalk stripe|emerald suit|emerald blazer|emerald green suit|rich green suit|bright green suit|vivid green suit|jewel green suit|gemstone green suit/.test(t)) { colorKey = "jade"; colorMatched = true }
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
