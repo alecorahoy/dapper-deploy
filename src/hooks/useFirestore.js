@@ -453,7 +453,7 @@ export function useProblemReports(user) {
     try {
       const reportRef = doc(collection(db, "problemReports"))
       const contactEmail = String(email || user?.email || "").trim().toLowerCase()
-      await setDoc(reportRef, {
+      const report = {
         uid: user?.uid || "",
         userEmail: user?.email || "",
         contactEmail,
@@ -464,10 +464,35 @@ export function useProblemReports(user) {
         url: String(url || (typeof window !== "undefined" ? window.location.href : "")),
         userAgent: typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 300) : "",
         status: "open",
+      }
+
+      await setDoc(reportRef, {
+        ...report,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       })
-      return reportRef.id
+
+      let emailSent = false
+      let emailWarning = ""
+      try {
+        const notifyResponse = await fetch("/api/report-problem", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...report,
+            id: reportRef.id,
+            createdAt: new Date().toISOString(),
+          }),
+        })
+        const notifyData = await notifyResponse.json().catch(() => ({}))
+        emailSent = Boolean(notifyResponse.ok && notifyData.emailSent)
+        emailWarning = notifyData.reason || notifyData.error || ""
+      } catch (notifyErr) {
+        console.warn("[Dapper Reports] Problem report saved, but email notification failed", notifyErr)
+        emailWarning = "email_notification_failed"
+      }
+
+      return { id: reportRef.id, emailSent, emailWarning }
     } catch (err) {
       console.error("[Dapper Reports] Could not submit problem report", err)
       setError("Could not send this report. Please try again.")

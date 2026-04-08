@@ -23707,6 +23707,23 @@ function problemTypeLabel(type) {
   return labels[type] || "Report"
 }
 
+const REPORT_PAGE_OPTIONS = [
+  { id: "whole_app", label: "Whole App" },
+  { id: "analyzer", label: "AI Analyzer" },
+  { id: "validator", label: "Outfit Validator" },
+  { id: "closet", label: "My Closet" },
+  { id: "calendar", label: "Outfit Calendar" },
+  { id: "community", label: "Community" },
+  { id: "pricing", label: "Upgrade / Billing" },
+  { id: "login", label: "Sign In / Account" },
+  { id: "admin", label: "Admin" },
+  { id: "other", label: "Other / Not Sure" },
+]
+
+function problemPageLabel(page) {
+  return REPORT_PAGE_OPTIONS.find((option) => option.id === page)?.label || page || "Whole App"
+}
+
 function reportStatusStyle(status) {
   if (status === "resolved") return { background:"#dcfce7", color:"#166534" }
   if (status === "reviewing") return { background:"#fffbeb", color:"#92400e" }
@@ -23915,7 +23932,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
                   <h3 className="font-black text-gray-900 mt-2 break-words">{report.title || "Untitled report"}</h3>
                   <p className="text-sm text-gray-600 mt-1 whitespace-pre-wrap break-words">{report.message}</p>
                   <div className="text-xs text-gray-400 mt-2 break-all">
-                    {report.contactEmail || report.userEmail || "No email"} · {report.page || "unknown page"} · {report.url || ""}
+                    {report.contactEmail || report.userEmail || "No email"} · {problemPageLabel(report.page)} · {report.url || ""}
                   </div>
                 </div>
               </div>
@@ -24149,24 +24166,29 @@ const REPORT_FORM_INIT = {
   title: "",
   message: "",
   email: "",
+  page: "whole_app",
 }
 
 function ReportProblemModal({ user, page, onClose }) {
   const [form, setForm] = useState(() => ({ ...REPORT_FORM_INIT, email:user?.email || "" }))
   const [sent, setSent] = useState(false)
+  const [deliveryNotice, setDeliveryNotice] = useState("")
   const { saving, error, submitReport } = useProblemReports(user)
 
   const submit = async () => {
     if ((!form.title.trim() && !form.message.trim()) || saving) return
     try {
-      await submitReport({
+      const result = await submitReport({
         type: form.type,
         title: form.title,
         message: form.message,
         email: form.email,
-        page,
+        page: form.page,
         url: typeof window !== "undefined" ? window.location.href : "",
       })
+      setDeliveryNotice(result?.emailSent
+        ? "It also emailed alecorahoy@gmail.com."
+        : "It is saved in the Admin problem report inbox.")
       setSent(true)
       setForm({ ...REPORT_FORM_INIT, email:user?.email || "" })
     } catch {
@@ -24197,7 +24219,7 @@ function ReportProblemModal({ user, page, onClose }) {
           {sent ? (
             <div className="rounded-2xl bg-green-50 border border-green-100 p-5 text-center">
               <div className="font-black text-green-700">Report sent</div>
-              <div className="text-sm text-green-600 mt-1">Thanks. It now appears in the Admin problem report inbox.</div>
+              <div className="text-sm text-green-600 mt-1">Thanks. {deliveryNotice}</div>
               <button onClick={onClose} className="mt-4 px-5 py-3 rounded-xl text-sm font-black text-white" style={{background:NAVY}}>
                 Close
               </button>
@@ -24223,6 +24245,17 @@ function ReportProblemModal({ user, page, onClose }) {
               </div>
 
               <div>
+                <Label>Where is the problem?</Label>
+                <select value={form.page} onChange={(e)=>setForm(p=>({...p,page:e.target.value}))}
+                  className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 bg-white">
+                  {REPORT_PAGE_OPTIONS.map((option) => (
+                    <option key={option.id} value={option.id}>{option.label}</option>
+                  ))}
+                </select>
+                <p className="text-xs text-gray-400 mt-1">Current screen: {problemPageLabel(page)}. Choose Whole App if it affects everything.</p>
+              </div>
+
+              <div>
                 <Label>Title</Label>
                 <input value={form.title} onChange={(e)=>setForm(p=>({...p,title:e.target.value}))}
                   placeholder="Short summary"
@@ -24242,10 +24275,6 @@ function ReportProblemModal({ user, page, onClose }) {
                 <input value={form.email} onChange={(e)=>setForm(p=>({...p,email:e.target.value}))}
                   placeholder="Optional contact email"
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
-              </div>
-
-              <div className="rounded-xl bg-gray-50 border border-gray-100 px-4 py-3 text-xs text-gray-400">
-                Page: <span className="font-bold text-gray-600">{page}</span>
               </div>
 
               {error && <div className="rounded-xl bg-red-50 text-red-700 text-sm p-3">{error}</div>}
