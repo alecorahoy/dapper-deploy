@@ -4,7 +4,6 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   getRedirectResult,
-  signInWithPopup,
   signInWithRedirect,
   signOut,
   updateProfile,
@@ -73,14 +72,10 @@ export function useAuth() {
   const signInGoogle = async () => {
     setLoading(true); setError(null)
     try {
-      const { user: u } = await signInWithPopup(auth, googleProvider)
-      return u
+      await signInWithRedirect(auth, googleProvider)
+      return null
     } catch (e) {
       console.error("[Dapper Auth] Google sign-in failed", e.code, e.message)
-      if (shouldUseRedirectFallback(e.code)) {
-        await signInWithRedirect(auth, googleProvider)
-        return null
-      }
       setError(friendlyError(e.code))
       return null
     } finally { setLoading(false) }
@@ -113,14 +108,6 @@ function friendlyError(code) {
     "auth/network-request-failed":  "Network error. Check your connection.",
   }
   return map[code] || "Something went wrong. Please try again."
-}
-
-function shouldUseRedirectFallback(code) {
-  return [
-    "auth/popup-blocked",
-    "auth/cancelled-popup-request",
-    "auth/web-storage-unsupported",
-  ].includes(code)
 }
 
 async function syncUserProfile(user) {
