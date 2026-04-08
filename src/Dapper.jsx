@@ -22210,7 +22210,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
   const submitPost = async () => {
     const outfit = draft.outfit.trim()
     const caption = draft.caption.trim()
-    if (!outfit || !caption) return
+    if (!caption && !draft.photo) return
     const tags = draft.tags
       .split(/[\s,]+/)
       .map(tag => tag.trim())
@@ -22219,7 +22219,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
       .slice(0, 6)
     try {
       await createPost({
-        look: draft.look.trim() || "Today's Look",
+        look: draft.look.trim(),
         outfit,
         caption,
         tags,
@@ -22236,27 +22236,27 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
   const renderPostForm = () => (
     <div>
       <div className="mb-3 rounded-xl bg-gray-50 border border-gray-100 px-4 py-3">
-        <div className="text-xs font-black text-gray-700">Post Information</div>
-        <div className="text-xs text-gray-400 mt-0.5">Add the look title, outfit details, notes, photo, and tags before posting.</div>
+        <div className="text-xs font-black text-gray-700">Feed Information</div>
+        <div className="text-xs text-gray-400 mt-0.5">Share a photo, note, outfit detail, or styling question directly to the Community feed.</div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
         <div>
-          <Label>Look Title</Label>
+          <Label>Feed Title</Label>
           <input value={draft.look} onChange={e=>setDraft(p=>({...p,look:e.target.value}))}
-            placeholder="e.g. The Sunday Classic"
+            placeholder="Optional, e.g. Sunday fit check"
             className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
         </div>
         <div>
           <Label>Outfit Details</Label>
           <input value={draft.outfit} onChange={e=>setDraft(p=>({...p,outfit:e.target.value}))}
-            placeholder="Navy suit · White shirt · Burgundy tie"
+            placeholder="Optional, e.g. Navy suit · white shirt"
             className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
         </div>
       </div>
       <div>
-        <Label>Style Notes</Label>
+        <Label>Feed Text</Label>
         <textarea value={draft.caption} onChange={e=>setDraft(p=>({...p,caption:e.target.value}))}
-          placeholder="What made this look work?"
+          placeholder="Write your feed post, question, or style note..."
           rows={3}
           className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
       </div>
@@ -22292,10 +22292,10 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
             placeholder="#navy #business #grenadine"
             className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
         </div>
-        <button onClick={submitPost} disabled={saving || !draft.outfit.trim() || !draft.caption.trim()}
+        <button onClick={submitPost} disabled={saving || (!draft.caption.trim() && !draft.photo)}
           className="px-5 py-3 rounded-xl text-sm font-black text-white disabled:opacity-40 sm:self-end"
           style={{background:NAVY}}>
-          {saving ? "Posting..." : "Post Look"}
+          {saving ? "Posting..." : "Publish to Feed"}
         </button>
       </div>
       {error && <div className="mt-3 rounded-xl bg-red-50 text-red-600 text-xs p-3">{error}</div>}
@@ -22354,7 +22354,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
           <button onClick={openComposer}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-black text-white shadow-sm"
             style={{background:NAVY}}>
-            <Plus size={15}/> Create Post
+            <Plus size={15}/> Share to Feed
           </button>
           <Search size={18} className="text-gray-300 cursor-pointer"/>
           <Bell size={18} className="text-gray-300 cursor-pointer"/>
@@ -22376,8 +22376,8 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
           <div className="bg-white rounded-2xl p-5 w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl">
             <div className="flex items-center justify-between gap-3 mb-4">
               <div>
-                <div className="text-xl font-black text-gray-900">Create Post</div>
-                <div className="text-xs text-gray-400">{accountBadge} posting access</div>
+                <div className="text-xl font-black text-gray-900">Share to Feed</div>
+                <div className="text-xs text-gray-400">Post a photo, thought, question, or outfit note</div>
               </div>
               <button onClick={()=>setShowComposer(false)} className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-50">
                 <X size={19} className="text-gray-300"/>
@@ -22392,21 +22392,17 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
         <div className="space-y-5">
           <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
             {canPost ? (
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white" style={{background:NAVY}}>
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white flex-shrink-0" style={{background:NAVY}}>
                     {(user.displayName || user.email || "D")[0].toUpperCase()}
                   </div>
                   <div>
-                    <div className="text-sm font-black text-gray-900">Share a look</div>
-                    <div className="text-xs text-gray-400">Photo, outfit details, notes, and tags</div>
+                    <div className="text-sm font-black text-gray-900">Feed Composer</div>
+                    <div className="text-xs text-gray-400">Post directly to the Community feed</div>
                   </div>
                 </div>
-                <button onClick={openComposer}
-                  className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-black text-white"
-                  style={{background:NAVY}}>
-                  <Plus size={15}/> Create Post
-                </button>
+                {renderPostForm()}
               </div>
             ) : (
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -22453,10 +22449,12 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                   <img src={post.photo} alt={post.look || "Community look"} className="w-full max-h-[460px] object-cover"/>
                 </div>
               )}
-              <div className="mx-4 my-3 rounded-xl p-3" style={{background:post.avatar+"15",border:`1px solid ${post.avatar}25`}}>
-                <div className="text-xs font-black tracking-wider text-gray-400 mb-0.5">{post.look}</div>
-                <div className="text-sm font-bold text-gray-800">{post.outfit}</div>
-              </div>
+              {(post.look || post.outfit) && (
+                <div className="mx-4 my-3 rounded-xl p-3" style={{background:post.avatar+"15",border:`1px solid ${post.avatar}25`}}>
+                  {post.look && <div className="text-xs font-black tracking-wider text-gray-400 mb-0.5">{post.look}</div>}
+                  {post.outfit && <div className="text-sm font-bold text-gray-800">{post.outfit}</div>}
+                </div>
+              )}
               <div className="px-4 pb-3">
                 <p className="text-sm text-gray-700 leading-relaxed">{post.caption}</p>
                 <div className="flex gap-2 mt-2 flex-wrap">
