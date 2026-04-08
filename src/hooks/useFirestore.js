@@ -270,7 +270,7 @@ export function useCommunityPosts(user) {
     return unsub
   }, [])
 
-  const createPost = async ({ look, outfit, caption, tags, badge }) => {
+  const createPost = async ({ look, outfit, caption, tags, badge, photo }) => {
     if (!user) throw new Error("Sign in required.")
     setSaving(true); setError(null)
     try {
@@ -287,6 +287,7 @@ export function useCommunityPosts(user) {
         look: look || "Today's Look",
         outfit,
         caption,
+        photo: photo || null,
         tags: Array.isArray(tags) ? tags : [],
         likedBy: {},
         commentCount: 0,

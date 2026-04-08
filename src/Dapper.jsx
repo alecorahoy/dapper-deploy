@@ -22083,15 +22083,69 @@ function CalendarPage({ closetItems, user }) {
 // PAGE: COMMUNITY
 // ─────────────────────────────────────────────
 
+const COMMUNITY_DRAFT_INIT = { look:"", outfit:"", caption:"", tags:"", photo:null, photoName:"", photoError:"" }
+
+function resizeCommunityPhoto(file) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type?.startsWith("image/")) {
+      reject(new Error("Please choose an image file."))
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onerror = () => reject(new Error("Could not read this image."))
+    reader.onload = () => {
+      const img = new Image()
+      img.onerror = () => reject(new Error("Could not load this image."))
+      img.onload = () => {
+        const maxSide = 960
+        const scale = Math.min(1, maxSide / Math.max(img.width, img.height))
+        const width = Math.max(1, Math.round(img.width * scale))
+        const height = Math.max(1, Math.round(img.height * scale))
+        const canvas = document.createElement("canvas")
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext("2d")
+        if (!ctx) {
+          reject(new Error("Could not prepare this image."))
+          return
+        }
+        ctx.drawImage(img, 0, 0, width, height)
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.78)
+        if (dataUrl.length > 780000) {
+          reject(new Error("This photo is too large. Try a tighter crop or smaller image."))
+          return
+        }
+        resolve(dataUrl)
+      }
+      img.src = reader.result
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
 function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
   const [tab,   setTab]   = useState("feed")
   const [liked, setLiked] = useState({})
-  const [draft, setDraft] = useState({ look:"", outfit:"", caption:"", tags:"" })
+  const [draft, setDraft] = useState(COMMUNITY_DRAFT_INIT)
   const { posts, loading, saving, error, createPost, toggleLike } = useCommunityPosts(user)
   const plan = entitlement?.plan || "free"
   const canPost = Boolean(user && (isAdmin || plan === "pro" || plan === "elite"))
   const displayPosts = posts.length > 0 ? posts : SOCIAL_POSTS.map(post => ({ ...post, _demo:true }))
   const accountBadge = isAdmin ? "Elite" : plan === "elite" ? "Elite" : plan === "pro" ? "Pro" : "Free"
+
+  const handlePhotoSelect = async (event) => {
+    const file = event.target.files?.[0]
+    event.target.value = ""
+    if (!file) return
+    setDraft(p => ({ ...p, photoError:"" }))
+    try {
+      const photo = await resizeCommunityPhoto(file)
+      setDraft(p => ({ ...p, photo, photoName:file.name, photoError:"" }))
+    } catch (err) {
+      setDraft(p => ({ ...p, photo:null, photoName:"", photoError:err.message || "Could not add this photo." }))
+    }
+  }
 
   const submitPost = async () => {
     const outfit = draft.outfit.trim()
@@ -22109,8 +22163,9 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
       caption,
       tags,
       badge: accountBadge,
+      photo: draft.photo || null,
     })
-    setDraft({ look:"", outfit:"", caption:"", tags:"" })
+    setDraft(COMMUNITY_DRAFT_INIT)
   }
 
   const likePost = async (post) => {
@@ -22203,6 +22258,30 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                   placeholder="What made this look work?"
                   rows={3}
                   className="w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
+                <div className="mt-3">
+                  {draft.photo ? (
+                    <div className="rounded-xl border border-gray-100 overflow-hidden bg-gray-50">
+                      <img src={draft.photo} alt="Look preview" className="w-full max-h-[360px] object-cover"/>
+                      <div className="flex items-center justify-between gap-3 px-4 py-3">
+                        <div className="text-xs font-bold text-gray-500 truncate">{draft.photoName || "Community photo"}</div>
+                        <button onClick={()=>setDraft(p=>({...p,photo:null,photoName:"",photoError:""}))}
+                          className="flex items-center gap-1.5 text-xs font-black text-red-500">
+                          <X size={13}/> Remove Photo
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <label className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-4 text-sm font-black text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors">
+                      <Camera size={17}/>
+                      Add Photo
+                      <input type="file" accept="image/*" className="hidden" onChange={handlePhotoSelect}/>
+                    </label>
+                  )}
+                  <div className="mt-2 text-xs text-gray-400 flex items-center gap-1.5">
+                    <Upload size={12}/> Photos are compressed before posting.
+                  </div>
+                  {draft.photoError && <div className="mt-2 rounded-xl bg-red-50 text-red-600 text-xs p-3">{draft.photoError}</div>}
+                </div>
                 <div className="flex flex-col sm:flex-row gap-3 mt-3">
                   <input value={draft.tags} onChange={e=>setDraft(p=>({...p,tags:e.target.value}))}
                     placeholder="Tags: #navy #business #grenadine"
@@ -22255,6 +22334,11 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                   <div className="text-xs text-gray-400">{postRole(post)} · {postTime(post)}</div>
                 </div>
               </div>
+              {post.photo && (
+                <div className="mx-4 mt-3 rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
+                  <img src={post.photo} alt={post.look || "Community look"} className="w-full max-h-[460px] object-cover"/>
+                </div>
+              )}
               <div className="mx-4 my-3 rounded-xl p-3" style={{background:post.avatar+"15",border:`1px solid ${post.avatar}25`}}>
                 <div className="text-xs font-black tracking-wider text-gray-400 mb-0.5">{post.look}</div>
                 <div className="text-sm font-bold text-gray-800">{post.outfit}</div>

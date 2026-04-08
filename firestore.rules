@@ -42,6 +42,7 @@ service cloud.firestore {
           "look",
           "outfit",
           "caption",
+          "photo",
           "tags",
           "likedBy",
           "commentCount",
