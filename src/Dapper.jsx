@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
-import { useCloset, useWornLog, useCalendarEvents } from './hooks/useFirestore.js'
+import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers } from './hooks/useFirestore.js'
 import AuthModal from './components/AuthModal.jsx'
 import {
   Shirt, Calendar, Users, Tag, Upload, Heart,
   MessageCircle, Plus, ChevronLeft, ChevronRight,
   Check, Crown, Camera, Search, Bell, Star, Zap,
   Menu, X, Wand2, TrendingUp, Award, Clock, Lock,
-  LogIn, LogOut, User
+  LogIn, LogOut, User, Shield, Gift
 } from "lucide-react"
 
 // ─────────────────────────────────────────────
@@ -75,16 +75,16 @@ const SOCIAL_POSTS = [
 
 // ── Outfit worn log (history) ──
 const WORN_LOG_INIT = [
-  { id:1,  date:"2026-03-28", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Pale French Blue",        tie:"Charcoal Grenadine",       occasion:"Product Launch",        notes:"Feedback muy positivo del equipo." },
-  { id:2,  date:"2026-03-24", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Crisp White Poplin",      tie:"Silver & White Stripe",     occasion:"Presentación ejecutiva", notes:"" },
-  { id:3,  date:"2026-03-18", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Pale French Blue",        tie:"Midnight Navy Grenadine",   occasion:"Entrevista de trabajo",  notes:"Conseguí el contrato." },
+  { id:1,  date:"2026-03-28", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Pale French Blue",        tie:"Charcoal Grenadine",       occasion:"Product Launch",        notes:"Very positive team feedback." },
+  { id:2,  date:"2026-03-24", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Crisp White Poplin",      tie:"Silver & White Stripe",     occasion:"Executive Presentation", notes:"" },
+  { id:3,  date:"2026-03-18", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Pale French Blue",        tie:"Midnight Navy Grenadine",   occasion:"Job Interview",          notes:"Won the contract." },
   { id:4,  date:"2026-03-15", suit:"Mid-Grey Glen Plaid",    suitColor:"#6E7B8B", shirt:"Pale French Blue",        tie:"Forest Green Foulard",      occasion:"Team Offsite",           notes:"" },
-  { id:5,  date:"2026-03-10", suit:"Tan Summer Linen",       suitColor:"#C4A882", shirt:"Crisp White Poplin",      tie:"—",                         occasion:"Studio Visit",           notes:"Sin corbata, solo pocket square." },
+  { id:5,  date:"2026-03-10", suit:"Tan Summer Linen",       suitColor:"#C4A882", shirt:"Crisp White Poplin",      tie:"—",                         occasion:"Studio Visit",           notes:"No tie, pocket square only." },
   { id:6,  date:"2026-03-05", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Crisp White Poplin",      tie:"Gold & Navy Repp Stripe",   occasion:"Client Lunch",           notes:"" },
-  { id:7,  date:"2026-03-02", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Crisp White Poplin",      tie:"Burgundy Grenadine",        occasion:"Board Meeting",          notes:"Cerré el deal de Q1." },
-  { id:8,  date:"2026-02-26", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Soft Pink Bengal Stripe", tie:"Navy Polka Dot",            occasion:"Client Dinner",          notes:"Muy bien recibido el look." },
+  { id:7,  date:"2026-03-02", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Crisp White Poplin",      tie:"Burgundy Grenadine",        occasion:"Board Meeting",          notes:"Closed the Q1 deal." },
+  { id:8,  date:"2026-02-26", suit:"Charcoal Worsted Wool",  suitColor:"#36454F", shirt:"Soft Pink Bengal Stripe", tie:"Navy Polka Dot",            occasion:"Client Dinner",          notes:"The look was very well received." },
   { id:9,  date:"2026-02-20", suit:"Navy Chalk Stripe",      suitColor:"#1B3A6B", shirt:"Pale French Blue",        tie:"Burgundy Micro-Paisley",    occasion:"Conference",             notes:"" },
-  { id:10, date:"2026-02-14", suit:"Mid-Grey Glen Plaid",    suitColor:"#6E7B8B", shirt:"Pale Yellow Poplin",      tie:"Camel Knit",                occasion:"Valentine's Dinner",     notes:"Ella lo amó." },
+  { id:10, date:"2026-02-14", suit:"Mid-Grey Glen Plaid",    suitColor:"#6E7B8B", shirt:"Pale Yellow Poplin",      tie:"Camel Knit",                occasion:"Valentine's Dinner",     notes:"She loved it." },
 ]
 
 const CALENDAR_EVENTS_INIT = {
@@ -1285,27 +1285,27 @@ function getPatternAdvice(suitPatternKey) {
 
 function classifyTiePattern(tieName) {
   const n = tieName.toLowerCase()
-  if (/solid|grenadine/.test(n) && !/stripe|dot|paisley|plaid|foulard|geometric|check/.test(n)) return "grenadine"
-  if (/knit/.test(n))          return "knit"
-  if (/repp|stripe/.test(n))   return "repp_stripe"
-  if (/polka|dot/.test(n))     return "polka_dot"
-  if (/foulard|geometric/.test(n)) return "foulard"
-  if (/micro.?paisley|paisley.*micro/.test(n)) return "micro_paisley"
-  if (/paisley/.test(n))       return "paisley"
+  if (/solid|s[oó]lid[ao]|lis[ao]|grenadine/.test(n) && !/stripe|ray|dot|punto|lunar|paisley|cachemira|plaid|cuadro|foulard|fular|geometric|geom[eé]tric|check/.test(n)) return "grenadine"
+  if (/knit|tejid[ao]|punto/.test(n)) return "knit"
+  if (/repp|stripe|rayad[ao]|rayas?/.test(n)) return "repp_stripe"
+  if (/polka|dot|lunar|puntos?/.test(n)) return "polka_dot"
+  if (/foulard|fular|geometric|geom[eé]tric/.test(n)) return "foulard"
+  if (/micro.?paisley|paisley.*micro|micro.?cachemira|cachemira.*micro/.test(n)) return "micro_paisley"
+  if (/paisley|cachemira/.test(n)) return "paisley"
   if (/club/.test(n))          return "club_stripe"
-  if (/plaid|check/.test(n))   return "bold_plaid"
+  if (/plaid|check|cuadros?/.test(n)) return "bold_plaid"
   return "solid_tie"
 }
 
 function classifyShirtPattern(shirtName) {
   const n = shirtName.toLowerCase()
-  if (/bengal|bold stripe/.test(n)) return "bengal_stripe"
-  if (/fine stripe|thin stripe/.test(n)) return "fine_stripe"
+  if (/bengal|bold stripe|raya bengala/.test(n)) return "bengal_stripe"
+  if (/fine stripe|thin stripe|raya fina|rayas finas/.test(n)) return "fine_stripe"
   if (/end.on.end|end on end/.test(n)) return "end_on_end"
   if (/oxford/.test(n)) return "oxford"
   if (/chambray/.test(n)) return "chambray"
-  if (/gingham/.test(n)) return "gingham"
-  if (/poplin|voile|solid/.test(n)) return "solid_shirt"
+  if (/gingham|vichy|guinga|cuadros?/.test(n)) return "gingham"
+  if (/poplin|popelina|voile|solid|s[oó]lid[ao]|lis[ao]/.test(n)) return "solid_shirt"
   return "solid_shirt"
 }
 
@@ -1364,12 +1364,12 @@ function filterTiesForSuitAndShirt(ties, suitPatternKey, shirtName) {
 
 function getSuitPatternKey(suitPattern) {
   const p = (suitPattern || "").toLowerCase()
-  if (/chalk|pinstripe|pin stripe|chalk stripe/.test(p)) return "chalk_stripe"
-  if (/glen|windowpane|window pane|plaid|check/.test(p)) return "glen_plaid"
-  if (/herringbone/.test(p)) return "herringbone"
+  if (/chalk|pinstripe|pin stripe|chalk stripe|raya diplom[aá]tica|raya tiza|rayas?/.test(p)) return "chalk_stripe"
+  if (/glen|windowpane|window pane|plaid|check|pr[ií]ncipe de gales|cuadros?|ventana/.test(p)) return "glen_plaid"
+  if (/herringbone|espiga/.test(p)) return "herringbone"
   if (/tweed|donegal|harris/.test(p)) return "tweed"
-  if (/linen/.test(p)) return "linen"
-  if (/houndstooth/.test(p)) return "houndstooth"
+  if (/linen|lino/.test(p)) return "linen"
+  if (/houndstooth|hounds tooth|pata de gallo/.test(p)) return "houndstooth"
   return "solid_suit"
 }
 
@@ -3268,280 +3268,6 @@ const PATTERN_MATRIX = {
     ],
     styleMantra:"White houndstooth is summer pattern at its most ambitious — the geometric gives the lightness its structure and demands the man match its precision."
   },
-
-"camel|solid": {
-    suit: { colorFamily:"Camel", undertones:"Warm golden-amber undertones", fabric:"Worsted wool or cashmere blend, ~260 g/m2", pattern:"Solid", formality:"Smart Casual / Business Casual", lapel:"Notch lapel", fit:"Slim or classic fit" },
-    shirts: [
-      { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White cuts cleanly against camel warmth — the sharpest foundation that lets the suit's golden richness lead.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Irish Linen",fold:"TV Fold",material:"Irish Linen"}, ties:[
-        {id:1,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy is the great anchor for camel — cool authority against warm gold, the most naturally elegant contrast."},
-        {id:2,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy warms the camel palette with Old World richness — a deeply considered autumnal combination."},
-        {id:3,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"Tonal brown on camel is the most natural earth palette — depth through shade and texture alone."},
-        {id:4,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Green and camel are nature's own combination — the English countryside translated into a suit."},
-        {id:5,name:"Solid Rust Grenadine",color:"#B7410E",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust deepens the warmth of camel into something richly autumnal — a palette of rare sophistication."},
-        {id:6,name:"Solid Charcoal Grenadine",color:"#36454F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Kelvin",harmony:"Complementary",why:"Charcoal cools the camel warmth into something more serious — the most restrained choice on this suit."},
-      ]},
-      { id:2, name:"Cream / Ivory Poplin", colorCode:"#FFFDD0", why:"Cream is the natural partner of camel — warm against warm, the tonal combination of the Italian autumn at its most considered.", collar:"Semi-spread collar", pattern:"Solid", pocketSquare:{name:"Ivory Linen",fold:"One Point",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"The complete earth palette — camel, cream, dark brown. Warm, rooted, impeccable."},
-        {id:2,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy cuts through the warmth with just enough cool authority — the essential contrast note."},
-        {id:3,name:"Solid Olive Grenadine",color:"#556B2F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive, cream, and camel — a palette lifted straight from an Italian country estate."},
-        {id:4,name:"Solid Navy",color:"#1B3A6B",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy provides the cool authority that a warm tonal palette always needs to land correctly."},
-        {id:5,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust on cream on camel is a warm autumnal composition of real character and depth."},
-        {id:6,name:"Solid Gold Foulard",color:"#C9A84C",pattern:"Solid",material:"Silk",width:"3in",knot:"Pratt/Shelby",harmony:"Monochromatic",why:"Gold on cream on camel — the entire warm spectrum in one look. Leisurely confidence at its finest."},
-      ]},
-      { id:3, name:"Pale Blue End-on-End", colorCode:"#89B4D4", why:"Cool blue is the finest contrast to camel warmth — the temperature opposition Italian tailors have celebrated for decades.", collar:"Semi-spread collar", pattern:"End-on-End", pocketSquare:{name:"White Cotton",fold:"One Point",material:"Cotton"}, ties:[
-        {id:1,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Navy deepens the blue register — grounding blue and camel into a cohesive warm-cool palette."},
-        {id:2,name:"Solid Burgundy Grenadine",color:"#722F37",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Burgundy bridges pale blue and camel with Old World warmth — deeply considered."},
-        {id:3,name:"Solid Terracotta Knit",color:"#CB6D51",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Terracotta against cool blue on camel — the Italian masterclass in warm-cool opposition."},
-        {id:4,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Triadic",why:"Green on blue on camel completes the warm-cool-natural triangle beautifully."},
-        {id:5,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Brown knit warms the cool blue back toward camel territory — the essential bridge."},
-        {id:6,name:"Solid Charcoal Grenadine",color:"#36454F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Kelvin",harmony:"Complementary",why:"Charcoal grounds pale blue and camel with cool authority — the most restrained elegant choice."},
-      ]},
-    ],
-    packages:[
-      {name:"The Camel Classic",suit:"Camel Solid",shirt:"Crisp White Poplin",tie:"Solid Navy Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Cap-Toe Oxford",belt:"Dark brown leather",socks:"Navy or camel",watch:"Gold dress watch",occasion:"Business casual, client lunch, smart events",archetype:"British Classic",confidence:2,tip:"Navy on white on camel — the most authoritative version of the warmest suit. Brown shoes always, never black.",shirtColor:"#F8F8F8",tieColor:"#191970"},
-      {name:"The Italian Earth",suit:"Camel Solid",shirt:"Cream Ivory Poplin",tie:"Solid Dark Brown Grenadine",pocketSquare:"Ivory Linen — One Point",shoes:"Cognac Oxford Brogues",belt:"Cognac leather",socks:"Brown or camel",watch:"Gold-case vintage watch",occasion:"Weekend smart, gallery, aperitivo, client dinner",archetype:"Italian",confidence:5,tip:"Camel and cream and dark brown — the colour combination of the Italian autumn. Wear it with no self-consciousness at all.",shirtColor:"#FFFDD0",tieColor:"#5C3317"},
-      {name:"The Warm Weekend",suit:"Camel Solid",shirt:"Crisp White Poplin",tie:"Solid Rust Grenadine",pocketSquare:"White Cotton — Puff Fold",shoes:"Tan Suede Derby",belt:"Tan suede",socks:"Rust or camel",watch:"Bronze casual watch",occasion:"Weekend smart, gallery opening, casual business",archetype:"Continental",confidence:4,tip:"Rust against camel is warm confidence made visible — the most autumnal combination in menswear.",shirtColor:"#F8F8F8",tieColor:"#B7410E"},
-      {name:"The Green Country",suit:"Camel Solid",shirt:"Cream Ivory Poplin",tie:"Solid Olive Grenadine",pocketSquare:"Ivory Linen — One Point",shoes:"Dark Brown Brogues",belt:"Dark brown",socks:"Olive or camel",watch:"Leather field watch",occasion:"Country weekend, outdoor smart, estate events",archetype:"Country",confidence:4,tip:"Olive and cream on camel — the English countryside in a suit. Brown brogues are the only acceptable shoe.",shirtColor:"#FFFDD0",tieColor:"#556B2F"},
-      {name:"The Cool Contrast",suit:"Camel Solid",shirt:"Pale Blue End-on-End",tie:"Solid Burgundy Grenadine",pocketSquare:"White Cotton — One Point",shoes:"Dark Brown Derby",belt:"Dark brown leather",socks:"Burgundy or navy",watch:"Silver dress watch",occasion:"Business casual, client meetings, creative leadership",archetype:"Continental",confidence:4,tip:"Cool blue against warm camel — burgundy is the bridge that makes the temperature contrast deliberate.",shirtColor:"#89B4D4",tieColor:"#722F37"},
-      {name:"The Tonal Camel",suit:"Camel Solid",shirt:"Cream Ivory Poplin",tie:"Solid Gold Foulard",pocketSquare:"Ivory Linen — One Point",shoes:"Tan Leather Loafers",belt:"Tan leather",socks:"Camel or ivory",watch:"Gold casual watch",occasion:"Smart casual, weekend lunch, leisure formal",archetype:"Mediterranean",confidence:5,tip:"All-warm dressing on camel is the Italian golden hour — wear it only when confidence needs no justification.",shirtColor:"#FFFDD0",tieColor:"#C9A84C"},
-    ],
-    styleMantra:"Camel is the colour of luxury without announcement — warm, golden, and worn only by those who understand that richness is a state of mind."
-  },
-
-  "camel|chalk_stripe": {
-    suit: { colorFamily:"Camel Chalk Stripe", undertones:"Warm golden-amber with vertical stripe authority", fabric:"Wool twill, ~260 g/m2", pattern:"Chalk Stripe", formality:"Smart Formal / Business Casual", lapel:"Notch lapel", fit:"Slim fit" },
-    shirts: [
-      { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White and solid — the only foundation for camel chalk stripe. The stripe provides the structure, white provides the clarity.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Irish Linen",fold:"TV Fold",material:"Irish Linen"}, ties:[
-        {id:1,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy on camel chalk stripe — cool authority against warm gold. The solid tie is the only option."},
-        {id:2,name:"Solid Burgundy Grenadine",color:"#722F37",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Burgundy warms the camel chalk stripe into something deeply considered and Old World."},
-        {id:3,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Brown knit softens the chalk stripe's formality — relaxed authority on an unusual warm suit."},
-        {id:4,name:"Solid Forest Green",color:"#355E3B",pattern:"Solid",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Forest green against camel chalk stripe — earthy distinction on a warm structured suit."},
-        {id:5,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust amplifies the camel warmth into a bold autumnal statement through the stripe."},
-        {id:6,name:"Solid Charcoal Grenadine",color:"#36454F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Charcoal cools the camel chalk stripe — the most restrained and authoritative choice."},
-      ]},
-      { id:2, name:"Cream Ivory Poplin", colorCode:"#FFFDD0", why:"Cream respects camel chalk stripe's warm undertones while providing the tonal contrast the stripe needs to breathe.", collar:"Semi-spread collar", pattern:"Solid", pocketSquare:{name:"Ivory Cotton",fold:"One Point",material:"Cotton"}, ties:[
-        {id:1,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"The complete warm palette on chalk stripe — camel, cream, dark brown. Unimpeachably elegant."},
-        {id:2,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy grounds the warm palette with the cool authority that chalk stripe always needs."},
-        {id:3,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive on cream on camel chalk stripe — the Italian autumn palette through vertical authority."},
-        {id:4,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy cuts through the warmth with Old World authority — the stripe handles the structure."},
-        {id:5,name:"Solid Rust Grenadine",color:"#B7410E",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust on cream on camel chalk stripe — the warmest editorial palette on a structured suit."},
-        {id:6,name:"Solid Gold Solid",color:"#C9A84C",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Gold on cream on camel chalk stripe — a warm tonal look of deliberate Italian confidence."},
-      ]},
-      { id:3, name:"Pale Blue Poplin", colorCode:"#89B4D4", why:"Cool blue against warm camel chalk stripe creates elegant temperature tension — the stripe becomes more architectural.", collar:"Button-down collar", pattern:"Solid", pocketSquare:{name:"White Linen",fold:"Flat",material:"Linen"}, ties:[
-        {id:1,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Navy deepens the cool blue register against the warm camel stripe — tonal authority."},
-        {id:2,name:"Solid Burgundy Grenadine",color:"#722F37",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Burgundy bridges cool blue and warm camel chalk stripe — the essential warm anchor."},
-        {id:3,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Brown warms the cool blue back toward camel stripe territory — necessary earthiness."},
-        {id:4,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Triadic",why:"Green on blue on camel chalk stripe — a warm-cool-earthy triad of real distinction."},
-        {id:5,name:"Solid Charcoal Grenadine",color:"#36454F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Kelvin",harmony:"Complementary",why:"Charcoal keeps the cool palette grounded against the warm stripe — restrained elegance."},
-        {id:6,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Rust pops against cool blue while echoing the camel warm spectrum through the stripe."},
-      ]},
-    ],
-    packages:[
-      {name:"The Camel Power Stripe",suit:"Camel Chalk Stripe",shirt:"Crisp White Poplin",tie:"Solid Navy Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Cap-Toe Oxford",belt:"Dark brown leather",socks:"Navy or camel",watch:"Gold dress watch",occasion:"Important meetings, business formal, client pitch",archetype:"Italian",confidence:3,tip:"Camel chalk stripe with navy is courageous authority — white and navy are the only combination that matches its ambition.",shirtColor:"#F8F8F8",tieColor:"#191970"},
-      {name:"The Warm Stripe Authority",suit:"Camel Chalk Stripe",shirt:"Cream Ivory Poplin",tie:"Solid Dark Brown Grenadine",pocketSquare:"Ivory Cotton — One Point",shoes:"Cognac Cap-Toe Derby",belt:"Cognac leather",socks:"Brown or camel",watch:"Gold vintage watch",occasion:"Senior leadership, formal creative, business lunch",archetype:"Continental",confidence:5,tip:"The warmest power palette — camel stripe, cream, and dark brown. Brown shoes mandatory. Always.",shirtColor:"#FFFDD0",tieColor:"#5C3317"},
-      {name:"The Temperature Stripe",suit:"Camel Chalk Stripe",shirt:"Pale Blue Poplin",tie:"Solid Burgundy Grenadine",pocketSquare:"White Linen — Flat",shoes:"Dark Brown Oxford",belt:"Dark brown leather",socks:"Navy or burgundy",watch:"Silver dress watch",occasion:"Business casual, creative leadership, important lunch",archetype:"Avant-Garde",confidence:4,tip:"Blue shirt on camel chalk stripe is the unexpected move — burgundy tie makes it deliberate and completely considered.",shirtColor:"#89B4D4",tieColor:"#722F37"},
-      {name:"The Autumn Stripe",suit:"Camel Chalk Stripe",shirt:"Cream Ivory Poplin",tie:"Solid Rust Grenadine",pocketSquare:"Ivory Cotton — One Point",shoes:"Tan Suede Derby",belt:"Tan suede",socks:"Rust or camel",watch:"Bronze sport-dress",occasion:"Creative business, lunch, gallery, aperitivo",archetype:"Mediterranean",confidence:5,tip:"Rust and cream on camel chalk stripe — the warmest editorial stripe palette in menswear.",shirtColor:"#FFFDD0",tieColor:"#B7410E"},
-      {name:"The Tonal Camel Stripe",suit:"Camel Chalk Stripe",shirt:"Crisp White Poplin",tie:"Solid Forest Green",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Derby",belt:"Dark brown leather",socks:"Forest green or camel",watch:"Bronze-tone watch",occasion:"Creative sector, business casual, gallery",archetype:"British",confidence:4,tip:"White shirt breaks the warm palette just enough to make the stripe intentional — forest green adds earthy distinction.",shirtColor:"#F8F8F8",tieColor:"#355E3B"},
-      {name:"The Gold Hour Stripe",suit:"Camel Chalk Stripe",shirt:"Cream Ivory Poplin",tie:"Solid Gold Solid",pocketSquare:"Ivory Cotton — One Point",shoes:"Tan Suede Derby",belt:"Tan suede",socks:"Camel or ivory",watch:"Gold-tone casual",occasion:"Smart casual, weekend formal, creative events",archetype:"Italian",confidence:4,tip:"Gold on cream on camel chalk stripe — unified by golden undertones throughout. The stripe is the structure.",shirtColor:"#FFFDD0",tieColor:"#C9A84C"},
-    ],
-    styleMantra:"A camel chalk stripe is the suit of a man who has mastered the warm palette well enough to give it vertical authority."
-  },
-
-  "camel|glen_plaid": {
-    suit: { colorFamily:"Camel Glen Plaid", undertones:"Warm golden-amber with country check character", fabric:"Wool blend, ~240 g/m2", pattern:"Glen Plaid", formality:"Smart Casual / Business Casual", lapel:"Notch lapel", fit:"Classic or slim fit" },
-    shirts: [
-      { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"With glen plaid always white and solid — the pattern does all the work on a camel check.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Irish Linen",fold:"TV Fold",material:"Irish Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Brown knit and camel glen plaid is the English countryside in two colours — honest, warm, irreplaceable."},
-        {id:2,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy grounds the warm camel check with cool authority — the most controlled choice."},
-        {id:3,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy provides warm contrast against the golden camel plaid — Old World and considered."},
-        {id:4,name:"Solid Olive Grenadine",color:"#556B2F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive and camel glen plaid is the country estate palette — earthy, relaxed, completely deliberate."},
-        {id:5,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Forest green knit on camel plaid — the most natural country combination in menswear."},
-        {id:6,name:"Solid Rust Grenadine",color:"#B7410E",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust amplifies the warmth woven into camel glen plaid — an autumnal combination of real character."},
-      ]},
-      { id:2, name:"Ivory Oxford Cloth", colorCode:"#FFFFF0", why:"Oxford cloth subtle texture complements glen plaid while warm ivory honours camel undertones perfectly.", collar:"Button-down collar", pattern:"Oxford weave", pocketSquare:{name:"Ivory Linen",fold:"Casual Puff",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"The definitive country combination: camel plaid, ivory, and dark brown. Nothing more needed."},
-        {id:2,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive on ivory on camel plaid — the entire golden-green earth spectrum in one look."},
-        {id:3,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy cuts through the warm palette with necessary cool authority."},
-        {id:4,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust on ivory on camel plaid — warm autumnal richness through the check."},
-        {id:5,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy grounds the warm palette with cool deliberate authority."},
-        {id:6,name:"Solid Gold Solid",color:"#C9A84C",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Tonal gold on camel plaid with ivory separation — the most expert warm monochromatic move."},
-      ]},
-      { id:3, name:"Pale Blue Chambray", colorCode:"#89B4D4", why:"Chambray soft texture and cool blue create deliberate contrast against warm camel glen plaid — a modern country move.", collar:"Button-down collar", pattern:"Chambray", pocketSquare:{name:"White Cotton",fold:"One Point",material:"Cotton"}, ties:[
-        {id:1,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Brown warms the cool blue back toward camel territory — the essential bridge in this palette."},
-        {id:2,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy bridges blue chambray and camel plaid into a coherent warm-cool palette."},
-        {id:3,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive warms the cool blue while honouring camel earthy warmth — the natural bridge."},
-        {id:4,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Matching the cool blue register creates tonal calm against the busy camel plaid."},
-        {id:5,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Rust pops against blue while echoing camel warm spectrum — deliberate and warm."},
-        {id:6,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Triadic",why:"Green on chambray blue on camel plaid — the full natural palette in one considered outfit."},
-      ]},
-    ],
-    packages:[
-      {name:"The Country Estate Camel",suit:"Camel Glen Plaid",shirt:"Crisp White Poplin",tie:"Solid Dark Brown Knit",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Suede Derby",belt:"Dark brown suede",socks:"Brown or camel",watch:"Leather field watch",occasion:"Country weekend, smart casual, outdoor formal",archetype:"Country",confidence:4,tip:"Brown suede is the only shoe for camel glen plaid — everything else misses the point entirely.",shirtColor:"#F8F8F8",tieColor:"#5C3317"},
-      {name:"The Ivory Country Camel",suit:"Camel Glen Plaid",shirt:"Ivory Oxford Cloth",tie:"Solid Dark Brown Grenadine",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Tan Derby Brogues",belt:"Tan leather",socks:"Camel or brown",watch:"Casual watch",occasion:"Business casual, campus, creative sector",archetype:"Preppy",confidence:4,tip:"Oxford cloth and dark brown on camel plaid is the Ivy League at its most distinguished and warm.",shirtColor:"#FFFFF0",tieColor:"#5C3317"},
-      {name:"The Camel Plaid Authority",suit:"Camel Glen Plaid",shirt:"Crisp White Poplin",tie:"Solid Navy Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Brogues",belt:"Dark brown leather",socks:"Navy or camel",watch:"Gold dress watch",occasion:"Business meetings, client lunch, smart formal",archetype:"British Classic",confidence:3,tip:"Navy on white on camel plaid is the move of a man who knows precisely what he is doing.",shirtColor:"#F8F8F8",tieColor:"#191970"},
-      {name:"The Golden Hour Plaid",suit:"Camel Glen Plaid",shirt:"Ivory Oxford Cloth",tie:"Solid Gold Solid",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Tan Suede Loafers",belt:"Tan suede",socks:"Camel or ivory",watch:"Gold sport-dress",occasion:"Gallery, creative lunch, weekend smart",archetype:"Continental",confidence:5,tip:"Glen plaid, ivory, gold — a palette of complete warm harmony. The most Italian approach to a camel check.",shirtColor:"#FFFFF0",tieColor:"#C9A84C"},
-      {name:"The Cool Modern Camel",suit:"Camel Glen Plaid",shirt:"Pale Blue Chambray",tie:"Solid Dark Brown Grenadine",pocketSquare:"White Cotton — One Point",shoes:"Dark Brown Oxford",belt:"Dark brown leather",socks:"Navy or camel",watch:"Silver dress watch",occasion:"Creative business, client meetings, team lunch",archetype:"Continental",confidence:4,tip:"Blue chambray on camel plaid is the unexpected country move — brown tie is the essential bridge.",shirtColor:"#89B4D4",tieColor:"#5C3317"},
-      {name:"The Autumn Maverick Camel",suit:"Camel Glen Plaid",shirt:"Ivory Oxford Cloth",tie:"Solid Rust Knit",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Tan Derby",belt:"Tan leather",socks:"Rust or camel",watch:"Bronze-case watch",occasion:"Creative sector, gallery opening, autumn events",archetype:"Avant-Garde",confidence:5,tip:"Rust knit on ivory on camel plaid — the autumnal colour story in three warm acts.",shirtColor:"#FFFFF0",tieColor:"#B7410E"},
-    ],
-    styleMantra:"Camel glen plaid is the warm country pattern of a man who learned the English rules and made them his own."
-  },
-
-  "camel|herringbone": {
-    suit: { colorFamily:"Camel Herringbone", undertones:"Warm golden-amber with V-weave textural depth", fabric:"Wool herringbone, ~270 g/m2", pattern:"Herringbone", formality:"Business Casual / Smart Casual", lapel:"Notch lapel", fit:"Classic or slim fit" },
-    shirts: [
-      { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White cuts cleanly through camel herringbone texture — crisp clarity against the rich V-weave warmth.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Irish Linen",fold:"TV Fold",material:"Irish Linen"}, ties:[
-        {id:1,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Knit texture echoes herringbone weave — complementary textures and warm-cool colours in perfect dialogue."},
-        {id:2,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"Brown and camel herringbone is the definitive earth combination — rooted, deliberate, English in spirit."},
-        {id:3,name:"Solid Navy Solid",color:"#1B3A6B",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy anchors the warmth of camel herringbone with cool deliberate authority."},
-        {id:4,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive continues the warm natural spectrum of camel herringbone — earthy and completely considered."},
-        {id:5,name:"Solid Rust Grenadine",color:"#B7410E",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust and camel herringbone is an autumnal combination of rare character and warmth."},
-        {id:6,name:"Solid Gold Foulard",color:"#C9A84C",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Gold illuminates the warm undertones of camel herringbone — tonal richness through texture."},
-      ]},
-      { id:2, name:"Cream Ivory Poplin", colorCode:"#FFFDD0", why:"Ivory warmth is a natural match for camel herringbone textured richness — tonal harmony of the highest order.", collar:"Semi-spread collar", pattern:"Solid", pocketSquare:{name:"Ivory Linen",fold:"One Point",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Chocolate Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"The complete earth palette: camel herringbone, ivory, chocolate. Warm, rooted, impeccable."},
-        {id:2,name:"Solid Burgundy Grenadine",color:"#722F37",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Burgundy provides warm contrast against the ivory-camel herringbone combination."},
-        {id:3,name:"Solid Forest Green Solid",color:"#355E3B",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Forest green silk on ivory gives a touch of town polish to the warm camel herringbone."},
-        {id:4,name:"Solid Terracotta Knit",color:"#CB6D51",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Terracotta echoes the herringbone warm texture with complementary autumnal tone."},
-        {id:5,name:"Solid Navy Knit",color:"#1B3A6B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Navy knit grounds the warm palette with calm authority — the essential cool note."},
-        {id:6,name:"Solid Rust Grenadine",color:"#B7410E",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust warms the herringbone texture into a complete autumnal composition of real depth."},
-      ]},
-      { id:3, name:"Pale Blue End-on-End", colorCode:"#89B4D4", why:"Cool blue against warm camel herringbone creates the classic Italian temperature contrast — precise and considered.", collar:"Button-down collar", pattern:"End-on-End", pocketSquare:{name:"White Cotton",fold:"One Point",material:"Cotton"}, ties:[
-        {id:1,name:"Solid Burgundy Grenadine",color:"#722F37",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Burgundy bridges cool blue and warm camel herringbone — the essential warm anchor in a cool palette."},
-        {id:2,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Brown grounds the cool blue while honouring camel's warmth — the natural bridge."},
-        {id:3,name:"Solid Navy Solid",color:"#1B3A6B",pattern:"Solid",material:"Silk",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Matching the cool register against warm herringbone creates elegant temperature tension."},
-        {id:4,name:"Solid Rust Foulard",color:"#B7410E",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Complementary",why:"Rust pops against the cool blue while anchoring the warmth of camel herringbone."},
-        {id:5,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Triadic",why:"Olive on blue on camel herringbone — earthy warmth completing the warm-cool-natural triangle."},
-        {id:6,name:"Solid Charcoal Grenadine",color:"#36454F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Kelvin",harmony:"Complementary",why:"Charcoal grounds the cool blue palette — the most restrained choice on warm camel herringbone."},
-      ]},
-    ],
-    packages:[
-      {name:"The Autumn Executive",suit:"Camel Herringbone",shirt:"Crisp White Poplin",tie:"Solid Burgundy Knit",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Brogues",belt:"Dark brown leather",socks:"Burgundy or dark camel",watch:"Bronze-case watch",occasion:"Business casual, autumn meetings, creative sector",archetype:"British Classic",confidence:4,tip:"The knit tie against camel herringbone is a textural masterclass — same natural fibre family, different expression.",shirtColor:"#F8F8F8",tieColor:"#722F37"},
-      {name:"The Country Gentleman",suit:"Camel Herringbone",shirt:"Cream Ivory Poplin",tie:"Solid Dark Chocolate Knit",pocketSquare:"Ivory Linen — One Point",shoes:"Dark Brown Suede Derby",belt:"Dark brown suede",socks:"Brown or camel",watch:"Leather field watch",occasion:"Country weekend, smart casual, outdoor formal",archetype:"Country",confidence:5,tip:"Ivory and chocolate and camel herringbone is the ultimate English country palette — warm, rooted, effortless.",shirtColor:"#FFFDD0",tieColor:"#5C3317"},
-      {name:"The Italian Autumn",suit:"Camel Herringbone",shirt:"Cream Ivory Poplin",tie:"Solid Terracotta Knit",pocketSquare:"Ivory Linen — One Point",shoes:"Cognac Suede Loafers",belt:"Cognac leather",socks:"Terracotta or camel",watch:"Gold sport-dress",occasion:"Gallery, creative business, weekend lunch",archetype:"Italian",confidence:5,tip:"Terracotta and camel herringbone is the Italian autumn wardrobe in one outfit — no further explanation needed.",shirtColor:"#FFFDD0",tieColor:"#CB6D51"},
-      {name:"The Temperature Play",suit:"Camel Herringbone",shirt:"Pale Blue End-on-End",tie:"Solid Burgundy Grenadine",pocketSquare:"White Cotton — One Point",shoes:"Dark Brown Derby Brogues",belt:"Dark brown leather",socks:"Navy or burgundy",watch:"Silver dress watch",occasion:"Business casual, client meetings, creative leadership",archetype:"Continental",confidence:4,tip:"Cool blue against warm camel herringbone — burgundy is the bridge that makes the contrast deliberate.",shirtColor:"#89B4D4",tieColor:"#722F37"},
-      {name:"The Earth Authority",suit:"Camel Herringbone",shirt:"Crisp White Poplin",tie:"Solid Dark Brown Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Cognac Oxford Brogues",belt:"Cognac leather",socks:"Brown or camel",watch:"Gold-tone dress watch",occasion:"Business meetings, lunch, creative sector",archetype:"British",confidence:4,tip:"White and brown on camel herringbone is the palette of quiet earthen authority — the weave is the decoration.",shirtColor:"#F8F8F8",tieColor:"#5C3317"},
-      {name:"The Warm Modern",suit:"Camel Herringbone",shirt:"Crisp White Poplin",tie:"Solid Rust Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Tan Derby",belt:"Tan leather",socks:"Rust or camel",watch:"Bronze or tan-strap watch",occasion:"Creative industry, gallery, smart casual",archetype:"Avant-Garde",confidence:4,tip:"Rust on white on camel herringbone — warm confident and deliberately modern through the V-weave.",shirtColor:"#F8F8F8",tieColor:"#B7410E"},
-    ],
-    styleMantra:"Camel herringbone is warmth with texture — the man who wears it understands that depth is always in the weave."
-  },
-
-  "camel|tweed": {
-    suit: { colorFamily:"Camel Tweed", undertones:"Warm golden-amber, rough-hewn country character", fabric:"Harris Tweed / Donegal, ~380 g/m2", pattern:"Tweed", formality:"Smart Casual / Country Formal", lapel:"Notch lapel", fit:"Classic fit" },
-    shirts: [
-      { id:1, name:"Cream Poplin", colorCode:"#FFFDD0", why:"Cream against camel tweed is the most natural combination — warm tones, rooted, completely honest.", collar:"Button-down collar", pattern:"Solid", pocketSquare:{name:"Cream Linen",fold:"Casual Puff",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Dark brown knit and camel tweed is the Highlands in a tie — honest, warm, completely irreplaceable."},
-        {id:2,name:"Solid Burgundy Wool Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy wool knit is the warmest complement to camel tweed — knit is the only correct choice here."},
-        {id:3,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive picks out the earthy flecks often woven into camel tweed — deeply natural and considered."},
-        {id:4,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Forest green on camel tweed — the moorland palette brought to town in its finest form."},
-        {id:5,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust knit amplifies the warmth woven through camel tweed — an autumnal masterclass."},
-        {id:6,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Complementary",why:"The only cool note in a warm palette — navy grenadine grounds camel tweed with restrained authority."},
-      ]},
-      { id:2, name:"White Oxford Cloth", colorCode:"#F5F5F0", why:"Oxford cloth brings just enough texture to hold its own against tweed's rough character.", collar:"Button-down collar", pattern:"Oxford weave", pocketSquare:{name:"White Linen",fold:"Flat Fold",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"White and brown on camel tweed — the most elegant version of the warm earth palette."},
-        {id:2,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy knit bridges white crispness with tweed warmth — necessary contrast."},
-        {id:3,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Tonal olive on camel tweed with white separation — the warm monochromatic country move."},
-        {id:4,name:"Solid Camel Solid",color:"#C19A6B",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Camel against white against camel tweed — warm and completely cohesive."},
-        {id:5,name:"Solid Navy Knit",color:"#1B3A6B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Navy knit provides cool authority in an otherwise entirely warm palette."},
-        {id:6,name:"Solid Rust Solid",color:"#B7410E",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust on white on camel tweed — warm, deliberate, and confident through the rough cloth."},
-      ]},
-      { id:3, name:"Pale Blue Poplin", colorCode:"#89B4D4", why:"The cool temperature of pale blue against rough camel tweed creates surprising modern contrast — town meets country.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Linen",fold:"One Point",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Brown warms the cool blue back toward camel territory — the essential bridge in this palette."},
-        {id:2,name:"Solid Burgundy Grenadine",color:"#722F37",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Triadic",why:"Burgundy bridges cool blue and warm camel tweed — the bridge that makes the contrast deliberate."},
-        {id:3,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive on blue on camel tweed — earthy warmth completing the warm-cool-natural triangle."},
-        {id:4,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Matching the cool blue register creates tonal calm against the warm rough tweed."},
-        {id:5,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Rust against blue on camel tweed — warm cool and warm again through country cloth."},
-        {id:6,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Triadic",why:"Forest green connects the cool blue to the suit warm green-earth family."},
-      ]},
-    ],
-    packages:[
-      {name:"The Highland Camel",suit:"Camel Tweed",shirt:"Cream Poplin",tie:"Solid Dark Brown Knit",pocketSquare:"Cream Linen — Casual Puff",shoes:"Dark Brown Suede Brogues",belt:"Dark brown suede",socks:"Brown or heather",watch:"Leather field watch",occasion:"Country weekend, estate, smart outdoor",archetype:"Country",confidence:5,tip:"Dark brown suede brogues are the only shoe for camel tweed — everything else is a compromise of character.",shirtColor:"#FFFDD0",tieColor:"#5C3317"},
-      {name:"The Donegal Authority",suit:"Camel Tweed",shirt:"White Oxford Cloth",tie:"Solid Dark Brown Grenadine",pocketSquare:"White Linen — Flat Fold",shoes:"Dark Brown Derby",belt:"Dark brown leather",socks:"Brown or camel",watch:"Bronze-case watch",occasion:"Business casual, creative meetings, autumn events",archetype:"British Classic",confidence:4,tip:"White Oxford and dark brown on camel tweed — the most restrained expression of warm country authority.",shirtColor:"#F5F5F0",tieColor:"#5C3317"},
-      {name:"The Autumnal Maverick",suit:"Camel Tweed",shirt:"Cream Poplin",tie:"Solid Rust Knit",pocketSquare:"Cream Linen — Casual Puff",shoes:"Tan Suede Derby",belt:"Tan suede",socks:"Rust or camel",watch:"Bronze or tan-strap watch",occasion:"Creative events, gallery, autumn social",archetype:"Avant-Garde",confidence:5,tip:"Rust knit and cream against camel tweed is the autumnal colour masterclass — warm, warm, warm."},
-      {name:"The Cool Country",suit:"Camel Tweed",shirt:"Pale Blue Poplin",tie:"Solid Dark Brown Knit",pocketSquare:"White Linen — One Point",shoes:"Dark Brown Derby Brogues",belt:"Dark brown leather",socks:"Navy or brown",watch:"Silver field watch",occasion:"Creative business, smart casual, country events",archetype:"Continental",confidence:4,tip:"Blue shirt against camel tweed is the unexpected country move — brown knit is the essential bridge.",shirtColor:"#89B4D4",tieColor:"#5C3317"},
-      {name:"The Warm Tonal",suit:"Camel Tweed",shirt:"Cream Poplin",tie:"Solid Burgundy Wool Knit",pocketSquare:"Cream Linen — Casual Puff",shoes:"Cognac Oxford",belt:"Cognac leather",socks:"Burgundy or camel",watch:"Gold-tone vintage",occasion:"Smart casual, business casual, cultural events",archetype:"British",confidence:4,tip:"Burgundy knit on cream on camel tweed — the warmest most complete country palette possible.",shirtColor:"#FFFDD0",tieColor:"#722F37"},
-      {name:"The Tonal Camel Tweed",suit:"Camel Tweed",shirt:"Cream Poplin",tie:"Solid Olive Knit",pocketSquare:"Cream Linen — Casual Puff",shoes:"Dark Brown Suede Loafers",belt:"Dark brown suede",socks:"Olive or camel",watch:"Field watch",occasion:"Creative, gallery, weekend smart, outdoor",archetype:"Country",confidence:4,tip:"Tonal camel from tweed to tie with cream in between — the warm monochromatic country statement.",shirtColor:"#FFFDD0",tieColor:"#556B2F"},
-    ],
-    styleMantra:"Camel tweed is cloth with a biography — it tells you the man has been somewhere, done something, and dressed accordingly in the warmest cloth available."
-  },
-
-  "camel|linen": {
-    suit: { colorFamily:"Camel Linen", undertones:"Warm golden-amber, relaxed summer weight", fabric:"Linen / Cotton-Linen blend, ~200 g/m2", pattern:"Linen plain weave", formality:"Smart Casual / Summer Casual", lapel:"Notch lapel", fit:"Relaxed or slim fit" },
-    shirts: [
-      { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"White is the sharpest contrast to camel linen — clean and purposeful against a relaxed warm fabric.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Linen",fold:"Casual Puff",material:"Linen"}, ties:[
-        {id:1,name:"Solid Navy Knit",color:"#1B3A6B",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Navy knit is the essential anchor for camel linen — cool authority in a warm summer suit."},
-        {id:2,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Brown knit with camel linen is relaxed authority — the most natural warm combination in summer weight."},
-        {id:3,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Cotton-Silk Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy provides warm authority without competing with camel linen casual register."},
-        {id:4,name:"No Tie (Pocket Square Only)",color:"#F8F8F8",pattern:"None",material:"N/A",width:"N/A",knot:"None",harmony:"N/A",why:"Camel linen worn without a tie — a white linen pocket square is all you need. This is the correct register."},
-        {id:5,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust and camel linen — Mediterranean warmth in two tones. Wear it with conviction."},
-        {id:6,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive knit grounds camel linen with earthy summer warmth — natural and distinguished."},
-      ]},
-      { id:2, name:"Ivory Linen Shirt", colorCode:"#FFFFF0", why:"Linen on linen is texture harmony — ivory warmth is inseparable from camel summer character.", collar:"Button-down collar", pattern:"Solid linen", pocketSquare:{name:"Ivory Linen",fold:"Casual Puff",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"The complete earth palette in summer weight — camel linen, ivory, dark brown."},
-        {id:2,name:"No Tie",color:"#FFFFF0",pattern:"None",material:"N/A",width:"N/A",knot:"None",harmony:"N/A",why:"Ivory linen shirt and camel linen suit open collar — the Amalfi coast in a suit. Nothing else needed."},
-        {id:3,name:"Solid Rust Solid",color:"#B7410E",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust warms ivory into a terracotta-tinged summer palette — deeply Italian and warm."},
-        {id:4,name:"Solid Forest Green",color:"#355E3B",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Tonal green with ivory separation on camel linen — the warm monochromatic summer garden look."},
-        {id:5,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Complementary",why:"A cool anchor in an otherwise entirely warm summer linen palette."},
-        {id:6,name:"Solid Camel Solid",color:"#C19A6B",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Tonal camel on ivory on camel linen — the ultimate warm tonal summer look."},
-      ]},
-      { id:3, name:"Sky Blue Linen", colorCode:"#89B4D4", why:"Sky blue linen against camel linen — cool and warm summer tones in natural fabric harmony.", collar:"Button-down collar", pattern:"Solid linen", pocketSquare:{name:"White Linen",fold:"Puff",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Brown bridges the cool blue and warm camel — the necessary earthen anchor."},
-        {id:2,name:"Solid Navy Knit",color:"#1B3A6B",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Navy deepens the blue linen register — summer palette grounded in cool authority."},
-        {id:3,name:"No Tie",color:"#89B4D4",pattern:"None",material:"N/A",width:"N/A",knot:"None",harmony:"N/A",why:"Blue linen on camel linen, no tie — this is the Riviera. Nothing more is needed."},
-        {id:4,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Rust pops against the cool blue while anchoring the warmth of camel linen."},
-        {id:5,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Cotton Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Triadic",why:"Olive connects the cool blue to the warm camel linen through earthy summer warmth."},
-        {id:6,name:"Solid Burgundy Solid",color:"#722F37",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy brings a touch of formality to a relaxed summer linen outfit."},
-      ]},
-    ],
-    packages:[
-      {name:"The Amalfi Camel",suit:"Camel Linen",shirt:"Ivory Linen Shirt",tie:"No Tie",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Tan Suede Loafers",belt:"None",socks:"No-show",watch:"Gold casual",occasion:"Resort, summer aperitivo, coastal dining, outdoor wedding",archetype:"Mediterranean",confidence:5,tip:"Linen on linen is never a mistake in summer — camel and ivory are always in warm conversation.",shirtColor:"#FFFFF0",tieColor:"#FFFFF0"},
-      {name:"The Camel Summer",suit:"Camel Linen",shirt:"Crisp White Poplin",tie:"Solid Navy Knit",pocketSquare:"White Linen — Casual Puff",shoes:"Brown Suede Loafers",belt:"Brown suede",socks:"Navy or no socks",watch:"Casual dress watch",occasion:"Summer business casual, client lunch",archetype:"Italian",confidence:3,tip:"Navy knit is the one element that gives camel linen its gravity — the warmest suit needs the coolest anchor.",shirtColor:"#F8F8F8",tieColor:"#1B3A6B"},
-      {name:"The Blue Linen Camel",suit:"Camel Linen",shirt:"Sky Blue Linen",tie:"Solid Dark Brown Knit",pocketSquare:"White Linen — Puff",shoes:"Tan Canvas Espadrilles",belt:"None",socks:"No-show",watch:"NATO strap",occasion:"Summer casual, resort, coastal events",archetype:"Avant-Garde",confidence:5,tip:"Blue linen on camel linen is the freshest summer combination — brown knit is the only tie that works here.",shirtColor:"#89B4D4",tieColor:"#5C3317"},
-      {name:"The Terracotta Hour",suit:"Camel Linen",shirt:"Ivory Linen Shirt",tie:"Solid Rust Solid",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Cognac Loafers",belt:"None",socks:"No-show",watch:"Gold casual",occasion:"Summer aperitivo, outdoor dining, rooftop events",archetype:"Italian",confidence:5,tip:"Rust and ivory on camel linen — the Italian summer palette at its most warm and deliberate.",shirtColor:"#FFFFF0",tieColor:"#B7410E"},
-      {name:"The Clean Camel Summer",suit:"Camel Linen",shirt:"Crisp White Poplin",tie:"Solid Dark Brown Knit",pocketSquare:"White Linen — Casual Puff",shoes:"Dark Brown Derby",belt:"Dark brown leather",socks:"No-show",watch:"Bronze casual",occasion:"Smart summer casual, garden party, resort",archetype:"British Classic",confidence:3,tip:"White and brown on camel linen — the cleanest warmest version of summer authority.",shirtColor:"#F8F8F8",tieColor:"#5C3317"},
-      {name:"The Open Collar Camel",suit:"Camel Linen",shirt:"Sky Blue Linen",tie:"No Tie",pocketSquare:"White Linen — Puff",shoes:"White Canvas Loafers",belt:"None",socks:"No-show",watch:"Simple watch",occasion:"Summer social, outdoor events, resort casual",archetype:"Continental",confidence:5,tip:"Camel linen open collar, blue linen shirt, white pocket square — this is summer dressing at its purest.",shirtColor:"#89B4D4",tieColor:"#89B4D4"},
-    ],
-    styleMantra:"Camel linen is summer authority in the warmest cloth — golden, relaxed, and effortlessly of the moment."
-  },
-
-  "camel|houndstooth": {
-    suit: { colorFamily:"Camel Houndstooth", undertones:"Warm golden-amber with geometric check character", fabric:"Wool houndstooth, ~270 g/m2", pattern:"Houndstooth", formality:"Business Casual / Smart Casual", lapel:"Notch lapel", fit:"Classic or slim fit" },
-    shirts: [
-      { id:1, name:"Crisp White Poplin", colorCode:"#F8F8F8", why:"With camel houndstooth white is non-negotiable — the geometric check needs the cleanest foundation to read correctly.", collar:"Spread collar", pattern:"Solid", pocketSquare:{name:"White Irish Linen",fold:"TV Fold",material:"Irish Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Knit",color:"#5C3317",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Brown knit and camel houndstooth is the English countryside in check form — honest, warm, irreplaceable."},
-        {id:2,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy grounds the warm camel check with cool authority — the most controlled and authoritative choice."},
-        {id:3,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy warms the camel check into something Old World and deeply considered."},
-        {id:4,name:"Solid Olive Grenadine",color:"#556B2F",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive and camel houndstooth — the country estate palette in geometric form."},
-        {id:5,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Forest green knit on camel houndstooth — the most natural country check combination."},
-        {id:6,name:"Solid Rust Grenadine",color:"#B7410E",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust amplifies the warmth woven into camel houndstooth — an autumnal combination of real character."},
-      ]},
-      { id:2, name:"Ivory Oxford Cloth", colorCode:"#FFFFF0", why:"Oxford cloth adds subtle texture while warm ivory honours camel houndstooth's golden undertones perfectly.", collar:"Button-down collar", pattern:"Oxford weave", pocketSquare:{name:"Ivory Linen",fold:"Casual Puff",material:"Linen"}, ties:[
-        {id:1,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Monochromatic",why:"The definitive warm check combination: camel houndstooth, ivory, and dark brown."},
-        {id:2,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive on ivory on camel houndstooth — the warm golden-green earth spectrum through the check."},
-        {id:3,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy cuts through the warm palette with necessary cool authority on the bold check."},
-        {id:4,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Rust on ivory on camel houndstooth — the warmest autumnal check palette."},
-        {id:5,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Complementary",why:"Navy grounds the warm palette with cool deliberate authority — essential restraint."},
-        {id:6,name:"Solid Gold Solid",color:"#C9A84C",pattern:"Solid",material:"Silk",width:"3in",knot:"Four-in-Hand",harmony:"Monochromatic",why:"Tonal gold on camel houndstooth with ivory separation — the warm monochromatic expert move."},
-      ]},
-      { id:3, name:"Pale Blue Chambray", colorCode:"#89B4D4", why:"Chambray's cool blue creates deliberate temperature contrast against warm camel houndstooth — modern country dressing.", collar:"Button-down collar", pattern:"Chambray", pocketSquare:{name:"White Cotton",fold:"One Point",material:"Cotton"}, ties:[
-        {id:1,name:"Solid Dark Brown Grenadine",color:"#5C3317",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Brown warms the cool blue back toward camel houndstooth territory — the essential bridge."},
-        {id:2,name:"Solid Burgundy Knit",color:"#722F37",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Burgundy bridges blue chambray and camel houndstooth into a coherent warm-cool palette."},
-        {id:3,name:"Solid Olive Knit",color:"#556B2F",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Analogous",why:"Olive warms the cool blue while honouring camel's earthen warmth — the natural bridge."},
-        {id:4,name:"Solid Navy Grenadine",color:"#191970",pattern:"Solid Grenadine",material:"Silk Grenadine",width:"3in",knot:"Half Windsor",harmony:"Analogous",why:"Matching the cool blue register creates tonal calm against the busy camel check."},
-        {id:5,name:"Solid Rust Knit",color:"#B7410E",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Complementary",why:"Rust pops against blue while echoing camel warm spectrum through the geometric check."},
-        {id:6,name:"Solid Forest Green Knit",color:"#355E3B",pattern:"Solid Knit",material:"Wool Knit",width:"2.5in",knot:"Four-in-Hand",harmony:"Triadic",why:"Green on chambray blue on camel houndstooth — the full natural palette in one considered outfit."},
-      ]},
-    ],
-    packages:[
-      {name:"The Camel Check Authority",suit:"Camel Houndstooth",shirt:"Crisp White Poplin",tie:"Solid Dark Brown Knit",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Suede Derby",belt:"Dark brown suede",socks:"Brown or camel",watch:"Leather field watch",occasion:"Country weekend, smart casual, business casual",archetype:"Country",confidence:4,tip:"Brown suede is the only shoe for camel houndstooth — the check demands natural companions.",shirtColor:"#F8F8F8",tieColor:"#5C3317"},
-      {name:"The Ivory Country Check",suit:"Camel Houndstooth",shirt:"Ivory Oxford Cloth",tie:"Solid Dark Brown Grenadine",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Tan Derby Brogues",belt:"Tan leather",socks:"Camel or brown",watch:"Casual watch",occasion:"Business casual, campus, creative sector",archetype:"Preppy",confidence:4,tip:"Oxford cloth and dark brown on camel houndstooth is the Ivy League at its warmest and most distinguished.",shirtColor:"#FFFFF0",tieColor:"#5C3317"},
-      {name:"The Navy Anchor Check",suit:"Camel Houndstooth",shirt:"Crisp White Poplin",tie:"Solid Navy Grenadine",pocketSquare:"White Linen — TV Fold",shoes:"Dark Brown Brogues",belt:"Dark brown leather",socks:"Navy or camel",watch:"Gold dress watch",occasion:"Business meetings, client lunch, smart formal",archetype:"British Classic",confidence:3,tip:"Navy on white on camel houndstooth — the most authoritative approach to a warm geometric suit.",shirtColor:"#F8F8F8",tieColor:"#191970"},
-      {name:"The Golden Check",suit:"Camel Houndstooth",shirt:"Ivory Oxford Cloth",tie:"Solid Gold Solid",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Tan Suede Loafers",belt:"Tan suede",socks:"Camel or ivory",watch:"Gold sport-dress",occasion:"Gallery, creative lunch, weekend smart",archetype:"Continental",confidence:5,tip:"Camel houndstooth, ivory, gold — a palette of complete warm harmony through the geometric.",shirtColor:"#FFFFF0",tieColor:"#C9A84C"},
-      {name:"The Cool Modern Check",suit:"Camel Houndstooth",shirt:"Pale Blue Chambray",tie:"Solid Dark Brown Grenadine",pocketSquare:"White Cotton — One Point",shoes:"Dark Brown Oxford",belt:"Dark brown leather",socks:"Navy or camel",watch:"Silver dress watch",occasion:"Creative business, client meetings, team lunch",archetype:"Continental",confidence:4,tip:"Blue chambray on camel houndstooth is the unexpected move — brown tie is the essential warm bridge.",shirtColor:"#89B4D4",tieColor:"#5C3317"},
-      {name:"The Autumn Check Bold",suit:"Camel Houndstooth",shirt:"Ivory Oxford Cloth",tie:"Solid Rust Knit",pocketSquare:"Ivory Linen — Casual Puff",shoes:"Tan Derby",belt:"Tan leather",socks:"Rust or camel",watch:"Bronze-case watch",occasion:"Creative sector, gallery opening, autumn events",archetype:"Avant-Garde",confidence:5,tip:"Rust knit on ivory on camel houndstooth — the autumnal colour story in three warm acts through the check.",shirtColor:"#FFFFF0",tieColor:"#B7410E"},
-    ],
-    styleMantra:"Camel houndstooth is the warm check of the man who dresses with the confidence of the countryside and the precision of the city."
-  },
-
 "camel|solid": {
     suit: { colorFamily:"Camel", undertones:"Warm golden-amber undertones", fabric:"Worsted wool or cashmere blend, ~260 g/m2", pattern:"Solid", formality:"Smart Casual / Business Casual", lapel:"Notch lapel", fit:"Slim or classic fit" },
     shirts: [
@@ -19288,7 +19014,6 @@ const _BASE_MAP = {
   blue:         ANALYSIS_BLUE,
   burgundy:     ANALYSIS_BURGUNDY,
   brown:        ANALYSIS_BROWN,
-  beige:        ANALYSIS_BEIGE,
   green:        ANALYSIS,
   white:        ANALYSIS,
   purple:       ANALYSIS,
@@ -19338,7 +19063,7 @@ const _BASE_MAP = {
 const COLOR_TO_HEX = {
   "White":"#F8F8F8","Ivory White":"#FFFFF0","Pale Blue":"#B8D4E8","Pale Pink":"#F8D7DA",
   "Light Blue":"#ADD8E6","Blue Oxford":"#89B4D4","Cream":"#FFFDD0","Ecru":"#F5F0E1",
-  "Pale Yellow":"#FDFFC2","White":"#F8F8F8",
+  "Pale Yellow":"#FDFFC2",
 }
 function normalizeMatrixResult(entry) {
   if (!entry) return entry
@@ -19391,10 +19116,15 @@ function getAnalysisFromPhotoResult(result) {
     "Smooth weave":             "solid",
     "Subtle Texture / Twill":   "solid",
     "Chalk Stripe / Pinstripe": "chalk_stripe",
+    "Chalk Stripe":             "chalk_stripe",
+    "Pin Stripe":               "chalk_stripe",
     "Horizontal Stripe":        "chalk_stripe",
     "Glen Plaid / Check":       "glen_plaid",
     "Bold Pattern / Tweed":     "tweed",
     "Herringbone":              "herringbone",
+    "Houndstooth":              "houndstooth",
+    "Linen":                    "linen",
+    "Linen plain weave":        "linen",
   }
 
   const colorKey   = result.colorKey === "light_grey" ? "grey" : result.colorKey
@@ -19434,13 +19164,42 @@ const COLOR_FAMILY_LABELS = {
   black:      "Black",
   charcoal:   "Charcoal Grey",
   navy:       "Navy Blue",
+  midnight:   "Midnight Navy",
   grey:       "Medium Grey",
   light_grey: "Light Grey",
   blue:       "Blue",
+  lightblue:  "Pale Blue",
+  cobalt:     "Cobalt Blue",
   burgundy:   "Burgundy / Wine",
+  oxblood:    "Oxblood",
+  wine:       "Wine",
   brown:      "Brown",
+  chocolate:  "Chocolate Brown",
+  cognac:     "Cognac",
   camel:      "Camel",
+  tan:        "Tan",
   beige:      "Beige / Tan",
+  white:      "White / Ivory",
+  cream:      "Cream / Ivory",
+  ecru:       "Ecru",
+  green:      "Green",
+  olive:      "Olive Green",
+  forestgreen:"Forest Green",
+  bottle:     "Bottle Green",
+  sage:       "Sage Green",
+  moss:       "Moss Green",
+  teal:       "Teal",
+  pink:       "Pink",
+  blush:      "Blush Pink",
+  purple:     "Purple",
+  lavender:   "Lavender",
+  aubergine:  "Aubergine",
+  rust:       "Rust",
+  terracotta: "Terracotta",
+  red:        "Red",
+  gold:       "Gold",
+  mustard:    "Mustard",
+  champagne:  "Champagne",
 }
 
 
@@ -20006,11 +19765,25 @@ function dots(n)             { return Array.from({length:5},(_,i)=>i<n?"●":"�
 const NAVY = "#0f172a"
 const GOLD = "#C9A84C"
 
+function accountPlanLabel(entitlement) {
+  if (!entitlement || entitlement.plan === "free") return "Free"
+  if (entitlement.plan === "elite") return "Elite"
+  if (entitlement.plan === "pro") return "Pro"
+  return entitlement.label || "Free"
+}
+
+function accountPlanCaption(entitlement) {
+  const plan = entitlement?.plan || "free"
+  if (plan === "elite") return "Elite access"
+  if (plan === "pro") return entitlement?.source === "admin_comp" ? "Complimentary Pro" : "Pro access"
+  return "3 AI analyses / month"
+}
+
 // ─────────────────────────────────────────────
 // SIDEBAR
 // ─────────────────────────────────────────────
 
-function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut }) {
+function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, entitlement, isAdmin }) {
   const items = [
     { id:"analyzer",  icon:Wand2,    label:"AI Analyzer" },
     { id:"validator", icon:Check,    label:"Outfit Validator", badge:"NEW" },
@@ -20019,8 +19792,12 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut }
     { id:"community", icon:Users,    label:"Community" },
     { id:"pricing",   icon:Tag,      label:"Upgrade" },
   ]
+  if (isAdmin) items.push({ id:"admin", icon:Shield, label:"Admin", badge:"OWNER" })
   const displayName = user?.displayName || user?.email?.split("@")[0] || "Guest"
   const initials    = displayName[0].toUpperCase()
+  const planLabel   = accountPlanLabel(entitlement)
+  const planCaption = accountPlanCaption(entitlement)
+  const planUsed    = entitlement?.plan === "free" ? "1 of 3 used this month" : "Unlimited access"
 
   return (
     <div style={{background:NAVY,color:"white"}} className={`flex flex-col h-full ${mobile?"w-72":"w-64"} flex-shrink-0`}>
@@ -20039,15 +19816,17 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut }
       <div className="mx-4 mt-4 mb-1 px-3 py-2 rounded-xl" style={{background:"rgba(201,168,76,0.1)",border:"1px solid rgba(201,168,76,0.25)"}}>
         <div className="flex items-center justify-between mb-1">
           <div>
-            <div className="text-xs font-bold tracking-widest" style={{color:GOLD}}>FREE TIER</div>
-            <div className="text-xs text-gray-400">3 AI analyses / month</div>
+            <div className="text-xs font-bold tracking-widest" style={{color:GOLD}}>{planLabel.toUpperCase()} TIER</div>
+            <div className="text-xs text-gray-400">{planCaption}</div>
           </div>
-          <button onClick={()=>{setPage("pricing");if(onClose)onClose()}} className="text-xs font-bold px-2 py-1 rounded-lg" style={{background:GOLD,color:NAVY}}>Pro</button>
+          {entitlement?.plan !== "elite" && (
+            <button onClick={()=>{setPage("pricing");if(onClose)onClose()}} className="text-xs font-bold px-2 py-1 rounded-lg" style={{background:GOLD,color:NAVY}}>Pro</button>
+          )}
         </div>
         <div className="flex gap-1 mt-1">
-          {[1,2,3].map(i=><div key={i} className="h-1 flex-1 rounded-full" style={{background:i===1?GOLD:"rgba(255,255,255,0.1)"}} />)}
+          {[1,2,3].map(i=><div key={i} className="h-1 flex-1 rounded-full" style={{background:entitlement?.plan !== "free" || i===1?GOLD:"rgba(255,255,255,0.1)"}} />)}
         </div>
-        <div className="text-xs text-gray-500 mt-1">1 of 3 used this month</div>
+        <div className="text-xs text-gray-500 mt-1">{planUsed}</div>
       </div>
 
       {/* Nav */}
@@ -20077,7 +19856,7 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut }
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-sm font-semibold truncate">{displayName}</div>
-              <div className="text-xs text-gray-500">Free Member</div>
+              <div className="text-xs text-gray-500">{planLabel} Member{isAdmin ? " · Owner" : ""}</div>
             </div>
             <button onClick={onLogOut} title="Sign out"
               className="p-1.5 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all">
@@ -20344,7 +20123,7 @@ function AnalyzerPage() {
 
       // Analyze suit photo — Claude Vision AI
       const visionResult = await analyzeOutfit(suitFile);
-      if (visionResult.success && visionResult.data) {
+      if (visionResult.success && visionResult.data?.suit?.visible !== false && visionResult.data?.suit?.color) {
         const d = visionResult.data;
         const analysis = getAnalysisFromPhotoResult({
           colorKey: d.suit.color,
@@ -20775,7 +20554,7 @@ function AnalyzerPage() {
                               "Mustard":"mustard","Gold":"mustard","Golden":"mustard","Mustard Yellow":"mustard",
                               "Yellow":"mustard",
                             }
-                            const patMap = {"Solid":"solid","Chalk Stripe / Pinstripe":"chalk_stripe","Glen Plaid / Check":"glen_plaid","Herringbone":"herringbone","Tweed":"tweed","Houndstooth":"glen_plaid","Linen":"linen"}
+                            const patMap = {"Solid":"solid","Chalk Stripe / Pinstripe":"chalk_stripe","Glen Plaid / Check":"glen_plaid","Herringbone":"herringbone","Tweed":"tweed","Houndstooth":"houndstooth","Linen":"linen"}
                             const colorKey  = colorMap[correction.color] || photoResult.colorKey
                             const patternKey = patMap[correction.pattern] || "solid"
                             const patternInfo = { pattern: correction.pattern, fabric: correction.fabric || photoResult.fabricStr, formality: photoResult.patternInfo.formality }
@@ -20869,13 +20648,24 @@ function AnalyzerPage() {
                           </div>
                           <div className="flex gap-2 pt-1">
                             <button onClick={()=>{
+                              const shirtColorMap = {
+                                "White": "white",
+                                "Pale Blue": "lightblue",
+                                "French Blue": "blue",
+                                "Light Pink": "blush",
+                                "Light Grey": "light_grey",
+                                "Cream": "cream",
+                                "Yellow": "mustard",
+                                "Pale Green": "sage",
+                                "Oxford White": "white",
+                              }
                               const newShirtResult = {
                                 ...shirtPhotoResult,
-                                colorKey: "light_grey",
-                                patternInfo: { ...shirtPhotoResult.patternInfo, pattern: shirtCorrection.pattern },
+                                colorKey: shirtColorMap[shirtCorrection.color] || shirtPhotoResult.colorKey,
+                                patternInfo: { ...shirtPhotoResult.patternInfo, pattern: shirtCorrection.pattern || shirtPhotoResult.patternInfo.pattern },
                                 fabricStr: shirtPhotoResult.fabricStr,
-                                correctedColor: shirtCorrection.color,
-                                correctedPattern: shirtCorrection.pattern,
+                                correctedColor: shirtCorrection.color || (COLOR_FAMILY_LABELS[shirtPhotoResult.colorKey] || ""),
+                                correctedPattern: shirtCorrection.pattern || shirtPhotoResult.patternInfo.pattern,
                               }
                               setShirtPhotoResult(newShirtResult)
                               setCorrectingShirt(false)
@@ -21229,22 +21019,31 @@ function SectionLabel({n, label}) {
 // PAGE: CLOSET
 // ─────────────────────────────────────────────
 
-function ClosetPage({ closetItems, setClosetItems }) {
+function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthClick, closetSaving, closetError }) {
   const [filter,  setFilter]  = useState("All")
   const items = closetItems || CLOSET_ITEMS_INIT
   const setItems = setClosetItems || (() => {})
   const [modal,   setModal]   = useState(false)
   const [selected,setSelected]= useState(null)
   const [form,    setForm]    = useState({type:"Suit",name:"",brand:"",color:"#1B3A6B"})
+  const [saveError, setSaveError] = useState("")
 
   const TYPES = ["All","Suit","Shirt","Tie","Shoes","Accessory"]
   const shown  = filter==="All" ? items : items.filter(i=>i.type===filter)
   const counts = TYPES.reduce((a,t)=>({...a,[t]:t==="All"?items.length:items.filter(i=>i.type===t).length}),{})
 
-  const save = () => {
+  const save = async () => {
     if(!form.name.trim()) return
-    setItems(p=>[...p,{...form,id:Date.now(),occasions:[]}])
-    setModal(false); setForm({type:"Suit",name:"",brand:"",color:"#1B3A6B"})
+    const item = {...form,id:`closet-${Date.now()}`,occasions:[]}
+    setSaveError("")
+    try {
+      if (addClosetItem) await addClosetItem(item)
+      else setItems(p=>[...p,item])
+      setModal(false); setForm({type:"Suit",name:"",brand:"",color:"#1B3A6B"})
+    } catch (err) {
+      console.error("[Dapper] Closet save failed", err)
+      setSaveError("Could not save this garment. Check your connection and try again.")
+    }
   }
 
   return (
@@ -21271,6 +21070,23 @@ function ClosetPage({ closetItems, setClosetItems }) {
       </div>
 
       {/* Limit warning */}
+      {user === null && (
+        <div className="mb-4 px-4 py-3 rounded-xl flex items-center justify-between gap-3" style={{background:"#eff6ff",border:"1px solid #bfdbfe"}}>
+          <div className="text-sm text-blue-900">
+            <strong>Guest mode:</strong> closet changes are saved on this browser only. Sign in to sync them with Firebase.
+          </div>
+          <button onClick={onAuthClick} className="px-3 py-2 rounded-xl text-xs font-black text-white whitespace-nowrap" style={{background:NAVY}}>
+            Sign in
+          </button>
+        </div>
+      )}
+
+      {(closetError || saveError) && (
+        <div className="mb-4 px-4 py-3 rounded-xl text-sm text-red-700" style={{background:"#fef2f2",border:"1px solid #fecaca"}}>
+          {saveError || closetError}
+        </div>
+      )}
+
       {items.length>=15 && (
         <div className="mb-4 px-4 py-3 rounded-xl flex items-center justify-between" style={{background:"#fffbeb"}}>
           <div className="flex items-center gap-2 text-sm text-yellow-800"><Lock size={14}/><span>Free tier: {items.length}/20 garments</span></div>
@@ -21360,8 +21176,8 @@ function ClosetPage({ closetItems, setClosetItems }) {
               </div>
               <div className="flex gap-3 pt-2">
                 <button onClick={()=>setModal(false)} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
-                <button onClick={save} disabled={!form.name.trim()} className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40 transition-all" style={{background:NAVY}}>
-                  Add to Closet
+                <button onClick={save} disabled={!form.name.trim() || closetSaving} className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40 transition-all" style={{background:NAVY}}>
+                  {closetSaving ? "Saving..." : "Add to Closet"}
                 </button>
               </div>
             </div>
@@ -21380,16 +21196,18 @@ function Label({children}) {
 // PAGE: CALENDAR
 // ─────────────────────────────────────────────
 
-const TODAY = "2026-03-30"
+function todayKey(date = new Date()) { return fmtDate(date.getFullYear(), date.getMonth(), date.getDate()) }
+const TODAY = todayKey()
 
 function daysAgo(dateStr) {
   const diff = Math.floor((new Date(TODAY) - new Date(dateStr)) / 86400000)
-  if(diff === 0) return "hoy"
-  if(diff === 1) return "ayer"
-  if(diff < 7)  return `hace ${diff} días`
-  if(diff < 14) return "hace 1 semana"
-  if(diff < 30) return `hace ${Math.floor(diff/7)} semanas`
-  return `hace ${Math.floor(diff/30)} mes${Math.floor(diff/30)>1?"es":""}`
+  if(diff === 0) return "today"
+  if(diff === 1) return "yesterday"
+  if(diff < 7)  return `${diff} days ago`
+  if(diff < 14) return "1 week ago"
+  if(diff < 30) return `${Math.floor(diff/7)} weeks ago`
+  const months = Math.floor(diff/30)
+  return `${months} month${months>1?"s":""} ago`
 }
 
 function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
@@ -21464,7 +21282,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── PHOTO UPLOAD ── */}
           <div>
-            <Label>Outfit Photo <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Outfit Photo <span className="font-normal text-gray-400 normal-case">(optional)</span></Label>
             {form.photo ? (
               /* Preview */
               <div className="relative mt-1 rounded-2xl overflow-hidden" style={{height:"200px"}}>
@@ -21475,7 +21293,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
                 {/* Change / remove buttons */}
                 <div className="absolute bottom-3 right-3 flex gap-2">
                   <label className="cursor-pointer px-3 py-1.5 rounded-xl text-xs font-black text-white" style={{background:"rgba(0,0,0,0.5)"}}>
-                    Cambiar
+                    Change
                     <input type="file" accept="image/*" className="hidden" onChange={handlePhotoInput}/>
                   </label>
                   <button onClick={()=>set("photo",null)}
@@ -21485,7 +21303,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
                 </div>
                 {/* Done check */}
                 <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-black" style={{background:GOLD,color:NAVY}}>
-                  <Check size={11}/> Foto lista
+                  <Check size={11}/> Photo ready
                 </div>
               </div>
             ) : (
@@ -21522,7 +21340,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           <div>
             <Label>Suit / Blazer</Label>
             <input value={form.suit} onChange={e=>set("suit",e.target.value)}
-              list="suits-list" placeholder="ej. Navy Chalk Stripe"
+              list="suits-list" placeholder="e.g. Navy Chalk Stripe"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -21532,8 +21350,8 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
               <div className="mt-2 flex items-start gap-2 p-3 rounded-xl text-xs" style={{background:"#fef2f2",border:"1px solid #fecaca"}}>
                 <span className="text-base leading-none">🔁</span>
                 <div>
-                  <strong className="text-red-700">Combinación repetida</strong>
-                  <p className="text-red-600 mt-0.5">Usaste exactamente este look <strong>{daysAgo(exactRepeat.date)}</strong>{exactRepeat.occasion?` en "${exactRepeat.occasion}"`:""}.</p>
+                  <strong className="text-red-700">Repeated combination</strong>
+                  <p className="text-red-600 mt-0.5">You wore this exact look <strong>{daysAgo(exactRepeat.date)}</strong>{exactRepeat.occasion?` for "${exactRepeat.occasion}"`:""}.</p>
                 </div>
               </div>
             )}
@@ -21541,8 +21359,8 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
               <div className="mt-2 flex items-start gap-2 p-3 rounded-xl text-xs" style={{background:"#fffbeb",border:"1px solid #fde68a"}}>
                 <span className="text-base leading-none">⚠️</span>
                 <div>
-                  <strong className="text-yellow-800">Traje usado recientemente</strong>
-                  <p className="text-yellow-700 mt-0.5">Llevaste el <strong>{repeatWarning.suit}</strong> <strong>{daysAgo(repeatWarning.date)}</strong>{repeatWarning.occasion?` (${repeatWarning.occasion})`:""}.{" "}Cambia la camisa o corbata para un look distinto.</p>
+                  <strong className="text-yellow-800">Suit worn recently</strong>
+                  <p className="text-yellow-700 mt-0.5">You wore <strong>{repeatWarning.suit}</strong> <strong>{daysAgo(repeatWarning.date)}</strong>{repeatWarning.occasion?` (${repeatWarning.occasion})`:""}.{" "}Change the shirt or tie for a distinct look.</p>
                 </div>
               </div>
             )}
@@ -21552,7 +21370,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           <div>
             <Label>Shirt</Label>
             <input value={form.shirt} onChange={e=>set("shirt",e.target.value)}
-              list="shirts-list" placeholder="ej. Crisp White Poplin"
+              list="shirts-list" placeholder="e.g. Crisp White Poplin"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -21563,7 +21381,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           <div>
             <Label>Tie <span className="font-normal text-gray-400 normal-case">(or '—' if none)</span></Label>
             <input value={form.tie} onChange={e=>set("tie",e.target.value)}
-              list="ties-list" placeholder="ej. Burgundy Grenadine"
+              list="ties-list" placeholder="e.g. Burgundy Grenadine"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -21572,9 +21390,9 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── SHOES ── */}
           <div>
-            <Label>Shoes <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Shoes <span className="font-normal text-gray-400 normal-case">(optional)</span></Label>
             <input value={form.shoes} onChange={e=>set("shoes",e.target.value)}
-              list="shoes-list" placeholder="ej. Black Cap-Toe Oxford"
+              list="shoes-list" placeholder="e.g. Black Cap-Toe Oxford"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -21583,9 +21401,9 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── ACCESSORIES ── */}
           <div>
-            <Label>Accessories <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Accessories <span className="font-normal text-gray-400 normal-case">(optional)</span></Label>
             <input value={form.accessories} onChange={e=>set("accessories",e.target.value)}
-              list="accessories-list" placeholder="ej. White Linen Square, Silver Watch"
+              list="accessories-list" placeholder="e.g. White Linen Square, Silver Watch"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -21596,7 +21414,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           <div>
             <Label>Occasion</Label>
             <input value={form.occasion} onChange={e=>set("occasion",e.target.value)}
-              placeholder="ej. Board Meeting, cena, entrevista…"
+              placeholder="e.g. Board Meeting, dinner, interview..."
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -21604,7 +21422,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
           {/* ── NOTES ── */}
           <div>
-            <Label>Notes <span className="font-normal text-gray-400 normal-case">(opcional)</span></Label>
+            <Label>Notes <span className="font-normal text-gray-400 normal-case">(optional)</span></Label>
             <textarea value={form.notes} onChange={e=>set("notes",e.target.value)}
               placeholder="How did it go? Any notes on the look?"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none resize-none"
@@ -21628,12 +21446,13 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 }
 
 function CalendarPage({ closetItems, user }) {
+  const initialDate = new Date()
   const [tab,        setTab]      = useState("calendar")
-  const [date,       setDate]     = useState(new Date(2026,2,1))
-  const [selDay,     setSelDay]   = useState(30)
+  const [date,       setDate]     = useState(() => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1))
+  const [selDay,     setSelDay]   = useState(() => initialDate.getDate())
   const [showLog,    setShowLog]  = useState(false)
   const [logDate,    setLogDate]  = useState(TODAY)
-  const [filterSuit, setFilterSuit] = useState("Todos")
+  const [filterSuit, setFilterSuit] = useState("All")
 
   // ── Firestore-backed data ──
   const { wornLog, saveEntry }           = useWornLog(user, WORN_LOG_INIT)
@@ -21663,8 +21482,8 @@ function CalendarPage({ closetItems, user }) {
   const wornDates = new Set(wornLog.map(e=>e.date))
 
   // Filter suits for history
-  const allSuits = ["Todos", ...new Set(wornLog.map(e=>e.suit))]
-  const filteredLog = filterSuit==="Todos" ? wornLog : wornLog.filter(e=>e.suit===filterSuit)
+  const allSuits = ["All", ...new Set(wornLog.map(e=>e.suit))]
+  const filteredLog = filterSuit==="All" ? wornLog : wornLog.filter(e=>e.suit===filterSuit)
 
   // Stats
   const last30 = wornLog.filter(e=>e.date>=new Date(new Date(TODAY)-30*86400000).toISOString().split("T")[0])
@@ -21676,7 +21495,7 @@ function CalendarPage({ closetItems, user }) {
       <div className="flex items-center justify-between mb-5">
         <div>
           <h1 className="text-2xl font-black text-gray-900">Outfit Calendar</h1>
-          <p className="text-gray-400 text-sm mt-0.5">{wornLog.length} looks registrados</p>
+          <p className="text-gray-400 text-sm mt-0.5">{wornLog.length} logged looks</p>
         </div>
         {/* Quick log button */}
         <button onClick={()=>{setLogDate(TODAY);setShowLog(true)}}
@@ -21688,7 +21507,7 @@ function CalendarPage({ closetItems, user }) {
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 rounded-xl mb-5 w-fit" style={{background:"#f1f5f9"}}>
-        {[{id:"calendar",label:"📅 Calendario"},{id:"log",label:"📖 Historial"}].map(t=>(
+        {[{id:"calendar",label:"📅 Calendar"},{id:"log",label:"📖 History"}].map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)}
             className={`px-5 py-2 rounded-lg text-sm font-bold transition-all ${tab===t.id?"bg-white shadow-sm text-gray-900":"text-gray-400"}`}>
             {t.label}
@@ -21731,10 +21550,10 @@ function CalendarPage({ closetItems, user }) {
             {/* Legend */}
             <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-50">
               <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                <div className="w-2 h-2 rounded-full" style={{background:GOLD}}/> Look registrado
+                <div className="w-2 h-2 rounded-full" style={{background:GOLD}}/> Logged look
               </div>
               <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                <div className="w-2 h-2 rounded-full bg-gray-300"/> Planeado
+                <div className="w-2 h-2 rounded-full bg-gray-300"/> Planned
               </div>
             </div>
           </div>
@@ -21767,7 +21586,7 @@ function CalendarPage({ closetItems, user }) {
                     <div className="p-3" style={{background:"#fffbeb"}}>
                       <div className="flex items-center gap-1.5 mb-1">
                         <div className="w-2 h-2 rounded-full" style={{background:GOLD}}/>
-                        <span className="text-xs font-black" style={{color:GOLD}}>REGISTRADO</span>
+                        <span className="text-xs font-black" style={{color:GOLD}}>LOGGED</span>
                       </div>
                       {!wornOnSelected.photo && <div className="text-xs font-bold text-gray-800">{wornOnSelected.suit}</div>}
                       <div className="text-xs text-gray-500 mt-0.5">{wornOnSelected.shirt}{wornOnSelected.tie&&wornOnSelected.tie!=="—"?` · ${wornOnSelected.tie}`:""}{wornOnSelected.shoes?` · 👞 ${wornOnSelected.shoes}`:""}{wornOnSelected.accessories?` · ✦ ${wornOnSelected.accessories}`:""}</div>
@@ -21781,21 +21600,21 @@ function CalendarPage({ closetItems, user }) {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <div className="w-2.5 h-2.5 rounded-full bg-gray-300"/>
-                      <span className="text-xs font-bold text-gray-400">PLANEADO</span>
+                      <span className="text-xs font-bold text-gray-400">PLANNED</span>
                     </div>
                     <div className="text-xs text-gray-500 bg-gray-50 rounded-lg p-2.5">{selectedEvt.outfit}</div>
                   </div>
                 ) : !wornOnSelected && (
                   <div className="text-center py-4">
                     <Shirt size={20} className="mx-auto text-gray-200 mb-2"/>
-                    <p className="text-xs text-gray-300">Sin registro ni plan</p>
+                    <p className="text-xs text-gray-300">No log or plan</p>
                   </div>
                 )}
               </div>
             ) : (
               <div className="bg-gray-50 rounded-2xl p-5 text-center border border-gray-100">
                 <Calendar size={20} className="mx-auto text-gray-200 mb-2"/>
-                <p className="text-xs text-gray-400">Selecciona un día para ver el detalle</p>
+                <p className="text-xs text-gray-400">Select a day to see details</p>
               </div>
             )}
 
@@ -21821,25 +21640,25 @@ function CalendarPage({ closetItems, user }) {
         </div>
       )}
 
-      {/* ── TAB: HISTORIAL ── */}
+      {/* ── TAB: HISTORY ── */}
       {tab==="log" && (
         <div className="space-y-5">
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
               <div className="text-2xl font-black" style={{color:NAVY}}>{wornLog.length}</div>
-              <div className="text-xs text-gray-400 mt-0.5">Looks registrados</div>
+              <div className="text-xs text-gray-400 mt-0.5">Logged looks</div>
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
               <div className="text-2xl font-black" style={{color:NAVY}}>{last30.length}</div>
-              <div className="text-xs text-gray-400 mt-0.5">Últimos 30 días</div>
+              <div className="text-xs text-gray-400 mt-0.5">Last 30 days</div>
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
               {topSuit ? (
                 <>
                   <div className="w-5 h-5 rounded-full mx-auto mb-1" style={{background:CLOSET_ITEMS_INIT.find(i=>i.name===topSuit[0])?.color||NAVY}}/>
                   <div className="text-xs font-black text-gray-700 leading-tight">{topSuit[0].split(" ").slice(0,2).join(" ")}</div>
-                  <div className="text-xs text-gray-400 mt-0.5">Traje favorito</div>
+                  <div className="text-xs text-gray-400 mt-0.5">Favorite suit</div>
                 </>
               ) : <div className="text-xs text-gray-300">—</div>}
             </div>
@@ -21870,7 +21689,7 @@ function CalendarPage({ closetItems, user }) {
                 <div key={entry.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
                   {isRecent && (
                     <div className="px-4 py-2 text-xs font-bold flex items-center gap-1.5" style={{background:"#fef3c7",color:"#92400e"}}>
-                      <span>⚠️</span> Mismo traje usado {daysAgo(prev7[0].date)} — considera variar la camisa o la corbata
+                      <span>⚠️</span> Same suit worn {daysAgo(prev7[0].date)} - consider changing the shirt or tie
                     </div>
                   )}
 
@@ -21884,7 +21703,7 @@ function CalendarPage({ closetItems, user }) {
                       {/* Date + suit overlaid on photo */}
                       <div className="absolute bottom-0 left-0 right-0 p-4">
                         <div className="text-xs font-semibold mb-0.5" style={{color:"rgba(255,255,255,0.6)"}}>
-                          {new Date(entry.date+"T12:00:00").toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"})}
+                          {new Date(entry.date+"T12:00:00").toLocaleDateString("en-US",{weekday:"long",day:"numeric",month:"long"})}
                           <span className="ml-2" style={{color:GOLD}}>· {daysAgo(entry.date)}</span>
                         </div>
                         <div className="font-black text-white text-base leading-tight">{entry.suit}</div>
@@ -21911,7 +21730,7 @@ function CalendarPage({ closetItems, user }) {
                           <div className="flex items-start justify-between gap-2 mb-1.5">
                             <div>
                               <div className="text-xs text-gray-400 font-semibold">
-                                {new Date(entry.date+"T12:00:00").toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short",year:"numeric"})}
+                                {new Date(entry.date+"T12:00:00").toLocaleDateString("en-US",{weekday:"short",day:"numeric",month:"short",year:"numeric"})}
                                 <span className="ml-2 text-gray-300">·</span>
                                 <span className="ml-2" style={{color:GOLD}}>{daysAgo(entry.date)}</span>
                               </div>
@@ -22156,8 +21975,185 @@ const POCKET_SQUARE_RULES = {
   }
 }
 
+function displayColorLabel(colorKey) {
+  if (!colorKey) return ""
+  return COLOR_FAMILY_LABELS[colorKey] || String(colorKey)
+    .replace(/_/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/\b\w/g, c => c.toUpperCase())
+}
+
+function classifyValidatorColorText(text) {
+  const v = String(text || "").toLowerCase()
+  if (!v) return null
+  if (/midnight|navy|indigo|azul marino|marino/.test(v)) return "navy"
+  if (/charcoal|graphite|anthracite|gunmetal|dark gr[ae]y|gris oscuro|grafito|antracita/.test(v)) return "charcoal"
+  if (/black|onyx|ebony|negr[oa]s?|negro/.test(v)) return "black"
+  if (/light gr[ae]y|light gray|silver|pearl|ash|gris claro|platead[oa]|plata|perla|ceniza/.test(v)) return "light_grey"
+  if (/gr[ae]y|slate|pewter|gris|pizarra/.test(v)) return "grey"
+  if (/burgundy|wine|claret|maroon|oxblood|borgoñ[ao]|burdeos|vino|guinda|granate/.test(v)) return "burgundy"
+  if (/cognac/.test(v)) return "cognac"
+  if (/chocolate|espresso|brown|walnut|mahogany|mocha|marr[oó]n|caf[eé]|casta[nñ]o|caoba/.test(v)) return "brown"
+  if (/white|oyster|cream|ivory|ecru|off[\s-]?white|blanc[oa]s?|crema|marfil|crudo/.test(v)) return "white"
+  if (/camel|tan|beige|khaki|sand|taupe|fawn|wheat|camello|caqui|arena|trigo/.test(v)) return "beige"
+  if (/olive|forest|hunter|bottle|moss|sage|green|oliva|verde|salvia|musgo|botella/.test(v)) return "olive"
+  if (/teal|petrol|petr[oó]leo|verde azulado/.test(v)) return "teal"
+  if (/pink|blush|rose|rosad[oa]|rosa/.test(v)) return "pink"
+  if (/purple|violet|lavender|plum|aubergine|morado|p[uú]rpura|violeta|lavanda|berenjena/.test(v)) return "purple"
+  if (/rust|terracotta|burnt orange|orange|copper|[oó]xido|terracota|naranja|cobre/.test(v)) return "rust"
+  if (/red|scarlet|crimson|roj[oa]|escarlata|carmes[ií]/.test(v)) return "red"
+  if (/gold|mustard|yellow|dorad[oa]|oro|mostaza|amarill[oa]/.test(v)) return "gold"
+  if (/blue|cobalt|royal|french|sky|azul|celeste/.test(v)) return "blue"
+  return null
+}
+
+function normalizeValidatorColor(value) {
+  const v = String(value || "").toLowerCase()
+  if (!v || v === "—" || v.includes("no tie")) return null
+  const primary = v
+    .split(/[,&/+()]/)[0]
+    .replace(/\s+[-\u2013\u2014]\s+.*/, "")
+    .trim()
+  return classifyValidatorColorText(primary) || classifyValidatorColorText(v)
+}
+
+function validatorPatternKeyFromLabel(label) {
+  const p = String(label || "").toLowerCase()
+  if (/houndstooth|hounds tooth|pata de gallo/.test(p)) return "houndstooth"
+  if (/linen|lino/.test(p)) return "linen"
+  if (/herringbone|herring bone|espiga/.test(p)) return "herringbone"
+  if (/tweed|donegal|harris/.test(p)) return "tweed"
+  if (/chalk|pinstripe|pin stripe|stripe|raya diplom[aá]tica|raya tiza|rayas?/.test(p)) return "chalk_stripe"
+  if (/glen|windowpane|window pane|plaid|check|pr[ií]ncipe de gales|cuadros?|ventana/.test(p)) return "glen_plaid"
+  return "solid"
+}
+
+function validatorOccasionKey(occasion) {
+  const o = String(occasion || "").toLowerCase()
+  if (/funeral|memorial/.test(o)) return "funeral"
+  if (/interview|entrevista/.test(o)) return "interview"
+  if (/wedding|boda/.test(o)) return "wedding"
+  if (/formal|gala|black tie|evening/.test(o)) return "formal"
+  if (/business|office|board|client|meeting|negocio|oficina|cliente|reuni[oó]n|trabajo/.test(o)) return "business"
+  if (/church|iglesia/.test(o)) return "church"
+  if (/date|dinner|cena|cita/.test(o)) return "date"
+  if (/casual|weekend|resort|fin de semana/.test(o)) return "casual"
+  if (/creative|gallery|brand|creativ[oa]|galer[ií]a|marca/.test(o)) return "creative"
+  return "all"
+}
+
+function suggestedShoeForSuit(suitColor) {
+  if (suitColor === "black" || suitColor === "charcoal") return "Black Cap-Toe Oxford"
+  if (suitColor === "navy") return "Dark Brown Oxford"
+  if (["beige", "brown", "olive", "rust"].includes(suitColor)) return "Dark Brown Derby"
+  if (suitColor === "burgundy") return "Black Oxford"
+  return "Dark Brown Oxford"
+}
+
+function beltForShoes(shoes) {
+  const shoeColor = normalizeValidatorColor(shoes)
+  if (shoeColor === "black") return "Black Leather Belt"
+  if (shoeColor === "cognac") return "Cognac Leather Belt"
+  if (shoeColor === "beige") return "Tan Leather Belt"
+  if (shoeColor === "burgundy") return "Oxblood Leather Belt"
+  return "Dark Brown Leather Belt"
+}
+
+function suggestedTieForSuit(suitColor, occasion) {
+  if (occasion === "funeral") return "Black Grenadine (Solid)"
+  if (occasion === "interview") return "Navy Solid Grenadine"
+  if (suitColor === "navy") return "Burgundy Grenadine (Solid)"
+  if (suitColor === "charcoal" || suitColor === "grey") return "Burgundy Grenadine (Solid)"
+  if (suitColor === "black") return "Silver Solid Grenadine"
+  if (["beige", "brown", "olive"].includes(suitColor)) return "Navy Solid Grenadine"
+  return "Navy Solid Grenadine"
+}
+
+function dedupeFixes(fixes) {
+  const seen = new Set()
+  return fixes.filter(f => {
+    const key = f.label + JSON.stringify(f.updates || {})
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+}
+
+function cleanValidatorCorrectionValue(value) {
+  const cleaned = String(value || "")
+    .replace(/^["'`]+|["'`]+$/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+  if (!cleaned) return ""
+  if (/[A-Z]/.test(cleaned)) return cleaned
+  return cleaned.replace(/\b\w/g, c => c.toUpperCase())
+}
+
+function normalizeValidatorOccasionLabel(value) {
+  const key = validatorOccasionKey(value)
+  const labels = {
+    all: "All",
+    business: "Business",
+    interview: "Interview",
+    wedding: "Wedding",
+    formal: "Formal",
+    funeral: "Funeral",
+    church: "Church",
+    date: "Date",
+    casual: "Casual",
+    creative: "Creative",
+  }
+  return labels[key] || cleanValidatorCorrectionValue(value)
+}
+
+function parseValidatorCorrection(text) {
+  const raw = String(text || "").trim()
+  if (!raw) return {}
+
+  const fields = [
+    { key: "occasion", labels: ["occasion", "ocasion", "ocasión", "event", "evento"] },
+    { key: "suit", labels: ["suit", "traje", "blazer", "jacket", "saco"] },
+    { key: "suitPattern", labels: ["suit pattern", "pattern", "patron traje", "patrón traje", "patron", "patrón", "estampado"] },
+    { key: "shirt", labels: ["shirt", "camisa"] },
+    { key: "tie", labels: ["tie", "corbata"] },
+    { key: "pocketSquare", labels: ["pocket square", "pañuelo de bolsillo", "panuelo de bolsillo", "pañuelo", "panuelo", "square", "ps"] },
+    { key: "shoes", labels: ["shoes", "shoe", "zapatos", "zapato"] },
+    { key: "belt", labels: ["belt", "cinturon", "cinturón"] },
+  ]
+
+  const labelPattern = fields
+    .flatMap(field => field.labels)
+    .sort((a, b) => b.length - a.length)
+    .map(label => escapeRegExp(label))
+    .join("|")
+
+  const updates = {}
+  for (const field of fields) {
+    const fieldPattern = field.labels
+      .sort((a, b) => b.length - a.length)
+      .map(label => escapeRegExp(label))
+      .join("|")
+    const rx = new RegExp(
+      `(?:^|[\\n;,.])\\s*(?:${fieldPattern})\\s*(?:is|es|:|=|-)?\\s*([^\\n;,.]+?)(?=\\s*(?:[\\n;,.]|$|(?:${labelPattern})\\s*(?:is|es|:|=|-)))`,
+      "i"
+    )
+    const match = raw.match(rx)
+    if (match?.[1]) updates[field.key] = cleanValidatorCorrectionValue(match[1])
+  }
+
+  if (updates.suit && /^pattern[:\s]/i.test(updates.suit)) delete updates.suit
+  if (updates.suit) updates.suitPattern = updates.suitPattern || validatorPatternKeyFromLabel(updates.suit)
+  if (updates.suitPattern) updates.suitPattern = validatorPatternKeyFromLabel(updates.suitPattern)
+  if (updates.occasion) updates.occasion = normalizeValidatorOccasionLabel(updates.occasion)
+  return updates
+}
+
 // The full outfit validator logic
-function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
+function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern, occasion, shoes, belt }) {
   const issues = []
   const warnings = []
   const compliments = []
@@ -22165,6 +22161,25 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
   let overallScore = 10
 
   const suitPatKey = getSuitPatternKey(suitPattern || suit || "")
+  const suitColor = normalizeValidatorColor(suit)
+  const shirtColor = normalizeValidatorColor(shirt)
+  const tieColor = normalizeValidatorColor(tie)
+  const psColor = normalizeValidatorColor(pocketSquare)
+  const shoeColor = normalizeValidatorColor(shoes)
+  const beltColor = normalizeValidatorColor(belt)
+  const occasionKey = validatorOccasionKey(occasion)
+  const hasTie = !!tie && !/no tie|none|sin corbata|—/.test(String(tie).toLowerCase())
+
+  const addIssue = (piece, message, fix, updates, score = 2) => {
+    issues.push({ piece, severity: "error", message, fix, updates })
+    if (fix && updates) fixes.push({ piece, label: fix, updates })
+    overallScore -= score
+  }
+  const addWarning = (piece, message, fix, updates, score = 1) => {
+    warnings.push({ piece, severity: "warning", message, fix, updates })
+    if (fix && updates) fixes.push({ piece, label: fix, updates })
+    overallScore -= score
+  }
 
   // ── SUIT + SHIRT check ──
   if (suit && shirt) {
@@ -22172,16 +22187,13 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
     const suitPat  = getSuitPatternKey(suitPattern || suit)
 
     if (suitPat === "glen_plaid" && shirtPat === "gingham") {
-      issues.push({ piece:"Shirt", severity:"error", message:"Check shirt with a check suit — this is the cardinal sin of pattern mixing.", fix:"Switch to a solid or subtly textured shirt (poplin, end-on-end, oxford cloth)." })
-      overallScore -= 4
+      addIssue("Shirt", "Check shirt with a check suit — this is the cardinal sin of pattern mixing.", "Switch to Crisp White Poplin", { shirt: "Crisp White Poplin" }, 4)
     }
     if (suitPat === "chalk_stripe" && shirtPat === "bengal_stripe") {
-      issues.push({ piece:"Shirt", severity:"warning", message:"Bold stripe shirt with chalk stripe suit — two competing bold stripes.", fix:"Use a solid or end-on-end shirt instead. Save the bengal stripe for a solid suit." })
-      overallScore -= 2
+      addWarning("Shirt", "Bold stripe shirt with chalk stripe suit — two competing bold stripes.", "Switch to Pale French Blue End-on-End", { shirt: "Pale French Blue End-on-End" }, 2)
     }
     if (suitPat === "glen_plaid" && (shirtPat === "bengal_stripe" || shirtPat === "fine_stripe")) {
-      warnings.push({ piece:"Shirt", message:"A striped shirt with a plaid suit is risky territory — use only ultra-fine stripes.", fix:"Consider a solid white or pale blue shirt to let the glen plaid breathe." })
-      overallScore -= 1
+      addWarning("Shirt", "A striped shirt with a plaid suit is risky territory — use only ultra-fine stripes.", "Switch to solid white", { shirt: "Crisp White Poplin" })
     }
     if (suitPat === "solid_suit" && shirtPat === "solid_shirt") {
       compliments.push("Solid suit with solid shirt — a clean, versatile foundation.")
@@ -22192,37 +22204,35 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
   }
 
   // ── SUIT + TIE check ──
-  if (suit && tie) {
+  // Only run this pairwise check when no shirt was provided; otherwise the full
+  // outfit check below evaluates the real three-piece combination.
+  if (suit && hasTie && !shirt) {
     const tiePat  = classifyTiePattern(tie)
     const suitPat = getSuitPatternKey(suitPattern || suit)
 
     const combo = scorePatternCombo(suitPat, "solid_shirt", tiePat)
     if (combo.score < 4) {
-      issues.push({ piece:"Tie", severity:"error", message:combo.violations[0] || "Pattern conflict between suit and tie.", fix: getFixForTieWithSuit(suitPat) })
-      overallScore -= 3
+      addIssue("Tie", combo.violations[0] || "Pattern conflict between suit and tie.", getFixForTieWithSuit(suitPat), { tie: suggestedTieForSuit(suitColor, occasionKey) }, 3)
     } else if (combo.score < 7) {
-      warnings.push({ piece:"Tie", message:combo.warnings[0] || "Borderline pattern combination — tread carefully.", fix: getFixForTieWithSuit(suitPat) })
-      overallScore -= 1
+      addWarning("Tie", combo.warnings[0] || "Borderline pattern combination — tread carefully.", getFixForTieWithSuit(suitPat), { tie: suggestedTieForSuit(suitColor, occasionKey) })
     } else if (combo.score >= 9) {
       compliments.push(combo.tips[0] || "Excellent tie and suit pattern pairing.")
     }
   }
 
   // ── SHIRT + TIE check ──
-  if (shirt && tie) {
+  if (shirt && hasTie) {
     const tiePat   = classifyTiePattern(tie)
     const shirtPat = classifyShirtPattern(shirt)
 
     // Stripe shirt + stripe tie
     if ((shirtPat === "bengal_stripe" || shirtPat === "fine_stripe") && tiePat === "repp_stripe") {
-      issues.push({ piece:"Tie", severity:"warning", message:"Stripe shirt with stripe tie — two stripe patterns at potentially similar scale.", fix:"Switch to a solid, polka dot, or foulard tie when wearing a striped shirt." })
-      overallScore -= 2
+      addWarning("Tie", "Stripe shirt with stripe tie — two stripe patterns at potentially similar scale.", "Switch to Navy Solid Grenadine", { tie: "Navy Solid Grenadine" }, 2)
     }
 
     // Check shirt + check tie
     if ((shirtPat === "gingham") && (tiePat === "bold_plaid")) {
-      issues.push({ piece:"Tie", severity:"error", message:"Check shirt with a check tie — same pattern family stacked.", fix:"Use a solid or repp stripe tie with a gingham shirt." })
-      overallScore -= 3
+      addIssue("Tie", "Check shirt with a check tie — same pattern family stacked.", "Switch to Burgundy Grenadine", { tie: "Burgundy Grenadine (Solid)" }, 3)
     }
 
     // Good combos
@@ -22241,15 +22251,14 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
   }
 
   // ── ALL THREE: SUIT + SHIRT + TIE ──
-  if (suit && shirt && tie) {
+  if (suit && shirt && hasTie) {
     const tiePat   = classifyTiePattern(tie)
     const shirtPat = classifyShirtPattern(shirt)
     const suitPat  = getSuitPatternKey(suitPattern || suit)
 
     const combo = scorePatternCombo(suitPat, shirtPat, tiePat)
     if (combo.violations.length > 0 && !issues.find(i => i.piece === "Tie")) {
-      issues.push({ piece:"Full Outfit", severity:"error", message:combo.violations[0], fix:"See individual piece recommendations below." })
-      overallScore -= 2
+      addIssue("Full Outfit", combo.violations[0], "Use a solid tie", { tie: suggestedTieForSuit(suitColor, occasionKey) }, 2)
     }
 
     // Three pattern count
@@ -22258,22 +22267,37 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
       if (combo.score >= 7) {
         compliments.push("Three patterns — expertly managed with correct scale and family differentiation. This takes knowledge.")
       } else {
-        warnings.push({ piece:"Full Outfit", message:"Three visible patterns is ambitious — scale and family contrast must be perfect.", fix:"Consider dropping one pattern: solid shirt, or solid tie." })
-        overallScore -= 1
+        addWarning("Full Outfit", "Three visible patterns is ambitious — scale and family contrast must be perfect.", "Drop one pattern", { shirt: "Crisp White Poplin", tie: suggestedTieForSuit(suitColor, occasionKey) })
       }
     }
   }
 
+  // ── COLOR HARMONY ──
+  if (suitColor && shirtColor && suitColor === shirtColor && !["white", "light_grey"].includes(suitColor)) {
+    addWarning("Shirt", "The shirt is too close to the suit color. You need contrast at the chest and collar.", "Switch to Crisp White Poplin", { shirt: "Crisp White Poplin" })
+  }
+
+  if (suitColor && tieColor && suitColor === tieColor && classifyTiePattern(tie) === "solid_tie") {
+    addWarning("Tie", "The tie matches the suit too closely. Tonal dressing works best with a visibly different shade or texture.", "Add contrast with a classic tie", { tie: suggestedTieForSuit(suitColor, occasionKey) })
+  }
+
+  if (suitColor === "black" && ["brown", "beige", "olive", "rust"].includes(tieColor)) {
+    addWarning("Tie", "Earth-tone ties usually fight a black suit's formal register.", "Use silver or burgundy instead", { tie: "Silver Solid Grenadine" })
+  }
+
+  if (["beige", "brown", "olive"].includes(suitColor) && tieColor === "black") {
+    addWarning("Tie", "A black tie is too severe for a warm earth-tone suit unless the event is intentionally formal.", "Use navy instead", { tie: "Navy Solid Grenadine" })
+  }
+
   // ── POCKET SQUARE check ──
-  if (pocketSquare && tie) {
+  if (pocketSquare && hasTie) {
     const ps  = pocketSquare.toLowerCase()
     const ti  = tie.toLowerCase()
 
     // PS should never exactly match the tie
     const tieMainColor = ti.split(/\s/)[0]
-    if (ps.includes(tieMainColor) && ps.includes("silk") && ti.includes("solid")) {
-      issues.push({ piece:"Pocket Square", severity:"warning", message:"Pocket square matches the tie too closely — they should complement, not match.", fix:"If tie is burgundy, use white or ivory pocket square. The PS should echo the shirt, not the tie." })
-      overallScore -= 1
+    if ((ps.includes(tieMainColor) || (psColor && tieColor && psColor === tieColor)) && ps.includes("silk") && ti.includes("solid")) {
+      addWarning("Pocket Square", "Pocket square matches the tie too closely — they should complement, not match.", "Use white linen instead", { pocketSquare: "White Irish Linen" })
     }
 
     // White PS with any suit is always correct
@@ -22283,13 +22307,12 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
 
     // PS and tie should not be same printed pattern
     if (ps.includes("paisley") && ti.includes("paisley")) {
-      issues.push({ piece:"Pocket Square", severity:"error", message:"Matching paisley tie and pocket square — this was a 1970s mistake. Don't repeat it.", fix:"Switch to a white linen pocket square when wearing a paisley tie." })
-      overallScore -= 2
+      addIssue("Pocket Square", "Matching paisley tie and pocket square — this was a 1970s mistake. Don't repeat it.", "Switch to white linen", { pocketSquare: "White Irish Linen" }, 2)
     }
 
     // Formality mismatch
     if (ti.includes("knit") && ps.includes("silk") && ps.includes("print")) {
-      warnings.push({ piece:"Pocket Square", message:"Printed silk pocket square with knit tie — formality registers don't quite match.", fix:"Use a linen or cotton pocket square with a knit tie for better register consistency." })
+      addWarning("Pocket Square", "Printed silk pocket square with knit tie — formality registers don't quite match.", "Use white cotton", { pocketSquare: "White Cotton" })
     }
   }
 
@@ -22299,6 +22322,93 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
     if (ps.includes("white") || ps.includes("linen")) {
       compliments.push("Pocket square only, no tie — white linen is the correct choice for the tieless look.")
     }
+  }
+
+  // ── SHOES + BELT ──
+  if (shoes && belt && shoeColor && beltColor && shoeColor !== beltColor) {
+    const equivalentBrown = ["brown", "cognac", "beige"].includes(shoeColor) && ["brown", "cognac", "beige"].includes(beltColor)
+    if (!equivalentBrown) {
+      addIssue("Belt", "Shoes and belt should live in the same leather family.", "Match belt to shoes", { belt: beltForShoes(shoes) }, 2)
+    } else {
+      compliments.push("Shoes and belt are in the same brown leather family — good.")
+    }
+  }
+
+  if (suitColor && shoes && shoeColor) {
+    const shoeOk = {
+      black: ["black"],
+      charcoal: ["black", "brown"],
+      navy: ["black", "brown", "cognac", "burgundy"],
+      grey: ["black", "brown", "cognac", "burgundy"],
+      burgundy: ["black", "brown", "burgundy"],
+      beige: ["brown", "cognac", "beige"],
+      brown: ["brown", "cognac", "beige"],
+      olive: ["brown", "cognac", "beige"],
+      blue: ["black", "brown", "cognac"],
+    }[suitColor]
+    if (shoeOk && !shoeOk.includes(shoeColor)) {
+      addWarning("Shoes", "The shoe color does not match the suit's formality and color family.", `Use ${suggestedShoeForSuit(suitColor)}`, { shoes: suggestedShoeForSuit(suitColor), belt: beltForShoes(suggestedShoeForSuit(suitColor)) })
+    }
+  }
+
+  // ── OCCASION / FORMALITY ──
+  if (occasionKey === "funeral") {
+    if (suitColor && !["black", "charcoal", "navy"].includes(suitColor)) {
+      addIssue("Suit", "Funeral dressing should stay black, charcoal, or very dark navy.", "Switch to Charcoal", { suit: "Charcoal", suitPattern: "solid" }, 4)
+    }
+    if (shirt && !["white", "blue", "light_grey"].includes(shirtColor)) {
+      addWarning("Shirt", "For a funeral, keep the shirt white or very pale blue.", "Switch to Crisp White Poplin", { shirt: "Crisp White Poplin" }, 2)
+    }
+    if (hasTie && !["black", "charcoal", "navy"].includes(tieColor)) {
+      addWarning("Tie", "Funeral ties should be quiet: black, charcoal, or dark navy.", "Switch to Black Grenadine", { tie: "Black Grenadine (Solid)" }, 2)
+    }
+    if (shoes && shoeColor !== "black") {
+      addWarning("Shoes", "Black shoes are the safest and most respectful choice for a funeral.", "Use black oxfords", { shoes: "Black Cap-Toe Oxford", belt: "Black Leather Belt" }, 2)
+    }
+  }
+
+  if (occasionKey === "interview" || occasionKey === "business") {
+    if (suitColor && !["navy", "charcoal", "grey", "black"].includes(suitColor)) {
+      addWarning("Suit", "For interviews and business settings, navy, charcoal, or grey read more authoritative.", "Switch to Navy", { suit: "Navy", suitPattern: "solid" })
+    }
+    if (!hasTie) {
+      addWarning("Tie", "This occasion benefits from a tie. It signals intention and finish.", "Add a conservative tie", { tie: suggestedTieForSuit(suitColor, occasionKey) })
+    }
+    if (shirt && !["white", "blue", "light_grey", "pink"].includes(shirtColor)) {
+      addWarning("Shirt", "Business shirts should stay white, blue, or very pale pink.", "Switch to white", { shirt: "Crisp White Poplin" })
+    }
+  }
+
+  if (occasionKey === "formal") {
+    if (suitColor && !["black", "navy", "charcoal"].includes(suitColor)) {
+      addWarning("Suit", "Formal evening dress is strongest in black, midnight navy, or charcoal.", "Switch to black", { suit: "Black", suitPattern: "solid" }, 2)
+    }
+    if (shirt && shirtColor !== "white") {
+      addWarning("Shirt", "Formal looks need a white shirt for maximum contrast and polish.", "Switch to white", { shirt: "Crisp White Poplin" })
+    }
+    if (shoes && shoeColor !== "black") {
+      addWarning("Shoes", "Formal shoes should usually be black.", "Use black oxfords", { shoes: "Black Cap-Toe Oxford", belt: "Black Leather Belt" })
+    }
+  }
+
+  if (occasionKey === "wedding") {
+    if (suitColor === "black") {
+      addWarning("Suit", "A black suit can read too severe for many daytime weddings.", "Use navy instead", { suit: "Navy", suitPattern: suitPattern || "solid" })
+    }
+    if (!hasTie) {
+      addWarning("Tie", "A wedding usually deserves a tie unless the invitation says casual.", "Add a wedding-safe tie", { tie: "Burgundy Grenadine (Solid)" })
+    }
+    if (tieColor === "black") {
+      addWarning("Tie", "Black ties can feel too somber at weddings unless it is black tie.", "Switch to burgundy", { tie: "Burgundy Grenadine (Solid)" })
+    }
+  }
+
+  if (occasionKey === "church" && ["red", "rust", "purple"].includes(suitColor)) {
+    addWarning("Suit", "For church, quieter colors read more respectful.", "Switch to navy", { suit: "Navy", suitPattern: "solid" })
+  }
+
+  if (occasionKey === "casual" && hasTie && !/knit|grenadine|cotton|linen/i.test(tie)) {
+    addWarning("Tie", "For casual settings, a knit or textured tie feels easier than formal silk.", "Switch to Navy Knit", { tie: "Navy Knit" })
   }
 
   // Clamp score
@@ -22311,24 +22421,39 @@ function validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern }) {
   else if (overallScore >= 5) { verdict = "⚡ Needs Work"; verdictColor = "#92400e" }
   else { verdict = "🚨 Stop Right There"; verdictColor = "#991b1b" }
 
-  return { issues, warnings, compliments, fixes, overallScore, verdict, verdictColor }
+  return {
+    issues,
+    warnings,
+    compliments,
+    fixes: dedupeFixes(fixes),
+    overallScore,
+    verdict,
+    verdictColor,
+    meta: { suitColor, shirtColor, tieColor, psColor, shoeColor, beltColor, occasionKey, suitPatKey },
+  }
 }
 
 function getFixForTieWithSuit(suitPat) {
   if (suitPat === "chalk_stripe") return "With a chalk stripe suit, use a solid tie, wool knit, polka dot, or small foulard — never another bold stripe."
   if (suitPat === "glen_plaid")   return "With a glen plaid suit, the tie must be solid. No exceptions. The plaid is the pattern."
+  if (suitPat === "houndstooth")   return "With houndstooth, use a solid grenadine or knit tie. The check is already the statement."
   if (suitPat === "herringbone")  return "With a herringbone suit, use solid, repp stripe, polka dot, or foulard ties."
   if (suitPat === "tweed")        return "With tweed, use a wool knit tie — it's the most natural partner."
+  if (suitPat === "linen")        return "With linen, use no tie or a light knit/cotton tie."
   return "Use a solid tie when uncertain — it is always correct."
 }
 
 // ── OUTFIT VALIDATOR PAGE ──
 function OutfitValidatorPage() {
+  const { analyzeOutfit: analyzeValidatorPhoto } = useClaudeVision()
   const [suit,            setSuit]           = useState("")
   const [suitPattern,     setSuitPattern]    = useState("solid")
   const [shirt,           setShirt]          = useState("")
   const [tie,             setTie]            = useState("")
   const [pocketSquare,    setPocketSquare]   = useState("")
+  const [occasion,        setOccasion]       = useState("All")
+  const [shoes,           setShoes]          = useState("")
+  const [belt,            setBelt]           = useState("")
   const [result,          setResult]         = useState(null)
   const [analyzing,       setAnalyzing]      = useState(false)
   // Photo uploads for validator
@@ -22338,39 +22463,94 @@ function OutfitValidatorPage() {
   const [vPSPhoto,        setVPSPhoto]       = useState(null)
   const [photoAnalyzing,  setPhotoAnalyzing] = useState(false)
   const [photoDetected,   setPhotoDetected]  = useState({})
+  const [manualCorrection, setManualCorrection] = useState("")
+  const [correctionFeedback, setCorrectionFeedback] = useState("")
 
-  const handleValPhoto = async (dataURL, setter, pieceKey) => {
+  const applyDetectedPiece = (pieceKey, detected) => {
+    if (!detected) return
+    const colorLabel = detected.colorLabel || displayColorLabel(detected.colorKey)
+    const patLabel = detected.patternInfo?.pattern || detected.patternLabel || "Solid"
+    const patKey = validatorPatternKeyFromLabel(patLabel)
+
+    if (pieceKey === "suit") {
+      setSuit(colorLabel)
+      setSuitPattern(patKey)
+    }
+    if (pieceKey === "shirt") {
+      const base = colorLabel || "White"
+      setShirt(`${base} ${patKey === "solid" ? "Poplin" : patLabel}`.trim())
+    }
+    if (pieceKey === "tie") {
+      const base = colorLabel || "Navy"
+      setTie(`${base} ${patKey === "solid" ? "Solid Grenadine" : patLabel}`.trim())
+    }
+    if (pieceKey === "ps") {
+      const base = colorLabel || "White"
+      setPocketSquare(`${base} ${patKey === "solid" ? "Pocket Square" : patLabel}`.trim())
+    }
+  }
+
+  const visionPieceToDetection = (visionData, pieceKey) => {
+    const key = pieceKey === "ps" ? "pocketSquare" : pieceKey
+    const piece = visionData?.[key]
+    if (!piece || piece.visible === false) return null
+    return {
+      source: "Claude Vision",
+      colorKey: piece.color,
+      colorLabel: piece.colorLabel || displayColorLabel(piece.color),
+      colorHex: piece.colorHex,
+      patternInfo: {
+        pattern: piece.patternLabel || piece.pattern || "Solid",
+        formality: "Detected from photo",
+      },
+      fabricStr: piece.fabric || piece.material || "Detected fabric",
+      confidence: piece.confidence,
+    }
+  }
+
+  const localDetectionForPiece = (localResult, pieceKey) => {
+    if (!localResult) return null
+    const colorLabel = COLOR_FAMILY_LABELS[localResult.colorKey] || displayColorLabel(localResult.colorKey)
+    const pattern = localResult.patternInfo?.pattern || "Solid"
+    return {
+      ...localResult,
+      source: "Local photo scan",
+      colorLabel,
+      patternInfo: { ...localResult.patternInfo, pattern },
+    }
+  }
+
+  const handleValPhoto = async (file, dataURL, setter, pieceKey) => {
     setter(dataURL)
     if (!dataURL) return
     setPhotoAnalyzing(true)
-    const result = await analyzePhotoLocally(dataURL)
-    if (result) {
-      setPhotoDetected(prev => ({ ...prev, [pieceKey]: result }))
-      // Auto-fill color/pattern from photo
-      const colorLabel = COLOR_FAMILY_LABELS[result.colorKey] || ""
-      const patLabel   = result.patternInfo.pattern || "Solid"
-      if (pieceKey === "suit") {
-        setSuit(colorLabel)
-        const patMap = { "Solid":"solid","Smooth weave":"solid","Chalk Stripe / Pinstripe":"chalk_stripe","Glen Plaid / Check":"glen_plaid","Herringbone":"herringbone","Bold Pattern / Tweed":"tweed","Subtle Texture / Twill":"solid" }
-        setSuitPattern(patMap[patLabel] || "solid")
+    try {
+      let detected = null
+      try {
+        const visionResult = await analyzeValidatorPhoto(file)
+        if (visionResult.success) detected = visionPieceToDetection(visionResult.data, pieceKey)
+      } catch (visionErr) {
+        console.warn("[Dapper Validator] Vision failed, using local detection", visionErr)
       }
-      if (pieceKey === "shirt") {
-        const shirtColorMap = { navy:"Pale French Blue", charcoal:"White Oxford Cloth", grey:"Pale Blue Chambray", black:"Crisp White Poplin", beige:"Cream / Ivory Poplin", light_grey:"Pale Blue Chambray" }
-        setShirt(shirtColorMap[result.colorKey] || "Crisp White Poplin")
+      if (!detected) detected = localDetectionForPiece(await analyzePhotoLocally(dataURL), pieceKey)
+      if (detected) {
+        setPhotoDetected(prev => ({ ...prev, [pieceKey]: detected }))
+        applyDetectedPiece(pieceKey, detected)
+        setResult(null)
       }
+    } finally {
+      setPhotoAnalyzing(false)
     }
-    setPhotoAnalyzing(false)
   }
 
   const handleValPhotoInput = (e, setter, pieceKey) => {
     const file = e.target.files[0]
     if (!file || !file.type.startsWith("image/")) return
     const reader = new FileReader()
-    reader.onload = ev => handleValPhoto(ev.target.result, setter, pieceKey)
+    reader.onload = ev => handleValPhoto(file, ev.target.result, setter, pieceKey)
     reader.readAsDataURL(file)
   }
 
-  const SUIT_COLORS = ["Navy","Charcoal","Black","Medium Grey","Light Grey","Burgundy","Brown","Beige / Tan","Blue (bright)","Olive"]
   const SUIT_PATTERNS = [
     {key:"solid",       label:"Solid"},
     {key:"chalk_stripe",label:"Chalk Stripe / Pinstripe"},
@@ -22380,36 +22560,60 @@ function OutfitValidatorPage() {
     {key:"houndstooth", label:"Houndstooth"},
     {key:"linen",       label:"Linen"},
   ]
-  const SHIRT_OPTIONS = [
-    "Crisp White Poplin","Pale Blue Poplin","Pale French Blue End-on-End",
-    "Pale Pink Bengal Stripe","White Oxford Cloth","Pale Blue Chambray",
-    "White Fine Stripe","Pale Yellow Poplin","Light Grey Poplin",
-    "White End-on-End","Cream / Ivory Poplin","Blue Gingham",
-  ]
-  const TIE_OPTIONS = [
-    "Burgundy Grenadine (Solid)","Navy Solid Grenadine","Charcoal Solid Grenadine",
-    "Silver Solid Grenadine","Forest Green Solid","Teal Solid Grenadine",
-    "Camel Knit","Burgundy Knit","Navy Knit","Olive Knit","Dark Brown Knit",
-    "Burgundy & Navy Repp Stripe","Gold & Navy Repp Stripe","Terracotta Repp Stripe",
-    "Silver & Blue Repp Stripe","Charcoal & White Repp Stripe",
-    "Navy Polka Dot","Silver Polka Dot","Burgundy Polka Dot",
-    "Forest Green Foulard","Navy Foulard","Burgundy Micro-Paisley",
-    "Camel & Brown Paisley","Burnt Orange Paisley","Maroon Paisley",
-    "Gold & Navy Club Stripe","Navy & Green Club Stripe",
-  ]
-  const PS_OPTIONS = [
-    "White Irish Linen","White Cotton","White Silk",
-    "Ivory Cotton — One Point","Cream Silk — Puff Fold",
-    "Pink Silk — Puff Fold","Blue Silk — Puff Fold",
-    "Gold Silk — Puff Fold","Green Silk — Two Point",
-    "Burgundy Silk","Patterned Silk",
-  ]
+
+  const buildValidatorState = (updates = {}) => ({
+    suit,
+    suitPattern,
+    shirt,
+    tie,
+    pocketSquare,
+    occasion,
+    shoes,
+    belt,
+    ...updates,
+  })
+
+  const applyValidatorState = (next) => {
+    setSuit(next.suit || "")
+    setSuitPattern(next.suitPattern || "solid")
+    setShirt(next.shirt || "")
+    setTie(next.tie || "")
+    setPocketSquare(next.pocketSquare || "")
+    setOccasion(next.occasion || "All")
+    setShoes(next.shoes || "")
+    setBelt(next.belt || "")
+  }
+
+  const hasValidatorInput = (input) => !!(input.suit || input.shirt || input.tie || input.pocketSquare || input.shoes || input.belt)
+
+  const describeCorrectionUpdates = (updates) => {
+    const labels = {
+      occasion: "occasion",
+      suit: "suit",
+      suitPattern: "pattern",
+      shirt: "shirt",
+      tie: "tie",
+      pocketSquare: "pocket square",
+      shoes: "shoes",
+      belt: "belt",
+    }
+    return Object.keys(updates).map(key => labels[key] || key).join(", ")
+  }
 
   const handleValidate = () => {
-    if (!suit && !shirt && !tie && !pocketSquare) return
+    const correctionUpdates = manualCorrection.trim() ? parseValidatorCorrection(manualCorrection) : {}
+    if (manualCorrection.trim() && Object.keys(correctionUpdates).length === 0) {
+      setCorrectionFeedback("I could not read that correction. Use labels like Suit:, Shirt:, Tie:, Shoes:, or Belt:.")
+    }
+    const next = buildValidatorState(correctionUpdates)
+    if (!hasValidatorInput(next)) return
+    if (Object.keys(correctionUpdates).length > 0) {
+      applyValidatorState(next)
+      setCorrectionFeedback(`Correction applied: ${describeCorrectionUpdates(correctionUpdates)}.`)
+    }
     setAnalyzing(true)
     setTimeout(() => {
-      const r = validateOutfit({ suit, shirt, tie, pocketSquare, suitPattern })
+      const r = validateOutfit(next)
       setResult(r)
       setAnalyzing(false)
     }, 800)
@@ -22417,53 +22621,37 @@ function OutfitValidatorPage() {
 
   const handleReset = () => {
     setSuit(""); setSuitPattern("solid"); setShirt("")
-    setTie(""); setPocketSquare(""); setResult(null)
+    setTie(""); setPocketSquare(""); setShoes(""); setBelt(""); setOccasion("All"); setResult(null)
+    setVSuitPhoto(null); setVShirtPhoto(null); setVTiePhoto(null); setVPSPhoto(null)
+    setPhotoDetected({})
+    setManualCorrection("")
+    setCorrectionFeedback("")
   }
 
-  // Suggestions for empty fields
-  const getSuggestions = () => {
-    const sugg = {}
-    if (suit && !shirt) {
-      const sp = getSuitPatternKey(suitPattern)
-      if (sp === "glen_plaid" || sp === "chalk_stripe") {
-        sugg.shirt = ["Crisp White Poplin","Pale Blue Poplin","White End-on-End","White Oxford Cloth"]
-      } else {
-        sugg.shirt = ["Crisp White Poplin","Pale French Blue End-on-End","Pale Pink Bengal Stripe","Pale Blue Chambray"]
-      }
-    }
-    if ((suit || shirt) && !tie) {
-      const sp = getSuitPatternKey(suitPattern)
-      const shPat = classifyShirtPattern(shirt)
-      if (sp === "glen_plaid") {
-        sugg.tie = ["Burgundy Grenadine (Solid)","Camel Knit","Olive Knit","Navy Solid Grenadine"]
-      } else if (sp === "chalk_stripe") {
-        sugg.tie = ["Burgundy Grenadine (Solid)","Silver Polka Dot","Forest Green Foulard","Navy Polka Dot","Camel Knit"]
-      } else if (shPat === "bengal_stripe") {
-        sugg.tie = ["Navy Solid Grenadine","Burgundy Knit","Navy Polka Dot","Forest Green Foulard"]
-      } else {
-        sugg.tie = ["Burgundy & Navy Repp Stripe","Gold & Navy Repp Stripe","Burgundy Grenadine (Solid)","Navy Polka Dot","Burgundy Micro-Paisley"]
-      }
-    }
-    if (!pocketSquare) {
-      const tColor = (tie || "").toLowerCase()
-      if (tColor.includes("burgundy") || tColor.includes("maroon")) {
-        sugg.pocketSquare = ["White Irish Linen","White Cotton","Ivory Cotton — One Point"]
-      } else if (tColor.includes("navy") || tColor.includes("blue")) {
-        sugg.pocketSquare = ["White Irish Linen","White Cotton","White Silk"]
-      } else {
-        sugg.pocketSquare = ["White Irish Linen","White Cotton","White Silk"]
-      }
-    }
-    return sugg
+  const applyFix = (updates) => {
+    const next = buildValidatorState(updates)
+    applyValidatorState(next)
+    setResult(validateOutfit(next))
   }
 
-  const suggestions = result ? getSuggestions() : {}
+  const applyManualCorrection = () => {
+    const updates = parseValidatorCorrection(manualCorrection)
+    if (Object.keys(updates).length === 0) {
+      setCorrectionFeedback("I could not read that correction. Example: Suit: navy houndstooth; Shirt: white poplin; Tie: burgundy grenadine.")
+      return
+    }
+    applyFix(updates)
+    setCorrectionFeedback(`Correction applied: ${describeCorrectionUpdates(updates)}.`)
+  }
+
+  const pendingCorrection = manualCorrection.trim() ? parseValidatorCorrection(manualCorrection) : {}
+  const canValidate = hasValidatorInput(buildValidatorState(pendingCorrection))
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-black text-gray-900">Outfit Validator</h1>
-        <p className="text-gray-500 text-sm mt-1">Put together your planned outfit — the Fashion Police will check every combination. Leave any field empty for suggestions.</p>
+        <p className="text-gray-500 text-sm mt-1">Build the look from photos, then correct anything in text. The validator checks pattern, color, formality, occasion, shoes, and belt.</p>
       </div>
 
       {/* Photo upload section */}
@@ -22489,7 +22677,7 @@ function OutfitValidatorPage() {
                     <img src={photo} alt={label} className="w-full h-20 object-cover rounded-lg mb-1"/>
                     <div className="text-xs font-bold" style={{color:"#92400e"}}>✓ {label}</div>
                     {photoDetected[key] && (
-                      <div className="text-xs text-gray-500 mt-0.5">{COLOR_FAMILY_LABELS[photoDetected[key].colorKey]} · {photoDetected[key].patternInfo.pattern}</div>
+                      <div className="text-xs text-gray-500 mt-0.5">{photoDetected[key].colorLabel || displayColorLabel(photoDetected[key].colorKey)} · {photoDetected[key].patternInfo.pattern}</div>
                     )}
                     <div className="text-xs text-gray-400 mt-0.5">Tap to change</div>
                   </div>
@@ -22516,94 +22704,63 @@ function OutfitValidatorPage() {
         </div>
       </div>
 
-      <div className="space-y-4 mb-6">
-
-        {/* Suit */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="text-xs font-black tracking-wider text-gray-400 mb-3">SUIT COLOR {vSuitPhoto && photoDetected.suit && <span className="font-normal text-green-600 ml-1">· Auto-detected from photo ✓</span>}</div>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {SUIT_COLORS.map(c => (
-              <button key={c} onClick={() => setSuit(suit === c ? "" : c)}
-                className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                style={suit === c
-                  ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
-                  : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
-                {c}
-              </button>
-            ))}
-          </div>
-          <div className="text-xs font-black tracking-wider text-gray-400 mb-2">SUIT PATTERN</div>
-          <div className="flex flex-wrap gap-2">
-            {SUIT_PATTERNS.map(p => (
-              <button key={p.key} onClick={() => setSuitPattern(p.key)}
-                className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                style={suitPattern === p.key
-                  ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
-                  : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
-                {p.label}
-              </button>
-            ))}
-          </div>
-          {!suit && <div className="mt-2 text-xs text-gray-400 italic">Leave empty — we'll give general advice based on shirt & tie</div>}
+      {/* Manual correction */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 mb-6">
+        <div className="text-xs font-black tracking-wider text-gray-400 mb-2">CORRECT DETECTION</div>
+        <p className="text-xs text-gray-500 leading-relaxed mb-3">
+          If Dapper reads the photo wrong, write the correction here. English and Spanish labels both work.
+        </p>
+        <textarea
+          value={manualCorrection}
+          onChange={e => { setManualCorrection(e.target.value); setCorrectionFeedback(""); setResult(null) }}
+          rows={4}
+          className="w-full rounded-xl border-2 border-gray-100 p-3 text-sm text-gray-700 outline-none focus:border-yellow-500 resize-none"
+          placeholder="Example: Occasion: wedding; Suit: navy houndstooth; Shirt: white poplin; Tie: burgundy grenadine; Pocket square: white linen; Shoes: black oxford; Belt: black leather"
+        />
+        <div className="mt-3 flex gap-2">
+          <button
+            onClick={applyManualCorrection}
+            disabled={!manualCorrection.trim()}
+            className="flex-1 py-3 rounded-xl font-black text-xs tracking-widest transition-all"
+            style={{background:manualCorrection.trim()?GOLD:"#e5e7eb",color:manualCorrection.trim()?NAVY:"#9ca3af"}}>
+            APPLY CORRECTION
+          </button>
+          <button
+            onClick={() => { setManualCorrection(""); setCorrectionFeedback(""); setResult(null) }}
+            className="px-4 py-3 rounded-xl font-bold text-xs border-2 border-gray-100 text-gray-400">
+            Clear
+          </button>
         </div>
-
-        {/* Shirt */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="text-xs font-black tracking-wider text-gray-400 mb-3">SHIRT <span className="text-gray-300 font-normal">(optional — leave empty for suggestions)</span></div>
-          <div className="flex flex-wrap gap-2">
-            {SHIRT_OPTIONS.map(s => (
-              <button key={s} onClick={() => setShirt(shirt === s ? "" : s)}
-                className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                style={shirt === s
-                  ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
-                  : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
-                {s}
-              </button>
+        {correctionFeedback && (
+          <div className="mt-3 text-xs font-semibold rounded-xl p-3" style={{background:"#f8fafc",color:"#64748b"}}>
+            {correctionFeedback}
+          </div>
+        )}
+        {hasValidatorInput({ suit, shirt, tie, pocketSquare, shoes, belt }) && (
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            {[
+              {label:"OCCASION", value:occasion || "All", empty:!occasion || occasion==="All"},
+              {label:"SUIT", value:suit ? `${suit} (${SUIT_PATTERNS.find(p=>p.key===suitPattern)?.label || "Solid"})` : "—", empty:!suit},
+              {label:"SHIRT", value:shirt || "—", empty:!shirt},
+              {label:"TIE", value:tie || "—", empty:!tie},
+              {label:"POCKET SQUARE", value:pocketSquare || "—", empty:!pocketSquare},
+              {label:"SHOES", value:shoes || "—", empty:!shoes},
+              {label:"BELT", value:belt || "—", empty:!belt},
+            ].map(({label,value,empty}) => (
+              <div key={label} className="p-3 rounded-xl" style={{background:empty?"#f8fafc":"#f1f5f9",border:empty?"1px dashed #e5e7eb":"1px solid #e2e8f0"}}>
+                <div className="text-xs font-bold tracking-wider text-gray-400">{label}</div>
+                <div className={`text-xs font-semibold mt-0.5 ${empty?"text-gray-300 italic":"text-gray-700"}`}>{value}</div>
+              </div>
             ))}
           </div>
-          {!shirt && <div className="mt-2 text-xs text-gray-400 italic">Leave empty — we'll suggest the best shirts for your suit</div>}
-        </div>
-
-        {/* Tie */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="text-xs font-black tracking-wider text-gray-400 mb-3">TIE <span className="text-gray-300 font-normal">(optional)</span></div>
-          <div className="flex flex-wrap gap-2">
-            {TIE_OPTIONS.map(t => (
-              <button key={t} onClick={() => setTie(tie === t ? "" : t)}
-                className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                style={tie === t
-                  ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
-                  : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
-                {t}
-              </button>
-            ))}
-          </div>
-          {!tie && <div className="mt-2 text-xs text-gray-400 italic">Leave empty — we'll recommend ties based on your suit & shirt</div>}
-        </div>
-
-        {/* Pocket Square */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4">
-          <div className="text-xs font-black tracking-wider text-gray-400 mb-3">POCKET SQUARE <span className="text-gray-300 font-normal">(optional)</span></div>
-          <div className="flex flex-wrap gap-2">
-            {PS_OPTIONS.map(p => (
-              <button key={p} onClick={() => setPocketSquare(pocketSquare === p ? "" : p)}
-                className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                style={pocketSquare === p
-                  ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
-                  : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
-                {p}
-              </button>
-            ))}
-          </div>
-        </div>
-
+        )}
       </div>
 
       {/* Validate button */}
       <div className="flex gap-3 mb-6">
-        <button onClick={handleValidate} disabled={analyzing || (!suit && !shirt && !tie && !pocketSquare)}
+        <button onClick={handleValidate} disabled={analyzing || !canValidate}
           className="flex-1 py-4 rounded-2xl font-black text-sm tracking-widest transition-all"
-          style={{background:(!suit&&!shirt&&!tie&&!pocketSquare)?'#e5e7eb':GOLD, color:(!suit&&!shirt&&!tie&&!pocketSquare)?'#9ca3af':NAVY}}>
+          style={{background:!canValidate?'#e5e7eb':GOLD, color:!canValidate?'#9ca3af':NAVY}}>
           {analyzing ? "Checking with the Fashion Police…" : "🎩 VALIDATE THIS OUTFIT"}
         </button>
         {result && (
@@ -22630,15 +22787,35 @@ function OutfitValidatorPage() {
             </div>
           </div>
 
+          {/* Quick fixes */}
+          {result.fixes.length > 0 && (
+            <div className="bg-white rounded-2xl border border-gray-100 p-4">
+              <div className="text-xs font-black tracking-wider text-gray-400 mb-3">⚒ QUICK FIXES</div>
+              <div className="flex flex-wrap gap-2">
+                {result.fixes.map((fix, i) => (
+                  <button key={i} onClick={() => applyFix(fix.updates)}
+                    className="px-3 py-2 rounded-xl text-xs font-black transition-all"
+                    style={{background:"#fffbeb",color:"#92400e",border:`1px solid ${GOLD}`}}>
+                    {fix.label}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 mt-2 italic">Tap a fix to apply it and re-run the validation.</p>
+            </div>
+          )}
+
           {/* Outfit summary */}
           <div className="bg-white rounded-2xl border border-gray-100 p-4">
             <div className="text-xs font-black tracking-wider text-gray-400 mb-3">YOUR OUTFIT</div>
             <div className="grid grid-cols-2 gap-2">
               {[
+                {label:"OCCASION", value:occasion || "All", empty:!occasion || occasion==="All"},
                 {label:"SUIT", value: suit ? `${suit} (${SUIT_PATTERNS.find(p=>p.key===suitPattern)?.label})` : "—", empty:!suit},
                 {label:"SHIRT", value:shirt||"—", empty:!shirt},
                 {label:"TIE", value:tie||"—", empty:!tie},
                 {label:"POCKET SQUARE", value:pocketSquare||"—", empty:!pocketSquare},
+                {label:"SHOES", value:shoes||"—", empty:!shoes},
+                {label:"BELT", value:belt||"—", empty:!belt},
               ].map(({label,value,empty}) => (
                 <div key={label} className="p-3 rounded-xl" style={{background:empty?"#f8fafc":"#f1f5f9",border:empty?"1px dashed #e5e7eb":"1px solid #e2e8f0"}}>
                   <div className="text-xs font-bold tracking-wider text-gray-400">{label}</div>
@@ -22661,7 +22838,16 @@ function OutfitValidatorPage() {
                   {issue.fix && (
                     <div className="mt-1 ml-0 flex items-start gap-2">
                       <span className="text-green-500 text-xs flex-shrink-0">→</span>
-                      <p className="text-xs text-green-700">{issue.fix}</p>
+                      <div>
+                        <p className="text-xs text-green-700">{issue.fix}</p>
+                        {issue.updates && (
+                          <button onClick={() => applyFix(issue.updates)}
+                            className="mt-1 px-2 py-1 rounded-lg text-xs font-black"
+                            style={{background:"#dcfce7",color:"#166534"}}>
+                            Apply fix
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -22682,7 +22868,16 @@ function OutfitValidatorPage() {
                   {w.fix && (
                     <div className="mt-1 flex items-start gap-2">
                       <span className="text-green-500 text-xs flex-shrink-0">→</span>
-                      <p className="text-xs text-green-700">{w.fix}</p>
+                      <div>
+                        <p className="text-xs text-green-700">{w.fix}</p>
+                        {w.updates && (
+                          <button onClick={() => applyFix(w.updates)}
+                            className="mt-1 px-2 py-1 rounded-lg text-xs font-black"
+                            style={{background:"#dcfce7",color:"#166534"}}>
+                            Apply fix
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -22703,59 +22898,6 @@ function OutfitValidatorPage() {
             </div>
           )}
 
-          {/* Suggestions for empty fields */}
-          {(suggestions.shirt || suggestions.tie || suggestions.pocketSquare) && (
-            <div className="bg-white rounded-2xl border border-gray-100 p-4 space-y-4">
-              <div className="text-xs font-black tracking-wider text-gray-400">💡 SUGGESTIONS FOR EMPTY PIECES</div>
-
-              {suggestions.shirt && (
-                <div>
-                  <div className="text-xs font-bold text-gray-600 mb-2">Best shirts for your {suit ? suit + " " + suitPattern.replace("_"," ") : "outfit"}:</div>
-                  <div className="flex flex-wrap gap-2">
-                    {suggestions.shirt.map(s => (
-                      <button key={s} onClick={() => setShirt(s)}
-                        className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                        style={{borderColor:GOLD, background:"#fffbeb", color:"#92400e"}}>
-                        + {s}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {suggestions.tie && (
-                <div>
-                  <div className="text-xs font-bold text-gray-600 mb-2">Best ties for this combination:</div>
-                  <div className="flex flex-wrap gap-2">
-                    {suggestions.tie.map(t => (
-                      <button key={t} onClick={() => setTie(t)}
-                        className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                        style={{borderColor:GOLD, background:"#fffbeb", color:"#92400e"}}>
-                        + {t}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {suggestions.pocketSquare && (
-                <div>
-                  <div className="text-xs font-bold text-gray-600 mb-2">Recommended pocket squares:</div>
-                  <div className="flex flex-wrap gap-2">
-                    {suggestions.pocketSquare.map(p => (
-                      <button key={p} onClick={() => setPocketSquare(p)}
-                        className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                        style={{borderColor:GOLD, background:"#fffbeb", color:"#92400e"}}>
-                        + {p}
-                      </button>
-                    ))}
-                  </div>
-                  <p className="text-xs text-gray-400 mt-2 italic">Tap any suggestion to add it and re-validate.</p>
-                </div>
-              )}
-            </div>
-          )}
-
         </div>
       )}
     </div>
@@ -22763,11 +22905,12 @@ function OutfitValidatorPage() {
 }
 
 
-function PricingPage() {
+function PricingPage({ entitlement }) {
   const [selectedBilling, setSelectedBilling] = useState({}) // per-tier: "monthly" | "annual"
 
   const getBilling = (tierName) => selectedBilling[tierName] || "monthly"
   const setBilling = (tierName, val) => setSelectedBilling(p=>({...p,[tierName]:val}))
+  const currentPlan = entitlement?.plan || "free"
 
   const tiers = [
     {
@@ -22806,6 +22949,8 @@ function PricingPage() {
           const billing = getBilling(tier.name)
           const isPaid  = tier.monthlyPrice > 0
           const isDark  = i === 1
+          const tierPlan = tier.name === "Dapper Elite" ? "elite" : tier.name === "Dapper Pro" ? "pro" : "free"
+          const isCurrent = currentPlan === tierPlan
 
           // what price to display big
           const bigPrice    = billing==="annual" ? tier.annualPrice : tier.monthlyPrice
@@ -22914,10 +23059,10 @@ function PricingPage() {
                 </div>
 
                 {/* CTA */}
-                <button className="mt-5 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90 active:scale-98"
+                <button disabled={isCurrent} className="mt-5 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90 active:scale-98 disabled:opacity-70"
                   style={{background:tier.ctaBg,color:tier.ctaColor}}>
-                  {tier.cta}
-                  {isPaid && billing==="annual" && " (Anual)"}
+                  {isCurrent ? "Current Plan" : tier.cta}
+                  {!isCurrent && isPaid && billing==="annual" && " (Anual)"}
                 </button>
 
                 {/* Fine print */}
@@ -22949,6 +23094,250 @@ function PricingPage() {
   )
 }
 
+function formatAdminDate(value) {
+  if (!value) return "No expiration"
+  const date = value?.toDate ? value.toDate() : value
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "No expiration"
+  return date.toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" })
+}
+
+function planBadgeStyle(plan) {
+  if (plan === "elite") return { background:GOLD, color:NAVY }
+  if (plan === "pro") return { background:NAVY, color:"white" }
+  return { background:"#f1f5f9", color:"#64748b" }
+}
+
+function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
+  const { profiles, entitlements, loading, saving, error, grantEntitlement, revokeEntitlement } = useAdminUsers(user, isAdmin)
+  const [search, setSearch] = useState("")
+  const [selectedUid, setSelectedUid] = useState("")
+  const [plan, setPlan] = useState("pro")
+  const [expiresAt, setExpiresAt] = useState("")
+  const [note, setNote] = useState("")
+  const [message, setMessage] = useState("")
+
+  const filteredProfiles = profiles.filter((profile) => {
+    const haystack = `${profile.email || ""} ${profile.displayName || ""} ${profile.uid || ""}`.toLowerCase()
+    return haystack.includes(search.trim().toLowerCase())
+  })
+  const selectedUser = profiles.find((profile) => profile.uid === selectedUid) || filteredProfiles[0]
+  const selectedEntitlement = selectedUser ? entitlements[selectedUser.uid] : null
+
+  useEffect(() => {
+    if (!selectedUid && filteredProfiles[0]?.uid) setSelectedUid(filteredProfiles[0].uid)
+  }, [filteredProfiles, selectedUid])
+
+  const applyGrant = async () => {
+    if (!selectedUser) { setMessage("Select a user first."); return }
+    setMessage("")
+    try {
+      if (plan === "free") {
+        await revokeEntitlement({ uid:selectedUser.uid, email:selectedUser.email, note:note || "Set to Free from Admin." })
+        setMessage(`${selectedUser.email || selectedUser.uid} is now on Free.`)
+      } else {
+        await grantEntitlement({ uid:selectedUser.uid, email:selectedUser.email, plan, expiresAt, note })
+        setMessage(`${selectedUser.email || selectedUser.uid} now has complimentary ${plan === "elite" ? "Elite" : "Pro"}.`)
+      }
+    } catch {
+      setMessage("Could not update this account. Check Firestore rules and admin access.")
+    }
+  }
+
+  const revokeSelected = async () => {
+    if (!selectedUser) { setMessage("Select a user first."); return }
+    setMessage("")
+    try {
+      await revokeEntitlement({ uid:selectedUser.uid, email:selectedUser.email, note:note || "Revoked from Admin." })
+      setMessage(`${selectedUser.email || selectedUser.uid} was moved back to Free.`)
+    } catch {
+      setMessage("Could not revoke this account. Check Firestore rules and admin access.")
+    }
+  }
+
+  if (!user) {
+    return (
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white border border-gray-100 rounded-2xl p-8 text-center shadow-sm">
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{background:"#f8fafc",color:NAVY}}>
+            <Shield size={26}/>
+          </div>
+          <h1 className="text-2xl font-black text-gray-900 mb-2">Admin Access</h1>
+          <p className="text-sm text-gray-500 mb-5">Sign in with the owner account to manage complimentary plans.</p>
+          <button onClick={onAuthClick} className="px-5 py-3 rounded-xl text-sm font-black" style={{background:NAVY,color:"white"}}>
+            Sign In
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
+          <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style={{background:"#fff7ed",color:"#c2410c"}}>
+            <Lock size={26}/>
+          </div>
+          <h1 className="text-2xl font-black text-gray-900 mb-2">Admin Access Required</h1>
+          <p className="text-sm text-gray-500 mb-4">
+            Create a Firestore document at <span className="font-mono text-gray-800">admins/{user.uid}</span> to unlock this dashboard for this signed-in owner.
+          </p>
+          <div className="rounded-xl bg-gray-50 border border-gray-100 p-3 text-xs text-gray-500 break-all">
+            <span className="font-black text-gray-700">Your UID:</span> {user.uid}
+          </div>
+          {(adminAccessError) && <p className="mt-3 text-xs text-red-500">{adminAccessError}</p>}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{background:GOLD,color:NAVY}}>
+              <Shield size={18}/>
+            </div>
+            <span className="text-xs font-black tracking-widest" style={{color:GOLD}}>OWNER DASHBOARD</span>
+          </div>
+          <h1 className="text-3xl font-black text-gray-900">Admin</h1>
+          <p className="text-sm text-gray-500 mt-1">Grant complimentary Pro or Elite access to users who have signed in at least once.</p>
+        </div>
+        <div className="rounded-2xl bg-white border border-gray-100 p-4 min-w-[220px]">
+          <div className="text-xs font-black text-gray-400 tracking-widest">SIGNED IN AS</div>
+          <div className="text-sm font-bold text-gray-900 truncate">{user.email || user.uid}</div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="lg:col-span-2 bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-black text-gray-900">Users</h2>
+            <span className="text-xs font-black text-gray-400">{profiles.length} total</span>
+          </div>
+          <div className="relative mb-4">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300"/>
+            <input value={search} onChange={(e)=>setSearch(e.target.value)}
+              placeholder="Search email, name, or UID"
+              className="w-full border border-gray-100 rounded-xl pl-9 pr-3 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+          </div>
+          {loading && <div className="text-sm text-gray-400 py-8 text-center">Loading users...</div>}
+          {!loading && filteredProfiles.length === 0 && (
+            <div className="text-sm text-gray-400 py-8 text-center">
+              No users found yet. Users appear here after their first sign-in.
+            </div>
+          )}
+          <div className="space-y-2 max-h-[520px] overflow-y-auto pr-1">
+            {filteredProfiles.map((profile) => {
+              const active = selectedUser?.uid === profile.uid
+              const entitlement = entitlements[profile.uid] || { plan:"free", label:"Free" }
+              return (
+                <button key={profile.uid} onClick={()=>setSelectedUid(profile.uid)}
+                  className={`w-full text-left border rounded-xl p-3 transition-all ${active ? "border-gray-900 bg-gray-50" : "border-gray-100 hover:border-gray-200"}`}>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="font-bold text-sm text-gray-900 truncate">{profile.email || "No email"}</div>
+                      <div className="text-xs text-gray-400 truncate">{profile.displayName || profile.uid}</div>
+                    </div>
+                    <span className="text-xs font-black px-2 py-1 rounded-lg flex-shrink-0" style={planBadgeStyle(entitlement.plan)}>
+                      {accountPlanLabel(entitlement)}
+                    </span>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="lg:col-span-3 space-y-6">
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <div className="text-xs font-black tracking-widest text-gray-400 mb-1">SELECTED ACCOUNT</div>
+                <h2 className="text-xl font-black text-gray-900 break-all">{selectedUser?.email || "No user selected"}</h2>
+                {selectedUser && <p className="text-xs text-gray-400 break-all mt-1">{selectedUser.uid}</p>}
+              </div>
+              {selectedUser && (
+                <span className="text-xs font-black px-3 py-1.5 rounded-lg" style={planBadgeStyle(selectedEntitlement?.plan || "free")}>
+                  {accountPlanLabel(selectedEntitlement)}
+                </span>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
+                <div className="text-xs font-black text-gray-400 tracking-widest">CURRENT PLAN</div>
+                <div className="text-lg font-black text-gray-900">{accountPlanLabel(selectedEntitlement)}</div>
+              </div>
+              <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
+                <div className="text-xs font-black text-gray-400 tracking-widest">SOURCE</div>
+                <div className="text-lg font-black text-gray-900">{selectedEntitlement?.source || "default"}</div>
+              </div>
+              <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
+                <div className="text-xs font-black text-gray-400 tracking-widest">EXPIRES</div>
+                <div className="text-lg font-black text-gray-900">{formatAdminDate(selectedEntitlement?.expiresAt)}</div>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-100 pt-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Gift size={18} style={{color:GOLD}}/>
+                <h3 className="font-black text-gray-900">Grant Complimentary Access</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <label className="block">
+                  <span className="text-xs font-black text-gray-400 tracking-widest">PLAN</span>
+                  <select value={plan} onChange={(e)=>setPlan(e.target.value)}
+                    className="w-full mt-1 border border-gray-100 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-gray-300">
+                    <option value="pro">Pro Comp</option>
+                    <option value="elite">Elite Comp</option>
+                    <option value="free">Free</option>
+                  </select>
+                </label>
+                <label className="block">
+                  <span className="text-xs font-black text-gray-400 tracking-widest">EXPIRATION OPTIONAL</span>
+                  <input type="date" value={expiresAt} onChange={(e)=>setExpiresAt(e.target.value)}
+                    className="w-full mt-1 border border-gray-100 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                </label>
+              </div>
+              <label className="block mt-4">
+                <span className="text-xs font-black text-gray-400 tracking-widest">INTERNAL NOTE</span>
+                <input value={note} onChange={(e)=>setNote(e.target.value)}
+                  placeholder="Friend, tester, stylist partner, VIP..."
+                  className="w-full mt-1 border border-gray-100 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+              </label>
+              <div className="flex flex-col sm:flex-row gap-3 mt-5">
+                <button onClick={applyGrant} disabled={saving || !selectedUser}
+                  className="flex-1 py-3 rounded-xl text-sm font-black disabled:opacity-50"
+                  style={{background:NAVY,color:"white"}}>
+                  {saving ? "Saving..." : "Apply Plan"}
+                </button>
+                <button onClick={revokeSelected} disabled={saving || !selectedUser}
+                  className="flex-1 py-3 rounded-xl text-sm font-black border border-gray-200 text-gray-700 disabled:opacity-50">
+                  Revoke To Free
+                </button>
+              </div>
+              {(message || error) && (
+                <div className={`mt-4 rounded-xl p-3 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+                  {error || message}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+            <h3 className="font-black text-gray-900 mb-2">Security Note</h3>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              This dashboard depends on Firestore rules. The first owner document must be created manually at <span className="font-mono text-gray-800">admins/{user.uid}</span>. After that, only admins should be able to edit entitlements.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─────────────────────────────────────────────
 // ROOT APP
 // ─────────────────────────────────────────────
@@ -22961,9 +23350,15 @@ export default function DapperApp() {
   // ── Auth ──
   const authHook = useAuth()
   const { user, logOut } = authHook
+  const { entitlement } = useEntitlement(user)
+  const { isAdmin, adminProfile, error: adminAccessError } = useAdminAccess(user)
 
   // ── Firestore (falls back to mock data when logged out) ──
-  const { items: closetItems, updateCloset } = useCloset(user, CLOSET_ITEMS_INIT)
+  const { items: closetItems, addItem: addClosetItem, updateCloset, saving: closetSaving, error: closetError } = useCloset(user, CLOSET_ITEMS_INIT)
+
+  useEffect(() => {
+    if (!isAdmin && page === "admin") setPage("analyzer")
+  }, [isAdmin, page])
 
   const NAV = [
     {id:"analyzer",  icon:Wand2,    label:"Analyzer"},
@@ -22973,8 +23368,9 @@ export default function DapperApp() {
     {id:"community", icon:Users,    label:"Community"},
     {id:"pricing",   icon:Tag,      label:"Upgrade"},
   ]
+  if (isAdmin) NAV.push({id:"admin", icon:Shield, label:"Admin"})
 
-  const Page = {analyzer:AnalyzerPage,validator:OutfitValidatorPage,closet:ClosetPage,calendar:CalendarPage,community:CommunityPage,pricing:PricingPage}[page] || AnalyzerPage
+  const Page = {analyzer:AnalyzerPage,validator:OutfitValidatorPage,closet:ClosetPage,calendar:CalendarPage,community:CommunityPage,pricing:PricingPage,admin:AdminPage}[page] || AnalyzerPage
 
   return (
     <div className="flex h-screen overflow-hidden" style={{background:"#f8fafc",fontFamily:"system-ui,-apple-system,sans-serif"}}>
@@ -22986,7 +23382,8 @@ export default function DapperApp() {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:flex">
-        <Sidebar page={page} setPage={setPage} user={user} onAuthClick={()=>setShowAuth(true)} onLogOut={logOut}/>
+        <Sidebar page={page} setPage={setPage} user={user} onAuthClick={()=>setShowAuth(true)} onLogOut={logOut}
+          entitlement={entitlement} isAdmin={isAdmin}/>
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -22995,7 +23392,8 @@ export default function DapperApp() {
           <div className="absolute inset-0 bg-black bg-opacity-60" onClick={()=>setSidebarOpen(false)}/>
           <div className="absolute left-0 top-0 h-full z-10">
             <Sidebar page={page} setPage={setPage} mobile onClose={()=>setSidebarOpen(false)}
-              user={user} onAuthClick={()=>{setShowAuth(true);setSidebarOpen(false)}} onLogOut={logOut}/>
+              user={user} onAuthClick={()=>{setShowAuth(true);setSidebarOpen(false)}} onLogOut={logOut}
+              entitlement={entitlement} isAdmin={isAdmin}/>
           </div>
         </div>
       )}
@@ -23027,7 +23425,19 @@ export default function DapperApp() {
 
         {/* Page */}
         <main className="flex-1 overflow-y-auto p-5 lg:p-8 pb-24 lg:pb-8">
-          <Page closetItems={closetItems} setClosetItems={updateCloset} user={user} onAuthClick={()=>setShowAuth(true)}/>
+          <Page
+            closetItems={closetItems}
+            setClosetItems={updateCloset}
+            addClosetItem={addClosetItem}
+            user={user}
+            closetSaving={closetSaving}
+            closetError={closetError}
+            entitlement={entitlement}
+            isAdmin={isAdmin}
+            adminProfile={adminProfile}
+            adminAccessError={adminAccessError}
+            onAuthClick={()=>setShowAuth(true)}
+          />
         </main>
 
         {/* Mobile bottom nav */}

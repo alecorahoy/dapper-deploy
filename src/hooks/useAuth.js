@@ -7,7 +7,8 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth"
-import { auth, googleProvider } from "../firebase.js"
+import { doc, serverTimestamp, setDoc } from "firebase/firestore"
+import { auth, db, googleProvider } from "../firebase.js"
 
 export function useAuth() {
   const [user,    setUser]    = useState(undefined) // undefined = loading
@@ -16,7 +17,12 @@ export function useAuth() {
 
   // Listen for auth state changes
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => setUser(u ?? null))
+    const unsub = onAuthStateChanged(auth, (u) => {
+      setUser(u ?? null)
+      if (u) syncUserProfile(u).catch((err) => {
+        console.warn("[Dapper Auth] Could not sync user profile", err)
+      })
+    })
     return unsub
   }, [])
 
@@ -54,6 +60,7 @@ export function useAuth() {
       const { user: u } = await signInWithPopup(auth, googleProvider)
       return u
     } catch (e) {
+      console.error("[Dapper Auth] Google sign-in failed", e.code, e.message)
       setError(friendlyError(e.code))
       return null
     } finally { setLoading(false) }
@@ -77,7 +84,25 @@ function friendlyError(code) {
     "auth/wrong-password":          "Incorrect password.",
     "auth/invalid-credential":      "Incorrect email or password.",
     "auth/popup-closed-by-user":    "Google sign-in was cancelled.",
+    "auth/popup-blocked":           "Google sign-in popup was blocked by the browser. Allow popups for this site and try again.",
+    "auth/cancelled-popup-request": "Another Google sign-in popup is already open. Close it and try again.",
+    "auth/unauthorized-domain":     "This domain is not authorized for Google sign-in. Use http://localhost:4173 locally or add this domain in Firebase Auth > Settings > Authorized domains.",
+    "auth/operation-not-allowed":   "Google sign-in is not enabled in Firebase Auth. Enable Google provider in Firebase Console > Authentication > Sign-in method.",
+    "auth/account-exists-with-different-credential": "An account already exists with this email using a different sign-in method.",
     "auth/network-request-failed":  "Network error. Check your connection.",
   }
   return map[code] || "Something went wrong. Please try again."
+}
+
+async function syncUserProfile(user) {
+  const email = user.email || ""
+  await setDoc(doc(db, "userProfiles", user.uid), {
+    uid: user.uid,
+    email,
+    emailLower: email.toLowerCase(),
+    displayName: user.displayName || "",
+    photoURL: user.photoURL || "",
+    providerIds: user.providerData?.map((p) => p.providerId) || [],
+    lastSeenAt: serverTimestamp(),
+  }, { merge: true })
 }

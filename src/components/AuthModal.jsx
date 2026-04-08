@@ -71,7 +71,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
     if (u) onClose()
   }
 
-  const handleKey = (e) => { if (e.key === "Enter") handleSubmit() }
+  const handleKey = (e) => { if (e.key === "Enter" && !loading && email && password) handleSubmit() }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
@@ -99,7 +99,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
         </div>
 
         {/* Body */}
-        <div className="px-6 py-5 space-y-3">
+        <div className="px-6 py-5 space-y-3" onKeyDown={handleKey}>
 
           {/* Google button */}
           <button onClick={handleGoogle} disabled={loading}

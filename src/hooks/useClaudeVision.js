@@ -140,7 +140,10 @@ const fileToBase64 = (file) => {
       const dataURL = canvas.toDataURL('image/jpeg', 0.7)
       resolve(dataURL.split(',')[1])
     }
-    img.onerror = reject
+    img.onerror = (err) => {
+      URL.revokeObjectURL(url)
+      reject(err)
+    }
     img.src = url
   })
 }

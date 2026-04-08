@@ -16,6 +16,14 @@ export default async function handler(req) {
   }
 
   try {
+    const apiKey = process.env.VITE_ANTHROPIC_API_KEY
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: { message: 'Missing VITE_ANTHROPIC_API_KEY on the server.' } }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      })
+    }
+
     const body = await req.json()
 
     // Cap at 4000 — exotic analysis needs up to 4000 tokens
@@ -25,7 +33,7 @@ export default async function handler(req) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.VITE_ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify(body)
