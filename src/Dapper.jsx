@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
-import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers } from './hooks/useFirestore.js'
+import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts } from './hooks/useFirestore.js'
 import AuthModal from './components/AuthModal.jsx'
 import {
   Shirt, Calendar, Users, Tag, Upload, Heart,
@@ -22083,9 +22083,62 @@ function CalendarPage({ closetItems, user }) {
 // PAGE: COMMUNITY
 // ─────────────────────────────────────────────
 
-function CommunityPage() {
+function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
   const [tab,   setTab]   = useState("feed")
   const [liked, setLiked] = useState({})
+  const [draft, setDraft] = useState({ look:"", outfit:"", caption:"", tags:"" })
+  const { posts, loading, saving, error, createPost, toggleLike } = useCommunityPosts(user)
+  const plan = entitlement?.plan || "free"
+  const canPost = Boolean(user && (isAdmin || plan === "pro" || plan === "elite"))
+  const displayPosts = posts.length > 0 ? posts : SOCIAL_POSTS.map(post => ({ ...post, _demo:true }))
+  const accountBadge = isAdmin ? "Elite" : plan === "elite" ? "Elite" : plan === "pro" ? "Pro" : "Free"
+
+  const submitPost = async () => {
+    const outfit = draft.outfit.trim()
+    const caption = draft.caption.trim()
+    if (!outfit || !caption) return
+    const tags = draft.tags
+      .split(/[\s,]+/)
+      .map(tag => tag.trim())
+      .filter(Boolean)
+      .map(tag => tag.startsWith("#") ? tag : `#${tag}`)
+      .slice(0, 6)
+    await createPost({
+      look: draft.look.trim() || "Today's Look",
+      outfit,
+      caption,
+      tags,
+      badge: accountBadge,
+    })
+    setDraft({ look:"", outfit:"", caption:"", tags:"" })
+  }
+
+  const likePost = async (post) => {
+    if (post._demo) {
+      setLiked(p=>({...p,[post.id]:!p[post.id]}))
+      return
+    }
+    if (!user) { onAuthClick?.(); return }
+    await toggleLike(post)
+  }
+
+  const postAuthor = (post) => post.authorName || post.user || "Dapper Member"
+  const postInitials = (post) => post.authorInitials || post.initials || "DM"
+  const postBadge = (post) => post.badge || "Member"
+  const postRole = (post) => post.role || (postBadge(post) === "Elite" ? "Elite Member" : postBadge(post) === "Pro" ? "Pro Member" : "Member")
+  const postTime = (post) => {
+    if (post.timeAgo) return post.timeAgo
+    const date = post.createdAt?.toDate ? post.createdAt.toDate() : null
+    if (!date) return "Just now"
+    const diff = Date.now() - date.getTime()
+    const mins = Math.max(1, Math.floor(diff / 60000))
+    if (mins < 60) return `${mins}m ago`
+    const hours = Math.floor(mins / 60)
+    if (hours < 24) return `${hours}h ago`
+    return `${Math.floor(hours / 24)}d ago`
+  }
+  const postLikeCount = (post) => post._demo ? post.likes + (liked[post.id] ? 1 : 0) : Object.keys(post.likedBy || {}).length
+  const postIsLiked = (post) => post._demo ? liked[post.id] : Boolean(user && post.likedBy?.[user.uid])
 
   const CHALLENGES = [
     {id:1,title:"Navy Week Challenge",   desc:"Style your navy suit 5 different ways in 5 days",   participants:847,  daysLeft:3,  color:"#1B3A6B"},
@@ -22126,20 +22179,80 @@ function CommunityPage() {
 
       {tab==="feed" && (
         <div className="space-y-5">
-          {SOCIAL_POSTS.map(post=>(
+          <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+            {canPost ? (
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white" style={{background:NAVY}}>
+                    {(user.displayName || user.email || "D")[0].toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="text-sm font-black text-gray-900">Share a look</div>
+                    <div className="text-xs text-gray-400">{accountBadge} posting access</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                  <input value={draft.look} onChange={e=>setDraft(p=>({...p,look:e.target.value}))}
+                    placeholder="Look name, e.g. The Sunday Classic"
+                    className="border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                  <input value={draft.outfit} onChange={e=>setDraft(p=>({...p,outfit:e.target.value}))}
+                    placeholder="Outfit, e.g. Navy suit · White shirt · Burgundy tie"
+                    className="border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                </div>
+                <textarea value={draft.caption} onChange={e=>setDraft(p=>({...p,caption:e.target.value}))}
+                  placeholder="What made this look work?"
+                  rows={3}
+                  className="w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
+                <div className="flex flex-col sm:flex-row gap-3 mt-3">
+                  <input value={draft.tags} onChange={e=>setDraft(p=>({...p,tags:e.target.value}))}
+                    placeholder="Tags: #navy #business #grenadine"
+                    className="flex-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                  <button onClick={submitPost} disabled={saving || !draft.outfit.trim() || !draft.caption.trim()}
+                    className="px-5 py-3 rounded-xl text-sm font-black text-white disabled:opacity-40"
+                    style={{background:NAVY}}>
+                    {saving ? "Posting..." : "Post Look"}
+                  </button>
+                </div>
+                {error && <div className="mt-3 rounded-xl bg-red-50 text-red-600 text-xs p-3">{error}</div>}
+              </div>
+            ) : (
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <div className="font-black text-gray-900 text-sm">Share your looks with the community</div>
+                  <div className="text-xs text-gray-400 mt-1">
+                    {user ? "Posting is available for Dapper Pro and Elite members." : "Sign in first, then upgrade to post looks."}
+                  </div>
+                </div>
+                <button onClick={()=> user ? setPage?.("pricing") : onAuthClick?.()}
+                  className="px-5 py-3 rounded-xl font-black text-sm text-white"
+                  style={{background:NAVY}}>
+                  {user ? "Upgrade to Pro" : "Sign In"}
+                </button>
+              </div>
+            )}
+          </div>
+
+          {loading && posts.length === 0 && (
+            <div className="bg-white rounded-2xl border border-gray-100 p-8 text-center text-sm text-gray-400">
+              Loading community...
+            </div>
+          )}
+
+          {displayPosts.map(post=>(
             <div key={post.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
               <div className="flex items-center gap-3 p-4 pb-0">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm text-white flex-shrink-0" style={{background:post.avatar}}>
-                  {post.initials}
+                  {postInitials(post)}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-black text-sm text-gray-900">{post.user}</span>
-                    <span className="text-xs px-1.5 py-0.5 rounded-md font-black text-white" style={{background:post.badge==="Elite"?GOLD:NAVY}}>
-                      {post.badge}
+                    <span className="font-black text-sm text-gray-900">{postAuthor(post)}</span>
+                    <span className="text-xs px-1.5 py-0.5 rounded-md font-black text-white" style={{background:postBadge(post)==="Elite"?GOLD:NAVY}}>
+                      {postBadge(post)}
                     </span>
+                    {post._demo && <span className="text-xs px-1.5 py-0.5 rounded-md font-black bg-gray-100 text-gray-400">DEMO</span>}
                   </div>
-                  <div className="text-xs text-gray-400">{post.role} · {post.timeAgo}</div>
+                  <div className="text-xs text-gray-400">{postRole(post)} · {postTime(post)}</div>
                 </div>
               </div>
               <div className="mx-4 my-3 rounded-xl p-3" style={{background:post.avatar+"15",border:`1px solid ${post.avatar}25`}}>
@@ -22149,17 +22262,17 @@ function CommunityPage() {
               <div className="px-4 pb-3">
                 <p className="text-sm text-gray-700 leading-relaxed">{post.caption}</p>
                 <div className="flex gap-2 mt-2 flex-wrap">
-                  {post.tags.map(tag=><span key={tag} className="text-xs text-blue-400 cursor-pointer hover:text-blue-600">{tag}</span>)}
+                  {(post.tags || []).map(tag=><span key={tag} className="text-xs text-blue-400 cursor-pointer hover:text-blue-600">{tag}</span>)}
                 </div>
               </div>
               <div className="flex items-center gap-5 px-4 py-3 border-t border-gray-50">
-                <button onClick={()=>setLiked(p=>({...p,[post.id]:!p[post.id]}))}
-                  className={`flex items-center gap-1.5 text-sm transition-colors ${liked[post.id]?"text-red-500":"text-gray-300 hover:text-gray-500"}`}>
-                  <Heart size={16} fill={liked[post.id]?"currentColor":"none"}/>
-                  <span>{post.likes+(liked[post.id]?1:0)}</span>
+                <button onClick={()=>likePost(post)}
+                  className={`flex items-center gap-1.5 text-sm transition-colors ${postIsLiked(post)?"text-red-500":"text-gray-300 hover:text-gray-500"}`}>
+                  <Heart size={16} fill={postIsLiked(post)?"currentColor":"none"}/>
+                  <span>{postLikeCount(post)}</span>
                 </button>
                 <button className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-gray-500">
-                  <MessageCircle size={16}/><span>{post.comments}</span>
+                  <MessageCircle size={16}/><span>{post.commentCount ?? post.comments ?? 0}</span>
                 </button>
                 <button className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-gray-500 ml-auto">
                   <TrendingUp size={13}/> Copy Look
@@ -22167,12 +22280,6 @@ function CommunityPage() {
               </div>
             </div>
           ))}
-          <div className="rounded-2xl border-2 border-dashed p-8 text-center" style={{borderColor:"#e5e7eb"}}>
-            <Lock size={22} className="mx-auto text-gray-200 mb-2"/>
-            <div className="font-bold text-gray-400 mb-1 text-sm">Share your looks with the community</div>
-            <div className="text-xs text-gray-300 mb-4">Posting, style duels, and challenges require Dapper Pro</div>
-            <button className="px-6 py-2.5 rounded-xl font-bold text-sm text-white" style={{background:NAVY}}>Upgrade to Pro</button>
-          </div>
         </div>
       )}
 
@@ -23713,6 +23820,7 @@ export default function DapperApp() {
             isAdmin={isAdmin}
             adminProfile={adminProfile}
             adminAccessError={adminAccessError}
+            setPage={setPage}
             onAuthClick={()=>setShowAuth(true)}
           />
         </main>

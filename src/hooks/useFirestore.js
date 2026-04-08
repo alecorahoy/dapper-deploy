@@ -5,6 +5,7 @@ import {
   onSnapshot,
   query, orderBy,
   serverTimestamp,
+  deleteField,
 } from "firebase/firestore"
 import { db } from "../firebase.js"
 
@@ -233,6 +234,86 @@ export function useAdminUsers(user, isAdmin) {
   }
 
   return { profiles, entitlements, loading, saving, error, grantEntitlement, revokeEntitlement }
+}
+
+function communityInitials(user) {
+  const name = user?.displayName || user?.email || "Dapper Member"
+  const parts = name.split(/[\s@._-]+/).filter(Boolean)
+  return (parts[0]?.[0] || "D").toUpperCase() + (parts[1]?.[0] || "").toUpperCase()
+}
+
+function communityAvatarColor(seed = "") {
+  const palette = ["#1B3A6B", "#36454F", "#722F37", "#355E3B", "#8B6914", "#0f172a", "#800020"]
+  const score = String(seed).split("").reduce((sum, ch) => sum + ch.charCodeAt(0), 0)
+  return palette[score % palette.length]
+}
+
+export function useCommunityPosts(user) {
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setLoading(true)
+    const ref = query(collection(db, "communityPosts"), orderBy("createdAt", "desc"))
+    const unsub = onSnapshot(ref, (snap) => {
+      setPosts(snap.docs.map((d) => ({ ...d.data(), id: d.id })))
+      setLoading(false)
+      setError(null)
+    }, (err) => {
+      console.warn("[Dapper Community] Could not load posts", err)
+      setPosts([])
+      setLoading(false)
+      setError("Could not load community posts.")
+    })
+    return unsub
+  }, [])
+
+  const createPost = async ({ look, outfit, caption, tags, badge }) => {
+    if (!user) throw new Error("Sign in required.")
+    setSaving(true); setError(null)
+    try {
+      const postRef = doc(collection(db, "communityPosts"))
+      const authorName = user.displayName || user.email?.split("@")[0] || "Dapper Member"
+      await setDoc(postRef, {
+        uid: user.uid,
+        authorName,
+        authorEmail: user.email || "",
+        authorInitials: communityInitials(user),
+        avatar: communityAvatarColor(user.uid),
+        badge: badge || "Member",
+        role: badge === "Elite" ? "Elite Member" : badge === "Pro" ? "Pro Member" : "Member",
+        look: look || "Today's Look",
+        outfit,
+        caption,
+        tags: Array.isArray(tags) ? tags : [],
+        likedBy: {},
+        commentCount: 0,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      })
+      return postRef.id
+    } catch (err) {
+      console.error("[Dapper Community] Could not create post", err)
+      setError("Could not publish this post.")
+      throw err
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const toggleLike = async (post) => {
+    if (!user || !post?.id || post._demo) return
+    const alreadyLiked = Boolean(post.likedBy?.[user.uid])
+    const update = {
+      updatedAt: serverTimestamp(),
+      [`likedBy.${user.uid}`]: alreadyLiked ? deleteField() : true,
+    }
+    await updateDoc(doc(db, "communityPosts", post.id), update)
+  }
+
+  return { posts, loading, saving, error, createPost, toggleLike }
 }
 
 export function useCloset(user, fallbackItems) {

@@ -15,6 +15,47 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    function hasActiveCommunityAccess() {
+      return isAdmin()
+        || (
+          signedIn()
+          && exists(/databases/$(database)/documents/entitlements/$(request.auth.uid))
+          && get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.status == "active"
+          && (
+            get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.plan == "pro"
+            || get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.plan == "elite"
+          )
+        );
+    }
+
+    function safeCommunityPostCreate() {
+      return hasActiveCommunityAccess()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly([
+          "uid",
+          "authorName",
+          "authorEmail",
+          "authorInitials",
+          "avatar",
+          "badge",
+          "role",
+          "look",
+          "outfit",
+          "caption",
+          "tags",
+          "likedBy",
+          "commentCount",
+          "createdAt",
+          "updatedAt"
+        ]);
+    }
+
+    function safeCommunityLikeUpdate() {
+      return signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["likedBy", "updatedAt"])
+        && request.resource.data.likedBy.diff(resource.data.likedBy).affectedKeys().hasOnly([request.auth.uid]);
+    }
+
     function safeProfileWrite(uid) {
       return isOwner(uid)
         && request.resource.data.uid == request.auth.uid
@@ -44,6 +85,13 @@ service cloud.firestore {
     match /entitlements/{uid} {
       allow read: if isOwner(uid) || isAdmin();
       allow create, update, delete: if isAdmin();
+    }
+
+    match /communityPosts/{postId} {
+      allow read: if true;
+      allow create: if safeCommunityPostCreate();
+      allow update: if isAdmin() || safeCommunityLikeUpdate();
+      allow delete: if isAdmin() || resource.data.uid == request.auth.uid;
     }
 
     match /users/{uid}/{document=**} {
