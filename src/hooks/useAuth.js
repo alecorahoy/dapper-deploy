@@ -3,7 +3,9 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  getRedirectResult,
   signInWithPopup,
+  signInWithRedirect,
   signOut,
   updateProfile,
 } from "firebase/auth"
@@ -24,6 +26,20 @@ export function useAuth() {
       })
     })
     return unsub
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    getRedirectResult(auth).then((result) => {
+      if (cancelled || !result?.user) return
+      syncUserProfile(result.user).catch((err) => {
+        console.warn("[Dapper Auth] Could not sync redirected user profile", err)
+      })
+    }).catch((e) => {
+      console.error("[Dapper Auth] Google redirect failed", e.code, e.message)
+      if (!cancelled) setError(friendlyError(e.code))
+    })
+    return () => { cancelled = true }
   }, [])
 
   const clearError = () => setError(null)
@@ -61,6 +77,10 @@ export function useAuth() {
       return u
     } catch (e) {
       console.error("[Dapper Auth] Google sign-in failed", e.code, e.message)
+      if (shouldUseRedirectFallback(e.code)) {
+        await signInWithRedirect(auth, googleProvider)
+        return null
+      }
       setError(friendlyError(e.code))
       return null
     } finally { setLoading(false) }
@@ -86,12 +106,21 @@ function friendlyError(code) {
     "auth/popup-closed-by-user":    "Google sign-in was cancelled.",
     "auth/popup-blocked":           "Google sign-in popup was blocked by the browser. Allow popups for this site and try again.",
     "auth/cancelled-popup-request": "Another Google sign-in popup is already open. Close it and try again.",
+    "auth/web-storage-unsupported": "This browser is blocking the storage Google sign-in needs. Try another browser or allow site storage.",
     "auth/unauthorized-domain":     "This domain is not authorized for Google sign-in. Use http://localhost:4173 locally or add this domain in Firebase Auth > Settings > Authorized domains.",
     "auth/operation-not-allowed":   "Google sign-in is not enabled in Firebase Auth. Enable Google provider in Firebase Console > Authentication > Sign-in method.",
     "auth/account-exists-with-different-credential": "An account already exists with this email using a different sign-in method.",
     "auth/network-request-failed":  "Network error. Check your connection.",
   }
   return map[code] || "Something went wrong. Please try again."
+}
+
+function shouldUseRedirectFallback(code) {
+  return [
+    "auth/popup-blocked",
+    "auth/cancelled-popup-request",
+    "auth/web-storage-unsupported",
+  ].includes(code)
 }
 
 async function syncUserProfile(user) {
