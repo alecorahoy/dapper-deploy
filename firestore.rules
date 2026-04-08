@@ -15,17 +15,28 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    function hasActivePlan(data) {
+      return data.status == "active"
+        && (data.plan == "pro" || data.plan == "elite");
+    }
+
+    function hasActiveUidEntitlement() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/entitlements/$(request.auth.uid))
+        && hasActivePlan(get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data);
+    }
+
+    function hasActiveEmailEntitlement() {
+      return signedIn()
+        && request.auth.token.email != null
+        && exists(/databases/$(database)/documents/emailEntitlements/$(request.auth.token.email.lower()))
+        && hasActivePlan(get(/databases/$(database)/documents/emailEntitlements/$(request.auth.token.email.lower())).data);
+    }
+
     function hasActiveCommunityAccess() {
       return isAdmin()
-        || (
-          signedIn()
-          && exists(/databases/$(database)/documents/entitlements/$(request.auth.uid))
-          && get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.status == "active"
-          && (
-            get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.plan == "pro"
-            || get(/databases/$(database)/documents/entitlements/$(request.auth.uid)).data.plan == "elite"
-          )
-        );
+        || hasActiveUidEntitlement()
+        || hasActiveEmailEntitlement();
     }
 
     function safeCommunityPostCreate() {
@@ -85,6 +96,12 @@ service cloud.firestore {
 
     match /entitlements/{uid} {
       allow read: if isOwner(uid) || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /emailEntitlements/{email} {
+      allow read: if isAdmin()
+        || (signedIn() && request.auth.token.email != null && request.auth.token.email.lower() == email);
       allow create, update, delete: if isAdmin();
     }
 

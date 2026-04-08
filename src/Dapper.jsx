@@ -23688,13 +23688,29 @@ function planBadgeStyle(plan) {
 }
 
 function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
-  const { profiles, entitlements, loading, saving, error, grantEntitlement, revokeEntitlement } = useAdminUsers(user, isAdmin)
+  const {
+    profiles,
+    entitlements,
+    emailEntitlements,
+    loading,
+    saving,
+    error,
+    grantEntitlement,
+    revokeEntitlement,
+    grantEmailEntitlement,
+    revokeEmailEntitlement,
+  } = useAdminUsers(user, isAdmin)
   const [search, setSearch] = useState("")
   const [selectedUid, setSelectedUid] = useState("")
   const [plan, setPlan] = useState("pro")
   const [expiresAt, setExpiresAt] = useState("")
   const [note, setNote] = useState("")
   const [message, setMessage] = useState("")
+  const [compEmail, setCompEmail] = useState("")
+  const [compPlan, setCompPlan] = useState("pro")
+  const [compExpiresAt, setCompExpiresAt] = useState("")
+  const [compNote, setCompNote] = useState("")
+  const [compMessage, setCompMessage] = useState("")
 
   const filteredProfiles = profiles.filter((profile) => {
     const haystack = `${profile.email || ""} ${profile.displayName || ""} ${profile.uid || ""}`.toLowerCase()
@@ -23702,6 +23718,9 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
   })
   const selectedUser = profiles.find((profile) => profile.uid === selectedUid) || filteredProfiles[0]
   const selectedEntitlement = selectedUser ? entitlements[selectedUser.uid] : null
+  const emailComps = Object.values(emailEntitlements || {})
+    .filter((entitlement) => entitlement.email)
+    .sort((a, b) => String(a.email).localeCompare(String(b.email)))
 
   useEffect(() => {
     if (!selectedUid && filteredProfiles[0]?.uid) setSelectedUid(filteredProfiles[0].uid)
@@ -23731,6 +23750,33 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
       setMessage(`${selectedUser.email || selectedUser.uid} was moved back to Free.`)
     } catch {
       setMessage("Could not revoke this account. Check Firestore rules and admin access.")
+    }
+  }
+
+  const applyEmailComp = async () => {
+    if (!compEmail.trim()) { setCompMessage("Enter an email first."); return }
+    setCompMessage("")
+    try {
+      if (compPlan === "free") {
+        await revokeEmailEntitlement({ email:compEmail, note:compNote || "Set to Free from Admin." })
+        setCompMessage(`${compEmail.trim().toLowerCase()} was moved back to Free.`)
+      } else {
+        await grantEmailEntitlement({ email:compEmail, plan:compPlan, expiresAt:compExpiresAt, note:compNote })
+        setCompMessage(`${compEmail.trim().toLowerCase()} now has complimentary ${compPlan === "elite" ? "Elite" : "Pro"}.`)
+      }
+    } catch {
+      setCompMessage("Could not update this email comp. Check Firestore rules and admin access.")
+    }
+  }
+
+  const revokeEmailComp = async (email = compEmail) => {
+    if (!String(email).trim()) { setCompMessage("Enter an email first."); return }
+    setCompMessage("")
+    try {
+      await revokeEmailEntitlement({ email, note:compNote || "Revoked from Admin." })
+      setCompMessage(`${String(email).trim().toLowerCase()} was moved back to Free.`)
+    } catch {
+      setCompMessage("Could not revoke this email comp. Check Firestore rules and admin access.")
     }
   }
 
@@ -23782,12 +23828,88 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
             <span className="text-xs font-black tracking-widest" style={{color:GOLD}}>OWNER DASHBOARD</span>
           </div>
           <h1 className="text-3xl font-black text-gray-900">Admin</h1>
-          <p className="text-sm text-gray-500 mt-1">Grant complimentary Pro or Elite access to users who have signed in at least once.</p>
+          <p className="text-sm text-gray-500 mt-1">Grant complimentary Pro or Elite access by user account or by email before they sign in.</p>
         </div>
         <div className="rounded-2xl bg-white border border-gray-100 p-4 min-w-[220px]">
           <div className="text-xs font-black text-gray-400 tracking-widest">SIGNED IN AS</div>
           <div className="text-sm font-bold text-gray-900 truncate">{user.email || user.uid}</div>
         </div>
+      </div>
+
+      <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Gift size={18} style={{color:GOLD}}/>
+          <div>
+            <h2 className="font-black text-gray-900">Grant By Email</h2>
+            <p className="text-xs text-gray-400 mt-0.5">Use this for people who do not appear in Users yet. The comp applies when they sign in with that email.</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
+          <label className="block lg:col-span-2">
+            <span className="text-xs font-black text-gray-400 tracking-widest">EMAIL</span>
+            <input value={compEmail} onChange={(e)=>setCompEmail(e.target.value)}
+              placeholder="friend@example.com"
+              className="w-full mt-1 border border-gray-100 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+          </label>
+          <label className="block">
+            <span className="text-xs font-black text-gray-400 tracking-widest">PLAN</span>
+            <select value={compPlan} onChange={(e)=>setCompPlan(e.target.value)}
+              className="w-full mt-1 border border-gray-100 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-gray-300">
+              <option value="pro">Pro Comp</option>
+              <option value="elite">Elite Comp</option>
+              <option value="free">Free</option>
+            </select>
+          </label>
+          <label className="block">
+            <span className="text-xs font-black text-gray-400 tracking-widest">EXPIRES</span>
+            <input type="date" value={compExpiresAt} onChange={(e)=>setCompExpiresAt(e.target.value)}
+              className="w-full mt-1 border border-gray-100 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+          </label>
+        </div>
+        <label className="block mt-3">
+          <span className="text-xs font-black text-gray-400 tracking-widest">INTERNAL NOTE</span>
+          <input value={compNote} onChange={(e)=>setCompNote(e.target.value)}
+            placeholder="Friend, tester, VIP, stylist partner..."
+            className="w-full mt-1 border border-gray-100 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+        </label>
+        <div className="flex flex-col sm:flex-row gap-3 mt-4">
+          <button onClick={applyEmailComp} disabled={saving || !compEmail.trim()}
+            className="flex-1 py-3 rounded-xl text-sm font-black disabled:opacity-50"
+            style={{background:NAVY,color:"white"}}>
+            {saving ? "Saving..." : "Apply Email Comp"}
+          </button>
+          <button onClick={()=>revokeEmailComp()} disabled={saving || !compEmail.trim()}
+            className="flex-1 py-3 rounded-xl text-sm font-black border border-gray-200 text-gray-700 disabled:opacity-50">
+            Revoke Email Comp
+          </button>
+        </div>
+        {(compMessage || error) && (
+          <div className={`mt-4 rounded-xl p-3 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+            {error || compMessage}
+          </div>
+        )}
+        {emailComps.length > 0 && (
+          <div className="mt-5 border-t border-gray-100 pt-4">
+            <div className="text-xs font-black text-gray-400 tracking-widest mb-2">EMAIL COMPS</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {emailComps.map((entitlement) => (
+                <button key={entitlement.id || entitlement.email}
+                  onClick={()=>{ setCompEmail(entitlement.email); setCompPlan(entitlement.plan || "free"); setCompExpiresAt(""); setCompNote(entitlement.note || "") }}
+                  className="text-left border border-gray-100 rounded-xl p-3 hover:border-gray-200 transition-all">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="font-bold text-sm text-gray-900 truncate">{entitlement.email}</div>
+                      <div className="text-xs text-gray-400 truncate">{entitlement.source || "email_comp"} · expires {formatAdminDate(entitlement.expiresAt)}</div>
+                    </div>
+                    <span className="text-xs font-black px-2 py-1 rounded-lg flex-shrink-0" style={planBadgeStyle(entitlement.plan)}>
+                      {accountPlanLabel(entitlement)}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">

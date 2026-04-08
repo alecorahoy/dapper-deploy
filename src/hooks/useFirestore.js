@@ -89,6 +89,22 @@ export function normalizeEntitlement(data) {
   }
 }
 
+function entitlementRank(entitlement) {
+  if (entitlement?.plan === "elite") return 2
+  if (entitlement?.plan === "pro") return 1
+  return 0
+}
+
+function bestEntitlement(uidData, emailData) {
+  const uidEntitlement = normalizeEntitlement(uidData)
+  const emailEntitlement = normalizeEntitlement(emailData)
+  return entitlementRank(emailEntitlement) > entitlementRank(uidEntitlement) ? emailEntitlement : uidEntitlement
+}
+
+function emailEntitlementKey(email = "") {
+  return String(email).trim().toLowerCase()
+}
+
 export function useEntitlement(user) {
   const [entitlement, setEntitlement] = useState(FREE_ENTITLEMENT)
   const [loading, setLoading] = useState(false)
@@ -98,19 +114,48 @@ export function useEntitlement(user) {
     if (user === undefined) return
     if (!user) { setEntitlement(FREE_ENTITLEMENT); setLoading(false); setError(null); return }
     setLoading(true)
-    const ref = doc(db, "entitlements", user.uid)
-    const unsub = onSnapshot(ref, (snap) => {
-      setEntitlement(normalizeEntitlement(snap.exists() ? snap.data() : null))
+    let uidData = null
+    let emailData = null
+    let uidLoaded = false
+    let emailLoaded = !user.email
+
+    const update = () => {
+      if (!uidLoaded || !emailLoaded) return
+      setEntitlement(bestEntitlement(uidData, emailData))
       setLoading(false)
       setError(null)
+    }
+
+    const uidRef = doc(db, "entitlements", user.uid)
+    const unsubUid = onSnapshot(uidRef, (snap) => {
+      uidData = snap.exists() ? snap.data() : null
+      uidLoaded = true
+      update()
     }, (err) => {
       console.warn("[Dapper] Could not load entitlement", err)
       setEntitlement(FREE_ENTITLEMENT)
       setLoading(false)
       setError("Could not load account plan.")
     })
-    return unsub
-  }, [user?.uid])
+
+    let unsubEmail = () => {}
+    const emailKey = emailEntitlementKey(user.email)
+    if (emailKey) {
+      const emailRef = doc(db, "emailEntitlements", emailKey)
+      unsubEmail = onSnapshot(emailRef, (snap) => {
+        emailData = snap.exists() ? snap.data() : null
+        emailLoaded = true
+        update()
+      }, (err) => {
+        console.warn("[Dapper] Could not load email entitlement", err)
+        emailData = null
+        emailLoaded = true
+        update()
+      })
+    }
+
+    return () => { unsubUid(); unsubEmail() }
+  }, [user?.uid, user?.email])
 
   return { entitlement, loading, error }
 }
@@ -148,15 +193,17 @@ export function useAdminAccess(user) {
 export function useAdminUsers(user, isAdmin) {
   const [profiles, setProfiles] = useState([])
   const [entitlements, setEntitlements] = useState({})
+  const [emailEntitlements, setEmailEntitlements] = useState({})
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (!user || !isAdmin) { setProfiles([]); setEntitlements({}); setLoading(false); return }
+    if (!user || !isAdmin) { setProfiles([]); setEntitlements({}); setEmailEntitlements({}); setLoading(false); return }
     setLoading(true)
     const profilesRef = query(collection(db, "userProfiles"), orderBy("emailLower"))
     const entitlementsRef = collection(db, "entitlements")
+    const emailEntitlementsRef = collection(db, "emailEntitlements")
     const unsubProfiles = onSnapshot(profilesRef, (snap) => {
       setProfiles(snap.docs.map((d) => ({ ...d.data(), uid: d.id })))
       setLoading(false)
@@ -175,8 +222,77 @@ export function useAdminUsers(user, isAdmin) {
       console.error("[Dapper Admin] Could not load entitlements", err)
       setError("Could not load plans. Check Firestore admin rules.")
     })
-    return () => { unsubProfiles(); unsubEntitlements() }
+    const unsubEmailEntitlements = onSnapshot(emailEntitlementsRef, (snap) => {
+      const next = {}
+      snap.docs.forEach((d) => {
+        const data = d.data()
+        next[d.id] = { ...data, ...normalizeEntitlement(data), id: d.id, email: data.email || d.id }
+      })
+      setEmailEntitlements(next)
+      setError(null)
+    }, (err) => {
+      console.error("[Dapper Admin] Could not load email entitlements", err)
+      setError("Could not load email comp accounts. Check Firestore admin rules.")
+    })
+    return () => { unsubProfiles(); unsubEntitlements(); unsubEmailEntitlements() }
   }, [user?.uid, isAdmin])
+
+  const grantEmailEntitlement = async ({ email, plan, expiresAt, note }) => {
+    if (!user || !isAdmin) throw new Error("Admin access required.")
+    const emailLower = emailEntitlementKey(email)
+    if (!emailLower) throw new Error("Missing email.")
+    setSaving(true); setError(null)
+    try {
+      const parsedExpiry = expiresAt ? new Date(`${expiresAt}T23:59:59`) : null
+      await setDoc(doc(db, "emailEntitlements", emailLower), {
+        email: emailLower,
+        emailLower,
+        plan,
+        status: "active",
+        source: "admin_email_comp",
+        note: note || "",
+        grantedBy: user.uid,
+        grantedByEmail: user.email || "",
+        grantedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        expiresAt: parsedExpiry && !Number.isNaN(parsedExpiry.getTime()) ? parsedExpiry : null,
+      }, { merge: true })
+    } catch (err) {
+      console.error("[Dapper Admin] Could not grant email entitlement", err)
+      setError("Could not update that email comp account.")
+      throw err
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const revokeEmailEntitlement = async ({ email, note }) => {
+    if (!user || !isAdmin) throw new Error("Admin access required.")
+    const emailLower = emailEntitlementKey(email)
+    if (!emailLower) throw new Error("Missing email.")
+    setSaving(true); setError(null)
+    try {
+      await setDoc(doc(db, "emailEntitlements", emailLower), {
+        email: emailLower,
+        emailLower,
+        plan: "free",
+        status: "revoked",
+        source: "admin_email_revoked",
+        note: note || "",
+        revokedBy: user.uid,
+        revokedByEmail: user.email || "",
+        revokedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        expiresAt: null,
+      }, { merge: true })
+    } catch (err) {
+      console.error("[Dapper Admin] Could not revoke email entitlement", err)
+      setError("Could not revoke that email comp account.")
+      throw err
+    } finally {
+      setSaving(false)
+    }
+  }
 
   const grantEntitlement = async ({ uid, email, plan, expiresAt, note }) => {
     if (!user || !isAdmin) throw new Error("Admin access required.")
@@ -233,7 +349,18 @@ export function useAdminUsers(user, isAdmin) {
     }
   }
 
-  return { profiles, entitlements, loading, saving, error, grantEntitlement, revokeEntitlement }
+  return {
+    profiles,
+    entitlements,
+    emailEntitlements,
+    loading,
+    saving,
+    error,
+    grantEntitlement,
+    revokeEntitlement,
+    grantEmailEntitlement,
+    revokeEmailEntitlement,
+  }
 }
 
 function communityInitials(user) {
