@@ -19146,7 +19146,7 @@ function getAnalysisFromPhotoResult(result) {
   }
 
   // Fallback: use base analysis + inject detected metadata
-  const base = _BASE_MAP[result.colorKey] || ANALYSIS
+  const base = buildGeneratedLocalAnalysis(colorKey, finalPatternKey)
   return {
     ...base,
     suit: {
@@ -19167,6 +19167,9 @@ const COLOR_FAMILY_LABELS = {
   midnight:   "Midnight Navy",
   grey:       "Medium Grey",
   light_grey: "Light Grey",
+  dovegrey:   "Dove Grey",
+  gunmetal:   "Gunmetal",
+  pewter:     "Pewter",
   blue:       "Blue",
   lightblue:  "Pale Blue",
   cobalt:     "Cobalt Blue",
@@ -19196,10 +19199,18 @@ const COLOR_FAMILY_LABELS = {
   aubergine:  "Aubergine",
   rust:       "Rust",
   terracotta: "Terracotta",
+  copper:     "Copper",
   red:        "Red",
+  scarlet:    "Scarlet",
+  coral:      "Coral",
   gold:       "Gold",
   mustard:    "Mustard",
   champagne:  "Champagne",
+  wheat:      "Wheat",
+  fawn:       "Fawn",
+  taupe:      "Taupe",
+  caramel:    "Caramel",
+  jade:       "Jade Green",
 }
 
 
@@ -19209,8 +19220,42 @@ const COLOR_FAMILY_LABELS = {
 // Provides expert menswear advice for common and uncommon combinations.
 // ─────────────────────────────────────────────────────────────────────────────
 
+function normalizeMenswearText(text = "") {
+  return String(text).toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/\bazul marino\b/g, "navy")
+    .replace(/\bazul cielo\b|\bazul claro\b|\bceleste\b/g, "light blue")
+    .replace(/\bazul electrico\b|\bazul rey\b/g, "cobalt")
+    .replace(/\bgris carbon\b|\bgris oscuro\b/g, "charcoal")
+    .replace(/\bgris\b/g, "grey")
+    .replace(/\bnegro\b|\bnegra\b/g, "black")
+    .replace(/\bblanco\b|\bblanca\b/g, "white")
+    .replace(/\bmarfil\b|\bcrema\b/g, "cream")
+    .replace(/\bcrudo\b/g, "ecru")
+    .replace(/\bmarron\b|\bcafe\b/g, "brown")
+    .replace(/\bborgona\b|\bburdeos\b|\bvino\b/g, "burgundy")
+    .replace(/\bverde oliva\b/g, "olive")
+    .replace(/\bverde bosque\b/g, "forest green")
+    .replace(/\bverde\b/g, "green")
+    .replace(/\brojo\b|\broja\b/g, "red")
+    .replace(/\bmostaza\b/g, "mustard")
+    .replace(/\boxido\b/g, "rust")
+    .replace(/\blino\b/g, "linen")
+    .replace(/\braya diplomatica\b|\braya tiza\b|\brayas?\b/g, "chalk stripe")
+    .replace(/\bcuadros?\b|\bcuadriculado\b/g, "glen plaid")
+    .replace(/\bpata de gallo\b/g, "houndstooth")
+    .replace(/\bespiga\b/g, "herringbone")
+    .replace(/\btraje\b/g, "suit")
+    .replace(/\bsaco\b|\bblazer\b/g, "blazer")
+    .replace(/\bcamisa\b/g, "shirt")
+    .replace(/\bcorbata\b/g, "tie")
+    .replace(/\bpanuelos? de bolsillo\b|\bpocket square\b/g, "pocket square")
+    .replace(/\bzapatos?\b/g, "shoes")
+    .replace(/\bcinturon\b/g, "belt")
+}
+
 function parseComboFromText(text) {
-  const t = text.toLowerCase()
+  const t = normalizeMenswearText(text)
 
   // Extract suit color
   const suitColors = [
@@ -19423,7 +19468,7 @@ function getLocalComboAssessment(text) {
 }
 
 function getLocalAnalysis(text) {
-  const t = text.toLowerCase()
+  const t = normalizeMenswearText(text)
 
   // Detect color (with match tracking)
   let colorKey = "navy"
@@ -19500,35 +19545,95 @@ function getLocalAnalysis(text) {
   // Lookup in matrix
   const matrixKey = colorKey + "|" + patternKey
   if (PATTERN_MATRIX[matrixKey]) return { ...normalizeMatrixResult(PATTERN_MATRIX[matrixKey]), _isMatrixMatch: true }
-  // Color or pattern detected but not in matrix — exotic combo
-  if (colorMatched || patternMatched) return { ...(_BASE_MAP[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
+  // Color or pattern detected but not in matrix: generate the full outfit locally.
+  if (colorMatched || patternMatched) return { ...buildGeneratedLocalAnalysis(colorKey, patternKey), _detectedColor: colorKey, _detectedPattern: patternKey }
 
-  // Fallback to base analysis
-  return { ...(_BASE_MAP[colorKey] || ANALYSIS), _isMatrixMatch: false, _detectedColor: colorKey, _detectedPattern: patternKey }
+  // Fallback to navy, still local.
+  return { ...buildGeneratedLocalAnalysis(colorKey, patternKey), _detectedColor: colorKey, _detectedPattern: patternKey }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // OUTFIT COMBINATION ENGINE
 // Generates every valid combination locally using stylist rules.
 // Mirrors the SQL stylist_rules logic — no AI needed for standard lookups.
-// Only falls back to OpenAI for exotic / unusual suit descriptions.
+// Covers standard and unusual suit descriptions without calling the API.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const _DB_SHIRTS = {
-  black:    ['white','light_blue','light_grey'],
-  navy:     ['white','light_blue','pink'],
-  charcoal: ['white','light_blue','pink','light_grey'],
-  grey:     ['white','light_blue','pink','light_grey'],
-  brown:    ['white','light_blue','cream'],
+const _LOCAL_COLOR_PROFILES = {
+  black:       { label:"Black",             base:"black",    group:"dark_neutral", shirts:['white','light_blue','light_grey'],              ties:['silver','burgundy','navy','charcoal','black','dark_green',null], shoes:['black'] },
+  navy:        { label:"Navy",              base:"navy",     group:"cool_dark",    shirts:['white','light_blue','pink','cream'],           ties:['burgundy','navy','gold','silver','dark_green','teal','rust','black',null], shoes:['black','brown','burgundy'] },
+  midnight:    { label:"Midnight Navy",     base:"navy",     group:"cool_dark",    shirts:['white','light_blue','light_grey','cream'],     ties:['burgundy','silver','gold','navy','black','dark_green',null], shoes:['black','brown'] },
+  cobalt:      { label:"Cobalt Blue",       base:"blue",     group:"cool_bright",  shirts:['white','light_blue','light_grey','pink'],      ties:['burgundy','navy','silver','gold','dark_green','terracotta',null], shoes:['black','brown'] },
+  lightblue:   { label:"Light Blue",        base:"blue",     group:"cool_light",   shirts:['white','cream','light_blue','pink'],           ties:['navy','burgundy','brown','dark_green','gold','charcoal',null], shoes:['brown','tan','burgundy','black'] },
+  blue:        { label:"Blue",              base:"blue",     group:"cool_bright",  shirts:['white','light_blue','pink','light_grey'],      ties:['burgundy','navy','silver','gold','dark_green','terracotta',null], shoes:['black','brown'] },
+  charcoal:    { label:"Charcoal Grey",     base:"charcoal", group:"dark_neutral", shirts:['white','light_blue','pink','light_grey'],      ties:['burgundy','navy','charcoal','silver','black','dark_green','teal',null], shoes:['black','brown'] },
+  grey:        { label:"Medium Grey",       base:"grey",     group:"neutral",      shirts:['white','light_blue','pink','light_grey'],      ties:['burgundy','navy','dark_green','silver','charcoal','camel','teal',null], shoes:['black','brown','burgundy'] },
+  dovegrey:    { label:"Dove Grey",         base:"grey",     group:"light_neutral",shirts:['white','light_blue','pink','cream'],           ties:['navy','burgundy','dark_green','silver','camel','teal',null], shoes:['brown','black','burgundy'] },
+  slate:       { label:"Slate",             base:"charcoal", group:"cool_dark",    shirts:['white','light_blue','light_grey','cream'],     ties:['burgundy','navy','silver','teal','dark_green','black',null], shoes:['black','brown'] },
+  gunmetal:    { label:"Gunmetal",          base:"charcoal", group:"dark_neutral", shirts:['white','light_blue','light_grey'],             ties:['burgundy','navy','silver','black','teal','dark_green',null], shoes:['black','brown'] },
+  pewter:      { label:"Pewter",            base:"grey",     group:"neutral",      shirts:['white','light_blue','light_grey','cream'],     ties:['navy','burgundy','silver','charcoal','teal','dark_green',null], shoes:['black','brown'] },
+  brown:       { label:"Brown",             base:"brown",    group:"earth",        shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','dark_green','charcoal','gold','rust',null], shoes:['brown','tan'] },
+  chocolate:   { label:"Chocolate Brown",   base:"brown",    group:"earth_dark",   shirts:['white','light_blue','cream','light_grey'],     ties:['navy','burgundy','dark_green','gold','rust','charcoal',null], shoes:['brown','tan'] },
+  camel:       { label:"Camel",             base:"brown",    group:"earth_light",  shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','dark_green','brown','rust','gold',null], shoes:['brown','tan'] },
+  tan:         { label:"Tan",               base:"beige",    group:"earth_light",  shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','dark_green','brown','terracotta','gold',null], shoes:['brown','tan'] },
+  beige:       { label:"Beige",             base:"beige",    group:"earth_light",  shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','dark_green','brown','terracotta','gold',null], shoes:['brown','tan'] },
+  taupe:       { label:"Taupe",             base:"beige",    group:"earth_neutral",shirts:['white','light_blue','cream','light_grey'],     ties:['navy','burgundy','dark_green','brown','charcoal','teal',null], shoes:['brown','black'] },
+  wheat:       { label:"Wheat",             base:"beige",    group:"earth_light",  shirts:['white','light_blue','cream'],                  ties:['navy','burgundy','dark_green','brown','terracotta','gold',null], shoes:['tan','brown'] },
+  fawn:        { label:"Fawn",              base:"beige",    group:"earth_light",  shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','dark_green','brown','rust','gold',null], shoes:['brown','tan'] },
+  caramel:     { label:"Caramel",           base:"brown",    group:"earth",        shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','dark_green','brown','gold','rust',null], shoes:['brown','tan'] },
+  cream:       { label:"Cream",             base:"beige",    group:"light_neutral",shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','brown','dark_green','gold','charcoal',null], shoes:['tan','brown'] },
+  ecru:        { label:"Ecru",              base:"beige",    group:"light_neutral",shirts:['white','light_blue','cream'],                  ties:['navy','burgundy','brown','dark_green','gold','charcoal',null], shoes:['tan','brown'] },
+  champagne:   { label:"Champagne",         base:"beige",    group:"light_neutral",shirts:['white','light_blue','cream'],                  ties:['navy','burgundy','brown','dark_green','gold','charcoal',null], shoes:['tan','brown'] },
+  white:       { label:"White / Ivory",     base:"beige",    group:"light_neutral",shirts:['white','light_blue','cream','pink'],           ties:['navy','burgundy','black','brown','dark_green','gold',null], shoes:['tan','brown','black'] },
+  burgundy:    { label:"Burgundy",          base:"burgundy", group:"warm_dark",    shirts:['white','light_blue','light_grey','pink'],      ties:['navy','charcoal','dark_green','gold','black','silver',null], shoes:['black','brown','burgundy'] },
+  oxblood:     { label:"Oxblood",           base:"burgundy", group:"warm_dark",    shirts:['white','light_blue','light_grey','cream'],     ties:['navy','charcoal','dark_green','gold','black','silver',null], shoes:['black','brown','burgundy'] },
+  wine:        { label:"Wine",              base:"burgundy", group:"warm_dark",    shirts:['white','light_blue','light_grey','pink'],      ties:['navy','charcoal','dark_green','gold','black','silver',null], shoes:['black','brown','burgundy'] },
+  scarlet:     { label:"Scarlet",           base:"burgundy", group:"statement",    shirts:['white','light_blue','light_grey'],             ties:['black','charcoal','navy','gold','silver',null], shoes:['black'] },
+  red:         { label:"Red",               base:"burgundy", group:"statement",    shirts:['white','light_blue','light_grey'],             ties:['black','charcoal','navy','gold','silver',null], shoes:['black'] },
+  rust:        { label:"Rust",              base:"brown",    group:"earth_warm",   shirts:['white','light_blue','cream','light_grey'],     ties:['navy','dark_green','brown','charcoal','burgundy','gold',null], shoes:['brown','tan'] },
+  terracotta:  { label:"Terracotta",        base:"brown",    group:"earth_warm",   shirts:['white','light_blue','cream'],                  ties:['navy','dark_green','brown','charcoal','burgundy','gold',null], shoes:['brown','tan'] },
+  copper:      { label:"Copper",            base:"brown",    group:"earth_warm",   shirts:['white','light_blue','cream'],                  ties:['navy','dark_green','brown','charcoal','burgundy','gold',null], shoes:['brown','tan'] },
+  mustard:     { label:"Mustard",           base:"brown",    group:"statement",    shirts:['white','cream','light_blue'],                  ties:['navy','brown','dark_green','burgundy','charcoal',null], shoes:['brown','tan'] },
+  olive:       { label:"Olive Green",       base:"grey",     group:"earth_green",  shirts:['white','cream','light_blue','light_grey'],     ties:['burgundy','navy','brown','gold','charcoal','dark_green',null], shoes:['brown','tan','black'] },
+  forestgreen: { label:"Forest Green",      base:"grey",     group:"earth_green",  shirts:['white','light_blue','cream','light_grey'],     ties:['burgundy','navy','brown','gold','charcoal',null], shoes:['brown','black'] },
+  sage:        { label:"Sage Green",        base:"grey",     group:"earth_green",  shirts:['white','cream','light_blue','pink'],           ties:['navy','burgundy','brown','gold','charcoal','dark_green',null], shoes:['brown','tan'] },
+  moss:        { label:"Moss Green",        base:"grey",     group:"earth_green",  shirts:['white','cream','light_blue','light_grey'],     ties:['burgundy','navy','brown','gold','charcoal',null], shoes:['brown','tan'] },
+  bottle:      { label:"Bottle Green",      base:"grey",     group:"earth_green",  shirts:['white','light_blue','cream','light_grey'],     ties:['burgundy','navy','brown','gold','charcoal','black',null], shoes:['brown','black'] },
+  teal:        { label:"Teal",              base:"blue",     group:"cool_bright",  shirts:['white','light_blue','cream','light_grey'],     ties:['burgundy','navy','gold','charcoal','brown','silver',null], shoes:['brown','black'] },
+  jade:        { label:"Jade Green",        base:"grey",     group:"statement",    shirts:['white','light_blue','cream'],                  ties:['navy','burgundy','gold','charcoal','brown',null], shoes:['brown','black'] },
+  purple:      { label:"Purple",            base:"burgundy", group:"statement",    shirts:['white','light_grey','light_blue'],             ties:['silver','charcoal','navy','gold','black',null], shoes:['black','brown'] },
+  lavender:    { label:"Lavender",          base:"grey",     group:"statement",    shirts:['white','light_blue','cream','light_grey'],     ties:['navy','charcoal','silver','burgundy','dark_green',null], shoes:['brown','black'] },
+  aubergine:   { label:"Aubergine",         base:"burgundy", group:"warm_dark",    shirts:['white','light_grey','light_blue','cream'],     ties:['silver','charcoal','navy','gold','dark_green',null], shoes:['black','brown'] },
+  pink:        { label:"Pink",              base:"burgundy", group:"statement",    shirts:['white','light_blue','cream','light_grey'],     ties:['navy','charcoal','burgundy','dark_green','silver',null], shoes:['brown','black'] },
+  blush:       { label:"Blush Pink",        base:"burgundy", group:"statement",    shirts:['white','light_blue','cream','light_grey'],     ties:['navy','charcoal','burgundy','dark_green','silver',null], shoes:['brown','black'] },
+  coral:       { label:"Coral",             base:"burgundy", group:"statement",    shirts:['white','cream','light_blue'],                  ties:['navy','charcoal','burgundy','dark_green','gold',null], shoes:['brown','tan'] },
 }
 
-const _DB_TIES = {
-  black:    ['burgundy','navy','charcoal','silver','black','dark_green',null],
-  navy:     ['burgundy','navy','charcoal','silver','dark_green','black',null],
-  charcoal: ['burgundy','navy','charcoal','silver','black','dark_green',null],
-  grey:     ['burgundy','navy','charcoal','silver','dark_green',null],
-  brown:    ['navy','burgundy','dark_green','charcoal',null],
+const _DB_COLOR_ALIASES = {
+  navyexpanded:"navy",
+  charcoalexpanded:"charcoal",
+  light_grey:"grey",
+  teal2:"teal",
+  green:"olive",
 }
+
+function _dbColorKey(color) {
+  return _DB_COLOR_ALIASES[color] || color || "navy"
+}
+
+function _dbProfile(color) {
+  return _LOCAL_COLOR_PROFILES[_dbColorKey(color)] || _LOCAL_COLOR_PROFILES.navy
+}
+
+const _DB_SHIRTS = Object.fromEntries(
+  Object.entries(_LOCAL_COLOR_PROFILES).map(([color, profile]) => [color, profile.shirts])
+)
+
+const _DB_TIES = Object.fromEntries(
+  Object.entries(_LOCAL_COLOR_PROFILES).map(([color, profile]) => [color, profile.ties])
+)
+
+const _DB_TIE_PATTERNS = ['grenadine','solid','repp_stripe','polka_dot','foulard','knit','paisley']
 
 // For suits: pants = suit color. For blazers: pants ≠ blazer color.
 const _DB_PANTS = {
@@ -19578,62 +19683,90 @@ const _DB_CONF = {
   office:0.94, church:0.93, evening_event:0.93, date:0.91, business_casual:0.90,
 }
 
-function _dbKey(type,color,shirt,tie,pants,shoe,occ,dc,season,style) {
-  return `${type}|${color}|${shirt}|${tie||'NO_TIE'}|${pants}|${shoe}|${shoe}|${occ}|${dc}|${season}|${style}`
+function _tiePatternsForCombo(color, tieColor) {
+  if (!tieColor) return [null]
+  if (['black','silver','charcoal'].includes(tieColor)) return ['grenadine','solid','knit','foulard']
+  if (['gold','rust','terracotta','camel'].includes(tieColor)) return ['grenadine','repp_stripe','knit','foulard']
+  if (['burgundy','navy','dark_green','teal','brown'].includes(tieColor)) return _DB_TIE_PATTERNS
+  return ['grenadine','solid','repp_stripe','foulard','knit']
 }
 
-// Build the full combination database once at module load (~3–6k entries)
+function _fallbackPants(type, color) {
+  if (type === 'suit') return [color]
+  const group = _dbProfile(color).group
+  if (group === 'earth_light' || group === 'light_neutral') return ['navy','brown','grey']
+  if (group === 'earth_green' || group === 'earth_warm') return ['beige','cream','grey','navy']
+  if (group === 'statement') return ['charcoal','navy','cream']
+  return ['grey','charcoal','beige']
+}
+
+function _fallbackShoes(type, color) {
+  return _dbProfile(color).shoes || (type === 'suit' ? ['black','brown'] : ['brown','black'])
+}
+
+function _dbKey(type,color,shirt,tie,tiePattern,pants,shoe,occ,dc,season,style) {
+  return `${type}|${color}|${shirt}|${tie||'NO_TIE'}|${tiePattern||'NO_PATTERN'}|${pants}|${shoe}|${occ}|${dc}|${season}|${style}`
+}
+
+// Build the full combination database once at module load (tens of thousands of local looks).
 const OUTFIT_DB = (() => {
   const db = new Map()
-  const garments   = [['suit','black'],['suit','navy'],['suit','charcoal'],['suit','grey'],
-                      ['blazer','black'],['blazer','navy'],['blazer','charcoal'],['blazer','grey'],['blazer','brown']]
+  const suitColors = Object.keys(_LOCAL_COLOR_PROFILES)
+  const blazerColors = ['black','navy','charcoal','grey','brown','camel','tan','beige','olive','forestgreen','cream']
+  const garments   = [
+    ...suitColors.map(color => ['suit', color]),
+    ...blazerColors.map(color => ['blazer', color]),
+  ]
   const occasions  = ['office','business_casual','formal','wedding','funeral','church','date','interview','evening_event']
   const seasons    = ['all_season','spring','summer','fall','winter']
   const styles     = ['classic','modern_classic']
 
   for (const [type, color] of garments) {
-    const shirts = _DB_SHIRTS[color]              || []
-    const ties   = _DB_TIES[color]                || []
-    const pants  = _DB_PANTS[`${type}|${color}`]  || []
-    const shoes  = _DB_SHOES[`${type}|${color}`]  || []
+    const colorKey = _dbColorKey(color)
+    const shirts = _DB_SHIRTS[colorKey]              || _DB_SHIRTS.navy
+    const ties   = _DB_TIES[colorKey]                || _DB_TIES.navy
+    const pants  = _DB_PANTS[`${type}|${colorKey}`]  || _fallbackPants(type, colorKey)
+    const shoes  = _DB_SHOES[`${type}|${colorKey}`]  || _fallbackShoes(type, colorKey)
 
     for (const shirt of shirts) {
       for (const tie of ties) {
-        for (const pant of pants) {
-          for (const shoe of shoes) {
-            for (const occ of occasions) {
-              // Tie-required check
-              if (_TIE_REQUIRED.has(occ) && !tie) continue
-              // Per-occasion tie validator
-              const tieOk = _TIE_OCC_OK[occ]
-              if (tieOk && !tieOk(tie)) continue
-              // Funeral: white shirt only
-              if (occ === 'funeral' && shirt !== 'white') continue
+        for (const tiePattern of _tiePatternsForCombo(colorKey, tie)) {
+          for (const pant of pants) {
+            for (const shoe of shoes) {
+              for (const occ of occasions) {
+                // Tie-required check
+                if (_TIE_REQUIRED.has(occ) && !tie) continue
+                // Per-occasion tie validator
+                const tieOk = _TIE_OCC_OK[occ]
+                if (tieOk && !tieOk(tie)) continue
+                // Funeral: white shirt only
+                if (occ === 'funeral' && shirt !== 'white') continue
 
-              for (const season of seasons) {
-                // Summer + black blazer + business_casual → skip (too heavy)
-                if (season === 'summer' && type === 'blazer' && color === 'black' && occ === 'business_casual') continue
-                // Cream shirt: spring / summer / all_season only
-                if (shirt === 'cream' && !['spring','summer','all_season'].includes(season)) continue
-                // Cream pants: spring / summer only
-                if (pant  === 'cream' && !['spring','summer'].includes(season)) continue
+                for (const season of seasons) {
+                  // Summer + black blazer + business_casual is usually too heavy.
+                  if (season === 'summer' && type === 'blazer' && colorKey === 'black' && occ === 'business_casual') continue
+                  // Cream shirt: spring / summer / all_season only
+                  if (shirt === 'cream' && !['spring','summer','all_season'].includes(season)) continue
+                  // Cream pants: spring / summer only
+                  if (pant  === 'cream' && !['spring','summer'].includes(season)) continue
 
-                for (const style of styles) {
-                  // Modern-classic wedding requires a tie
-                  if (style === 'modern_classic' && occ === 'wedding' && !tie) continue
+                  for (const style of styles) {
+                    // Modern-classic wedding requires a tie
+                    if (style === 'modern_classic' && occ === 'wedding' && !tie) continue
 
-                  const dc  = _dbDressCode(occ, tie)
-                  const key = _dbKey(type,color,shirt,tie,pant,shoe,occ,dc,season,style)
-                  if (!db.has(key)) {
-                    db.set(key, {
-                      main_garment_type: type,  main_color: color,
-                      shirt_color: shirt,       tie_color: tie,
-                      pants_color: pant,        shoes_color: shoe,  belt_color: shoe,
-                      occasion: occ,            dress_code: dc,
-                      season,                   style,
-                      confidence_score: _DB_CONF[occ] || 0.88,
-                      combination_key: key,
-                    })
+                    const dc  = _dbDressCode(occ, tie)
+                    const key = _dbKey(type,colorKey,shirt,tie,tiePattern,pant,shoe,occ,dc,season,style)
+                    if (!db.has(key)) {
+                      db.set(key, {
+                        main_garment_type: type,  main_color: colorKey,
+                        shirt_color: shirt,       tie_color: tie, tie_pattern: tiePattern,
+                        pants_color: pant,        shoes_color: shoe,  belt_color: shoe,
+                        occasion: occ,            dress_code: dc,
+                        season,                   style,
+                        confidence_score: _DB_CONF[occ] || 0.88,
+                        combination_key: key,
+                      })
+                    }
                   }
                 }
               }
@@ -19650,7 +19783,16 @@ const OUTFIT_DB = (() => {
 const COLOR_FAMILY_TO_DB = {
   'Classic Navy':'navy',      'Jet Black':'black',     'Charcoal Grey':'charcoal',
   'Medium Grey':'grey',       'Light Grey':'grey',      'Royal Blue':'navy',
-  'Burgundy':'black',         'Brown':'brown',          'Beige':'black',
+  'Burgundy':'burgundy',      'Brown':'brown',          'Beige':'beige',
+  'Navy Blue':'navy',         'Midnight Navy':'midnight','Blue':'blue',
+  'Pale Blue':'lightblue',    'Burgundy / Wine':'burgundy', 'Oxblood':'oxblood',
+  'Wine':'wine',              'Chocolate Brown':'chocolate', 'Camel':'camel',
+  'Tan':'tan',                'Beige / Tan':'beige',    'White / Ivory':'white',
+  'Cream / Ivory':'cream',    'Ecru':'ecru',            'Olive Green':'olive',
+  'Forest Green':'forestgreen','Sage Green':'sage',      'Moss Green':'moss',
+  'Bottle Green':'bottle',    'Teal':'teal',            'Lavender':'lavender',
+  'Aubergine':'aubergine',    'Rust':'rust',            'Terracotta':'terracotta',
+  'Red':'red',                'Mustard':'mustard',      'Champagne':'champagne',
 }
 
 // Maps UI occasion pill label → DB occasion key
@@ -19659,10 +19801,47 @@ const OCCASION_LABEL_TO_DB = {
   Funeral:'funeral', Church:'church',   Interview:'interview', Casual:'business_casual',
 }
 
+function inferDbColorFromLabel(label = "") {
+  const lower = String(label).toLowerCase()
+  const direct = Object.entries(_LOCAL_COLOR_PROFILES).find(([key, profile]) =>
+    lower === key || lower.includes(profile.label.toLowerCase())
+  )
+  if (direct) return direct[0]
+  if (/midnight|navy|indigo/.test(lower)) return "navy"
+  if (/charcoal|graphite|anthracite|gunmetal/.test(lower)) return "charcoal"
+  if (/grey|gray|pewter|slate/.test(lower)) return "grey"
+  if (/cobalt|royal|blue|teal/.test(lower)) return "blue"
+  if (/burgundy|wine|oxblood|claret|maroon/.test(lower)) return "burgundy"
+  if (/brown|chocolate|camel|caramel|copper|rust|terracotta/.test(lower)) return "brown"
+  if (/beige|tan|cream|ivory|ecru|champagne|wheat|fawn/.test(lower)) return "beige"
+  if (/green|olive|sage|moss|forest|bottle|jade/.test(lower)) return "olive"
+  if (/purple|lavender|aubergine|plum/.test(lower)) return "purple"
+  if (/pink|blush|coral/.test(lower)) return "pink"
+  if (/red|scarlet/.test(lower)) return "red"
+  if (/black/.test(lower)) return "black"
+  return "navy"
+}
+
+function inferPatternKeyFromLabel(label = "") {
+  const lower = String(label).toLowerCase()
+  if (/linen/.test(lower)) return "linen"
+  if (/chalk|pinstripe|pin stripe|stripe/.test(lower)) return "chalk_stripe"
+  if (/glen|plaid|check|windowpane/.test(lower)) return "glen_plaid"
+  if (/herringbone/.test(lower)) return "herringbone"
+  if (/houndstooth/.test(lower)) return "houndstooth"
+  if (/tweed|donegal|harris/.test(lower)) return "tweed"
+  if (/birdseye|nailhead/.test(lower)) return "birdseye"
+  if (/seersucker/.test(lower)) return "seersucker"
+  if (/flannel/.test(lower)) return "flannel"
+  return "solid"
+}
+
 const _HEX = {
   white:'#F8F8F8', light_blue:'#89B4D4', light_grey:'#D3D3D3', pink:'#F4B8C1',
   cream:'#FFFDD0', burgundy:'#722F37',   navy:'#191970',        charcoal:'#36454F',
   silver:'#C0C0C0', dark_green:'#355E3B', black:'#1C1C1C',      brown:'#8B6914',
+  gold:'#C9A84C', teal:'#008080', rust:'#B7410E', terracotta:'#CB6D51',
+  tan:'#C19A6B', grey:'#6E7B8B',
 }
 const _OCC_LABEL = {
   office:'Board meeting, client pitch',       business_casual:'Smart casual, business casual',
@@ -19675,43 +19854,200 @@ const _OCC_LABEL = {
 function _pretty(s)    { return s ? s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase()) : '' }
 function _cap(s)       { return s ? s.charAt(0).toUpperCase() + s.slice(1) : '' }
 function _confStars(v) { return v >= 0.97 ? 5 : v >= 0.94 ? 4 : v >= 0.91 ? 3 : 2 }
+function _dbColorLabel(color) { return _dbProfile(color).label || _pretty(color) }
+function _dbTiePatternLabel(pattern) {
+  const labels = {
+    grenadine:"Grenadine",
+    solid:"Solid",
+    repp_stripe:"Repp Stripe",
+    polka_dot:"Polka Dot",
+    foulard:"Foulard",
+    knit:"Knit",
+    paisley:"Paisley",
+  }
+  return labels[pattern] || _pretty(pattern)
+}
+function _dbPatternLabel(patternKey) {
+  const labels = {
+    solid:"Solid",
+    chalk_stripe:"Chalk Stripe",
+    glen_plaid:"Glen Plaid",
+    herringbone:"Herringbone",
+    tweed:"Tweed",
+    linen:"Linen",
+    houndstooth:"Houndstooth",
+    birdseye:"Birdseye",
+    seersucker:"Seersucker",
+    flannel:"Flannel",
+  }
+  return labels[patternKey] || _pretty(patternKey)
+}
+function _dbSuitName(color, type, patternKey = "solid") {
+  const patternLabel = patternKey && patternKey !== "solid" ? `${_dbPatternLabel(patternKey)} ` : ""
+  return `${_dbColorLabel(color)} ${patternLabel}${_cap(type)}`
+}
+function _dbTieName(color, pattern) {
+  if (!color) return "No tie"
+  return `${_pretty(color)} ${_dbTiePatternLabel(pattern)} tie`
+}
+function _dbShoeName(color) {
+  const names = {
+    black:"Black Cap-Toe Oxford",
+    brown:"Dark Brown Derby Brogue",
+    tan:"Tan Suede Loafer",
+    burgundy:"Burgundy Cap-Toe Oxford",
+  }
+  return names[color] || `${_pretty(color)} leather shoes`
+}
 
 // Convert a DB combo entry into the Dapper package display format
 function _comboToPackage(c) {
-  const tie = c.tie_color ? _pretty(c.tie_color) + ' tie' : 'No tie'
+  const tie = _dbTieName(c.tie_color, c.tie_pattern)
   return {
-    name:         `${_pretty(c.main_color)} ${_cap(c.main_garment_type)} — ${_pretty(c.occasion)}`,
-    suit:         `${_pretty(c.main_color)} ${c.main_garment_type}`,
+    name:         `${_dbColorLabel(c.main_color)} ${_pretty(c.occasion)}`,
+    suit:         _dbSuitName(c.main_color, c.main_garment_type, c.patternKey),
     shirt:        `${_pretty(c.shirt_color)} poplin`,
     tie,
     pocketSquare: `White linen — ${c.dress_code === 'formal' ? 'TV Fold' : 'Puff Fold'}`,
-    shoes:        c.shoes_color === 'black' ? 'Black Cap-Toe Oxford' : 'Brown Derby Brogue',
+    shoes:        _dbShoeName(c.shoes_color),
     belt:         `${_cap(c.belt_color)} leather belt`,
     socks:        c.shoes_color === 'black' ? 'Dark navy, over-the-calf' : 'Brown or burgundy shadow stripe',
     watch:        c.dress_code === 'formal' ? 'Silver dress watch' : 'Casual leather-strap watch',
     occasion:     _OCC_LABEL[c.occasion] || _pretty(c.occasion),
     archetype:    c.style === 'modern_classic' ? 'Continental' : 'British Classic',
     confidence:   _confStars(c.confidence_score),
-    tip:          `${_pretty(c.shirt_color)} shirt with ${tie.toLowerCase()} — a ${_pretty(c.dress_code)} ${c.season === 'all_season' ? '' : c.season + ' '}look for ${_pretty(c.occasion)}.`,
+    tip:          `${_pretty(c.shirt_color)} shirt with ${tie.toLowerCase()} - a ${_pretty(c.dress_code)} ${c.season === 'all_season' ? '' : c.season + ' '}look for ${_pretty(c.occasion)}.`,
     shirtColor:   _HEX[c.shirt_color] || '#F8F8F8',
     tieColor:     _HEX[c.tie_color]   || '#191970',
   }
 }
 
 // Return up to `limit` matching packages from OUTFIT_DB as display-ready objects
-function lookupOutfitPackages({ mainType, mainColor, occasion, season, limit = 6 }) {
+function lookupOutfitPackages({ mainType, mainColor, patternKey, occasion, season, limit = 6 }) {
+  const colorKey = mainColor ? _dbColorKey(mainColor) : null
   const results = []
   for (const c of OUTFIT_DB.values()) {
     if (mainType  && c.main_garment_type !== mainType)  continue
-    if (mainColor && c.main_color        !== mainColor) continue
+    if (colorKey  && c.main_color        !== colorKey)  continue
     if (occasion  && c.occasion          !== occasion)  continue
     const seasonOk = !season || season === 'all_season' ||
                      c.season === season || c.season === 'all_season'
     if (!seasonOk) continue
-    results.push(c)
+    results.push(patternKey ? { ...c, patternKey } : c)
   }
   results.sort((a, b) => b.confidence_score - a.confidence_score)
   return results.slice(0, limit).map(_comboToPackage)
+}
+
+const _LOCAL_PATTERN_META = {
+  solid:        { pattern:"Solid",                 fabric:"Worsted wool",           formality:"Business Formal / Smart Casual", note:"solid cloth gives maximum freedom for shirt and tie patterns" },
+  chalk_stripe: { pattern:"Chalk Stripe",          fabric:"Wool twill",             formality:"Business Formal",                note:"the stripe already leads, so keep tie scale smaller" },
+  glen_plaid:   { pattern:"Glen Plaid / Check",    fabric:"Worsted wool check",     formality:"Business Casual / Smart Formal", note:"plaid asks for restrained ties and clean shirts" },
+  herringbone:  { pattern:"Herringbone",           fabric:"Herringbone wool",       formality:"Business Formal / Smart Casual", note:"the weave reads as quiet texture from a distance" },
+  tweed:        { pattern:"Tweed",                 fabric:"Donegal or Harris Tweed",formality:"Smart Casual / Country",         note:"natural texture pairs best with knits and suede" },
+  linen:        { pattern:"Linen",                 fabric:"100% linen",             formality:"Smart Casual / Summer",          note:"linen is strongest open-collar or with relaxed knit ties" },
+  houndstooth:  { pattern:"Houndstooth",           fabric:"Wool houndstooth",       formality:"Smart Casual / Statement",       note:"the bold geometry needs a solid tie" },
+  birdseye:     { pattern:"Birdseye",              fabric:"Birdseye wool",          formality:"Business Formal",                note:"micro texture behaves almost like a solid" },
+  seersucker:   { pattern:"Seersucker",            fabric:"Cotton seersucker",      formality:"Summer Smart Casual",            note:"summer cloth calls for light shirts and relaxed ties" },
+  flannel:      { pattern:"Flannel",               fabric:"Wool flannel",           formality:"Business Casual / Winter",       note:"soft texture pairs beautifully with grenadine and knit ties" },
+}
+
+const _SHIRT_META = {
+  white:       { name:"Crisp White Poplin",      colorCode:"#F8F8F8", collar:"Spread collar",      pattern:"Solid" },
+  light_blue:  { name:"Pale Blue Poplin",        colorCode:"#89B4D4", collar:"Semi-spread collar", pattern:"Solid" },
+  light_grey:  { name:"Light Grey End-on-End",   colorCode:"#D3D3D3", collar:"Spread collar",      pattern:"End-on-End" },
+  pink:        { name:"Pale Pink Poplin",        colorCode:"#F4B8C1", collar:"Button-down collar", pattern:"Solid" },
+  cream:       { name:"Cream Poplin",            colorCode:"#FFFDD0", collar:"Soft spread collar", pattern:"Solid" },
+}
+
+function _localPatternMeta(patternKey) {
+  return _LOCAL_PATTERN_META[patternKey] || _LOCAL_PATTERN_META.solid
+}
+
+function _localBaseAnalysis(colorKey) {
+  const profile = _dbProfile(colorKey)
+  return _BASE_MAP[colorKey] || _BASE_MAP[profile.base] || ANALYSIS
+}
+
+function _localTiePatternsForSuit(suitPatternKey, shirtKey) {
+  if (suitPatternKey === "glen_plaid" || suitPatternKey === "houndstooth") return ['grenadine','solid','knit']
+  if (suitPatternKey === "chalk_stripe") return shirtKey === "light_grey" ? ['grenadine','solid','foulard','knit'] : ['grenadine','polka_dot','foulard','knit','solid']
+  if (suitPatternKey === "tweed") return ['knit','grenadine','repp_stripe','solid']
+  if (suitPatternKey === "linen" || suitPatternKey === "seersucker") return ['knit','solid','grenadine']
+  if (suitPatternKey === "herringbone" || suitPatternKey === "flannel" || suitPatternKey === "birdseye") return ['grenadine','repp_stripe','polka_dot','foulard','knit','solid']
+  return ['repp_stripe','grenadine','polka_dot','foulard','knit','solid','paisley']
+}
+
+function _localTieWhy(colorKey, suitPatternKey, tieColor, tiePattern) {
+  const suitName = _dbColorLabel(colorKey).toLowerCase()
+  const patternNote = _localPatternMeta(suitPatternKey).note
+  if (!tieColor) return "Open-collar is a valid relaxed choice for this suit."
+  return `${_pretty(tieColor)} ${_dbTiePatternLabel(tiePattern).toLowerCase()} gives contrast against a ${suitName} suit; ${patternNote}.`
+}
+
+function _localTieObject(colorKey, suitPatternKey, tieColor, tiePattern, id) {
+  return {
+    id,
+    name: `${_pretty(tieColor)} ${_dbTiePatternLabel(tiePattern)}`,
+    color: _HEX[tieColor] || "#555555",
+    pattern: _dbTiePatternLabel(tiePattern),
+    material: tiePattern === "knit" ? "Silk knit" : tiePattern === "grenadine" ? "Grenadine silk" : "Silk twill",
+    width: '3"',
+    knot: tiePattern === "knit" ? "Four-in-Hand" : "Half Windsor",
+    harmony: ['gold','rust','terracotta','brown','camel'].includes(tieColor) ? "Warm contrast" : "Classic contrast",
+    why: _localTieWhy(colorKey, suitPatternKey, tieColor, tiePattern),
+  }
+}
+
+function _localShirts(colorKey, patternKey) {
+  const shirtKeys = (_DB_SHIRTS[_dbColorKey(colorKey)] || _DB_SHIRTS.navy).slice(0, 4)
+  const tieColors = (_DB_TIES[_dbColorKey(colorKey)] || _DB_TIES.navy).filter(Boolean)
+  return shirtKeys.map((shirtKey, shirtIdx) => {
+    const shirtMeta = _SHIRT_META[shirtKey] || _SHIRT_META.white
+    const tiePatterns = _localTiePatternsForSuit(patternKey, shirtKey)
+    const ties = tieColors.slice(0, 6).map((tieColor, idx) => {
+      const tiePattern = tiePatterns[idx % tiePatterns.length]
+      return _localTieObject(colorKey, patternKey, tieColor, tiePattern, idx + 1)
+    })
+    return {
+      id: shirtIdx + 1,
+      ...shirtMeta,
+      why: `${shirtMeta.name} gives the ${_dbColorLabel(colorKey).toLowerCase()} suit a clean foundation while leaving room for ${patternKey === "solid" ? "patterned" : "controlled"} tie contrast.`,
+      ties,
+    }
+  })
+}
+
+function buildGeneratedLocalAnalysis(colorKey, patternKey = "solid") {
+  const dbColor = _dbColorKey(colorKey)
+  const profile = _dbProfile(dbColor)
+  const base = _localBaseAnalysis(dbColor)
+  const patternMeta = _localPatternMeta(patternKey)
+  const packages = lookupOutfitPackages({ mainType:"suit", mainColor:dbColor, patternKey, limit:8 })
+  const fallbackPackages = (base.packages || []).map(pkg => ({
+    ...pkg,
+    suit: _dbSuitName(dbColor, "suit", patternKey),
+    tie: pkg.tie === "See shirt recommendations" ? _dbTieName((_DB_TIES[dbColor] || _DB_TIES.navy).find(Boolean), "grenadine") : pkg.tie,
+  }))
+
+  return {
+    ...base,
+    suit: {
+      ...base.suit,
+      colorFamily: profile.label,
+      fabric: patternMeta.fabric,
+      pattern: patternMeta.pattern,
+      formality: patternMeta.formality,
+      undertones: profile.group.replace(/_/g, " "),
+    },
+    shirts: _localShirts(dbColor, patternKey),
+    packages: packages.length ? packages : fallbackPackages,
+    styleMantra: `${profile.label} ${patternMeta.pattern.toLowerCase()} rewards balance: a clean shirt foundation, deliberate tie contrast, quiet linen at the pocket, and leather that anchors the whole look.`,
+    _isMatrixMatch: true,
+    _isLocalGenerated: true,
+    _localColorKey: dbColor,
+    _localPatternKey: patternKey,
+  }
 }
 
 // ─── Occasion keyword map ───────────────────────────────────────────────────
@@ -19739,10 +20075,11 @@ function filterByOccasion(analysisObj, occasion) {
 
   // 2 — Fall back to OUTFIT_DB (thousands of local combos, no AI needed)
   const colorFamily = analysisObj.suit?.colorFamily || ''
-  const mainColor   = COLOR_FAMILY_TO_DB[colorFamily]
+  const mainColor   = analysisObj._localColorKey || COLOR_FAMILY_TO_DB[colorFamily] || inferDbColorFromLabel(colorFamily)
+  const patternKey  = analysisObj._localPatternKey || inferPatternKeyFromLabel(analysisObj.suit?.pattern || '')
   const dbOcc       = OCCASION_LABEL_TO_DB[occasion]
   if (mainColor && dbOcc) {
-    const dbPkgs = lookupOutfitPackages({ mainColor, occasion: dbOcc, limit: 6 })
+    const dbPkgs = lookupOutfitPackages({ mainColor, patternKey, occasion: dbOcc, limit: 6 })
     if (dbPkgs.length > 0) return { ...analysisObj, packages: dbPkgs }
   }
 
@@ -20055,7 +20392,7 @@ function getBestShoesForSuit(suitColor) {
 // ─────────────────────────────────────────────
 
 function AnalyzerPage() {
-  const { analyzeOutfit, analyzeText, generateExoticAnalysis, isAnalyzing: isVisionAnalyzing } = useClaudeVision()
+  const { analyzeOutfit } = useClaudeVision()
   const [mode, setMode]               = useState("A")
   const [analyzing, setAnalyzing]     = useState(false)
   const [done, setDone]               = useState(false)
@@ -20103,8 +20440,6 @@ function AnalyzerPage() {
     "Building outfit packages…",
     "Finalizing style intelligence…",
   ]
-
-  const SYSTEM_PROMPT = "" // removed — text mode uses lightweight analyzeText()
 
   const runAnalysis = async () => {
     setKeyError("")
@@ -20177,83 +20512,25 @@ function AnalyzerPage() {
 
     try {
 
-      // Hybrid: local engine first, Claude only for combo assessment
+      // Text mode: local engine first. API is reserved for vision / true edge cases.
       const desc = description.toLowerCase()
       const mentionsTie = /tie|corbata|necktie/.test(desc)
       const mentionsShirt = /shirt|camisa/.test(desc)
       const needsComboCheck = mentionsTie || mentionsShirt
 
       if (needsComboCheck) {
-        // User described a specific combo — try AI first, local fallback always
-        console.log("[Dapper Text] Combo detected")
-
-        // Always generate a local combo assessment first
+        console.log("[Dapper Text] Combo detected - using local engine")
         const localCombo = getLocalComboAssessment(description)
-
-        // Try AI for enhanced assessment
-        let aiWorked = false
-        try {
-          const aiResult = await analyzeText(description)
-          if (aiResult.success && aiResult.colorKey) {
-            const aiDesc = aiResult.colorKey + " " + (aiResult.patternKey || "solid").replace(/_/g, " ") + " " + (aiResult.fabric || "")
-            setAnalysisData(getLocalAnalysis(aiDesc))
-            setIsDemo(false)
-            aiWorked = true
-            // Prefer AI assessment if available, otherwise use local
-            if (aiResult.assessment) {
-              setComboAssessment({
-                assessment: aiResult.assessment,
-                tie: aiResult.tie,
-                shirt: aiResult.shirt,
-                suitColor: aiResult.colorKey,
-                tips: localCombo?.tips || [],
-              })
-            } else if (localCombo) {
-              setComboAssessment(localCombo)
-            }
-          }
-        } catch(aiErr) {
-          console.log("[Dapper Text] AI combo failed, using local assessment")
-        }
-
-        // If AI failed or returned nothing useful, use local engine
-        if (!aiWorked) {
-          setAnalysisData(getLocalAnalysis(description))
-          setIsDemo(false)
-          if (localCombo) {
-            setComboAssessment(localCombo)
-          } else {
-            setComboAssessment(null)
-          }
-        }
+        setAnalysisData(getLocalAnalysis(description))
+        setIsDemo(false)
+        setComboAssessment(localCombo || null)
       } else {
-        // Suit only — try local engine first, API only for exotic combos
-        console.log("[Dapper Text] Suit only, trying local engine first")
+        // Suit only - use the expanded local matrix.
+        console.log("[Dapper Text] Suit only - using expanded local engine")
         const localResult = getLocalAnalysis(description)
-        if (localResult._isMatrixMatch) {
-          console.log("[Dapper Text] Matrix match — 100% local, no API")
-          setAnalysisData(localResult)
-          setComboAssessment(null)
-          setIsDemo(false)
-        } else {
-          // Exotic combo not in matrix — ask Claude to generate recommendations
-          console.log("[Dapper Text] No matrix match for", localResult._detectedColor, localResult._detectedPattern, "— calling AI")
-          try {
-            const exoticResult = await generateExoticAnalysis(description, localResult._detectedColor, localResult._detectedPattern)
-            if (exoticResult) {
-              setAnalysisData(exoticResult)
-              setIsDemo(false)
-            } else {
-              setAnalysisData(localResult)
-              setIsDemo(false)
-            }
-          } catch(e) {
-            console.log("[Dapper Text] Exotic AI failed, using base fallback")
-            setAnalysisData(localResult)
-            setIsDemo(false)
-          }
-          setComboAssessment(null)
-        }
+        setAnalysisData(localResult)
+        setComboAssessment(null)
+        setIsDemo(false)
       }
     } catch(err) {
       setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
