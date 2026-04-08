@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
-import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts } from './hooks/useFirestore.js'
+import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts, useProblemReports, useAdminProblemReports } from './hooks/useFirestore.js'
 import AuthModal from './components/AuthModal.jsx'
 import {
   Shirt, Calendar, Users, Tag, Upload, Heart,
@@ -20120,7 +20120,7 @@ function accountPlanCaption(entitlement) {
 // SIDEBAR
 // ─────────────────────────────────────────────
 
-function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, entitlement, isAdmin }) {
+function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, onReportProblem, entitlement, isAdmin }) {
   const items = [
     { id:"analyzer",  icon:Wand2,    label:"AI Analyzer" },
     { id:"validator", icon:Check,    label:"Outfit Validator", badge:"NEW" },
@@ -20183,6 +20183,16 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, 
           )
         })}
       </nav>
+
+      {/* Report problem */}
+      <div className="px-4 pb-3">
+        <button onClick={()=>{ onReportProblem?.(); if(onClose)onClose() }}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-gray-300 hover:text-white"
+          style={{background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.08)"}}>
+          <MessageCircle size={16}/>
+          Report a Problem
+        </button>
+      </div>
 
       {/* User */}
       <div className="p-4 border-t border-white border-opacity-10">
@@ -23681,6 +23691,28 @@ function formatAdminDate(value) {
   return date.toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" })
 }
 
+function reportDate(value) {
+  const date = value?.toDate ? value.toDate() : value
+  if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "Just now"
+  return date.toLocaleString("en-US", { month:"short", day:"numeric", hour:"numeric", minute:"2-digit" })
+}
+
+function problemTypeLabel(type) {
+  const labels = {
+    bug: "Bug",
+    not_working: "Not Working",
+    feature_suggestion: "Feature Suggestion",
+    other: "Other",
+  }
+  return labels[type] || "Report"
+}
+
+function reportStatusStyle(status) {
+  if (status === "resolved") return { background:"#dcfce7", color:"#166534" }
+  if (status === "reviewing") return { background:"#fffbeb", color:"#92400e" }
+  return { background:"#fee2e2", color:"#991b1b" }
+}
+
 function planBadgeStyle(plan) {
   if (plan === "elite") return { background:GOLD, color:NAVY }
   if (plan === "pro") return { background:NAVY, color:"white" }
@@ -23700,6 +23732,13 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
     grantEmailEntitlement,
     revokeEmailEntitlement,
   } = useAdminUsers(user, isAdmin)
+  const {
+    reports: problemReports,
+    loading: reportsLoading,
+    saving: reportsSaving,
+    error: reportsError,
+    updateReportStatus,
+  } = useAdminProblemReports(user, isAdmin)
   const [search, setSearch] = useState("")
   const [selectedUid, setSelectedUid] = useState("")
   const [plan, setPlan] = useState("pro")
@@ -23721,6 +23760,8 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
   const emailComps = Object.values(emailEntitlements || {})
     .filter((entitlement) => entitlement.email)
     .sort((a, b) => String(a.email).localeCompare(String(b.email)))
+  const openProblemReports = problemReports.filter((report) => report.status !== "resolved")
+  const visibleProblemReports = [...openProblemReports, ...problemReports.filter((report) => report.status === "resolved")].slice(0, 8)
 
   useEffect(() => {
     if (!selectedUid && filteredProfiles[0]?.uid) setSelectedUid(filteredProfiles[0].uid)
@@ -23780,6 +23821,14 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
     }
   }
 
+  const setReportStatus = async (report, status) => {
+    try {
+      await updateReportStatus(report.id, status)
+    } catch {
+      setMessage("Could not update this problem report.")
+    }
+  }
+
   if (!user) {
     return (
       <div className="max-w-3xl mx-auto">
@@ -23834,6 +23883,61 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
           <div className="text-xs font-black text-gray-400 tracking-widest">SIGNED IN AS</div>
           <div className="text-sm font-bold text-gray-900 truncate">{user.email || user.uid}</div>
         </div>
+      </div>
+
+      <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm mb-6">
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <div className="flex items-center gap-2">
+            <MessageCircle size={18} style={{color:GOLD}}/>
+            <div>
+              <h2 className="font-black text-gray-900">Problem Reports</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Bugs, broken flows, and feature suggestions from users.</p>
+            </div>
+          </div>
+          <span className="text-xs font-black px-2 py-1 rounded-lg" style={reportStatusStyle("open")}>
+            {openProblemReports.length} open
+          </span>
+        </div>
+        {reportsLoading && <div className="text-sm text-gray-400 py-6 text-center">Loading reports...</div>}
+        {!reportsLoading && visibleProblemReports.length === 0 && (
+          <div className="text-sm text-gray-400 py-6 text-center">No problem reports yet.</div>
+        )}
+        <div className="space-y-3">
+          {visibleProblemReports.map((report) => (
+            <div key={report.id} className="border border-gray-100 rounded-xl p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-black px-2 py-1 rounded-lg bg-gray-100 text-gray-600">{problemTypeLabel(report.type)}</span>
+                    <span className="text-xs font-black px-2 py-1 rounded-lg" style={reportStatusStyle(report.status)}>{report.status || "open"}</span>
+                    <span className="text-xs text-gray-400">{reportDate(report.createdAt)}</span>
+                  </div>
+                  <h3 className="font-black text-gray-900 mt-2 break-words">{report.title || "Untitled report"}</h3>
+                  <p className="text-sm text-gray-600 mt-1 whitespace-pre-wrap break-words">{report.message}</p>
+                  <div className="text-xs text-gray-400 mt-2 break-all">
+                    {report.contactEmail || report.userEmail || "No email"} · {report.page || "unknown page"} · {report.url || ""}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <button onClick={()=>setReportStatus(report, "reviewing")} disabled={reportsSaving}
+                  className="px-3 py-1.5 rounded-lg text-xs font-black border border-gray-200 text-gray-700 disabled:opacity-50">
+                  Mark Reviewing
+                </button>
+                <button onClick={()=>setReportStatus(report, "resolved")} disabled={reportsSaving}
+                  className="px-3 py-1.5 rounded-lg text-xs font-black text-white disabled:opacity-50"
+                  style={{background:NAVY}}>
+                  Mark Resolved
+                </button>
+                <button onClick={()=>setReportStatus(report, "open")} disabled={reportsSaving}
+                  className="px-3 py-1.5 rounded-lg text-xs font-black border border-gray-200 text-gray-700 disabled:opacity-50">
+                  Reopen
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        {reportsError && <div className="mt-4 rounded-xl bg-red-50 text-red-700 text-sm p-3">{reportsError}</div>}
       </div>
 
       <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm mb-6">
@@ -24040,6 +24144,130 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
   )
 }
 
+const REPORT_FORM_INIT = {
+  type: "bug",
+  title: "",
+  message: "",
+  email: "",
+}
+
+function ReportProblemModal({ user, page, onClose }) {
+  const [form, setForm] = useState(() => ({ ...REPORT_FORM_INIT, email:user?.email || "" }))
+  const [sent, setSent] = useState(false)
+  const { saving, error, submitReport } = useProblemReports(user)
+
+  const submit = async () => {
+    if ((!form.title.trim() && !form.message.trim()) || saving) return
+    try {
+      await submitReport({
+        type: form.type,
+        title: form.title,
+        message: form.message,
+        email: form.email,
+        page,
+        url: typeof window !== "undefined" ? window.location.href : "",
+      })
+      setSent(true)
+      setForm({ ...REPORT_FORM_INIT, email:user?.email || "" })
+    } catch {
+      // useProblemReports surfaces the user-facing error.
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-6 pt-6 pb-4" style={{borderBottom:"1px solid #f1f5f9"}}>
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:GOLD,color:NAVY}}>
+                <MessageCircle size={16}/>
+              </div>
+              <span className="text-xs font-black tracking-widest" style={{color:GOLD}}>REPORT</span>
+            </div>
+            <h2 className="text-xl font-black text-gray-900">Report a Problem</h2>
+            <p className="text-xs text-gray-400 mt-0.5">Bugs, things not working, and feature suggestions.</p>
+          </div>
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-gray-100">
+            <X size={18} className="text-gray-400"/>
+          </button>
+        </div>
+
+        <div className="px-6 py-5 space-y-4">
+          {sent ? (
+            <div className="rounded-2xl bg-green-50 border border-green-100 p-5 text-center">
+              <div className="font-black text-green-700">Report sent</div>
+              <div className="text-sm text-green-600 mt-1">Thanks. It now appears in the Admin problem report inbox.</div>
+              <button onClick={onClose} className="mt-4 px-5 py-3 rounded-xl text-sm font-black text-white" style={{background:NAVY}}>
+                Close
+              </button>
+            </div>
+          ) : (
+            <>
+              <div>
+                <Label>Type</Label>
+                <div className="grid grid-cols-2 gap-2 mt-1">
+                  {[
+                    ["bug","Bug"],
+                    ["not_working","Not Working"],
+                    ["feature_suggestion","Feature Suggestion"],
+                    ["other","Other"],
+                  ].map(([id,label]) => (
+                    <button key={id} onClick={()=>setForm(p=>({...p,type:id}))}
+                      className="py-2.5 rounded-xl text-xs font-black border transition-all"
+                      style={form.type===id ? {background:NAVY,color:"white",borderColor:NAVY} : {background:"#f8fafc",color:"#64748b",borderColor:"#e5e7eb"}}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label>Title</Label>
+                <input value={form.title} onChange={(e)=>setForm(p=>({...p,title:e.target.value}))}
+                  placeholder="Short summary"
+                  className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+              </div>
+
+              <div>
+                <Label>What happened?</Label>
+                <textarea value={form.message} onChange={(e)=>setForm(p=>({...p,message:e.target.value}))}
+                  placeholder="Tell us what broke, what you expected, or what feature you want..."
+                  rows={5}
+                  className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
+              </div>
+
+              <div>
+                <Label>Email</Label>
+                <input value={form.email} onChange={(e)=>setForm(p=>({...p,email:e.target.value}))}
+                  placeholder="Optional contact email"
+                  className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+              </div>
+
+              <div className="rounded-xl bg-gray-50 border border-gray-100 px-4 py-3 text-xs text-gray-400">
+                Page: <span className="font-bold text-gray-600">{page}</span>
+              </div>
+
+              {error && <div className="rounded-xl bg-red-50 text-red-700 text-sm p-3">{error}</div>}
+
+              <div className="flex gap-3 pt-1">
+                <button onClick={onClose} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">
+                  Cancel
+                </button>
+                <button onClick={submit} disabled={saving || (!form.title.trim() && !form.message.trim())}
+                  className="flex-1 py-3 rounded-xl text-sm font-black text-white disabled:opacity-40"
+                  style={{background:NAVY}}>
+                  {saving ? "Sending..." : "Send Report"}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─────────────────────────────────────────────
 // ROOT APP
 // ─────────────────────────────────────────────
@@ -24048,6 +24276,7 @@ export default function DapperApp() {
   const [page,        setPage]       = useState("analyzer")
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showAuth,    setShowAuth]   = useState(false)
+  const [showReport,  setShowReport] = useState(false)
 
   // ── Auth ──
   const authHook = useAuth()
@@ -24082,10 +24311,14 @@ export default function DapperApp() {
         <AuthModal onClose={()=>setShowAuth(false)} useAuthHook={authHook}/>
       )}
 
+      {showReport && (
+        <ReportProblemModal user={user} page={page} onClose={()=>setShowReport(false)}/>
+      )}
+
       {/* Desktop sidebar */}
       <div className="hidden lg:flex">
         <Sidebar page={page} setPage={setPage} user={user} onAuthClick={()=>setShowAuth(true)} onLogOut={logOut}
-          entitlement={entitlement} isAdmin={isAdmin}/>
+          onReportProblem={()=>setShowReport(true)} entitlement={entitlement} isAdmin={isAdmin}/>
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -24095,7 +24328,7 @@ export default function DapperApp() {
           <div className="absolute left-0 top-0 h-full z-10">
             <Sidebar page={page} setPage={setPage} mobile onClose={()=>setSidebarOpen(false)}
               user={user} onAuthClick={()=>{setShowAuth(true);setSidebarOpen(false)}} onLogOut={logOut}
-              entitlement={entitlement} isAdmin={isAdmin}/>
+              onReportProblem={()=>setShowReport(true)} entitlement={entitlement} isAdmin={isAdmin}/>
           </div>
         </div>
       )}
@@ -24142,6 +24375,12 @@ export default function DapperApp() {
             onAuthClick={()=>setShowAuth(true)}
           />
         </main>
+
+        <button onClick={()=>setShowReport(true)}
+          className="fixed right-4 bottom-20 lg:bottom-5 z-30 flex items-center gap-2 px-4 py-3 rounded-xl text-xs font-black text-white shadow-lg"
+          style={{background:NAVY}}>
+          <MessageCircle size={15}/> Report a Problem
+        </button>
 
         {/* Mobile bottom nav */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-2 py-1 z-40">

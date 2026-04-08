@@ -444,6 +444,88 @@ export function useCommunityPosts(user) {
   return { posts, loading, saving, error, createPost, toggleLike }
 }
 
+export function useProblemReports(user) {
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState(null)
+
+  const submitReport = async ({ type, title, message, email, page, url }) => {
+    setSaving(true); setError(null)
+    try {
+      const reportRef = doc(collection(db, "problemReports"))
+      const contactEmail = String(email || user?.email || "").trim().toLowerCase()
+      await setDoc(reportRef, {
+        uid: user?.uid || "",
+        userEmail: user?.email || "",
+        contactEmail,
+        type: type || "bug",
+        title: String(title || "").trim(),
+        message: String(message || "").trim(),
+        page: String(page || ""),
+        url: String(url || (typeof window !== "undefined" ? window.location.href : "")),
+        userAgent: typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 300) : "",
+        status: "open",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      })
+      return reportRef.id
+    } catch (err) {
+      console.error("[Dapper Reports] Could not submit problem report", err)
+      setError("Could not send this report. Please try again.")
+      throw err
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return { saving, error, submitReport }
+}
+
+export function useAdminProblemReports(user, isAdmin) {
+  const [reports, setReports] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (!user || !isAdmin) { setReports([]); setLoading(false); setError(null); return }
+    setLoading(true)
+    const reportsRef = query(collection(db, "problemReports"), orderBy("createdAt", "desc"))
+    const unsub = onSnapshot(reportsRef, (snap) => {
+      setReports(snap.docs.map((d) => ({ ...d.data(), id: d.id })))
+      setLoading(false)
+      setError(null)
+    }, (err) => {
+      console.error("[Dapper Reports] Could not load problem reports", err)
+      setReports([])
+      setLoading(false)
+      setError("Could not load problem reports.")
+    })
+    return unsub
+  }, [user?.uid, isAdmin])
+
+  const updateReportStatus = async (id, status) => {
+    if (!user || !isAdmin) throw new Error("Admin access required.")
+    if (!id) throw new Error("Missing report id.")
+    setSaving(true); setError(null)
+    try {
+      await updateDoc(doc(db, "problemReports", id), {
+        status,
+        reviewedBy: user.uid,
+        reviewedByEmail: user.email || "",
+        updatedAt: serverTimestamp(),
+      })
+    } catch (err) {
+      console.error("[Dapper Reports] Could not update problem report", err)
+      setError("Could not update this report.")
+      throw err
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return { reports, loading, saving, error, updateReportStatus }
+}
+
 export function useCloset(user, fallbackItems) {
   const [items, setItems] = useState(() => readGuestCloset(fallbackItems))
   const [synced, setSynced] = useState(false)
