@@ -21292,6 +21292,46 @@ function SectionLabel({n, label}) {
   )
 }
 
+function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLength = 680000 } = {}) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type?.startsWith("image/")) {
+      reject(new Error("Please choose an image file."))
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onerror = () => reject(new Error("Could not read this image."))
+    reader.onload = () => {
+      const img = new Image()
+      img.onerror = () => reject(new Error("Could not load this image."))
+      img.onload = () => {
+        const scale = Math.min(1, maxSide / Math.max(img.width, img.height))
+        const width = Math.max(1, Math.round(img.width * scale))
+        const height = Math.max(1, Math.round(img.height * scale))
+        const canvas = document.createElement("canvas")
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext("2d")
+        if (!ctx) {
+          reject(new Error("Could not prepare this image."))
+          return
+        }
+        ctx.drawImage(img, 0, 0, width, height)
+        const dataUrl = canvas.toDataURL("image/jpeg", quality)
+        if (dataUrl.length > maxLength) {
+          reject(new Error("This photo is too large. Try a tighter crop or smaller image."))
+          return
+        }
+        resolve(dataUrl)
+      }
+      img.src = reader.result
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
+const CLOSET_FORM_INIT = { type:"Suit", name:"", brand:"", color:"#1B3A6B", photo:null, photoName:"", photoError:"" }
+
 // ─────────────────────────────────────────────
 // PAGE: CLOSET
 // ─────────────────────────────────────────────
@@ -21302,21 +21342,42 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
   const setItems = setClosetItems || (() => {})
   const [modal,   setModal]   = useState(false)
   const [selected,setSelected]= useState(null)
-  const [form,    setForm]    = useState({type:"Suit",name:"",brand:"",color:"#1B3A6B"})
+  const [form,    setForm]    = useState(CLOSET_FORM_INIT)
   const [saveError, setSaveError] = useState("")
 
   const TYPES = ["All","Suit","Shirt","Tie","Shoes","Accessory"]
   const shown  = filter==="All" ? items : items.filter(i=>i.type===filter)
   const counts = TYPES.reduce((a,t)=>({...a,[t]:t==="All"?items.length:items.filter(i=>i.type===t).length}),{})
 
+  const resetClosetForm = () => setForm(CLOSET_FORM_INIT)
+  const openClosetModal = () => {
+    setSaveError("")
+    resetClosetForm()
+    setModal(true)
+  }
+
+  const handleClosetPhotoSelect = async (event) => {
+    const file = event.target.files?.[0]
+    event.target.value = ""
+    if (!file) return
+    setForm(p => ({ ...p, photoError:"" }))
+    try {
+      const photo = await resizeInlinePhoto(file, { maxSide:720, quality:0.72, maxLength:460000 })
+      setForm(p => ({ ...p, photo, photoName:file.name, photoError:"" }))
+    } catch (err) {
+      setForm(p => ({ ...p, photo:null, photoName:"", photoError:err.message || "Could not add this photo." }))
+    }
+  }
+
   const save = async () => {
     if(!form.name.trim()) return
-    const item = {...form,id:`closet-${Date.now()}`,occasions:[]}
+    const { photoError, ...itemForm } = form
+    const item = {...itemForm,id:`closet-${Date.now()}`,occasions:[]}
     setSaveError("")
     try {
       if (addClosetItem) await addClosetItem(item)
       else setItems(p=>[...p,item])
-      setModal(false); setForm({type:"Suit",name:"",brand:"",color:"#1B3A6B"})
+      setModal(false); resetClosetForm()
     } catch (err) {
       console.error("[Dapper] Closet save failed", err)
       setSaveError("Could not save this garment. Check your connection and try again.")
@@ -21330,7 +21391,7 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
           <h1 className="text-2xl font-black text-gray-900">My Closet</h1>
           <p className="text-gray-400 text-sm mt-0.5">{items.length} garments · {items.filter(i=>i.type==="Suit").length} suits</p>
         </div>
-        <button onClick={()=>setModal(true)} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90" style={{background:NAVY}}>
+        <button onClick={openClosetModal} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90" style={{background:NAVY}}>
           <Plus size={15}/> Add Item
         </button>
       </div>
@@ -21377,15 +21438,17 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
           <button key={item.id} onClick={()=>setSelected(selected?.id===item.id?null:item)}
             className={`p-4 rounded-2xl border-2 text-left transition-all bg-white hover:shadow-md ${selected?.id===item.id?"shadow-md":""}`}
             style={selected?.id===item.id?{borderColor:GOLD}:{borderColor:"#f1f5f9"}}>
-            <div className="w-full h-20 rounded-xl mb-3 flex items-center justify-center" style={{background:item.color+"22"}}>
-              <div className="w-10 h-10 rounded-full shadow-inner" style={{background:item.color}}/>
+            <div className="w-full h-20 rounded-xl mb-3 flex items-center justify-center overflow-hidden" style={{background:item.color+"22"}}>
+              {item.photo
+                ? <img src={item.photo} alt={item.name} className="w-full h-full object-cover"/>
+                : <div className="w-10 h-10 rounded-full shadow-inner" style={{background:item.color}}/>}
             </div>
             <div className="text-xs font-black tracking-wider text-gray-400 mb-0.5">{item.type.toUpperCase()}</div>
             <div className="text-sm font-bold text-gray-800 leading-tight">{item.name}</div>
             <div className="text-xs text-gray-400 mt-0.5">{item.brand}</div>
           </button>
         ))}
-        <button onClick={()=>setModal(true)} className="p-4 rounded-2xl border-2 border-dashed text-center hover:border-gray-300 transition-all" style={{borderColor:"#e5e7eb"}}>
+        <button onClick={openClosetModal} className="p-4 rounded-2xl border-2 border-dashed text-center hover:border-gray-300 transition-all" style={{borderColor:"#e5e7eb"}}>
           <div className="h-20 flex items-center justify-center"><Plus size={22} className="text-gray-200"/></div>
           <div className="text-sm text-gray-300">Add item</div>
         </button>
@@ -21395,15 +21458,17 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
       {selected && (
         <div className="mt-5 bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-20 rounded-xl flex items-center justify-center flex-shrink-0" style={{background:selected.color+"22"}}>
-              <div className="w-8 h-8 rounded-full" style={{background:selected.color}}/>
+            <div className="w-16 h-20 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden" style={{background:selected.color+"22"}}>
+              {selected.photo
+                ? <img src={selected.photo} alt={selected.name} className="w-full h-full object-cover"/>
+                : <div className="w-8 h-8 rounded-full" style={{background:selected.color}}/>}
             </div>
             <div>
               <div className="text-xs font-black tracking-wider text-gray-400">{selected.type.toUpperCase()}</div>
               <h3 className="text-xl font-black text-gray-900">{selected.name}</h3>
               <div className="text-sm text-gray-500">{selected.brand}</div>
               <div className="flex gap-2 mt-2 flex-wrap">
-                {selected.occasions.map(o=><span key={o} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">{o}</span>)}
+                {(selected.occasions || []).map(o=><span key={o} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">{o}</span>)}
               </div>
             </div>
           </div>
@@ -21416,9 +21481,31 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-xl font-black">Add Garment</h2>
-              <button onClick={()=>setModal(false)}><X size={20} className="text-gray-300"/></button>
+              <button onClick={()=>{ setModal(false); resetClosetForm() }}><X size={20} className="text-gray-300"/></button>
             </div>
             <div className="space-y-4">
+              <div>
+                <Label>Photo</Label>
+                {form.photo ? (
+                  <div className="mt-1 rounded-xl border border-gray-100 overflow-hidden bg-gray-50">
+                    <img src={form.photo} alt="Garment preview" className="w-full h-44 object-cover"/>
+                    <div className="flex items-center justify-between gap-3 px-4 py-3">
+                      <div className="text-xs font-bold text-gray-500 truncate">{form.photoName || "Garment photo"}</div>
+                      <button onClick={()=>setForm(p=>({...p,photo:null,photoName:"",photoError:""}))}
+                        className="flex items-center gap-1.5 text-xs font-black text-red-500">
+                        <X size={13}/> Remove Photo
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <label className="mt-1 flex items-center justify-center gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-5 text-sm font-black text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors">
+                    <Camera size={17}/>
+                    Add Garment Photo
+                    <input type="file" accept="image/*" className="hidden" onChange={handleClosetPhotoSelect}/>
+                  </label>
+                )}
+                {form.photoError && <div className="mt-2 rounded-xl bg-red-50 text-red-600 text-xs p-3">{form.photoError}</div>}
+              </div>
               <div>
                 <Label>Type</Label>
                 <div className="grid grid-cols-5 gap-1.5 mt-1">
@@ -21452,7 +21539,7 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
                 </div>
               </div>
               <div className="flex gap-3 pt-2">
-                <button onClick={()=>setModal(false)} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
+                <button onClick={()=>{ setModal(false); resetClosetForm() }} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
                 <button onClick={save} disabled={!form.name.trim() || closetSaving} className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40 transition-all" style={{background:NAVY}}>
                   {closetSaving ? "Saving..." : "Add to Closet"}
                 </button>
@@ -22086,42 +22173,7 @@ function CalendarPage({ closetItems, user }) {
 const COMMUNITY_DRAFT_INIT = { look:"", outfit:"", caption:"", tags:"", photo:null, photoName:"", photoError:"" }
 
 function resizeCommunityPhoto(file) {
-  return new Promise((resolve, reject) => {
-    if (!file || !file.type?.startsWith("image/")) {
-      reject(new Error("Please choose an image file."))
-      return
-    }
-
-    const reader = new FileReader()
-    reader.onerror = () => reject(new Error("Could not read this image."))
-    reader.onload = () => {
-      const img = new Image()
-      img.onerror = () => reject(new Error("Could not load this image."))
-      img.onload = () => {
-        const maxSide = 960
-        const scale = Math.min(1, maxSide / Math.max(img.width, img.height))
-        const width = Math.max(1, Math.round(img.width * scale))
-        const height = Math.max(1, Math.round(img.height * scale))
-        const canvas = document.createElement("canvas")
-        canvas.width = width
-        canvas.height = height
-        const ctx = canvas.getContext("2d")
-        if (!ctx) {
-          reject(new Error("Could not prepare this image."))
-          return
-        }
-        ctx.drawImage(img, 0, 0, width, height)
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.78)
-        if (dataUrl.length > 780000) {
-          reject(new Error("This photo is too large. Try a tighter crop or smaller image."))
-          return
-        }
-        resolve(dataUrl)
-      }
-      img.src = reader.result
-    }
-    reader.readAsDataURL(file)
-  })
+  return resizeInlinePhoto(file, { maxSide:960, quality:0.78, maxLength:780000 })
 }
 
 function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
@@ -22246,21 +22298,35 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                     <div className="text-xs text-gray-400">{accountBadge} posting access</div>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                  <input value={draft.look} onChange={e=>setDraft(p=>({...p,look:e.target.value}))}
-                    placeholder="Look name, e.g. The Sunday Classic"
-                    className="border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
-                  <input value={draft.outfit} onChange={e=>setDraft(p=>({...p,outfit:e.target.value}))}
-                    placeholder="Outfit, e.g. Navy suit · White shirt · Burgundy tie"
-                    className="border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                <div className="mb-3 rounded-xl bg-gray-50 border border-gray-100 px-4 py-3">
+                  <div className="text-xs font-black text-gray-700">Post Information</div>
+                  <div className="text-xs text-gray-400 mt-0.5">Add the look title, outfit details, notes, photo, and tags before posting.</div>
                 </div>
-                <textarea value={draft.caption} onChange={e=>setDraft(p=>({...p,caption:e.target.value}))}
-                  placeholder="What made this look work?"
-                  rows={3}
-                  className="w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                  <div>
+                    <Label>Look Title</Label>
+                    <input value={draft.look} onChange={e=>setDraft(p=>({...p,look:e.target.value}))}
+                      placeholder="e.g. The Sunday Classic"
+                      className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                  </div>
+                  <div>
+                    <Label>Outfit Details</Label>
+                    <input value={draft.outfit} onChange={e=>setDraft(p=>({...p,outfit:e.target.value}))}
+                      placeholder="Navy suit · White shirt · Burgundy tie"
+                      className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                  </div>
+                </div>
+                <div>
+                  <Label>Style Notes</Label>
+                  <textarea value={draft.caption} onChange={e=>setDraft(p=>({...p,caption:e.target.value}))}
+                    placeholder="What made this look work?"
+                    rows={3}
+                    className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
+                </div>
                 <div className="mt-3">
+                  <Label>Photo</Label>
                   {draft.photo ? (
-                    <div className="rounded-xl border border-gray-100 overflow-hidden bg-gray-50">
+                    <div className="mt-1 rounded-xl border border-gray-100 overflow-hidden bg-gray-50">
                       <img src={draft.photo} alt="Look preview" className="w-full max-h-[360px] object-cover"/>
                       <div className="flex items-center justify-between gap-3 px-4 py-3">
                         <div className="text-xs font-bold text-gray-500 truncate">{draft.photoName || "Community photo"}</div>
@@ -22271,7 +22337,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                       </div>
                     </div>
                   ) : (
-                    <label className="flex items-center justify-center gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-4 text-sm font-black text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors">
+                    <label className="mt-1 flex items-center justify-center gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-4 text-sm font-black text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors">
                       <Camera size={17}/>
                       Add Photo
                       <input type="file" accept="image/*" className="hidden" onChange={handlePhotoSelect}/>
@@ -22283,11 +22349,14 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                   {draft.photoError && <div className="mt-2 rounded-xl bg-red-50 text-red-600 text-xs p-3">{draft.photoError}</div>}
                 </div>
                 <div className="flex flex-col sm:flex-row gap-3 mt-3">
-                  <input value={draft.tags} onChange={e=>setDraft(p=>({...p,tags:e.target.value}))}
-                    placeholder="Tags: #navy #business #grenadine"
-                    className="flex-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                  <div className="flex-1">
+                    <Label>Tags</Label>
+                    <input value={draft.tags} onChange={e=>setDraft(p=>({...p,tags:e.target.value}))}
+                      placeholder="#navy #business #grenadine"
+                      className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
+                  </div>
                   <button onClick={submitPost} disabled={saving || !draft.outfit.trim() || !draft.caption.trim()}
-                    className="px-5 py-3 rounded-xl text-sm font-black text-white disabled:opacity-40"
+                    className="px-5 py-3 rounded-xl text-sm font-black text-white disabled:opacity-40 sm:self-end"
                     style={{background:NAVY}}>
                     {saving ? "Posting..." : "Post Look"}
                   </button>
