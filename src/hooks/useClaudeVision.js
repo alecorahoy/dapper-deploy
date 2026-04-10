@@ -302,34 +302,79 @@ const correctNearBlackSuitColor = (piece) => {
   }
 }
 
-const fileToBase64 = (file) => {
+const SUPPORTED_VISION_MEDIA_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+
+const normalizeVisionMediaType = (file) => {
+  const type = String(file?.type || '').toLowerCase()
+  if (type === 'image/jpg' || type === 'image/pjpeg') return 'image/jpeg'
+  if (SUPPORTED_VISION_MEDIA_TYPES.has(type)) return type
+
+  const name = String(file?.name || '').toLowerCase()
+  if (/\.(jpg|jpeg)$/.test(name)) return 'image/jpeg'
+  if (/\.png$/.test(name)) return 'image/png'
+  if (/\.webp$/.test(name)) return 'image/webp'
+  if (/\.gif$/.test(name)) return 'image/gif'
+  if (/\.(heic|heif)$/.test(name) || type.includes('heic') || type.includes('heif')) return 'image/heic'
+  return type || null
+}
+
+const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader()
+  reader.onload = (event) => resolve(event.target?.result)
+  reader.onerror = () => reject(new Error('Could not read the selected image file.'))
+  reader.readAsDataURL(file)
+})
+
+const fileToRawVisionImage = async (file) => {
+  const mediaType = normalizeVisionMediaType(file)
+  if (!mediaType) {
+    throw new Error('This image format is missing a readable file type. Please upload a JPG, PNG, or WebP photo.')
+  }
+  if (!SUPPORTED_VISION_MEDIA_TYPES.has(mediaType)) {
+    throw new Error('This looks like a HEIC/HEIF photo. The AI analyzer needs JPG, PNG, WebP, or GIF. Please export the photo as JPG or take it again using a compatible camera format.')
+  }
+
+  const dataURL = await readFileAsDataURL(file)
+  const base64 = String(dataURL || '').split(',')[1]
+  if (!base64) throw new Error('Could not read image data from the selected file.')
+  return { base64, mediaType }
+}
+
+const fileToVisionImage = (file) => {
   return new Promise((resolve, reject) => {
     const img = new Image()
     const url = URL.createObjectURL(file)
     img.onload = () => {
-      const MAX = 800
-      let w = img.width, h = img.height
-      if (w > MAX || h > MAX) {
-        if (w > h) { h = Math.round(h * MAX / w); w = MAX }
-        else { w = Math.round(w * MAX / h); h = MAX }
+      try {
+        const MAX = 800
+        let w = img.width, h = img.height
+        if (w > MAX || h > MAX) {
+          if (w > h) { h = Math.round(h * MAX / w); w = MAX }
+          else { w = Math.round(w * MAX / h); h = MAX }
+        }
+        const canvas = document.createElement('canvas')
+        canvas.width = w; canvas.height = h
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(img, 0, 0, w, h)
+        URL.revokeObjectURL(url)
+        const dataURL = canvas.toDataURL('image/jpeg', 0.7)
+        const base64 = dataURL.split(',')[1]
+        if (!base64) throw new Error('Could not compress the selected image.')
+        resolve({ base64, mediaType: 'image/jpeg' })
+      } catch (err) {
+        URL.revokeObjectURL(url)
+        fileToRawVisionImage(file).then(resolve).catch(reject)
       }
-      const canvas = document.createElement('canvas')
-      canvas.width = w; canvas.height = h
-      const ctx = canvas.getContext('2d')
-      ctx.drawImage(img, 0, 0, w, h)
-      URL.revokeObjectURL(url)
-      const dataURL = canvas.toDataURL('image/jpeg', 0.7)
-      resolve(dataURL.split(',')[1])
     }
-    img.onerror = (err) => {
+    img.onerror = () => {
       URL.revokeObjectURL(url)
-      reject(err)
+      fileToRawVisionImage(file).then(resolve).catch(reject)
     }
     img.src = url
   })
 }
 
-const auditSuitColorWithVision = async (base64Image, firstPassColor) => {
+const auditSuitColorWithVision = async (visionImage, firstPassColor) => {
   const response = await fetch("/api/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -338,7 +383,7 @@ const auditSuitColorWithVision = async (base64Image, firstPassColor) => {
       max_tokens: 900,
       system: SUIT_COLOR_AUDIT_SYSTEM_PROMPT,
       messages: [{ role: "user", content: [
-        { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Image } },
+        { type: "image", source: { type: "base64", media_type: visionImage.mediaType, data: visionImage.base64 } },
         { type: "text", text: SUIT_COLOR_AUDIT_PROMPT(firstPassColor) },
       ]}],
     }),
@@ -364,8 +409,8 @@ export function useClaudeVision() {
     try {
       console.log('[Dapper Vision] imageFile:', imageFile, typeof imageFile)
       if (!imageFile) throw new Error('No image file provided')
-      const base64Image = await fileToBase64(imageFile)
-      console.log('[Dapper Vision] base64 length:', base64Image?.length)
+      const visionImage = await fileToVisionImage(imageFile)
+      console.log('[Dapper Vision] base64 length:', visionImage.base64?.length, 'media:', visionImage.mediaType)
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -374,7 +419,7 @@ export function useClaudeVision() {
           max_tokens: 1024,
           system: VISION_SYSTEM_PROMPT,
           messages: [{ role: 'user', content: [
-            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: base64Image } },
+            { type: 'image', source: { type: 'base64', media_type: visionImage.mediaType, data: visionImage.base64 } },
             { type: 'text', text: VISION_USER_PROMPT },
           ]}],
         }),
@@ -460,7 +505,7 @@ export function useClaudeVision() {
     setRawResult(null)
     try {
       if (!imageFile) throw new Error("No image file provided")
-      const base64Image = await fileToBase64(imageFile)
+      const visionImage = await fileToVisionImage(imageFile)
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -469,7 +514,7 @@ export function useClaudeVision() {
           max_tokens: 2400,
           system: VISION_SYSTEM_PROMPT,
           messages: [{ role: "user", content: [
-            { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Image } },
+            { type: "image", source: { type: "base64", media_type: visionImage.mediaType, data: visionImage.base64 } },
             { type: "text", text: FULL_LOOK_USER_PROMPT },
           ]}],
         }),
@@ -522,7 +567,7 @@ export function useClaudeVision() {
       const firstPassSuitLabel = detectedSuit.colorLabel || parsed.suit?.color || "unknown"
       if (isGreenishSuitRead(detectedSuit)) {
         try {
-          const audited = await auditSuitColorWithVision(base64Image, firstPassSuitLabel)
+          const audited = await auditSuitColorWithVision(visionImage, firstPassSuitLabel)
           const auditedSuit = normalizeDetectedPiece(audited, detectedSuit.colorHex, "suit")
           if (shouldTrustSuitColorAudit(detectedSuit, auditedSuit)) {
             const patternLabel = auditedSuit.patternLabel && auditedSuit.patternLabel !== "solid"

@@ -20546,12 +20546,18 @@ function AnalyzerPage() {
 
   const handlePhotoSelect = (e, setter) => {
     const file = e.target.files[0]
-    if (!file || !file.type.startsWith("image/")) return
+    const imageLike = file && (file.type?.startsWith("image/") || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || ""))
+    if (!imageLike) {
+      setKeyError("Please upload an image file: JPG, PNG, WebP, GIF, HEIC, or HEIF.")
+      return
+    }
+    setKeyError("")
     if (setter === setSuitPhoto) setSuitFile(file)
     if (setter === setShirtPhoto) setShirtFile(file)
     if (setter === setFullLookPhoto) setFullLookFile(file)
     const reader = new FileReader()
     reader.onload = (ev) => setter(ev.target.result)
+    reader.onerror = () => setKeyError("Could not read that photo. Please choose it again.")
     reader.readAsDataURL(file)
   }
 
@@ -20596,7 +20602,7 @@ function AnalyzerPage() {
       if (!visionResult.success) {
         setProgress(0)
         setAnalyzing(false)
-        setKeyError(visionResult.error ? `Full Look v2 analysis failed: ${visionResult.error}` : "Full Look v2 could not analyze this photo. Try again or use Correct Suit after a partial read.")
+        setKeyError(visionResult.error ? `Full Look v3 analysis failed: ${visionResult.error}` : "Full Look v3 could not read this photo. Please reselect a JPG, PNG, or WebP image and try again.")
         return
       }
 
