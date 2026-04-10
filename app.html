@@ -106,5 +106,14 @@
         }, 800);
       });
     </script>
+
+    <script>
+      // Dapper should not cache the app shell while we are shipping rapid fixes.
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations()
+          .then(registrations => registrations.forEach(reg => reg.unregister()))
+          .catch(() => {});
+      }
+    </script>
   </body>
 </html>
