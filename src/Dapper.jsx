@@ -20596,7 +20596,7 @@ function AnalyzerPage() {
       if (!visionResult.success) {
         setProgress(0)
         setAnalyzing(false)
-        setKeyError(visionResult.error || "Could not analyze this full look. Try a clearer photo.")
+        setKeyError(visionResult.error ? `Full Look analysis failed: ${visionResult.error}` : "Could not analyze this full look. Try a clearer photo.")
         return
       }
 

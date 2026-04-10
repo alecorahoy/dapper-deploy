@@ -62,17 +62,6 @@ Rules:
 - score must be 0-10.
 - Be specific and practical. Return ONLY JSON.`
 
-const FULL_LOOK_SUIT_COLOR_AUDIT_PROMPT = `Re-examine ONLY the suit jacket/trouser color in this full outfit photo.
-
-Ignore the shirt, tie, pocket square, face, skin, wall, floor, and background. Focus on the largest visible suit fabric panels.
-
-Choose the closest suit color family from: black, charcoal, navy, grey, brown, olive, forest green, bottle green, burgundy, beige, blue.
-
-Important: call it olive/green ONLY if the suit fabric itself clearly has a green hue. If it is a near-black or very dark neutral suit with warm/greenish lighting, choose black or charcoal.
-
-Return ONLY this JSON:
-{"color":"black","colorHex":"#111111","confidence":0.92,"reason":"brief reason"}`
-
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
 const TEXT_USER_PROMPT = (userText) => [
@@ -198,6 +187,13 @@ const colorMetricsFromHex = (hex) => {
   }
 }
 
+const apiErrorMessage = (errData, status) => {
+  if (typeof errData?.error === 'string') return errData.error
+  if (typeof errData?.error?.message === 'string') return errData.error.message
+  if (typeof errData?.message === 'string') return errData.message
+  return 'API error: ' + status
+}
+
 const GREENISH_COLOR_KEYS = new Set(['olive', 'green', 'forestgreen', 'bottle', 'sage', 'moss', 'jade'])
 
 const correctNearBlackSuitColor = (piece) => {
@@ -275,7 +271,7 @@ export function useClaudeVision() {
       })
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}))
-        throw new Error(errData?.error?.message || 'API error: ' + response.status)
+        throw new Error(apiErrorMessage(errData, response.status))
       }
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
@@ -325,7 +321,7 @@ export function useClaudeVision() {
       })
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}))
-        throw new Error(errData?.error?.message || 'API error: ' + response.status)
+        throw new Error(apiErrorMessage(errData, response.status))
       }
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
@@ -372,7 +368,7 @@ export function useClaudeVision() {
       })
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}))
-        throw new Error(errData?.error?.message || "API error: " + response.status)
+        throw new Error(apiErrorMessage(errData, response.status))
       }
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ""
@@ -380,43 +376,6 @@ export function useClaudeVision() {
       const cleanText = rawText.replaceAll(fence + "json", "").replaceAll(fence, "").trim()
       const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
       const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleanText)
-
-      if (parsed.suit?.visible !== false && GREENISH_COLOR_KEYS.has(normalizeColor(parsed.suit?.color))) {
-        try {
-          const auditResponse = await fetch("/api/analyze", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              model: "claude-haiku-4-5-20251001",
-              max_tokens: 300,
-              system: VISION_SYSTEM_PROMPT,
-              messages: [{ role: "user", content: [
-                { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Image } },
-                { type: "text", text: FULL_LOOK_SUIT_COLOR_AUDIT_PROMPT },
-              ]}],
-            }),
-          })
-          if (auditResponse.ok) {
-            const auditData = await auditResponse.json()
-            const auditRaw = auditData.content?.[0]?.text || ""
-            const auditClean = auditRaw.replaceAll(fence + "json", "").replaceAll(fence, "").trim()
-            const auditJsonMatch = auditClean.match(/\{[\s\S]*\}/)
-            const audit = JSON.parse(auditJsonMatch ? auditJsonMatch[0] : auditClean)
-            if (audit?.color) {
-              parsed.suit = {
-                ...parsed.suit,
-                color: audit.color,
-                colorHex: audit.colorHex || parsed.suit.colorHex,
-                confidence: audit.confidence || parsed.suit.confidence,
-                colorAuditReason: audit.reason || "",
-              }
-              parsed.notes = [parsed.notes, audit.reason ? `Suit color audit: ${audit.reason}` : "Suit color audit applied."].filter(Boolean).join(" ")
-            }
-          }
-        } catch (auditErr) {
-          console.warn("[Dapper Full Look] Suit color audit skipped:", auditErr)
-        }
-      }
       setRawResult(parsed)
 
       const isVisible = (piece) => piece && piece.visible !== false && (piece.color || piece.pattern || piece.fabric || piece.material || piece.style)
