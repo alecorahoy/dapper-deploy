@@ -69,6 +69,29 @@ Rules:
 - Keep strengths and recommendations to 1-2 short items each. Keep assessment to one short sentence.
 - Be specific and practical. Return ONLY JSON.`
 
+const normalizeStyleProfile = (styleProfile) => {
+  if (!styleProfile || typeof styleProfile !== 'object') return null
+  const label = String(styleProfile.label || '').slice(0, 80).trim()
+  const prompt = String(styleProfile.prompt || '').slice(0, 900).trim()
+  if (!label || !prompt) return null
+  return { label, prompt }
+}
+
+const stylePromptBlock = (styleProfile) => {
+  const profile = normalizeStyleProfile(styleProfile)
+  if (!profile) return ''
+  return [
+    '',
+    'STYLE LENS:',
+    `- Judge the final fashionPolice assessment through this lens: ${profile.label}.`,
+    `- ${profile.prompt}`,
+    '- The style lens affects approval, score, assessment, strengths, and recommendations only.',
+    '- The style lens must NOT change objective garment detection. Preserve the actual suit, shirt, tie, pocket square, shoe, and belt colors/patterns exactly as seen.',
+  ].join('\n')
+}
+
+const fullLookPromptForStyle = (styleProfile) => `${FULL_LOOK_USER_PROMPT}${stylePromptBlock(styleProfile)}`
+
 const SUIT_COLOR_AUDIT_SYSTEM_PROMPT = `You are a strict menswear photo color auditor. Your only job is to re-check the suit jacket/trouser color from the image, ignoring shirt, tie, pocket square, background, lighting cast, and shadows. Return ONLY valid JSON.`
 
 const FULL_LOOK_PREFLIGHT_SYSTEM_PROMPT = `You are an image intake classifier for a menswear outfit analyzer. Your job is only to decide whether the image is a real photo of a visible person wearing menswear clothing. Return ONLY valid JSON.`
@@ -120,7 +143,7 @@ Return ONLY this JSON structure:
 
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
-const TEXT_USER_PROMPT = (userText) => [
+const TEXT_USER_PROMPT = (userText, styleProfile) => [
   "Extract ALL garments mentioned from this description. Preserve exact garment relationships: suit color must come from the color attached to the suit, shirt color from the shirt, and tie color/pattern from the tie. Do not let a tie color change the suit color.",
   "",
   "Map suit color to the closest family: black, charcoal, navy, grey, blue, burgundy, brown, beige, green, white, purple, red, olive, forest green, sage, teal, rust, terracotta, tan, camel. Map suit pattern to: solid, chalk_stripe, glen_plaid, herringbone, tweed, linen, houndstooth, birdseye, seersucker, flannel.",
@@ -128,6 +151,7 @@ const TEXT_USER_PROMPT = (userText) => [
   "For ties, preserve multi-color descriptions such as blue and green or red and gold in the tie.color field, and preserve tie patterns such as striped, repp stripe, polka dot, paisley, knit, grenadine, foulard, plaid, solid.",
   "",
   "If a tie or shirt is mentioned, include them. If multiple items are described, provide a brief assessment evaluating the exact combination in 1-2 sentences.",
+  stylePromptBlock(styleProfile),
   "",
   "Return ONLY this JSON structure, with tie or shirt set to null if not mentioned:",
   "{\"suit\":{\"color\":\"green\",\"pattern\":\"solid\",\"fabric\":\"worsted wool\"},\"tie\":{\"color\":\"blue and green\",\"pattern\":\"striped\"},\"shirt\":{\"color\":\"white\",\"pattern\":\"solid\"},\"assessment\":null}",
@@ -512,7 +536,7 @@ const requestFullLookPreflight = async (visionImage) => {
   return parseClaudeJson(rawText, 'Full Look Preflight')
 }
 
-const requestFullLookAnalysis = async (visionImage) => {
+const requestFullLookAnalysis = async (visionImage, styleProfile) => {
   const response = await fetch("/api/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -522,7 +546,7 @@ const requestFullLookAnalysis = async (visionImage) => {
       system: VISION_SYSTEM_PROMPT,
       messages: [{ role: "user", content: [
         { type: "image", source: { type: "base64", media_type: visionImage.mediaType, data: visionImage.base64 } },
-        { type: "text", text: FULL_LOOK_USER_PROMPT },
+        { type: "text", text: fullLookPromptForStyle(styleProfile) },
       ]}],
     }),
   })
@@ -616,7 +640,7 @@ export function useClaudeVision() {
     }
   }, [])
 
-  const analyzeText = useCallback(async (userText) => {
+  const analyzeText = useCallback(async (userText, styleProfile = null) => {
     setIsAnalyzing(true)
     setError(null)
     try {
@@ -627,9 +651,9 @@ export function useClaudeVision() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
-          max_tokens: 250,
+          max_tokens: 350,
           system: TEXT_SYSTEM_PROMPT,
-          messages: [{ role: 'user', content: TEXT_USER_PROMPT(userText) }],
+          messages: [{ role: 'user', content: TEXT_USER_PROMPT(userText, styleProfile) }],
         }),
       })
       if (!response.ok) {
@@ -658,7 +682,7 @@ export function useClaudeVision() {
     }
   }, [])
 
-  const analyzeFullLook = useCallback(async (imageFile) => {
+  const analyzeFullLook = useCallback(async (imageFile, styleProfile = null) => {
     setIsAnalyzing(true)
     setError(null)
     setRawResult(null)
@@ -672,7 +696,7 @@ export function useClaudeVision() {
 
       let data
       try {
-        data = await requestFullLookAnalysis(visionImage)
+        data = await requestFullLookAnalysis(visionImage, styleProfile)
       } catch (primaryErr) {
         if (!isImageProcessingError(primaryErr.message)) throw primaryErr
         if (visionImage.source === 'raw') {
@@ -685,7 +709,7 @@ export function useClaudeVision() {
             outputType: 'image/png',
             allowRawFallback: false,
           })
-          data = await requestFullLookAnalysis(retryImage)
+          data = await requestFullLookAnalysis(retryImage, styleProfile)
         } catch (retryErr) {
           throw new Error(`${retryErr.message}. Retried with a smaller PNG version and the API still could not process it.`)
         }

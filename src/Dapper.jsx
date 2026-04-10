@@ -20116,6 +20116,81 @@ function dots(n)             { return Array.from({length:5},(_,i)=>i<n?"●":"�
 const NAVY = "#0f172a"
 const GOLD = "#C9A84C"
 
+const STYLE_LENSES = [
+  {
+    id: "classic",
+    label: "Classic Menswear",
+    sub: "Savile Row rules",
+    prompt: "Judge by permanent classic menswear: proportion, restraint, formality, clean contrast, and rule-aware pattern mixing. Reward timeless combinations and penalize gimmicks.",
+    mantra: "Classic menswear wins by restraint: fit, proportion, contrast, and one deliberate detail.",
+    comboNote: "Through the classic menswear lens, this should feel restrained, proportionate, and correct before it feels daring.",
+    tips: ["Keep contrast clean and avoid letting more than one element shout.", "When unsure, let the shirt and pocket square stay quiet."],
+  },
+  {
+    id: "gq",
+    label: "GQ Editorial",
+    sub: "Modern magazine polish",
+    prompt: "Judge through a GQ editorial lens: sharper modern presence, intentional color, confident pattern or texture, and one strong point of view. Reward stylish risk when it is controlled; penalize boring execution and costume energy.",
+    mantra: "GQ Editorial wants a point of view: clean silhouette, one confident move, no costume energy.",
+    comboNote: "Through the GQ Editorial lens, this needs a crisp point of view: one confident statement, controlled by clean supporting pieces.",
+    tips: ["Choose one editorial statement: tie, suit texture, pocket square, or shoes.", "Keep the remaining pieces sharp and quiet so the look photographs well."],
+  },
+  {
+    id: "quiet_luxury",
+    label: "Quiet Luxury",
+    sub: "Understated wealth",
+    prompt: "Judge through a quiet luxury lens: soft tonal harmony, elite fabrics, subtle texture, very little visible flash, and impeccable fit. Reward understated richness; penalize loud contrast, novelty, and over-accessorizing.",
+    mantra: "Quiet Luxury is texture, tone, and fit doing the work without announcing themselves.",
+    comboNote: "Through the Quiet Luxury lens, the look should rely on fabric, tone, and fit rather than loud contrast.",
+    tips: ["Use tonal ties, matte texture, and restrained pocket squares.", "Avoid novelty patterns or high-shine accessories."],
+  },
+  {
+    id: "power_business",
+    label: "Power Business",
+    sub: "Boardroom authority",
+    prompt: "Judge through a power business lens: executive credibility, darker tailoring, decisive contrast, conservative shoes, and no distracting flourishes. Reward authority and clarity; penalize playful styling in serious settings.",
+    mantra: "Power Business is clarity: dark tailoring, crisp shirt, decisive tie, polished leather.",
+    comboNote: "Through the Power Business lens, the outfit should project authority before personality.",
+    tips: ["Prioritize white or pale blue shirts and disciplined tie color.", "Use black or dark brown polished leather to anchor the outfit."],
+  },
+  {
+    id: "italian",
+    label: "Italian Sprezzatura",
+    sub: "Relaxed tailoring",
+    prompt: "Judge through an Italian sprezzatura lens: relaxed confidence, softer contrast, natural fabrics, tonal warmth, and ease. Reward tasteful looseness and texture; penalize stiffness, heavy corporate severity, or over-matching.",
+    mantra: "Italian Sprezzatura is relaxed precision: warm tones, natural texture, and nothing too forced.",
+    comboNote: "Through the Italian Sprezzatura lens, the outfit should feel relaxed, tactile, and intentional without looking stiff.",
+    tips: ["Lean into texture: grenadine, knit ties, linen, suede, and warmer leather.", "Let the pocket square feel relaxed rather than perfectly matched."],
+  },
+]
+
+function styleLensById(id) {
+  return STYLE_LENSES.find(lens => lens.id === id) || STYLE_LENSES[0]
+}
+
+function applyStyleLensToAnalysis(analysisObj, lens) {
+  if (!analysisObj) return analysisObj
+  const active = lens || STYLE_LENSES[0]
+  if (active.id === "classic") return analysisObj
+  return {
+    ...analysisObj,
+    styleMantra: `${active.label}: ${active.mantra}`,
+  }
+}
+
+function applyStyleLensToCombo(combo, lens) {
+  if (!combo) return combo
+  const active = lens || STYLE_LENSES[0]
+  if (active.id === "classic") return combo
+  const existingTips = Array.isArray(combo.tips) ? combo.tips : []
+  return {
+    ...combo,
+    assessment: `${combo.assessment} ${active.comboNote}`,
+    tips: [...active.tips, ...existingTips].slice(0, 5),
+    styleLens: active.label,
+  }
+}
+
 function accountPlanLabel(entitlement) {
   if (!entitlement || entitlement.plan === "free") return "Free"
   if (entitlement.plan === "elite") return "Elite"
@@ -20525,6 +20600,7 @@ function AnalyzerPage() {
   const [keyError, setKeyError]       = useState("")
   const [isDemo, setIsDemo]           = useState(false)
   const [occasion, setOccasion]       = useState("All")
+  const [styleLens, setStyleLens]     = useState("classic")
   const [suitPhoto, setSuitPhoto]     = useState(null)
   const [shirtPhoto, setShirtPhoto]   = useState(null)
   const [fullLookPhoto, setFullLookPhoto] = useState(null)
@@ -20543,6 +20619,7 @@ function AnalyzerPage() {
   const [suitFile, setSuitFile] = useState(null)
   const [shirtFile, setShirtFile] = useState(null)
   const [fullLookFile, setFullLookFile] = useState(null)
+  const selectedStyleLens = styleLensById(styleLens)
 
   const handlePhotoSelect = async (e, setter) => {
     const file = e.target.files[0]
@@ -20581,6 +20658,7 @@ function AnalyzerPage() {
     setKeyError("")
     setFullLookResult(null)
     setCorrectingFullLook(false)
+    const activeStyleLens = styleLensById(styleLens)
 
     // ── FULL LOOK MODE — API reads and judges the worn outfit ──
     if (mode === "D") {
@@ -20602,7 +20680,7 @@ function AnalyzerPage() {
         setProgress(Math.min(p, 88))
       }, 220)
 
-      const visionResult = await analyzeFullLook(fullLookFile)
+      const visionResult = await analyzeFullLook(fullLookFile, activeStyleLens)
       clearInterval(iv)
 
       if (!visionResult.success) {
@@ -20614,7 +20692,7 @@ function AnalyzerPage() {
 
       const d = visionResult.data
       const suitResult = fullLookSuitPhotoResult(d)
-      if (suitResult) setAnalysisData(getAnalysisFromPhotoResult(suitResult))
+      if (suitResult) setAnalysisData(applyStyleLensToAnalysis(getAnalysisFromPhotoResult(suitResult), activeStyleLens))
       else setAnalysisData(ANALYSIS)
 
       const outfitState = fullLookValidatorState(d, occasion)
@@ -20651,7 +20729,7 @@ function AnalyzerPage() {
           fabricStr: d.suit.fabric,
           r: 26, g: 39, b: 78
         });
-        setAnalysisData(analysis);
+        setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
         setPhotoResult({
           colorKey: d.suit.color,
           colorLabel: d.suit.colorLabel,
@@ -20665,7 +20743,7 @@ function AnalyzerPage() {
       } else {
         const suitResult = await analyzePhotoLocally(suitPhoto);
         const analysis = getAnalysisFromPhotoResult(suitResult);
-        setAnalysisData(analysis);
+        setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
         if (suitResult) setPhotoResult(suitResult);
       }
       if (mode === "B" && shirtPhoto) {
@@ -20710,7 +20788,7 @@ function AnalyzerPage() {
         let apiAssessment = null
 
         if (useApiParser) {
-          const parsedText = await analyzeText(description)
+          const parsedText = await analyzeText(description, activeStyleLens)
           if (parsedText?.success) {
             resolvedDescription = comboTextFromParsedDescription(parsedText, description)
             apiAssessment = parsedText.assessment || null
@@ -20719,20 +20797,20 @@ function AnalyzerPage() {
           }
         }
 
-        const localCombo = getLocalComboAssessment(resolvedDescription)
-        setAnalysisData(getLocalAnalysis(resolvedDescription))
+        const localCombo = applyStyleLensToCombo(getLocalComboAssessment(resolvedDescription), activeStyleLens)
+        setAnalysisData(applyStyleLensToAnalysis(getLocalAnalysis(resolvedDescription), activeStyleLens))
         setIsDemo(false)
         setComboAssessment(localCombo ? { ...localCombo, assessment: apiAssessment || localCombo.assessment } : null)
       } else {
         // Suit only - use the expanded local matrix.
         console.log("[Dapper Text] Suit only - using expanded local engine")
         const localResult = getLocalAnalysis(description)
-        setAnalysisData(localResult)
+        setAnalysisData(applyStyleLensToAnalysis(localResult, activeStyleLens))
         setComboAssessment(null)
         setIsDemo(false)
       }
     } catch(err) {
-      setAnalysisData(getLocalAnalysis(description)); setIsDemo(true)
+      setAnalysisData(applyStyleLensToAnalysis(getLocalAnalysis(description), activeStyleLens)); setIsDemo(true)
     } finally {
       clearInterval(iv)
       setProgress(100)
@@ -20775,6 +20853,23 @@ function AnalyzerPage() {
                     ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
                     : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
                   {o}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Style lens selector */}
+          <div className="mb-6">
+            <div className="text-xs font-black tracking-wider text-gray-400 mb-2">STYLE LENS <span className="text-gray-300 font-normal">(how Dapper judges the look)</span></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              {STYLE_LENSES.map(lens=>(
+                <button key={lens.id} onClick={()=>setStyleLens(lens.id)}
+                  className="p-3 rounded-xl border-2 text-left transition-all bg-white"
+                  style={styleLens===lens.id
+                    ? {borderColor:GOLD,background:"#fffbeb",boxShadow:"0 2px 12px rgba(201,168,76,0.15)"}
+                    : {borderColor:"#e5e7eb",background:"white"}}>
+                  <div className="font-black text-sm text-gray-900">{lens.label}</div>
+                  <div className="text-xs text-gray-400 mt-0.5">{lens.sub}</div>
                 </button>
               ))}
             </div>
@@ -20921,6 +21016,7 @@ function AnalyzerPage() {
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-black text-gray-900">Analysis Complete ✓</h2>
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{background:"#fffbeb",color:"#92400e",border:`1px solid ${GOLD}`}}>{selectedStyleLens.label}</span>
               {fullLookResult
                 ? <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:"#991b1b"}}>Fashion Police Review</span>
                 : photoResult
@@ -21048,7 +21144,7 @@ function AnalyzerPage() {
 	                                },
 	                              }
 	                              const suitResult = fullLookSuitPhotoResult(next)
-	                              if (suitResult) setAnalysisData(getAnalysisFromPhotoResult(suitResult))
+	                              if (suitResult) setAnalysisData(applyStyleLensToAnalysis(getAnalysisFromPhotoResult(suitResult), selectedStyleLens))
 	                              const outfitState = fullLookValidatorState(next, occasion)
 	                              const validatorResult = validateOutfit(outfitState)
 	                              setFullLookResult({ ...next, outfitState, validatorResult })
@@ -21237,7 +21333,7 @@ function AnalyzerPage() {
                             console.log('[Dapper Correct] newResult:', JSON.stringify(newResult).substring(0,200))
                             console.log('[Dapper Correct] analysis:', analysis ? 'HAS DATA — shirts:' + analysis?.shirts?.length : 'NULL/UNDEFINED')
                             if (!analysis) { console.error('[Dapper Correct] getAnalysisFromPhotoResult returned null'); return; }
-                            setAnalysisData(analysis)
+                            setAnalysisData(applyStyleLensToAnalysis(analysis, selectedStyleLens))
                             setPhotoResult(newResult)
                             setCorrecting(false)
                           }}
