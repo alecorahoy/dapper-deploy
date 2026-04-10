@@ -4,12 +4,13 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   getRedirectResult,
+  signInWithPopup,
   signInWithRedirect,
   signOut,
   updateProfile,
 } from "firebase/auth"
 import { doc, serverTimestamp, setDoc } from "firebase/firestore"
-import { auth, db, googleProvider } from "../firebase.js"
+import { auth, authReady, db, googleProvider } from "../firebase.js"
 
 export function useAuth() {
   const [user,    setUser]    = useState(undefined) // undefined = loading
@@ -29,8 +30,9 @@ export function useAuth() {
 
   useEffect(() => {
     let cancelled = false
-    getRedirectResult(auth).then((result) => {
+    authReady.then(() => getRedirectResult(auth)).then((result) => {
       if (cancelled || !result?.user) return
+      setUser(result.user)
       syncUserProfile(result.user).catch((err) => {
         console.warn("[Dapper Auth] Could not sync redirected user profile", err)
       })
@@ -47,6 +49,7 @@ export function useAuth() {
   const signUp = async (email, password, displayName) => {
     setLoading(true); setError(null)
     try {
+      await authReady
       const { user: u } = await createUserWithEmailAndPassword(auth, email, password)
       if (displayName) await updateProfile(u, { displayName })
       return u
@@ -60,6 +63,7 @@ export function useAuth() {
   const signIn = async (email, password) => {
     setLoading(true); setError(null)
     try {
+      await authReady
       const { user: u } = await signInWithEmailAndPassword(auth, email, password)
       return u
     } catch (e) {
@@ -72,9 +76,30 @@ export function useAuth() {
   const signInGoogle = async () => {
     setLoading(true); setError(null)
     try {
-      await signInWithRedirect(auth, googleProvider)
-      return null
+      await authReady
+      const { user: u } = await signInWithPopup(auth, googleProvider)
+      setUser(u)
+      syncUserProfile(u).catch((err) => {
+        console.warn("[Dapper Auth] Could not sync Google user profile", err)
+      })
+      return u
     } catch (e) {
+      const shouldRedirect = [
+        "auth/popup-blocked",
+        "auth/operation-not-supported-in-this-environment",
+      ].includes(e.code)
+
+      if (shouldRedirect) {
+        try {
+          await signInWithRedirect(auth, googleProvider)
+          return null
+        } catch (redirectError) {
+          console.error("[Dapper Auth] Google redirect failed", redirectError.code, redirectError.message)
+          setError(friendlyError(redirectError.code))
+          return null
+        }
+      }
+
       console.error("[Dapper Auth] Google sign-in failed", e.code, e.message)
       setError(friendlyError(e.code))
       return null
