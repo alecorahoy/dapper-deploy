@@ -20408,12 +20408,47 @@ function getBestShoesForSuit(suitColor) {
   return ["Black Cap-Toe Oxford", "Brown Derby Brogue", "Black Oxford Brogue"]
 }
 
+function shouldUseApiForTextDescription(text) {
+  const t = normalizeMenswearText(text)
+  const hasTie = /\btie\b|\bnecktie\b/.test(t)
+  const tieContext = ((t.split(/\btie\b/)[0] || "").split(/\b(?:shirt|suit|blazer|jacket)\b/).pop() || "").trim()
+  const colorPattern = /\b(black|charcoal|navy|grey|gray|silver|blue|cobalt|royal|burgundy|wine|oxblood|maroon|brown|chocolate|cognac|beige|tan|camel|green|olive|sage|forest|hunter|bottle|moss|emerald|white|cream|ivory|purple|violet|plum|red|crimson|scarlet|gold|mustard|yellow|orange|rust|terracotta|pink|coral|blush)\b/g
+  const colorHits = t.match(colorPattern) || []
+  const tieColorHits = tieContext.match(colorPattern) || []
+  const tieHasJoiner = /(?:\band\b|\bwith\b|&|\/|-)/.test(tieContext)
+  const tieHasPattern = /stripe|striped|stripes|repp|plaid|check|paisley|foulard/.test(tieContext)
+  const multicolorTie = hasTie && tieColorHits.length >= 2 && (tieHasJoiner || tieHasPattern)
+  const tooManyGarmentsAndColors = hasTie && /\bshirt\b/.test(t) && /\bsuit\b/.test(t) && colorHits.length >= 4 && tieColorHits.length >= 2
+  return multicolorTie || tooManyGarmentsAndColors
+}
+
+function textColorLabelFromKey(key) {
+  const labels = {
+    lightblue: "light blue", forestgreen: "forest green", dovegrey: "dove grey",
+    dark_green: "dark green", teal2: "teal", navyexpanded: "navy", charcoalexpanded: "charcoal",
+  }
+  return labels[key] || String(key || "navy").replace(/_/g, " ")
+}
+
+function textPatternLabelFromKey(key) {
+  if (!key || key === "solid") return ""
+  return String(key).replace(/_/g, " ")
+}
+
+function comboTextFromParsedDescription(parsedText, fallbackText) {
+  if (!parsedText?.success || !parsedText.colorKey) return fallbackText
+  const suit = [textColorLabelFromKey(parsedText.colorKey), textPatternLabelFromKey(parsedText.patternKey), "suit"].filter(Boolean).join(" ")
+  const shirt = parsedText.shirt ? [parsedText.shirt.color, parsedText.shirt.pattern && parsedText.shirt.pattern !== "solid" ? parsedText.shirt.pattern : "", "shirt"].filter(Boolean).join(" ") : ""
+  const tie = parsedText.tie ? [parsedText.tie.color, parsedText.tie.pattern && parsedText.tie.pattern !== "solid" ? parsedText.tie.pattern : "", "tie"].filter(Boolean).join(" ") : ""
+  return [suit, shirt, tie].filter(Boolean).join(" with ")
+}
+
 // ─────────────────────────────────────────────
 // PAGE: AI ANALYZER
 // ─────────────────────────────────────────────
 
 function AnalyzerPage() {
-  const { analyzeOutfit } = useClaudeVision()
+  const { analyzeOutfit, analyzeText } = useClaudeVision()
   const [mode, setMode]               = useState("A")
   const [analyzing, setAnalyzing]     = useState(false)
   const [done, setDone]               = useState(false)
@@ -20540,11 +20575,25 @@ function AnalyzerPage() {
       const needsComboCheck = mentionsTie || mentionsShirt
 
       if (needsComboCheck) {
-        console.log("[Dapper Text] Combo detected - using local engine")
-        const localCombo = getLocalComboAssessment(description)
-        setAnalysisData(getLocalAnalysis(description))
+        const useApiParser = shouldUseApiForTextDescription(description)
+        console.log(useApiParser ? "[Dapper Text] Ambiguous combo - using API parser" : "[Dapper Text] Combo detected - using local engine")
+        let resolvedDescription = description
+        let apiAssessment = null
+
+        if (useApiParser) {
+          const parsedText = await analyzeText(description)
+          if (parsedText?.success) {
+            resolvedDescription = comboTextFromParsedDescription(parsedText, description)
+            apiAssessment = parsedText.assessment || null
+          } else {
+            console.warn("[Dapper Text] API parser failed, falling back to local engine")
+          }
+        }
+
+        const localCombo = getLocalComboAssessment(resolvedDescription)
+        setAnalysisData(getLocalAnalysis(resolvedDescription))
         setIsDemo(false)
-        setComboAssessment(localCombo || null)
+        setComboAssessment(localCombo ? { ...localCombo, assessment: apiAssessment || localCombo.assessment } : null)
       } else {
         // Suit only - use the expanded local matrix.
         console.log("[Dapper Text] Suit only - using expanded local engine")

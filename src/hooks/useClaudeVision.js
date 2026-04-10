@@ -28,14 +28,20 @@ Be precise. Use professional menswear vocabulary. Return ONLY the JSON object.`
 
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
-const TEXT_USER_PROMPT = (userText) => `Extract ALL garments mentioned from this description. Map suit color to: black, charcoal, navy, grey, blue, burgundy, brown, beige, green, white, purple, red. Map pattern to: solid, chalk_stripe, glen_plaid, herringbone, tweed, linen.
-
-If a tie or shirt is mentioned, include them. If multiple items are described, provide a brief "assessment" evaluating the combination (1-2 sentences, expert menswear advice).
-
-Return ONLY this JSON (set tie/shirt to null if not mentioned):
-{"suit":{"color":"navy","pattern":"solid","fabric":"worsted wool"},"tie":{"color":"black","pattern":"solid"},"shirt":{"color":"white","pattern":"solid"},"assessment":null}
-
-Description: "${userText}"`
+const TEXT_USER_PROMPT = (userText) => [
+  "Extract ALL garments mentioned from this description. Preserve exact garment relationships: suit color must come from the color attached to the suit, shirt color from the shirt, and tie color/pattern from the tie. Do not let a tie color change the suit color.",
+  "",
+  "Map suit color to the closest family: black, charcoal, navy, grey, blue, burgundy, brown, beige, green, white, purple, red, olive, forest green, sage, teal, rust, terracotta, tan, camel. Map suit pattern to: solid, chalk_stripe, glen_plaid, herringbone, tweed, linen, houndstooth, birdseye, seersucker, flannel.",
+  "",
+  "For ties, preserve multi-color descriptions such as blue and green or red and gold in the tie.color field, and preserve tie patterns such as striped, repp stripe, polka dot, paisley, knit, grenadine, foulard, plaid, solid.",
+  "",
+  "If a tie or shirt is mentioned, include them. If multiple items are described, provide a brief assessment evaluating the exact combination in 1-2 sentences.",
+  "",
+  "Return ONLY this JSON structure, with tie or shirt set to null if not mentioned:",
+  "{\"suit\":{\"color\":\"green\",\"pattern\":\"solid\",\"fabric\":\"worsted wool\"},\"tie\":{\"color\":\"blue and green\",\"pattern\":\"striped\"},\"shirt\":{\"color\":\"white\",\"pattern\":\"solid\"},\"assessment\":null}",
+  "",
+  `Description: "${userText}"`,
+].join("\n")
 
 const normalizePattern = (claudePattern) => {
   if (!claudePattern) return 'solid'
