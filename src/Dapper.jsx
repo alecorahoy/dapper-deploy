@@ -20658,11 +20658,17 @@ function AnalyzerPage() {
       const preview = await resizeInlinePhoto(file, { maxSide:900, quality:0.76, maxLength:680000 })
       setter(preview)
     } catch (err) {
-      if (setter === setSuitPhoto) setSuitFile(null)
-      if (setter === setShirtPhoto) setShirtFile(null)
-      if (setter === setFullLookPhoto) setFullLookFile(null)
-      setter(null)
-      setKeyError(err.message || "Could not read that photo. Please choose it again.")
+      try {
+        const rawPreview = await readFileDataUrl(file)
+        setter(rawPreview)
+        setKeyError("Preview fallback in use. If analysis fails, export the photo as JPG or PNG and try again.")
+      } catch {
+        if (setter === setSuitPhoto) setSuitFile(null)
+        if (setter === setShirtPhoto) setShirtFile(null)
+        if (setter === setFullLookPhoto) setFullLookFile(null)
+        setter(null)
+        setKeyError(err.message || "Could not read that photo. Please choose it again.")
+      }
     }
   }
 
@@ -21832,9 +21838,34 @@ function drawInlinePhoto(image, width, height, { maxSide, quality, maxLength }) 
   const ctx = canvas.getContext("2d")
   if (!ctx) throw new Error("Could not prepare this image.")
   ctx.drawImage(image, 0, 0, w, h)
-  const dataUrl = canvas.toDataURL("image/jpeg", quality)
-  if (dataUrl.length > maxLength) throw new Error("This photo is too large. Try a tighter crop or smaller image.")
-  return dataUrl
+  let workingCanvas = canvas
+  let workingQuality = quality
+  const minQuality = 0.38
+  const minSide = 320
+
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const dataUrl = workingCanvas.toDataURL("image/jpeg", workingQuality)
+    if (dataUrl.length <= maxLength) return dataUrl
+
+    if (workingQuality > minQuality + 0.04) {
+      workingQuality = Math.max(minQuality, workingQuality - 0.1)
+      continue
+    }
+
+    if (Math.max(workingCanvas.width, workingCanvas.height) <= minSide) break
+
+    const nextCanvas = document.createElement("canvas")
+    nextCanvas.width = Math.max(minSide, Math.round(workingCanvas.width * 0.82))
+    nextCanvas.height = Math.max(minSide, Math.round(workingCanvas.height * 0.82))
+    const nextCtx = nextCanvas.getContext("2d")
+    if (!nextCtx) break
+    nextCtx.drawImage(workingCanvas, 0, 0, nextCanvas.width, nextCanvas.height)
+    workingCanvas = nextCanvas
+  }
+
+  const finalDataUrl = workingCanvas.toDataURL("image/jpeg", Math.max(minQuality, workingQuality))
+  if (finalDataUrl.length > maxLength) throw new Error("This photo is too large. Try a tighter crop or a screenshot of just the suit.")
+  return finalDataUrl
 }
 
 async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLength = 680000 } = {}) {
