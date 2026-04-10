@@ -20544,21 +20544,27 @@ function AnalyzerPage() {
   const [shirtFile, setShirtFile] = useState(null)
   const [fullLookFile, setFullLookFile] = useState(null)
 
-  const handlePhotoSelect = (e, setter) => {
+  const handlePhotoSelect = async (e, setter) => {
     const file = e.target.files[0]
-    const imageLike = file && (file.type?.startsWith("image/") || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || ""))
-    if (!imageLike) {
+    if (!isImageFileLike(file)) {
       setKeyError("Please upload an image file: JPG, PNG, WebP, GIF, HEIC, or HEIF.")
       return
     }
+    e.target.value = ""
     setKeyError("")
     if (setter === setSuitPhoto) setSuitFile(file)
     if (setter === setShirtPhoto) setShirtFile(file)
     if (setter === setFullLookPhoto) setFullLookFile(file)
-    const reader = new FileReader()
-    reader.onload = (ev) => setter(ev.target.result)
-    reader.onerror = () => setKeyError("Could not read that photo. Please choose it again.")
-    reader.readAsDataURL(file)
+    try {
+      const preview = await resizeInlinePhoto(file, { maxSide:900, quality:0.76, maxLength:680000 })
+      setter(preview)
+    } catch (err) {
+      if (setter === setSuitPhoto) setSuitFile(null)
+      if (setter === setShirtPhoto) setShirtFile(null)
+      if (setter === setFullLookPhoto) setFullLookFile(null)
+      setter(null)
+      setKeyError(err.message || "Could not read that photo. Please choose it again.")
+    }
   }
 
   const STEPS = [
@@ -20802,7 +20808,7 @@ function AnalyzerPage() {
                 <input
                   id="suit-upload"
                   type="file"
-                  accept="image/*"
+                  accept="image/*,.heic,.heif"
                   style={{display:"none"}}
                   onChange={e => handlePhotoSelect(e, setSuitPhoto)}
                 />
@@ -20833,7 +20839,7 @@ function AnalyzerPage() {
                   <input
                     id="shirt-upload"
                     type="file"
-                    accept="image/*"
+                    accept="image/*,.heic,.heif"
                     
                     style={{display:"none"}}
                     onChange={e => handlePhotoSelect(e, setShirtPhoto)}
@@ -20869,7 +20875,7 @@ function AnalyzerPage() {
                 <input
                   id="full-look-upload"
                   type="file"
-                  accept="image/*"
+                  accept="image/*,.heic,.heif"
                   style={{display:"none"}}
                   onChange={e => handlePhotoSelect(e, setFullLookPhoto)}
                 />
@@ -21683,42 +21689,66 @@ function SectionLabel({n, label}) {
   )
 }
 
-function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLength = 680000 } = {}) {
-  return new Promise((resolve, reject) => {
-    if (!file || !file.type?.startsWith("image/")) {
-      reject(new Error("Please choose an image file."))
-      return
-    }
+function isImageFileLike(file) {
+  return Boolean(file && (file.type?.startsWith("image/") || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || "")))
+}
 
+function readFileDataUrl(file) {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onerror = () => reject(new Error("Could not read this image."))
-    reader.onload = () => {
-      const img = new Image()
-      img.onerror = () => reject(new Error("Could not load this image."))
-      img.onload = () => {
-        const scale = Math.min(1, maxSide / Math.max(img.width, img.height))
-        const width = Math.max(1, Math.round(img.width * scale))
-        const height = Math.max(1, Math.round(img.height * scale))
-        const canvas = document.createElement("canvas")
-        canvas.width = width
-        canvas.height = height
-        const ctx = canvas.getContext("2d")
-        if (!ctx) {
-          reject(new Error("Could not prepare this image."))
-          return
-        }
-        ctx.drawImage(img, 0, 0, width, height)
-        const dataUrl = canvas.toDataURL("image/jpeg", quality)
-        if (dataUrl.length > maxLength) {
-          reject(new Error("This photo is too large. Try a tighter crop or smaller image."))
-          return
-        }
-        resolve(dataUrl)
-      }
-      img.src = reader.result
-    }
+    reader.onload = () => resolve(reader.result)
     reader.readAsDataURL(file)
   })
+}
+
+function drawInlinePhoto(image, width, height, { maxSide, quality, maxLength }) {
+  if (!width || !height) throw new Error("Could not read this image size.")
+  const scale = Math.min(1, maxSide / Math.max(width, height))
+  const w = Math.max(1, Math.round(width * scale))
+  const h = Math.max(1, Math.round(height * scale))
+  const canvas = document.createElement("canvas")
+  canvas.width = w
+  canvas.height = h
+  const ctx = canvas.getContext("2d")
+  if (!ctx) throw new Error("Could not prepare this image.")
+  ctx.drawImage(image, 0, 0, w, h)
+  const dataUrl = canvas.toDataURL("image/jpeg", quality)
+  if (dataUrl.length > maxLength) throw new Error("This photo is too large. Try a tighter crop or smaller image.")
+  return dataUrl
+}
+
+async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLength = 680000 } = {}) {
+  if (!isImageFileLike(file)) throw new Error("Please choose an image file.")
+
+  const options = { maxSide, quality, maxLength }
+  const dataUrl = await readFileDataUrl(file)
+  try {
+    const img = await new Promise((resolve, reject) => {
+      const image = new Image()
+      image.onerror = () => reject(new Error("Could not load this image."))
+      image.onload = () => resolve(image)
+      image.src = dataUrl
+    })
+    return drawInlinePhoto(img, img.width, img.height, options)
+  } catch (imgErr) {
+    if (typeof createImageBitmap === "function") {
+      try {
+        const bitmap = await createImageBitmap(file)
+        try {
+          return drawInlinePhoto(bitmap, bitmap.width, bitmap.height, options)
+        } finally {
+          bitmap.close?.()
+        }
+      } catch {
+        // Fall through to the raw-data fallback below.
+      }
+    }
+    const looksLikeHeic = /\.(heic|heif)$/i.test(file.name || "") || /heic|heif/i.test(file.type || "")
+    if (looksLikeHeic) throw new Error("This looks like a HEIC/HEIF photo. Please export it as JPG or PNG and try again.")
+    if (dataUrl.length <= maxLength) return dataUrl
+    throw imgErr
+  }
 }
 
 const CLOSET_FORM_INIT = { type:"Suit", name:"", brand:"", color:"#1B3A6B", photo:null, photoName:"", photoError:"" }
@@ -21892,7 +21922,7 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
                   <label className="mt-1 flex items-center justify-center gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-5 text-sm font-black text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors">
                     <Camera size={17}/>
                     Add Garment Photo
-                    <input type="file" accept="image/*" className="hidden" onChange={handleClosetPhotoSelect}/>
+                    <input type="file" accept="image/*,.heic,.heif" className="hidden" onChange={handleClosetPhotoSelect}/>
                   </label>
                 )}
                 {form.photoError && <div className="mt-2 rounded-xl bg-red-50 text-red-600 text-xs p-3">{form.photoError}</div>}
@@ -21977,15 +22007,21 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
     suit: "", shirt: "", tie: "", shoes: "", accessories: "", occasion: "", notes: "", photo: null
   })
   const [dragging, setDragging] = useState(false)
+  const [photoError, setPhotoError] = useState("")
 
   const set = (k,v) => setForm(p=>({...p,[k]:v}))
 
   // ── Photo handling ──
-  const loadPhoto = (file) => {
-    if(!file || !file.type.startsWith("image/")) return
-    const reader = new FileReader()
-    reader.onload = (ev) => set("photo", ev.target.result)
-    reader.readAsDataURL(file)
+  const loadPhoto = async (file) => {
+    if(!file) return
+    setPhotoError("")
+    try {
+      const photo = await resizeInlinePhoto(file, { maxSide:900, quality:0.76, maxLength:680000 })
+      set("photo", photo)
+    } catch (err) {
+      set("photo", null)
+      setPhotoError(err.message || "Could not add this photo.")
+    }
   }
   const handlePhotoInput  = (e) => loadPhoto(e.target.files[0])
   const handleDrop        = (e) => { e.preventDefault(); setDragging(false); loadPhoto(e.dataTransfer.files[0]) }
@@ -22049,9 +22085,9 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
                 <div className="absolute bottom-3 right-3 flex gap-2">
                   <label className="cursor-pointer px-3 py-1.5 rounded-xl text-xs font-black text-white" style={{background:"rgba(0,0,0,0.5)"}}>
                     Change
-                    <input type="file" accept="image/*" className="hidden" onChange={handlePhotoInput}/>
+                    <input type="file" accept="image/*,.heic,.heif" className="hidden" onChange={handlePhotoInput}/>
                   </label>
-                  <button onClick={()=>set("photo",null)}
+                  <button onClick={()=>{set("photo",null);setPhotoError("")}}
                     className="w-7 h-7 rounded-xl flex items-center justify-center" style={{background:"rgba(0,0,0,0.5)"}}>
                     <X size={14} color="white"/>
                   </button>
@@ -22076,10 +22112,11 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
                 </div>
                 <div className="text-sm font-black text-gray-500 mb-1">Upload a photo of your look</div>
                 <div className="text-xs text-gray-300">Tap to select · or drag here</div>
-                <div className="text-xs text-gray-200 mt-1">JPG, PNG, WEBP · max. 10 MB</div>
-                <input type="file" accept="image/*" className="hidden" onChange={handlePhotoInput}/>
+                <div className="text-xs text-gray-200 mt-1">JPG, PNG, WEBP · HEIC when supported</div>
+                <input type="file" accept="image/*,.heic,.heif" className="hidden" onChange={handlePhotoInput}/>
               </label>
             )}
+            {photoError && <div className="mt-2 rounded-xl bg-red-50 text-red-600 text-xs p-3">{photoError}</div>}
           </div>
 
           {/* ── DATE ── */}
@@ -22668,7 +22705,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
           <label className="mt-1 flex items-center justify-center gap-2 rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-4 text-sm font-black text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors">
             <Camera size={17}/>
             Add Photo
-            <input type="file" accept="image/*" className="hidden" onChange={handlePhotoSelect}/>
+            <input type="file" accept="image/*,.heic,.heif" className="hidden" onChange={handlePhotoSelect}/>
           </label>
         )}
         <div className="mt-2 text-xs text-gray-400 flex items-center gap-1.5">
@@ -23434,6 +23471,7 @@ function OutfitValidatorPage() {
   const [vPSPhoto,        setVPSPhoto]       = useState(null)
   const [photoAnalyzing,  setPhotoAnalyzing] = useState(false)
   const [photoDetected,   setPhotoDetected]  = useState({})
+  const [photoError,      setPhotoError]     = useState("")
   const [manualCorrection, setManualCorrection] = useState("")
   const [correctionFeedback, setCorrectionFeedback] = useState("")
 
@@ -23495,6 +23533,7 @@ function OutfitValidatorPage() {
     setter(dataURL)
     if (!dataURL) return
     setPhotoAnalyzing(true)
+    setPhotoError("")
     try {
       let detected = null
       try {
@@ -23514,12 +23553,18 @@ function OutfitValidatorPage() {
     }
   }
 
-  const handleValPhotoInput = (e, setter, pieceKey) => {
+  const handleValPhotoInput = async (e, setter, pieceKey) => {
     const file = e.target.files[0]
-    if (!file || !file.type.startsWith("image/")) return
-    const reader = new FileReader()
-    reader.onload = ev => handleValPhoto(file, ev.target.result, setter, pieceKey)
-    reader.readAsDataURL(file)
+    e.target.value = ""
+    if (!file) return
+    setPhotoError("")
+    try {
+      const dataUrl = await resizeInlinePhoto(file, { maxSide:900, quality:0.76, maxLength:680000 })
+      handleValPhoto(file, dataUrl, setter, pieceKey)
+    } catch (err) {
+      setter(null)
+      setPhotoError(err.message || "Could not add this photo.")
+    }
   }
 
   const SUIT_PATTERNS = [
@@ -23595,6 +23640,7 @@ function OutfitValidatorPage() {
     setTie(""); setPocketSquare(""); setShoes(""); setBelt(""); setOccasion("All"); setResult(null)
     setVSuitPhoto(null); setVShirtPhoto(null); setVTiePhoto(null); setVPSPhoto(null)
     setPhotoDetected({})
+    setPhotoError("")
     setManualCorrection("")
     setCorrectionFeedback("")
   }
@@ -23633,6 +23679,7 @@ function OutfitValidatorPage() {
             Analyzing photo…
           </div>
         )}
+        {photoError && <div className="text-xs py-2 px-3 mb-2 rounded-lg bg-red-50 text-red-600">{photoError}</div>}
         <div className="grid grid-cols-2 gap-3">
           {[
             {key:"suit",  label:"Suit",         photo:vSuitPhoto,  setter:setVSuitPhoto,  color:"#1B3A6B"},
@@ -23662,7 +23709,7 @@ function OutfitValidatorPage() {
                   </div>
                 )}
               </div>
-              <input id={`val-${key}`} type="file" accept="image/*"
+              <input id={`val-${key}`} type="file" accept="image/*,.heic,.heif"
                 style={{display:"none"}}
                 onChange={e => handleValPhotoInput(e, setter, key)}/>
             </label>

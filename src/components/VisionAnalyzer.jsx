@@ -283,6 +283,8 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
   const handleFileChange = useCallback(async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
+    const imageLike = file.type?.startsWith('image/') || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || '')
+    if (!imageLike) return
     const url = URL.createObjectURL(file)
     setPreview(url)
     setResult(null)
@@ -297,7 +299,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
   const handleDrop = useCallback((e) => {
     e.preventDefault()
     const file = e.dataTransfer.files?.[0]
-    if (file && file.type.startsWith('image/')) {
+    if (file && (file.type.startsWith('image/') || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || ''))) {
       const fakeEvent = { target: { files: [file] } }
       handleFileChange(fakeEvent)
     }
@@ -554,7 +556,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/*,.heic,.heif"
           onChange={handleFileChange}
           style={{ display: 'none' }}
         />
