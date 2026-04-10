@@ -60,6 +60,7 @@ Rules:
 - Evaluate suit/shirt/tie/pocket square harmony, pattern scale, color contrast, formality, and whether the pocket square matches too closely.
 - If an item is not visible, set visible:false for that item.
 - score must be 0-10.
+- Keep strengths and recommendations to 1-2 short items each. Keep assessment to one short sentence.
 - Be specific and practical. Return ONLY JSON.`
 
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
@@ -194,6 +195,26 @@ const apiErrorMessage = (errData, status) => {
   return 'API error: ' + status
 }
 
+const parseClaudeJson = (rawText, context) => {
+  const fence = String.fromCharCode(96, 96, 96)
+  const cleanText = String(rawText || "")
+    .replaceAll(fence + "json", "")
+    .replaceAll(fence, "")
+    .trim()
+  const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
+  const jsonText = jsonMatch ? jsonMatch[0] : cleanText
+  const sanitized = jsonText
+    .replace(/,\s*([}\]])/g, "$1")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
+  try {
+    return JSON.parse(sanitized)
+  } catch (err) {
+    console.warn(`[Dapper ${context}] JSON parse failed`, err, rawText)
+    const preview = String(rawText || "").slice(0, 220).trim()
+    throw new Error(`${context} returned unreadable JSON${preview ? `: ${preview}` : ": empty response"}`)
+  }
+}
+
 const GREENISH_COLOR_KEYS = new Set(['olive', 'green', 'forestgreen', 'bottle', 'sage', 'moss', 'jade'])
 
 const correctNearBlackSuitColor = (piece) => {
@@ -275,8 +296,7 @@ export function useClaudeVision() {
       }
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
-      const cleanText = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-      const parsed = JSON.parse(cleanText)
+      const parsed = parseClaudeJson(rawText, 'Suit Photo')
       setRawResult(parsed)
       console.log('[Dapper RAW] Claude says suit color:', parsed.suit?.color, '| normalized:', parsed.suit?.color ? parsed.suit.color.toLowerCase() : 'none')
       const result = {
@@ -325,8 +345,7 @@ export function useClaudeVision() {
       }
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
-      const cleanText = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
-      const parsed = JSON.parse(cleanText)
+      const parsed = parseClaudeJson(rawText, 'Text Parser')
       console.log('[Dapper Text] Parsed:', parsed)
       const suit = parsed.suit || parsed
       const colorKey = normalizeColor(suit.color) || 'navy'
@@ -358,7 +377,7 @@ export function useClaudeVision() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "claude-haiku-4-5-20251001",
-          max_tokens: 1600,
+          max_tokens: 2400,
           system: VISION_SYSTEM_PROMPT,
           messages: [{ role: "user", content: [
             { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Image } },
@@ -372,10 +391,7 @@ export function useClaudeVision() {
       }
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ""
-      const fence = String.fromCharCode(96, 96, 96)
-      const cleanText = rawText.replaceAll(fence + "json", "").replaceAll(fence, "").trim()
-      const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
-      const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleanText)
+      const parsed = parseClaudeJson(rawText, 'Full Look')
       setRawResult(parsed)
 
       const isVisible = (piece) => piece && piece.visible !== false && (piece.color || piece.pattern || piece.fabric || piece.material || piece.style)
