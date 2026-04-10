@@ -55,10 +55,23 @@ Return ONLY a JSON object with this EXACT structure:
 
 Rules:
 - Preserve exact garment relationships. Do not let a tie color become the suit color.
+- Suit color discipline: call the suit olive/green ONLY when the main suit panels clearly have a green hue. Do not label black wool as olive because of warm indoor light, shadows, camera white balance, or a yellow/green cast.
+- If the suit is near-black, jet black, tuxedo black, or a very dark neutral, use "black" or "charcoal". If uncertain between black and green, choose black/charcoal and lower confidence.
 - Evaluate suit/shirt/tie/pocket square harmony, pattern scale, color contrast, formality, and whether the pocket square matches too closely.
 - If an item is not visible, set visible:false for that item.
 - score must be 0-10.
 - Be specific and practical. Return ONLY JSON.`
+
+const FULL_LOOK_SUIT_COLOR_AUDIT_PROMPT = `Re-examine ONLY the suit jacket/trouser color in this full outfit photo.
+
+Ignore the shirt, tie, pocket square, face, skin, wall, floor, and background. Focus on the largest visible suit fabric panels.
+
+Choose the closest suit color family from: black, charcoal, navy, grey, brown, olive, forest green, bottle green, burgundy, beige, blue.
+
+Important: call it olive/green ONLY if the suit fabric itself clearly has a green hue. If it is a near-black or very dark neutral suit with warm/greenish lighting, choose black or charcoal.
+
+Return ONLY this JSON:
+{"color":"black","colorHex":"#111111","confidence":0.92,"reason":"brief reason"}`
 
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
@@ -159,6 +172,51 @@ const normalizeColor = (claudeColor) => {
   if (c.includes('white') || c.includes('oyster') || c.includes('off-white')) return 'white'
   if (c.includes('beige') || c.includes('sand') || c.includes('taupe')) return 'beige'
   return claudeColor
+}
+
+const hexToRgb = (hex) => {
+  const clean = String(hex || '').trim().replace('#', '')
+  if (!/^[0-9a-f]{6}$/i.test(clean)) return null
+  return {
+    r: parseInt(clean.slice(0, 2), 16),
+    g: parseInt(clean.slice(2, 4), 16),
+    b: parseInt(clean.slice(4, 6), 16),
+  }
+}
+
+const colorMetricsFromHex = (hex) => {
+  const rgb = hexToRgb(hex)
+  if (!rgb) return null
+  const { r, g, b } = rgb
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+  return {
+    ...rgb,
+    luma: r * 0.299 + g * 0.587 + b * 0.114,
+    chroma: max - min,
+    greenLead: g - Math.max(r, b),
+  }
+}
+
+const GREENISH_COLOR_KEYS = new Set(['olive', 'green', 'forestgreen', 'bottle', 'sage', 'moss', 'jade'])
+
+const correctNearBlackSuitColor = (piece) => {
+  if (!piece?.visible) return piece
+  const metrics = colorMetricsFromHex(piece.colorHex)
+  if (!metrics || !GREENISH_COLOR_KEYS.has(piece.color)) return piece
+
+  const veryDark = metrics.luma < 36
+  const darkNeutral = metrics.luma < 58 && metrics.chroma < 30 && metrics.greenLead < 16
+  if (!veryDark && !darkNeutral) return piece
+
+  const corrected = metrics.luma < 32 ? 'black' : 'charcoal'
+  return {
+    ...piece,
+    color: corrected,
+    colorLabel: corrected === 'black' ? 'Black' : 'Charcoal Grey',
+    colorCorrectionNote: `Auto-corrected from ${piece.colorLabel || piece.color} because the suit color was very dark/neutral.`,
+    confidence: Math.min(piece.confidence || 0.5, 0.72),
+  }
 }
 
 const fileToBase64 = (file) => {
@@ -322,10 +380,48 @@ export function useClaudeVision() {
       const cleanText = rawText.replaceAll(fence + "json", "").replaceAll(fence, "").trim()
       const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
       const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleanText)
+
+      if (parsed.suit?.visible !== false && GREENISH_COLOR_KEYS.has(normalizeColor(parsed.suit?.color))) {
+        try {
+          const auditResponse = await fetch("/api/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: "claude-haiku-4-5-20251001",
+              max_tokens: 300,
+              system: VISION_SYSTEM_PROMPT,
+              messages: [{ role: "user", content: [
+                { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Image } },
+                { type: "text", text: FULL_LOOK_SUIT_COLOR_AUDIT_PROMPT },
+              ]}],
+            }),
+          })
+          if (auditResponse.ok) {
+            const auditData = await auditResponse.json()
+            const auditRaw = auditData.content?.[0]?.text || ""
+            const auditClean = auditRaw.replaceAll(fence + "json", "").replaceAll(fence, "").trim()
+            const auditJsonMatch = auditClean.match(/\{[\s\S]*\}/)
+            const audit = JSON.parse(auditJsonMatch ? auditJsonMatch[0] : auditClean)
+            if (audit?.color) {
+              parsed.suit = {
+                ...parsed.suit,
+                color: audit.color,
+                colorHex: audit.colorHex || parsed.suit.colorHex,
+                confidence: audit.confidence || parsed.suit.confidence,
+                colorAuditReason: audit.reason || "",
+              }
+              parsed.notes = [parsed.notes, audit.reason ? `Suit color audit: ${audit.reason}` : "Suit color audit applied."].filter(Boolean).join(" ")
+            }
+          }
+        } catch (auditErr) {
+          console.warn("[Dapper Full Look] Suit color audit skipped:", auditErr)
+        }
+      }
       setRawResult(parsed)
 
       const isVisible = (piece) => piece && piece.visible !== false && (piece.color || piece.pattern || piece.fabric || piece.material || piece.style)
-      const normalizeDetectedPiece = (piece, fallbackHex) => isVisible(piece) ? {
+      const normalizeDetectedPiece = (piece, fallbackHex, role) => {
+        const normalized = isVisible(piece) ? {
         color: normalizeColor(piece.color),
         colorLabel: piece.color || "Unknown",
         colorHex: piece.colorHex || fallbackHex,
@@ -339,7 +435,9 @@ export function useClaudeVision() {
         material: piece.material,
         confidence: piece.confidence || 0.5,
         visible: true,
-      } : { visible: false }
+        } : { visible: false }
+        return role === "suit" ? correctNearBlackSuitColor(normalized) : normalized
+      }
 
       const score = Number(parsed.fashionPolice?.score)
       const fashionPolice = {
@@ -352,18 +450,19 @@ export function useClaudeVision() {
         priorityFix: parsed.fashionPolice?.priorityFix || null,
       }
 
+      const detectedSuit = normalizeDetectedPiece(parsed.suit, "#1a2744", "suit")
       const result = {
         raw: parsed,
-        suit: normalizeDetectedPiece(parsed.suit, "#1a2744"),
-        shirt: normalizeDetectedPiece(parsed.shirt, "#f8f6f2"),
-        tie: normalizeDetectedPiece(parsed.tie, "#2c1a4a"),
-        pocketSquare: normalizeDetectedPiece(parsed.pocketSquare, "#f8f6f2"),
-        shoes: normalizeDetectedPiece(parsed.shoes, "#1a1a1a"),
-        belt: normalizeDetectedPiece(parsed.belt, "#3a2417"),
+        suit: detectedSuit,
+        shirt: normalizeDetectedPiece(parsed.shirt, "#f8f6f2", "shirt"),
+        tie: normalizeDetectedPiece(parsed.tie, "#2c1a4a", "tie"),
+        pocketSquare: normalizeDetectedPiece(parsed.pocketSquare, "#f8f6f2", "pocketSquare"),
+        shoes: normalizeDetectedPiece(parsed.shoes, "#1a1a1a", "shoes"),
+        belt: normalizeDetectedPiece(parsed.belt, "#3a2417", "belt"),
         fashionPolice,
         imageQuality: parsed.imageQuality || "unknown",
         lighting: parsed.lighting || "unknown",
-        notes: parsed.notes || "",
+        notes: [parsed.notes, detectedSuit.colorCorrectionNote].filter(Boolean).join(" "),
       }
       setIsAnalyzing(false)
       return { success: true, data: result }

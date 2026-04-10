@@ -19118,9 +19118,12 @@ function getAnalysisFromPhotoResult(result) {
     "Chalk Stripe / Pinstripe": "chalk_stripe",
     "Chalk Stripe":             "chalk_stripe",
     "Pin Stripe":               "chalk_stripe",
+    "Pinstripe":                "chalk_stripe",
     "Horizontal Stripe":        "chalk_stripe",
+    "Glen Plaid":               "glen_plaid",
     "Glen Plaid / Check":       "glen_plaid",
     "Bold Pattern / Tweed":     "tweed",
+    "Tweed":                    "tweed",
     "Herringbone":              "herringbone",
     "Houndstooth":              "houndstooth",
     "Linen":                    "linen",
@@ -20484,6 +20487,24 @@ function fullLookSuitPhotoResult(fullLook) {
   }
 }
 
+const FULL_LOOK_SUIT_COLOR_OPTIONS = [
+  "Black", "Charcoal Grey", "Navy Blue", "Midnight Navy", "Medium Grey",
+  "Blue", "Brown", "Olive Green", "Forest Green", "Burgundy", "Beige / Tan", "White / Ivory",
+]
+
+function fullLookColorKeyFromLabel(label, fallback = "navy") {
+  const value = String(label || "").toLowerCase()
+  if (/midnight/.test(value)) return "midnight"
+  if (/navy|indigo/.test(value)) return "navy"
+  if (/charcoal|graphite|anthracite/.test(value)) return "charcoal"
+  if (/black|onyx|ebony/.test(value)) return "black"
+  if (/forest|hunter|bottle/.test(value)) return "forestgreen"
+  if (/sage/.test(value)) return "sage"
+  if (/olive|green/.test(value)) return "olive"
+  const validatorKey = classifyValidatorColorText(label)
+  return validatorKey || fallback || "navy"
+}
+
 // ─────────────────────────────────────────────
 // PAGE: AI ANALYZER
 // ─────────────────────────────────────────────
@@ -20514,6 +20535,8 @@ function AnalyzerPage() {
   const [correction, setCorrection]             = useState({ color:"", pattern:"", fabric:"" })
   const [correctingShirt, setCorrectingShirt]   = useState(false)
   const [shirtCorrection, setShirtCorrection]   = useState({ color:"", pattern:"" })
+  const [correctingFullLook, setCorrectingFullLook] = useState(false)
+  const [fullLookCorrection, setFullLookCorrection] = useState({ suitColor:"", suitPattern:"" })
   const suitInputRef  = { current: null }
   const shirtInputRef = { current: null }
 
@@ -20545,6 +20568,7 @@ function AnalyzerPage() {
   const runAnalysis = async () => {
     setKeyError("")
     setFullLookResult(null)
+    setCorrectingFullLook(false)
 
     // ── FULL LOOK MODE — API reads and judges the worn outfit ──
     if (mode === "D") {
@@ -20583,6 +20607,10 @@ function AnalyzerPage() {
 
       const outfitState = fullLookValidatorState(d, occasion)
       const validatorResult = validateOutfit(outfitState)
+      setFullLookCorrection({
+        suitColor: d.suit?.colorLabel || displayColorLabel(d.suit?.color) || "",
+        suitPattern: d.suit?.patternLabel || d.suit?.pattern || "Solid",
+      })
       setFullLookResult({ ...d, outfitState, validatorResult })
       setProgress(100)
       setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
@@ -20890,7 +20918,7 @@ function AnalyzerPage() {
                   : <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:GOLD}}>✦ AI Analysis</span>
               }
             </div>
-            <button onClick={()=>{setDone(false);setShirtIdx(0);setTieIdx(null);setPkgIdx(null);setComboAssessment(null);setPhotoResult(null);setShirtPhotoResult(null);setFullLookResult(null);setSuitPhoto(null);setShirtPhoto(null);setFullLookPhoto(null);setSuitFile(null);setShirtFile(null);setFullLookFile(null);setCorrecting(false);setCorrection({color:'',pattern:'',fabric:''});setCorrectingShirt(false);setShirtCorrection({color:'',pattern:''})}} className="text-sm text-gray-400 hover:text-gray-600 underline">← New Analysis</button>
+            <button onClick={()=>{setDone(false);setShirtIdx(0);setTieIdx(null);setPkgIdx(null);setComboAssessment(null);setPhotoResult(null);setShirtPhotoResult(null);setFullLookResult(null);setSuitPhoto(null);setShirtPhoto(null);setFullLookPhoto(null);setSuitFile(null);setShirtFile(null);setFullLookFile(null);setCorrecting(false);setCorrection({color:'',pattern:'',fabric:''});setCorrectingShirt(false);setShirtCorrection({color:'',pattern:''});setCorrectingFullLook(false);setFullLookCorrection({suitColor:'',suitPattern:''})}} className="text-sm text-gray-400 hover:text-gray-600 underline">← New Analysis</button>
           </div>
 
           {/* FULL LOOK FASHION POLICE RESULT */}
@@ -20898,7 +20926,7 @@ function AnalyzerPage() {
             const fp = fullLookResult.fashionPolice || {}
             const local = fullLookResult.validatorResult || {}
             const score = fp.score ?? local.overallScore ?? 0
-            const verdict = fp.verdict || local.verdict || "Fashion Police Review"
+            const verdict = fp.score == null ? (local.verdict || fp.verdict || "Fashion Police Review") : (fp.verdict || local.verdict || "Fashion Police Review")
             const verdictColor = local.verdictColor || (score >= 9 ? "#166534" : score >= 7 ? "#1d4ed8" : score >= 5 ? "#92400e" : "#991b1b")
             const strengths = fp.strengths?.length ? fp.strengths : (local.compliments || [])
             const recommendations = fp.recommendations?.length
@@ -20913,6 +20941,8 @@ function AnalyzerPage() {
               ["Shoes", fullLookResult.outfitState?.shoes || "Not visible"],
               ["Belt", fullLookResult.outfitState?.belt || "Not visible"],
             ]
+            const detectedSuitColor = fullLookResult.suit?.colorLabel || displayColorLabel(fullLookResult.suit?.color) || "Unknown"
+            const detectedSuitPattern = fullLookResult.suit?.patternLabel || fullLookResult.suit?.pattern || "Solid"
             return (
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden border border-gray-100 bg-white shadow-sm">
@@ -20930,16 +20960,102 @@ function AnalyzerPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2 mb-4">
-                      {rows.map(([label, value]) => (
-                        <div key={label} className="rounded-xl p-3" style={{background:value && !/not visible|no tie detected/i.test(value) ? "#f1f5f9" : "#f8fafc",border:"1px solid #e5e7eb"}}>
-                          <div className="text-xs font-black tracking-wider text-gray-400">{label.toUpperCase()}</div>
-                          <div className="text-xs font-semibold text-gray-700 mt-1">{value || "Not visible"}</div>
-                        </div>
-                      ))}
-                    </div>
+	                    <div className="grid grid-cols-2 gap-2 mb-4">
+	                      {rows.map(([label, value]) => (
+	                        <div key={label} className="rounded-xl p-3" style={{background:value && !/not visible|no tie detected/i.test(value) ? "#f1f5f9" : "#f8fafc",border:"1px solid #e5e7eb"}}>
+	                          <div className="text-xs font-black tracking-wider text-gray-400">{label.toUpperCase()}</div>
+	                          <div className="text-xs font-semibold text-gray-700 mt-1">{value || "Not visible"}</div>
+	                        </div>
+	                      ))}
+	                    </div>
 
-                    {strengths.length > 0 && (
+	                    <div className="rounded-xl p-4 mb-4" style={{background:"#f8fafc",border:"1px solid #e5e7eb"}}>
+	                      <div className="flex items-start justify-between gap-3">
+	                        <div>
+	                          <div className="text-xs font-black tracking-wider text-gray-400 mb-1">SUIT COLOR CHECK</div>
+	                          <div className="text-sm font-bold text-gray-900">{detectedSuitColor} · {detectedSuitPattern}</div>
+	                          {fullLookResult.suit?.colorCorrectionNote && (
+	                            <div className="text-xs text-yellow-700 mt-1">{fullLookResult.suit.colorCorrectionNote}</div>
+	                          )}
+	                        </div>
+	                        <button onClick={()=>{setCorrectingFullLook(true);setFullLookCorrection({suitColor:detectedSuitColor,suitPattern:detectedSuitPattern})}}
+	                          className="px-3 py-1.5 rounded-lg text-xs font-black border-2 flex-shrink-0"
+	                          style={{borderColor:GOLD,color:"#92400e",background:"#fffbeb"}}>
+	                          Correct Suit
+	                        </button>
+	                      </div>
+	                      {correctingFullLook && (
+	                        <div className="mt-4 pt-4 border-t border-gray-200 space-y-3">
+	                          <div>
+	                            <div className="text-xs font-black text-gray-500 mb-2">COLOR</div>
+	                            <div className="flex flex-wrap gap-1.5">
+	                              {FULL_LOOK_SUIT_COLOR_OPTIONS.map(c=>(
+	                                <button key={c} onClick={()=>setFullLookCorrection(p=>({...p,suitColor:c}))}
+	                                  className="px-2 py-1 rounded-full text-xs font-bold border transition-all"
+	                                  style={fullLookCorrection.suitColor===c?{borderColor:GOLD,background:"#fffbeb",color:"#92400e"}:{borderColor:"#e5e7eb",color:"#6b7280",background:"white"}}>
+	                                  {c}
+	                                </button>
+	                              ))}
+	                            </div>
+	                          </div>
+	                          <div>
+	                            <div className="text-xs font-black text-gray-500 mb-2">PATTERN</div>
+	                            <div className="flex flex-wrap gap-1.5">
+	                              {["Solid","Chalk Stripe","Pin Stripe","Glen Plaid","Herringbone","Tweed","Houndstooth","Linen"].map(p=>(
+	                                <button key={p} onClick={()=>setFullLookCorrection(v=>({...v,suitPattern:p}))}
+	                                  className="px-2 py-1 rounded-full text-xs font-bold border transition-all"
+	                                  style={fullLookCorrection.suitPattern===p?{borderColor:GOLD,background:"#fffbeb",color:"#92400e"}:{borderColor:"#e5e7eb",color:"#6b7280",background:"white"}}>
+	                                  {p}
+	                                </button>
+	                              ))}
+	                            </div>
+	                          </div>
+	                          <div className="flex gap-2">
+	                            <button onClick={()=>{
+	                              const colorKey = fullLookColorKeyFromLabel(fullLookCorrection.suitColor, fullLookResult.suit?.color)
+	                              const patternLabel = fullLookCorrection.suitPattern || detectedSuitPattern
+	                              const next = {
+	                                ...fullLookResult,
+	                                suit: {
+	                                  ...fullLookResult.suit,
+	                                  color: colorKey,
+	                                  colorLabel: fullLookCorrection.suitColor || displayColorLabel(colorKey),
+	                                  pattern: validatorPatternKeyFromLabel(patternLabel),
+	                                  patternLabel,
+	                                  confidence: 1,
+	                                  colorCorrectionNote: "Manually corrected by user.",
+	                                },
+	                                fashionPolice: {
+	                                  ...(fullLookResult.fashionPolice || {}),
+	                                  score: null,
+	                                  verdict: "Corrected Fashion Police Review",
+	                                  assessment: `Rechecked using corrected suit color: ${fullLookCorrection.suitColor || displayColorLabel(colorKey)}.`,
+	                                  strengths: [],
+	                                  recommendations: [],
+	                                  priorityFix: null,
+	                                },
+	                              }
+	                              const suitResult = fullLookSuitPhotoResult(next)
+	                              if (suitResult) setAnalysisData(getAnalysisFromPhotoResult(suitResult))
+	                              const outfitState = fullLookValidatorState(next, occasion)
+	                              const validatorResult = validateOutfit(outfitState)
+	                              setFullLookResult({ ...next, outfitState, validatorResult })
+	                              setCorrectingFullLook(false)
+	                            }}
+	                              className="flex-1 py-2 rounded-xl text-xs font-black tracking-wider transition-all"
+	                              style={{background:GOLD,color:NAVY}}>
+	                              Apply Correction
+	                            </button>
+	                            <button onClick={()=>setCorrectingFullLook(false)}
+	                              className="px-4 py-2 rounded-xl text-xs font-bold border-2 border-gray-200 text-gray-500">
+	                              Cancel
+	                            </button>
+	                          </div>
+	                        </div>
+	                      )}
+	                    </div>
+
+	                    {strengths.length > 0 && (
                       <div className="rounded-xl p-4 mb-3" style={{background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
                         <div className="text-xs font-black tracking-wider text-green-700 mb-2">WHAT WORKS</div>
                         <ul className="space-y-1 text-sm text-green-800">
