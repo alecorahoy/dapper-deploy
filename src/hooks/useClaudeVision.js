@@ -337,41 +337,79 @@ const fileToRawVisionImage = async (file) => {
   const dataURL = await readFileAsDataURL(file)
   const base64 = String(dataURL || '').split(',')[1]
   if (!base64) throw new Error('Could not read image data from the selected file.')
-  return { base64, mediaType }
+  return { base64, mediaType, source: 'raw' }
 }
 
-const fileToVisionImage = (file) => {
+const fileToVisionImage = (file, options = {}) => {
+  const {
+    maxSize = 800,
+    quality = 0.7,
+    outputType = 'image/jpeg',
+    allowRawFallback = true,
+  } = options
+
   return new Promise((resolve, reject) => {
     const img = new Image()
     const url = URL.createObjectURL(file)
+    const fallbackToRaw = () => {
+      if (!allowRawFallback) {
+        reject(new Error('Could not create a compatible preview image from the selected file.'))
+        return
+      }
+      fileToRawVisionImage(file).then(resolve).catch(reject)
+    }
     img.onload = () => {
       try {
-        const MAX = 800
         let w = img.width, h = img.height
-        if (w > MAX || h > MAX) {
-          if (w > h) { h = Math.round(h * MAX / w); w = MAX }
-          else { w = Math.round(w * MAX / h); h = MAX }
+        if (!w || !h) throw new Error('The selected image has no readable dimensions.')
+        if (w > maxSize || h > maxSize) {
+          if (w > h) { h = Math.round(h * maxSize / w); w = maxSize }
+          else { w = Math.round(w * maxSize / h); h = maxSize }
         }
         const canvas = document.createElement('canvas')
         canvas.width = w; canvas.height = h
         const ctx = canvas.getContext('2d')
         ctx.drawImage(img, 0, 0, w, h)
         URL.revokeObjectURL(url)
-        const dataURL = canvas.toDataURL('image/jpeg', 0.7)
+        const dataURL = canvas.toDataURL(outputType, quality)
         const base64 = dataURL.split(',')[1]
         if (!base64) throw new Error('Could not compress the selected image.')
-        resolve({ base64, mediaType: 'image/jpeg' })
+        const mediaType = dataURL.slice(5, dataURL.indexOf(';')) || outputType
+        resolve({ base64, mediaType, source: 'canvas', maxSize })
       } catch (err) {
         URL.revokeObjectURL(url)
-        fileToRawVisionImage(file).then(resolve).catch(reject)
+        fallbackToRaw()
       }
     }
     img.onerror = () => {
       URL.revokeObjectURL(url)
-      fileToRawVisionImage(file).then(resolve).catch(reject)
+      fallbackToRaw()
     }
     img.src = url
   })
+}
+
+const isImageProcessingError = (message) => /could not process image|invalid image|unsupported image/i.test(String(message || ''))
+
+const requestFullLookAnalysis = async (visionImage) => {
+  const response = await fetch("/api/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 2400,
+      system: VISION_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: [
+        { type: "image", source: { type: "base64", media_type: visionImage.mediaType, data: visionImage.base64 } },
+        { type: "text", text: FULL_LOOK_USER_PROMPT },
+      ]}],
+    }),
+  })
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}))
+    throw new Error(apiErrorMessage(errData, response.status))
+  }
+  return response.json()
 }
 
 const auditSuitColorWithVision = async (visionImage, firstPassColor) => {
@@ -506,24 +544,26 @@ export function useClaudeVision() {
     try {
       if (!imageFile) throw new Error("No image file provided")
       const visionImage = await fileToVisionImage(imageFile)
-      const response = await fetch("/api/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 2400,
-          system: VISION_SYSTEM_PROMPT,
-          messages: [{ role: "user", content: [
-            { type: "image", source: { type: "base64", media_type: visionImage.mediaType, data: visionImage.base64 } },
-            { type: "text", text: FULL_LOOK_USER_PROMPT },
-          ]}],
-        }),
-      })
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}))
-        throw new Error(apiErrorMessage(errData, response.status))
+      let data
+      try {
+        data = await requestFullLookAnalysis(visionImage)
+      } catch (primaryErr) {
+        if (!isImageProcessingError(primaryErr.message)) throw primaryErr
+        if (visionImage.source === 'raw') {
+          throw new Error('Could not process image. Please export this photo as JPG or PNG and upload that version.')
+        }
+        try {
+          const retryImage = await fileToVisionImage(imageFile, {
+            maxSize: 512,
+            quality: 0.55,
+            outputType: 'image/png',
+            allowRawFallback: false,
+          })
+          data = await requestFullLookAnalysis(retryImage)
+        } catch (retryErr) {
+          throw new Error(`${retryErr.message}. Retried with a smaller PNG version and the API still could not process it.`)
+        }
       }
-      const data = await response.json()
       const rawText = data.content?.[0]?.text || ""
       const parsed = parseClaudeJson(rawText, 'Full Look')
       setRawResult(parsed)
