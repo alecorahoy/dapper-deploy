@@ -353,6 +353,43 @@ const fileToRawVisionImage = async (file) => {
   return { base64, mediaType, source: 'raw' }
 }
 
+const drawDecodedImageToVisionImage = (image, width, height, options, source) => {
+  const { maxSize, quality, outputType } = options
+  let w = width, h = height
+  if (!w || !h) throw new Error('The selected image has no readable dimensions.')
+  if (w > maxSize || h > maxSize) {
+    if (w > h) { h = Math.round(h * maxSize / w); w = maxSize }
+    else { w = Math.round(w * maxSize / h); h = maxSize }
+  }
+  const canvas = document.createElement('canvas')
+  canvas.width = w; canvas.height = h
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Could not prepare the selected image for analysis.')
+  ctx.drawImage(image, 0, 0, w, h)
+  const dataURL = canvas.toDataURL(outputType, quality)
+  const base64 = dataURL.split(',')[1]
+  if (!base64) throw new Error('Could not compress the selected image.')
+  const mediaType = dataURL.slice(5, dataURL.indexOf(';')) || outputType
+  return { base64, mediaType, source, maxSize }
+}
+
+const fileToBitmapVisionImage = async (file, options) => {
+  if (typeof createImageBitmap !== 'function') {
+    throw new Error('This browser cannot decode the selected image with createImageBitmap.')
+  }
+  let bitmap
+  try {
+    try {
+      bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' })
+    } catch {
+      bitmap = await createImageBitmap(file)
+    }
+    return drawDecodedImageToVisionImage(bitmap, bitmap.width, bitmap.height, options, 'bitmap')
+  } finally {
+    bitmap?.close?.()
+  }
+}
+
 const fileToVisionImage = (file, options = {}) => {
   const {
     maxSize = 800,
@@ -371,32 +408,24 @@ const fileToVisionImage = (file, options = {}) => {
       }
       fileToRawVisionImage(file).then(resolve).catch(reject)
     }
+    const fallbackToBitmapOrRaw = () => {
+      fileToBitmapVisionImage(file, { maxSize, quality, outputType })
+        .then(resolve)
+        .catch(fallbackToRaw)
+    }
     img.onload = () => {
       try {
-        let w = img.width, h = img.height
-        if (!w || !h) throw new Error('The selected image has no readable dimensions.')
-        if (w > maxSize || h > maxSize) {
-          if (w > h) { h = Math.round(h * maxSize / w); w = maxSize }
-          else { w = Math.round(w * maxSize / h); h = maxSize }
-        }
-        const canvas = document.createElement('canvas')
-        canvas.width = w; canvas.height = h
-        const ctx = canvas.getContext('2d')
-        ctx.drawImage(img, 0, 0, w, h)
+        const visionImage = drawDecodedImageToVisionImage(img, img.width, img.height, { maxSize, quality, outputType }, 'canvas')
         URL.revokeObjectURL(url)
-        const dataURL = canvas.toDataURL(outputType, quality)
-        const base64 = dataURL.split(',')[1]
-        if (!base64) throw new Error('Could not compress the selected image.')
-        const mediaType = dataURL.slice(5, dataURL.indexOf(';')) || outputType
-        resolve({ base64, mediaType, source: 'canvas', maxSize })
+        resolve(visionImage)
       } catch (err) {
         URL.revokeObjectURL(url)
-        fallbackToRaw()
+        fallbackToBitmapOrRaw()
       }
     }
     img.onerror = () => {
       URL.revokeObjectURL(url)
-      fallbackToRaw()
+      fallbackToBitmapOrRaw()
     }
     img.src = url
   })
