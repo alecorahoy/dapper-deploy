@@ -623,6 +623,9 @@ function rgbToHsl(r, g, b) {
 function classifyColor(h, s, l) {
   // Very dark / near black
   if (l < 15) return "black"
+  if (l < 22 && s < 28) return "black"
+  if (l < 30 && s < 18) return "charcoal"
+  if (l < 28 && h >= 10 && h <= 45 && s < 24) return "charcoal"
   // Very light / white / cream
   if (l > 80) return "beige"
   // Low saturation = greys / neutrals
@@ -19216,6 +19219,25 @@ const COLOR_FAMILY_LABELS = {
   jade:       "Jade Green",
 }
 
+const SUSPICIOUS_DARK_SUIT_KEYS = new Set(["brown","chocolate","olive","green","forestgreen","bottle","sage","moss","jade"])
+const LOCAL_DARK_NEUTRAL_KEYS = new Set(["black","charcoal"])
+
+function reconcileDarkSuitPhotoRead(visionSuitResult, localSuitResult) {
+  if (!visionSuitResult || !localSuitResult) return visionSuitResult
+  if (!SUSPICIOUS_DARK_SUIT_KEYS.has(visionSuitResult.colorKey)) return visionSuitResult
+  if (!LOCAL_DARK_NEUTRAL_KEYS.has(localSuitResult.colorKey)) return visionSuitResult
+  const correctedLabel = COLOR_FAMILY_LABELS[localSuitResult.colorKey] || visionSuitResult.colorLabel
+  return {
+    ...visionSuitResult,
+    colorKey: localSuitResult.colorKey,
+    colorLabel: correctedLabel,
+    r: localSuitResult.r,
+    g: localSuitResult.g,
+    b: localSuitResult.b,
+    colorCorrectionNote: visionSuitResult.colorCorrectionNote || `Local color sanity check changed ${visionSuitResult.colorLabel || visionSuitResult.colorKey} to ${correctedLabel}.`,
+  }
+}
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LOCAL COMBO ASSESSMENT ENGINE
@@ -20723,23 +20745,21 @@ function AnalyzerPage() {
       const visionResult = await analyzeOutfit(suitFile);
       if (visionResult.success && visionResult.data?.suit?.visible !== false && visionResult.data?.suit?.color) {
         const d = visionResult.data;
-        const analysis = getAnalysisFromPhotoResult({
+        const localSuitResult = await analyzePhotoLocally(suitPhoto)
+        const correctedPhotoResult = reconcileDarkSuitPhotoRead({
           colorKey: d.suit.color,
           patternInfo: { pattern: d.suit.patternLabel, fabric: d.suit.fabric, formality: 'Business Formal' },
           fabricStr: d.suit.fabric,
-          r: 26, g: 39, b: 78
-        });
-        setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
-        setPhotoResult({
-          colorKey: d.suit.color,
           colorLabel: d.suit.colorLabel,
           colorHex: d.suit.colorHex,
-          patternInfo: { pattern: d.suit.patternLabel, formality: 'Business Formal' },
-          fabricStr: d.suit.fabric,
+          colorCorrectionNote: d.suit.colorCorrectionNote,
           confidence: d.suit.confidence,
           visionData: d,
           r: 26, g: 39, b: 78
-        });
+        }, localSuitResult)
+        const analysis = getAnalysisFromPhotoResult(correctedPhotoResult);
+        setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
+        setPhotoResult(correctedPhotoResult);
       } else {
         const suitResult = await analyzePhotoLocally(suitPhoto);
         const analysis = getAnalysisFromPhotoResult(suitResult);
@@ -21222,6 +21242,9 @@ function AnalyzerPage() {
                       <>
                         <div className="text-sm font-bold text-gray-900">{photoResult.colorLabel || COLOR_FAMILY_LABELS[photoResult.colorKey]} · {photoResult.patternInfo.pattern}</div>
                         <div className="text-xs text-gray-500 mb-2">{photoResult.fabricStr} · {photoResult.patternInfo.formality}</div>
+                        {photoResult.colorCorrectionNote && (
+                          <div className="text-xs text-yellow-700 mb-2">{photoResult.colorCorrectionNote}</div>
+                        )}
                         <button onClick={()=>{ setCorrecting(true); setCorrection({ color:COLOR_FAMILY_LABELS[photoResult.colorKey], pattern:photoResult.patternInfo.pattern, fabric:photoResult.fabricStr }) }}
                           className="text-xs px-3 py-1.5 rounded-lg font-bold border-2 transition-all"
                           style={{borderColor:GOLD,color:"#92400e",background:"#fffbeb"}}>

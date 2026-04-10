@@ -126,7 +126,8 @@ Rules:
 - Ignore the tie, shirt, pocket square, wall, carpet, indoor light, and camera white balance.
 - If the suit reads black, near-black, tuxedo black, or dark neutral under warm/greenish lighting, return "black" or "charcoal".
 - Call it olive/green ONLY if the cloth itself clearly has a green hue in the main suit panels.
-- If you are uncertain between olive/green and black/charcoal, choose black/charcoal and lower confidence.
+- Call it brown ONLY if the cloth itself clearly has a brown hue in the main suit panels.
+- If you are uncertain between brown or olive/green and black/charcoal because of warm indoor light, shadows, or color cast, choose black/charcoal and lower confidence.
 - Use "charcoal" only when the cloth is visibly gray. If it is nearly black or reads as a black suit in normal menswear language, use "black".
 - Keep color separate from pattern and fabric. Do not put "herringbone" or "worsted wool" in the color field.
 
@@ -296,11 +297,18 @@ const parseClaudeJson = (rawText, context) => {
 
 const GREENISH_COLOR_KEYS = new Set(['olive', 'green', 'forestgreen', 'bottle', 'sage', 'moss', 'jade'])
 const NEUTRAL_SUIT_COLOR_KEYS = new Set(['black', 'charcoal', 'grey', 'gunmetal', 'slate', 'midnight', 'navy'])
+const BROWNISH_COLOR_KEYS = new Set(['brown', 'chocolate', 'caramel', 'copper', 'camel', 'tan', 'beige', 'taupe', 'fawn', 'wheat'])
 const GREENISH_COLOR_TEXT = /\b(olive|green|forest|hunter|bottle|moss|sage|jade|emerald|racing green|army green|military)\b/i
+const BROWNISH_COLOR_TEXT = /\b(brown|chocolate|espresso|walnut|cognac|camel|caramel|copper|bronze|tan|beige|khaki|taupe|fawn|buff|wheat)\b/i
 
 const isGreenishSuitRead = (piece) => {
   if (!piece?.visible) return false
   return GREENISH_COLOR_KEYS.has(piece.color) || GREENISH_COLOR_TEXT.test(piece.colorLabel || "")
+}
+
+const isBrownishSuitRead = (piece) => {
+  if (!piece?.visible) return false
+  return BROWNISH_COLOR_KEYS.has(piece.color) || BROWNISH_COLOR_TEXT.test(piece.colorLabel || "")
 }
 
 const isDarkNeutralMetrics = (metrics) => {
@@ -313,14 +321,16 @@ const isNeutralSuitRead = (piece) => {
   return NEUTRAL_SUIT_COLOR_KEYS.has(piece.color)
 }
 
+const isSuspiciousDarkSuitRead = (piece) => isGreenishSuitRead(piece) || isBrownishSuitRead(piece)
+
 const shouldTrustSuitColorAudit = (firstPass, audit) => {
-  if (!isGreenishSuitRead(firstPass) || !audit?.visible) return false
+  if (!isSuspiciousDarkSuitRead(firstPass) || !audit?.visible) return false
   if (isNeutralSuitRead(audit)) return true
   return isDarkNeutralMetrics(colorMetricsFromHex(audit.colorHex))
 }
 
 const preferBlackForGreenishNearBlackAudit = (firstPass, audit) => {
-  if (!isGreenishSuitRead(firstPass) || !audit?.visible || audit.color !== 'charcoal') return audit
+  if (!isSuspiciousDarkSuitRead(firstPass) || !audit?.visible || audit.color !== 'charcoal') return audit
   const metrics = colorMetricsFromHex(audit.colorHex)
   if (!metrics || metrics.luma >= 48 || metrics.chroma >= 26) return audit
   return {
@@ -350,10 +360,10 @@ const inferFabricFromText = (value) => {
 const correctNearBlackSuitColor = (piece) => {
   if (!piece?.visible) return piece
   const metrics = colorMetricsFromHex(piece.colorHex)
-  if (!metrics || !isGreenishSuitRead(piece)) return piece
+  if (!metrics || !isSuspiciousDarkSuitRead(piece)) return piece
 
   const veryDark = metrics.luma < 36
-  const darkNeutral = isDarkNeutralMetrics(metrics)
+  const darkNeutral = isDarkNeutralMetrics(metrics) && metrics.chroma < 28
   if (!veryDark && !darkNeutral) return piece
 
   const corrected = metrics.luma < 48 ? 'black' : 'charcoal'
@@ -616,15 +626,60 @@ export function useClaudeVision() {
       const parsed = parseClaudeJson(rawText, 'Suit Photo')
       setRawResult(parsed)
       console.log('[Dapper RAW] Claude says suit color:', parsed.suit?.color, '| normalized:', parsed.suit?.color ? parsed.suit.color.toLowerCase() : 'none')
+      const normalizeVisionPiece = (piece, fallbackHex, role) => {
+        const normalized = piece?.visible !== false
+          ? {
+              color: normalizeColor(piece?.color),
+              colorLabel: piece?.color || 'Unknown',
+              colorHex: piece?.colorHex || fallbackHex,
+              pattern: normalizePattern(piece?.pattern),
+              patternLabel: piece?.pattern || 'Unknown',
+              fabric: piece?.fabric || 'Unknown',
+              lapel: piece?.lapel || 'notch',
+              collar: piece?.collar || 'spread',
+              material: piece?.material || 'silk',
+              fold: piece?.fold || 'presidential',
+              confidence: piece?.confidence || 0.5,
+              visible: true,
+            }
+          : { visible: false }
+        return role === 'suit' ? correctNearBlackSuitColor(normalized) : normalized
+      }
+
+      const firstPassSuit = normalizeVisionPiece(parsed.suit, '#1a2744', 'suit')
+      let detectedSuit = firstPassSuit
+      const firstPassSuitLabel = firstPassSuit.colorLabel || parsed.suit?.color || 'unknown'
+      if (isSuspiciousDarkSuitRead(firstPassSuit)) {
+        try {
+          const audited = await auditSuitColorWithVision(visionImage, firstPassSuitLabel)
+          const auditedSuit = preferBlackForGreenishNearBlackAudit(firstPassSuit, normalizeVisionPiece(audited, firstPassSuit.colorHex || '#1a2744', 'suit'))
+          if (shouldTrustSuitColorAudit(firstPassSuit, auditedSuit)) {
+            detectedSuit = {
+              ...firstPassSuit,
+              color: auditedSuit.color,
+              colorLabel: auditedSuit.colorLabel,
+              colorHex: auditedSuit.colorHex || firstPassSuit.colorHex,
+              pattern: auditedSuit.pattern || firstPassSuit.pattern,
+              patternLabel: auditedSuit.patternLabel || firstPassSuit.patternLabel,
+              fabric: auditedSuit.fabric && auditedSuit.fabric !== 'Unknown' ? auditedSuit.fabric : firstPassSuit.fabric,
+              confidence: auditedSuit.confidence || firstPassSuit.confidence,
+              colorCorrectionNote: `Suit color rechecked by API: ${firstPassSuitLabel} -> ${auditedSuit.colorLabel}.`,
+            }
+          }
+        } catch (auditErr) {
+          console.warn('[Dapper Vision] Suit color audit failed; keeping first pass', auditErr)
+        }
+      }
+
       const result = {
         raw: parsed,
-        suit: parsed.suit?.visible !== false ? { color: normalizeColor(parsed.suit?.color), colorLabel: parsed.suit?.color || 'Unknown', colorHex: parsed.suit?.colorHex || '#1a2744', pattern: normalizePattern(parsed.suit?.pattern), patternLabel: parsed.suit?.pattern || 'Unknown', fabric: parsed.suit?.fabric || 'Unknown', lapel: parsed.suit?.lapel || 'notch', confidence: parsed.suit?.confidence || 0.5, visible: true } : { visible: false },
-        shirt: parsed.shirt?.visible !== false ? { color: normalizeColor(parsed.shirt?.color), colorLabel: parsed.shirt?.color || 'Unknown', colorHex: parsed.shirt?.colorHex || '#f8f6f2', pattern: normalizePattern(parsed.shirt?.pattern), patternLabel: parsed.shirt?.pattern || 'Unknown', fabric: parsed.shirt?.fabric || 'Unknown', collar: parsed.shirt?.collar || 'spread', confidence: parsed.shirt?.confidence || 0.5, visible: true } : { visible: false },
-        tie: parsed.tie?.visible !== false ? { color: normalizeColor(parsed.tie?.color), colorLabel: parsed.tie?.color || 'Unknown', colorHex: parsed.tie?.colorHex || '#2c1a4a', pattern: normalizePattern(parsed.tie?.pattern), patternLabel: parsed.tie?.pattern || 'Unknown', material: parsed.tie?.material || 'silk', confidence: parsed.tie?.confidence || 0.5, visible: true } : { visible: false },
-        pocketSquare: parsed.pocketSquare?.visible ? { color: normalizeColor(parsed.pocketSquare?.color), colorLabel: parsed.pocketSquare?.color || 'Unknown', colorHex: parsed.pocketSquare?.colorHex || '#f8f6f2', pattern: normalizePattern(parsed.pocketSquare?.pattern), patternLabel: parsed.pocketSquare?.pattern || 'Unknown', fold: parsed.pocketSquare?.fold || 'presidential', confidence: parsed.pocketSquare?.confidence || 0.5, visible: true } : { visible: false },
+        suit: detectedSuit,
+        shirt: normalizeVisionPiece(parsed.shirt, '#f8f6f2', 'shirt'),
+        tie: normalizeVisionPiece(parsed.tie, '#2c1a4a', 'tie'),
+        pocketSquare: normalizeVisionPiece(parsed.pocketSquare, '#f8f6f2', 'pocketSquare'),
         imageQuality: parsed.imageQuality || 'unknown',
         lighting: parsed.lighting || 'unknown',
-        notes: parsed.notes || '',
+        notes: [parsed.notes, detectedSuit.colorCorrectionNote].filter(Boolean).join(' '),
         overallConfidence: (() => {
           const v = [parsed.suit, parsed.shirt, parsed.tie, parsed.pocketSquare].filter(i => i?.visible !== false && i?.confidence)
           return v.length ? v.reduce((s, i) => s + i.confidence, 0) / v.length : 0.5
