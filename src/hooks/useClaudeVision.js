@@ -71,6 +71,29 @@ Rules:
 
 const SUIT_COLOR_AUDIT_SYSTEM_PROMPT = `You are a strict menswear photo color auditor. Your only job is to re-check the suit jacket/trouser color from the image, ignoring shirt, tie, pocket square, background, lighting cast, and shadows. Return ONLY valid JSON.`
 
+const FULL_LOOK_PREFLIGHT_SYSTEM_PROMPT = `You are an image intake classifier for a menswear outfit analyzer. Your job is only to decide whether the image is a real photo of a visible person wearing menswear clothing. Return ONLY valid JSON.`
+
+const FULL_LOOK_PREFLIGHT_PROMPT = `Classify this image before outfit analysis.
+
+Return outfitPhoto:true ONLY if this is a real photo of a visible person wearing clothing that can be analyzed as an outfit.
+
+Return outfitPhoto:false if the image is:
+- a screenshot of Discord, chat, app UI, a website, a document, a chart, text, food, landscape, or a meme
+- mostly text or UI
+- only an icon/avatar/cartoon/profile image
+- a screenshot that merely contains a tiny avatar or background clothing-like shapes
+
+Important exception: a screenshot of an actual outfit photo is acceptable ONLY if a real person wearing clothing is the main subject and fills a meaningful part of the image.
+
+Return ONLY this JSON:
+{
+  "outfitPhoto": false,
+  "visiblePerson": false,
+  "screenshotOrUi": true,
+  "reason": "This appears to be a Discord chat screenshot, not a real outfit photo.",
+  "confidence": 0.98
+}`
+
 const SUIT_COLOR_AUDIT_PROMPT = (firstPassColor) => `Re-check ONLY the suit color in this full outfit photo.
 
 The first pass said the suit was "${firstPassColor || "unknown"}". Audit that result carefully.
@@ -439,6 +462,13 @@ const isImageProcessingError = (message) => /could not process image|invalid ima
 
 const NON_OUTFIT_TEXT_PATTERN = /\b(screenshot|chat|discord|slack|message|ui|interface|screen|chart|graph|document|text|recipe|food|avatar|not an outfit|non-outfit|no person|no visible person|no clothing|not visible)\b/i
 
+const isRejectedByPreflight = (preflight) => {
+  if (!preflight) return false
+  if (preflight.outfitPhoto === false) return true
+  if (preflight.screenshotOrUi === true && preflight.visiblePerson !== true) return true
+  return false
+}
+
 const isNonOutfitFullLook = (parsed) => {
   if (parsed?.outfitDetected === false) return true
   const visibleMenswearPieces = [parsed?.suit, parsed?.shirt, parsed?.tie, parsed?.pocketSquare]
@@ -455,8 +485,31 @@ const isNonOutfitFullLook = (parsed) => {
 }
 
 const nonOutfitMessage = (parsed) => {
-  const reason = parsed?.notOutfitReason || parsed?.notes || 'This does not look like a full outfit photo.'
+  const reason = parsed?.reason || parsed?.notOutfitReason || parsed?.notes || 'This does not look like a full outfit photo.'
   return `This does not look like a full outfit photo: ${reason}. Please upload a real photo of the person wearing the suit, shirt, tie, and pocket square.`
+}
+
+const requestFullLookPreflight = async (visionImage) => {
+  const response = await fetch("/api/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 300,
+      system: FULL_LOOK_PREFLIGHT_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: [
+        { type: "image", source: { type: "base64", media_type: visionImage.mediaType, data: visionImage.base64 } },
+        { type: "text", text: FULL_LOOK_PREFLIGHT_PROMPT },
+      ]}],
+    }),
+  })
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}))
+    throw new Error(apiErrorMessage(errData, response.status))
+  }
+  const data = await response.json()
+  const rawText = data.content?.[0]?.text || ""
+  return parseClaudeJson(rawText, 'Full Look Preflight')
 }
 
 const requestFullLookAnalysis = async (visionImage) => {
@@ -612,6 +665,11 @@ export function useClaudeVision() {
     try {
       if (!imageFile) throw new Error("No image file provided")
       const visionImage = await fileToVisionImage(imageFile)
+      const preflight = await requestFullLookPreflight(visionImage)
+      if (isRejectedByPreflight(preflight)) {
+        throw new Error(nonOutfitMessage(preflight))
+      }
+
       let data
       try {
         data = await requestFullLookAnalysis(visionImage)
