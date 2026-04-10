@@ -20602,7 +20602,7 @@ function AnalyzerPage() {
       if (!visionResult.success) {
         setProgress(0)
         setAnalyzing(false)
-        setKeyError(visionResult.error ? `Full Look v3 analysis failed: ${visionResult.error}` : "Full Look v3 could not read this photo. Please reselect a JPG, PNG, or WebP image and try again.")
+        setKeyError(visionResult.error ? `Full Look analysis failed: ${visionResult.error}` : "Full Look could not read this photo. Please reselect a JPG, PNG, or WebP image and try again.")
         return
       }
 

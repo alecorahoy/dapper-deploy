@@ -40,6 +40,8 @@ Return ONLY a JSON object with this EXACT structure:
   "pocketSquare": { "visible": true, "color": "white", "colorHex": "#f8f6f2", "pattern": "solid", "fold": "TV fold", "confidence": 0.82 },
   "shoes": { "visible": false, "color": null, "colorHex": null, "style": null, "confidence": 0 },
   "belt": { "visible": false, "color": null, "material": null, "confidence": 0 },
+  "outfitDetected": true,
+  "notOutfitReason": null,
   "fashionPolice": {
     "approved": true,
     "score": 8,
@@ -55,6 +57,8 @@ Return ONLY a JSON object with this EXACT structure:
 }
 
 Rules:
+- If the image is a screenshot, chat app, chart, UI, document, food, landscape, or any non-outfit image, do NOT invent garments. Return outfitDetected:false, notOutfitReason with a short explanation, all garments visible:false, and fashionPolice score:null.
+- Analyze only real clothing worn by a visible person. Do not infer a suit, shirt, tie, or pocket square from icons, avatars, app screenshots, text, charts, or background colors.
 - Preserve exact garment relationships. Do not let a tie color become the suit color.
 - Keep color, pattern, and fabric separate. For example, use color:"black", pattern:"herringbone", fabric:"worsted wool" instead of color:"black herringbone worsted wool".
 - Suit color discipline: call the suit olive/green ONLY when the main suit panels clearly have a green hue. Do not label black wool as olive because of warm indoor light, shadows, camera white balance, or a yellow/green cast.
@@ -433,6 +437,28 @@ const fileToVisionImage = (file, options = {}) => {
 
 const isImageProcessingError = (message) => /could not process image|invalid image|unsupported image/i.test(String(message || ''))
 
+const NON_OUTFIT_TEXT_PATTERN = /\b(screenshot|chat|discord|slack|message|ui|interface|screen|chart|graph|document|text|recipe|food|avatar|not an outfit|non-outfit|no person|no visible person|no clothing|not visible)\b/i
+
+const isNonOutfitFullLook = (parsed) => {
+  if (parsed?.outfitDetected === false) return true
+  const visibleMenswearPieces = [parsed?.suit, parsed?.shirt, parsed?.tie, parsed?.pocketSquare]
+    .filter((piece) => piece?.visible && piece.confidence !== 0)
+  if (visibleMenswearPieces.length > 0) return false
+  const text = [
+    parsed?.notOutfitReason,
+    parsed?.notes,
+    parsed?.imageQuality,
+    parsed?.fashionPolice?.assessment,
+    parsed?.fashionPolice?.verdict,
+  ].filter(Boolean).join(' ')
+  return NON_OUTFIT_TEXT_PATTERN.test(text)
+}
+
+const nonOutfitMessage = (parsed) => {
+  const reason = parsed?.notOutfitReason || parsed?.notes || 'This does not look like a full outfit photo.'
+  return `This does not look like a full outfit photo: ${reason}. Please upload a real photo of the person wearing the suit, shirt, tie, and pocket square.`
+}
+
 const requestFullLookAnalysis = async (visionImage) => {
   const response = await fetch("/api/analyze", {
     method: "POST",
@@ -609,6 +635,9 @@ export function useClaudeVision() {
       const rawText = data.content?.[0]?.text || ""
       const parsed = parseClaudeJson(rawText, 'Full Look')
       setRawResult(parsed)
+      if (isNonOutfitFullLook(parsed)) {
+        throw new Error(nonOutfitMessage(parsed))
+      }
 
       const isVisible = (piece) => piece && piece.visible !== false && (piece.color || piece.pattern || piece.fabric || piece.material || piece.style)
       const normalizeDetectedPiece = (piece, fallbackHex, role) => {
