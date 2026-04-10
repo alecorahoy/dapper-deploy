@@ -77,6 +77,7 @@ Rules:
 - If the suit reads black, near-black, tuxedo black, or dark neutral under warm/greenish lighting, return "black" or "charcoal".
 - Call it olive/green ONLY if the cloth itself clearly has a green hue in the main suit panels.
 - If you are uncertain between olive/green and black/charcoal, choose black/charcoal and lower confidence.
+- Use "charcoal" only when the cloth is visibly gray. If it is nearly black or reads as a black suit in normal menswear language, use "black".
 - Keep color separate from pattern and fabric. Do not put "herringbone" or "worsted wool" in the color field.
 
 Return ONLY this JSON structure:
@@ -267,6 +268,18 @@ const shouldTrustSuitColorAudit = (firstPass, audit) => {
   return isDarkNeutralMetrics(colorMetricsFromHex(audit.colorHex))
 }
 
+const preferBlackForGreenishNearBlackAudit = (firstPass, audit) => {
+  if (!isGreenishSuitRead(firstPass) || !audit?.visible || audit.color !== 'charcoal') return audit
+  const metrics = colorMetricsFromHex(audit.colorHex)
+  if (!metrics || metrics.luma >= 48 || metrics.chroma >= 26) return audit
+  return {
+    ...audit,
+    color: 'black',
+    colorLabel: 'Black',
+    confidence: Math.min(audit.confidence || 0.7, 0.82),
+  }
+}
+
 const inferPatternFromText = (value) => {
   const inferred = normalizePattern(value)
   return inferred === 'solid' ? null : inferred
@@ -292,7 +305,7 @@ const correctNearBlackSuitColor = (piece) => {
   const darkNeutral = isDarkNeutralMetrics(metrics)
   if (!veryDark && !darkNeutral) return piece
 
-  const corrected = metrics.luma < 32 ? 'black' : 'charcoal'
+  const corrected = metrics.luma < 48 ? 'black' : 'charcoal'
   return {
     ...piece,
     color: corrected,
@@ -608,7 +621,7 @@ export function useClaudeVision() {
       if (isGreenishSuitRead(detectedSuit)) {
         try {
           const audited = await auditSuitColorWithVision(visionImage, firstPassSuitLabel)
-          const auditedSuit = normalizeDetectedPiece(audited, detectedSuit.colorHex, "suit")
+          const auditedSuit = preferBlackForGreenishNearBlackAudit(detectedSuit, normalizeDetectedPiece(audited, detectedSuit.colorHex, "suit"))
           if (shouldTrustSuitColorAudit(detectedSuit, auditedSuit)) {
             const patternLabel = auditedSuit.patternLabel && auditedSuit.patternLabel !== "solid"
               ? auditedSuit.patternLabel
