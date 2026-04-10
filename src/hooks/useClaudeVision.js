@@ -12,7 +12,8 @@ CRITICAL RULES:
 5. For fabrics: worsted wool, super 120s, super 150s, flannel, tweed, linen, cotton poplin, broadcloth, oxford cloth, end-on-end, chambray, silk, wool-silk blend
 6. Confidence must be a decimal 0.0-1.0 based on image clarity and your certainty
 7. If a garment is NOT visible in the image, set "visible": false for that item
-8. colorHex must be your best estimate of the actual hex color of the garment`
+8. colorHex must be your best estimate of the actual hex color of the garment
+9. Keep color, pattern, and fabric separate. The color field must contain only the garment color, never words like herringbone, stripe, worsted wool, flannel, or tweed`
 
 const VISION_USER_PROMPT = `Analyze this outfit photograph. Identify every visible garment and return a JSON object with this EXACT structure:
 
@@ -55,6 +56,7 @@ Return ONLY a JSON object with this EXACT structure:
 
 Rules:
 - Preserve exact garment relationships. Do not let a tie color become the suit color.
+- Keep color, pattern, and fabric separate. For example, use color:"black", pattern:"herringbone", fabric:"worsted wool" instead of color:"black herringbone worsted wool".
 - Suit color discipline: call the suit olive/green ONLY when the main suit panels clearly have a green hue. Do not label black wool as olive because of warm indoor light, shadows, camera white balance, or a yellow/green cast.
 - If the suit is near-black, jet black, tuxedo black, or a very dark neutral, use "black" or "charcoal". If uncertain between black and green, choose black/charcoal and lower confidence.
 - Evaluate suit/shirt/tie/pocket square harmony, pattern scale, color contrast, formality, and whether the pocket square matches too closely.
@@ -62,6 +64,31 @@ Rules:
 - score must be 0-10.
 - Keep strengths and recommendations to 1-2 short items each. Keep assessment to one short sentence.
 - Be specific and practical. Return ONLY JSON.`
+
+const SUIT_COLOR_AUDIT_SYSTEM_PROMPT = `You are a strict menswear photo color auditor. Your only job is to re-check the suit jacket/trouser color from the image, ignoring shirt, tie, pocket square, background, lighting cast, and shadows. Return ONLY valid JSON.`
+
+const SUIT_COLOR_AUDIT_PROMPT = (firstPassColor) => `Re-check ONLY the suit color in this full outfit photo.
+
+The first pass said the suit was "${firstPassColor || "unknown"}". Audit that result carefully.
+
+Rules:
+- Focus on the largest suit panels only: jacket body, lapels, sleeves, and trousers if visible.
+- Ignore the tie, shirt, pocket square, wall, carpet, indoor light, and camera white balance.
+- If the suit reads black, near-black, tuxedo black, or dark neutral under warm/greenish lighting, return "black" or "charcoal".
+- Call it olive/green ONLY if the cloth itself clearly has a green hue in the main suit panels.
+- If you are uncertain between olive/green and black/charcoal, choose black/charcoal and lower confidence.
+- Keep color separate from pattern and fabric. Do not put "herringbone" or "worsted wool" in the color field.
+
+Return ONLY this JSON structure:
+{
+  "visible": true,
+  "color": "black",
+  "colorHex": "#080806",
+  "pattern": "herringbone",
+  "fabric": "worsted wool",
+  "confidence": 0.86,
+  "reason": "One short reason for the color decision"
+}`
 
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
@@ -216,14 +243,53 @@ const parseClaudeJson = (rawText, context) => {
 }
 
 const GREENISH_COLOR_KEYS = new Set(['olive', 'green', 'forestgreen', 'bottle', 'sage', 'moss', 'jade'])
+const NEUTRAL_SUIT_COLOR_KEYS = new Set(['black', 'charcoal', 'grey', 'gunmetal', 'slate', 'midnight', 'navy'])
+const GREENISH_COLOR_TEXT = /\b(olive|green|forest|hunter|bottle|moss|sage|jade|emerald|racing green|army green|military)\b/i
+
+const isGreenishSuitRead = (piece) => {
+  if (!piece?.visible) return false
+  return GREENISH_COLOR_KEYS.has(piece.color) || GREENISH_COLOR_TEXT.test(piece.colorLabel || "")
+}
+
+const isDarkNeutralMetrics = (metrics) => {
+  if (!metrics) return false
+  return metrics.luma < 58 && metrics.chroma < 30 && metrics.greenLead < 16
+}
+
+const isNeutralSuitRead = (piece) => {
+  if (!piece?.visible) return false
+  return NEUTRAL_SUIT_COLOR_KEYS.has(piece.color)
+}
+
+const shouldTrustSuitColorAudit = (firstPass, audit) => {
+  if (!isGreenishSuitRead(firstPass) || !audit?.visible) return false
+  if (isNeutralSuitRead(audit)) return true
+  return isDarkNeutralMetrics(colorMetricsFromHex(audit.colorHex))
+}
+
+const inferPatternFromText = (value) => {
+  const inferred = normalizePattern(value)
+  return inferred === 'solid' ? null : inferred
+}
+
+const inferFabricFromText = (value) => {
+  const text = String(value || '').toLowerCase()
+  if (text.includes('worsted')) return 'worsted wool'
+  if (text.includes('flannel')) return 'flannel'
+  if (text.includes('tweed')) return 'tweed'
+  if (text.includes('linen')) return 'linen'
+  if (text.includes('cotton')) return 'cotton'
+  if (text.includes('wool')) return 'wool'
+  return null
+}
 
 const correctNearBlackSuitColor = (piece) => {
   if (!piece?.visible) return piece
   const metrics = colorMetricsFromHex(piece.colorHex)
-  if (!metrics || !GREENISH_COLOR_KEYS.has(piece.color)) return piece
+  if (!metrics || !isGreenishSuitRead(piece)) return piece
 
   const veryDark = metrics.luma < 36
-  const darkNeutral = metrics.luma < 58 && metrics.chroma < 30 && metrics.greenLead < 16
+  const darkNeutral = isDarkNeutralMetrics(metrics)
   if (!veryDark && !darkNeutral) return piece
 
   const corrected = metrics.luma < 32 ? 'black' : 'charcoal'
@@ -261,6 +327,29 @@ const fileToBase64 = (file) => {
     }
     img.src = url
   })
+}
+
+const auditSuitColorWithVision = async (base64Image, firstPassColor) => {
+  const response = await fetch("/api/analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 900,
+      system: SUIT_COLOR_AUDIT_SYSTEM_PROMPT,
+      messages: [{ role: "user", content: [
+        { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Image } },
+        { type: "text", text: SUIT_COLOR_AUDIT_PROMPT(firstPassColor) },
+      ]}],
+    }),
+  })
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}))
+    throw new Error(apiErrorMessage(errData, response.status))
+  }
+  const data = await response.json()
+  const rawText = data.content?.[0]?.text || ""
+  return parseClaudeJson(rawText, 'Suit Color Audit')
 }
 
 export function useClaudeVision() {
@@ -396,13 +485,17 @@ export function useClaudeVision() {
 
       const isVisible = (piece) => piece && piece.visible !== false && (piece.color || piece.pattern || piece.fabric || piece.material || piece.style)
       const normalizeDetectedPiece = (piece, fallbackHex, role) => {
+        const colorText = piece?.color || ""
+        const inferredPattern = role === "suit" ? inferPatternFromText(colorText) : null
+        const patternText = piece?.pattern || inferredPattern || "solid"
+        const fabricText = piece?.fabric || piece?.material || piece?.style || inferFabricFromText(colorText) || "Unknown"
         const normalized = isVisible(piece) ? {
-        color: normalizeColor(piece.color),
-        colorLabel: piece.color || "Unknown",
+        color: normalizeColor(colorText),
+        colorLabel: colorText || "Unknown",
         colorHex: piece.colorHex || fallbackHex,
-        pattern: normalizePattern(piece.pattern),
-        patternLabel: piece.pattern || "solid",
-        fabric: piece.fabric || piece.material || piece.style || "Unknown",
+        pattern: normalizePattern(patternText),
+        patternLabel: patternText,
+        fabric: fabricText,
         lapel: piece.lapel,
         collar: piece.collar,
         fold: piece.fold,
@@ -415,7 +508,7 @@ export function useClaudeVision() {
       }
 
       const score = Number(parsed.fashionPolice?.score)
-      const fashionPolice = {
+      let fashionPolice = {
         approved: Boolean(parsed.fashionPolice?.approved),
         score: Number.isFinite(score) ? Math.max(0, Math.min(10, score)) : null,
         verdict: parsed.fashionPolice?.verdict || "Fashion Police Review",
@@ -425,7 +518,43 @@ export function useClaudeVision() {
         priorityFix: parsed.fashionPolice?.priorityFix || null,
       }
 
-      const detectedSuit = normalizeDetectedPiece(parsed.suit, "#1a2744", "suit")
+      let detectedSuit = normalizeDetectedPiece(parsed.suit, "#1a2744", "suit")
+      const firstPassSuitLabel = detectedSuit.colorLabel || parsed.suit?.color || "unknown"
+      if (isGreenishSuitRead(detectedSuit)) {
+        try {
+          const audited = await auditSuitColorWithVision(base64Image, firstPassSuitLabel)
+          const auditedSuit = normalizeDetectedPiece(audited, detectedSuit.colorHex, "suit")
+          if (shouldTrustSuitColorAudit(detectedSuit, auditedSuit)) {
+            const patternLabel = auditedSuit.patternLabel && auditedSuit.patternLabel !== "solid"
+              ? auditedSuit.patternLabel
+              : detectedSuit.patternLabel
+            const fabric = auditedSuit.fabric && auditedSuit.fabric !== "Unknown" ? auditedSuit.fabric : detectedSuit.fabric
+            detectedSuit = {
+              ...detectedSuit,
+              color: auditedSuit.color,
+              colorLabel: auditedSuit.colorLabel,
+              colorHex: auditedSuit.colorHex || detectedSuit.colorHex,
+              pattern: auditedSuit.pattern || detectedSuit.pattern,
+              patternLabel,
+              fabric,
+              confidence: auditedSuit.confidence || detectedSuit.confidence,
+              colorCorrectionNote: `Suit color rechecked by API: ${firstPassSuitLabel} -> ${auditedSuit.colorLabel}.`,
+            }
+            fashionPolice = {
+              ...fashionPolice,
+              score: null,
+              verdict: "Corrected Fashion Police Review",
+              assessment: `Rechecked using corrected suit color: ${auditedSuit.colorLabel}.`,
+              strengths: [],
+              recommendations: [],
+              priorityFix: null,
+            }
+          }
+        } catch (auditErr) {
+          console.warn("[Dapper Full Look] Suit color audit failed; keeping first pass", auditErr)
+        }
+      }
+
       const result = {
         raw: parsed,
         suit: detectedSuit,
