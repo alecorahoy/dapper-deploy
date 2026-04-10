@@ -19259,18 +19259,18 @@ function parseComboFromText(text) {
 
   // Extract suit color
   const suitColors = [
-    [/(?:black)\s*suit|suit.*(?:black)/,"black"],
-    [/(?:charcoal|dark\s*gr[ae]y)\s*suit|suit.*(?:charcoal)/,"charcoal"],
-    [/(?:navy|midnight|dark\s*blue)\s*suit|suit.*(?:navy)/,"navy"],
-    [/(?:grey|gray|silver)\s*suit|suit.*(?:grey|gray)/,"grey"],
-    [/(?:blue|cobalt|royal)\s*suit|suit.*(?:blue)/,"blue"],
-    [/(?:burgundy|wine|oxblood|maroon)\s*suit|suit.*(?:burgundy)/,"burgundy"],
-    [/(?:brown|chocolate|cognac|tobacco)\s*suit|suit.*(?:brown)/,"brown"],
-    [/(?:beige|tan|camel|sand)\s*suit|suit.*(?:beige|tan)/,"beige"],
-    [/(?:green|olive|sage|forest)\s*suit|suit.*(?:green|olive)/,"green"],
-    [/(?:white|cream|ivory)\s*suit|suit.*(?:white|cream|ivory)/,"white"],
-    [/(?:purple|violet|plum)\s*suit|suit.*(?:purple)/,"purple"],
-    [/(?:red|crimson|scarlet)\s*suit|suit.*(?:red)/,"red"],
+    [/(?:black)\s*suit/,"black"],
+    [/(?:charcoal|dark\s*gr[ae]y)\s*suit/,"charcoal"],
+    [/(?:navy|midnight|dark\s*blue)\s*suit/,"navy"],
+    [/(?:grey|gray|silver)\s*suit/,"grey"],
+    [/(?:blue|cobalt|royal)\s*suit/,"blue"],
+    [/(?:burgundy|wine|oxblood|maroon)\s*suit/,"burgundy"],
+    [/(?:brown|chocolate|cognac|tobacco)\s*suit/,"brown"],
+    [/(?:beige|tan|camel|sand)\s*suit/,"beige"],
+    [/(?:green|olive|sage|forest)\s*suit/,"green"],
+    [/(?:white|cream|ivory)\s*suit/,"white"],
+    [/(?:purple|violet|plum)\s*suit/,"purple"],
+    [/(?:red|crimson|scarlet)\s*suit/,"red"],
   ]
   let suitColor = null
   for (const [rx, color] of suitColors) {
@@ -19301,6 +19301,10 @@ function parseComboFromText(text) {
       if (sameColorRx.test(t)) tieColor = suitColor
     }
   }
+
+  const tieContext = ((t.split(/\btie\b/)[0] || "").split(/\b(?:shirt|suit|blazer|jacket)\b/).pop() || "").trim()
+  if (/\bblue\b.*\bgreen\b|\bgreen\b.*\bblue\b/.test(tieContext)) tieColor = "blue and green"
+  if (/stripe|striped|stripes|repp/.test(tieContext)) tiePattern = "striped"
 
   // Extract shirt info
   let shirtColor = null
@@ -19522,6 +19526,7 @@ function getLocalAnalysis(text) {
   else if (/olive suit|forest green suit|olive blazer|olive wool|olive linen|army green suit/.test(t)) { colorKey = "olive"; colorMatched = true }
   else if (/beige|tan suit|sand suit/.test(t))                  { colorKey = "beige"; colorMatched = true }
   else if (/brown|chocolate|cognac suit|tobacco/.test(t))                  { colorKey = "brown"; colorMatched = true }
+  else if (/\bgreen\s+suit\b|\bsuit\s+(?:in\s+)?green\b|\bgreen\s+blazer\b/.test(t)) { colorKey = "green"; colorMatched = true }
   else if (/royal blue|bright blue|cobalt|electric blue|blue/.test(t))    { colorKey = "blue"; colorMatched = true }
   else if (/green|olive|sage|forest|hunter|emerald|moss|teal/.test(t))    { colorKey = "green"; colorMatched = true }
   else if (/white|cream|ivory|off.white|oyster|ecru/.test(t))             { colorKey = "white"; colorMatched = true }
@@ -19541,6 +19546,12 @@ function getLocalAnalysis(text) {
   else if (/seersucker/.test(t))                                           { patternKey = "seersucker"; patternMatched = true }
   else if (/flannel/.test(t))                                              { patternKey = "flannel"; patternMatched = true }
   else if (/stripe/.test(t))                                               { patternKey = "chalk_stripe"; patternMatched = true }
+
+  const suitPatternContext = (t.match(/(.{0,80}?\bsuit\b)/)?.[1] || t).trim()
+  if (patternKey === "chalk_stripe" && /stripe|striped|stripes|repp/.test(t) && !/stripe|striped|stripes|repp/.test(suitPatternContext)) {
+    patternKey = "solid"
+    patternMatched = false
+  }
 
   // Lookup in matrix
   const matrixKey = colorKey + "|" + patternKey
