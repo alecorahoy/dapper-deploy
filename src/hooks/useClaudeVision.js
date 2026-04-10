@@ -26,6 +26,40 @@ const VISION_USER_PROMPT = `Analyze this outfit photograph. Identify every visib
 
 Be precise. Use professional menswear vocabulary. Return ONLY the JSON object.`
 
+const FULL_LOOK_USER_PROMPT = `Analyze this full menswear outfit photo. The person may be wearing a suit, shirt, tie, pocket square, shoes, and belt.
+
+First identify what is actually visible. Then judge the combination like a strict but useful "Fashion Police" menswear expert.
+
+Return ONLY a JSON object with this EXACT structure:
+
+{
+  "suit": { "visible": true, "color": "midnight navy", "colorHex": "#0a0f2e", "pattern": "solid", "fabric": "worsted wool", "lapel": "notch", "confidence": 0.94 },
+  "shirt": { "visible": true, "color": "white", "colorHex": "#f8f6f2", "pattern": "solid", "fabric": "cotton poplin", "collar": "spread", "confidence": 0.91 },
+  "tie": { "visible": true, "color": "burgundy", "colorHex": "#6d1a2a", "pattern": "grenadine", "material": "silk", "confidence": 0.88 },
+  "pocketSquare": { "visible": true, "color": "white", "colorHex": "#f8f6f2", "pattern": "solid", "fold": "TV fold", "confidence": 0.82 },
+  "shoes": { "visible": false, "color": null, "colorHex": null, "style": null, "confidence": 0 },
+  "belt": { "visible": false, "color": null, "material": null, "confidence": 0 },
+  "fashionPolice": {
+    "approved": true,
+    "score": 8,
+    "verdict": "Fashion Police Approved",
+    "assessment": "One or two direct sentences judging the exact combination.",
+    "strengths": ["Specific thing that works"],
+    "recommendations": ["Specific improvement if needed"],
+    "priorityFix": "The single most important improvement, or null if none"
+  },
+  "lighting": "natural daylight",
+  "imageQuality": "good",
+  "notes": "Important visibility limits, if any"
+}
+
+Rules:
+- Preserve exact garment relationships. Do not let a tie color become the suit color.
+- Evaluate suit/shirt/tie/pocket square harmony, pattern scale, color contrast, formality, and whether the pocket square matches too closely.
+- If an item is not visible, set visible:false for that item.
+- score must be 0-10.
+- Be specific and practical. Return ONLY JSON.`
+
 const TEXT_SYSTEM_PROMPT = `You are a menswear expert. Extract garment attributes from text and evaluate combinations. Return ONLY valid JSON, no markdown, no backticks.`
 
 const TEXT_USER_PROMPT = (userText) => [
@@ -258,6 +292,89 @@ export function useClaudeVision() {
     }
   }, [])
 
+  const analyzeFullLook = useCallback(async (imageFile) => {
+    setIsAnalyzing(true)
+    setError(null)
+    setRawResult(null)
+    try {
+      if (!imageFile) throw new Error("No image file provided")
+      const base64Image = await fileToBase64(imageFile)
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 1600,
+          system: VISION_SYSTEM_PROMPT,
+          messages: [{ role: "user", content: [
+            { type: "image", source: { type: "base64", media_type: "image/jpeg", data: base64Image } },
+            { type: "text", text: FULL_LOOK_USER_PROMPT },
+          ]}],
+        }),
+      })
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(errData?.error?.message || "API error: " + response.status)
+      }
+      const data = await response.json()
+      const rawText = data.content?.[0]?.text || ""
+      const fence = String.fromCharCode(96, 96, 96)
+      const cleanText = rawText.replaceAll(fence + "json", "").replaceAll(fence, "").trim()
+      const jsonMatch = cleanText.match(/\{[\s\S]*\}/)
+      const parsed = JSON.parse(jsonMatch ? jsonMatch[0] : cleanText)
+      setRawResult(parsed)
+
+      const isVisible = (piece) => piece && piece.visible !== false && (piece.color || piece.pattern || piece.fabric || piece.material || piece.style)
+      const normalizeDetectedPiece = (piece, fallbackHex) => isVisible(piece) ? {
+        color: normalizeColor(piece.color),
+        colorLabel: piece.color || "Unknown",
+        colorHex: piece.colorHex || fallbackHex,
+        pattern: normalizePattern(piece.pattern),
+        patternLabel: piece.pattern || "solid",
+        fabric: piece.fabric || piece.material || piece.style || "Unknown",
+        lapel: piece.lapel,
+        collar: piece.collar,
+        fold: piece.fold,
+        style: piece.style,
+        material: piece.material,
+        confidence: piece.confidence || 0.5,
+        visible: true,
+      } : { visible: false }
+
+      const score = Number(parsed.fashionPolice?.score)
+      const fashionPolice = {
+        approved: Boolean(parsed.fashionPolice?.approved),
+        score: Number.isFinite(score) ? Math.max(0, Math.min(10, score)) : null,
+        verdict: parsed.fashionPolice?.verdict || "Fashion Police Review",
+        assessment: parsed.fashionPolice?.assessment || parsed.notes || "Dapper reviewed the visible outfit elements.",
+        strengths: Array.isArray(parsed.fashionPolice?.strengths) ? parsed.fashionPolice.strengths : [],
+        recommendations: Array.isArray(parsed.fashionPolice?.recommendations) ? parsed.fashionPolice.recommendations : [],
+        priorityFix: parsed.fashionPolice?.priorityFix || null,
+      }
+
+      const result = {
+        raw: parsed,
+        suit: normalizeDetectedPiece(parsed.suit, "#1a2744"),
+        shirt: normalizeDetectedPiece(parsed.shirt, "#f8f6f2"),
+        tie: normalizeDetectedPiece(parsed.tie, "#2c1a4a"),
+        pocketSquare: normalizeDetectedPiece(parsed.pocketSquare, "#f8f6f2"),
+        shoes: normalizeDetectedPiece(parsed.shoes, "#1a1a1a"),
+        belt: normalizeDetectedPiece(parsed.belt, "#3a2417"),
+        fashionPolice,
+        imageQuality: parsed.imageQuality || "unknown",
+        lighting: parsed.lighting || "unknown",
+        notes: parsed.notes || "",
+      }
+      setIsAnalyzing(false)
+      return { success: true, data: result }
+    } catch (err) {
+      console.error("[Dapper Full Look] Error:", err)
+      setError(err.message)
+      setIsAnalyzing(false)
+      return { success: false, error: err.message, data: null }
+    }
+  }, [])
+
   const generateExoticAnalysis = useCallback(async (description, colorKey, patternKey) => {
     setIsAnalyzing(true)
     setError(null)
@@ -319,7 +436,7 @@ Use professional menswear vocabulary. Be specific with hex colors. User descript
     }
   }, [])
 
-  return { analyzeOutfit, analyzeText, generateExoticAnalysis, isAnalyzing, error, rawResult, clearError: () => setError(null) }
+  return { analyzeOutfit, analyzeFullLook, analyzeText, generateExoticAnalysis, isAnalyzing, error, rawResult, clearError: () => setError(null) }
 }
 
 export { normalizeColor, normalizePattern }

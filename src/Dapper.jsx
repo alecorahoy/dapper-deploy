@@ -20443,12 +20443,53 @@ function comboTextFromParsedDescription(parsedText, fallbackText) {
   return [suit, shirt, tie].filter(Boolean).join(" with ")
 }
 
+function fullLookPieceLabel(piece, noun) {
+  if (!piece?.visible) return ""
+  const color = piece.colorLabel || displayColorLabel(piece.color)
+  const pattern = piece.patternLabel && piece.patternLabel !== "solid" ? piece.patternLabel : ""
+  const fabric = piece.fabric && piece.fabric !== "Unknown" && noun !== "tie" && noun !== "pocket square" ? piece.fabric : ""
+  const style = piece.style && piece.style !== "Unknown" ? piece.style : ""
+  return [color, pattern, style || fabric || noun].filter(Boolean).join(" ").trim()
+}
+
+function fullLookValidatorState(fullLook, occasion) {
+  return {
+    suit: fullLookPieceLabel(fullLook?.suit, "suit"),
+    suitPattern: validatorPatternKeyFromLabel(fullLook?.suit?.patternLabel || fullLook?.suit?.pattern || "solid"),
+    shirt: fullLookPieceLabel(fullLook?.shirt, "shirt"),
+    tie: fullLookPieceLabel(fullLook?.tie, "tie"),
+    pocketSquare: fullLookPieceLabel(fullLook?.pocketSquare, "pocket square"),
+    shoes: fullLookPieceLabel(fullLook?.shoes, "shoes"),
+    belt: fullLookPieceLabel(fullLook?.belt, "belt"),
+    occasion,
+  }
+}
+
+function fullLookSuitPhotoResult(fullLook) {
+  if (!fullLook?.suit?.visible) return null
+  return {
+    colorKey: fullLook.suit.color || "navy",
+    colorLabel: fullLook.suit.colorLabel || displayColorLabel(fullLook.suit.color),
+    colorHex: fullLook.suit.colorHex || "#1B3A6B",
+    patternInfo: {
+      pattern: fullLook.suit.patternLabel || fullLook.suit.pattern || "Solid",
+      formality: "Detected from full look",
+    },
+    fabricStr: fullLook.suit.fabric || "Detected fabric",
+    confidence: fullLook.suit.confidence || 0.5,
+    visionData: fullLook,
+    r: 26,
+    g: 39,
+    b: 78,
+  }
+}
+
 // ─────────────────────────────────────────────
 // PAGE: AI ANALYZER
 // ─────────────────────────────────────────────
 
 function AnalyzerPage() {
-  const { analyzeOutfit, analyzeText } = useClaudeVision()
+  const { analyzeOutfit, analyzeFullLook, analyzeText } = useClaudeVision()
   const [mode, setMode]               = useState("A")
   const [analyzing, setAnalyzing]     = useState(false)
   const [done, setDone]               = useState(false)
@@ -20465,8 +20506,10 @@ function AnalyzerPage() {
   const [occasion, setOccasion]       = useState("All")
   const [suitPhoto, setSuitPhoto]     = useState(null)
   const [shirtPhoto, setShirtPhoto]   = useState(null)
+  const [fullLookPhoto, setFullLookPhoto] = useState(null)
   const [photoResult, setPhotoResult]           = useState(null)
   const [shirtPhotoResult, setShirtPhotoResult] = useState(null)
+  const [fullLookResult, setFullLookResult]     = useState(null)
   const [correcting, setCorrecting]             = useState(false)
   const [correction, setCorrection]             = useState({ color:"", pattern:"", fabric:"" })
   const [correctingShirt, setCorrectingShirt]   = useState(false)
@@ -20476,12 +20519,14 @@ function AnalyzerPage() {
 
   const [suitFile, setSuitFile] = useState(null)
   const [shirtFile, setShirtFile] = useState(null)
+  const [fullLookFile, setFullLookFile] = useState(null)
 
   const handlePhotoSelect = (e, setter) => {
     const file = e.target.files[0]
     if (!file || !file.type.startsWith("image/")) return
     if (setter === setSuitPhoto) setSuitFile(file)
     if (setter === setShirtPhoto) setShirtFile(file)
+    if (setter === setFullLookPhoto) setFullLookFile(file)
     const reader = new FileReader()
     reader.onload = (ev) => setter(ev.target.result)
     reader.readAsDataURL(file)
@@ -20499,8 +20544,52 @@ function AnalyzerPage() {
 
   const runAnalysis = async () => {
     setKeyError("")
+    setFullLookResult(null)
 
-    // ── PHOTO MODE — 100% local, no API ──
+    // ── FULL LOOK MODE — API reads and judges the worn outfit ──
+    if (mode === "D") {
+      if (!fullLookPhoto || !fullLookFile) {
+        setKeyError("Upload a full look photo first.")
+        return
+      }
+
+      setIsDemo(false)
+      setComboAssessment(null)
+      setPhotoResult(null)
+      setShirtPhotoResult(null)
+      setAnalyzing(true); setProgress(0); setCurrentStep(0)
+      let p = 0
+      const iv = setInterval(() => {
+        p += Math.random() * 10 + 3
+        setCurrentStep(Math.min(Math.floor((p / 100) * STEPS.length), STEPS.length - 1))
+        if (p >= 88) clearInterval(iv)
+        setProgress(Math.min(p, 88))
+      }, 220)
+
+      const visionResult = await analyzeFullLook(fullLookFile)
+      clearInterval(iv)
+
+      if (!visionResult.success) {
+        setProgress(0)
+        setAnalyzing(false)
+        setKeyError(visionResult.error || "Could not analyze this full look. Try a clearer photo.")
+        return
+      }
+
+      const d = visionResult.data
+      const suitResult = fullLookSuitPhotoResult(d)
+      if (suitResult) setAnalysisData(getAnalysisFromPhotoResult(suitResult))
+      else setAnalysisData(ANALYSIS)
+
+      const outfitState = fullLookValidatorState(d, occasion)
+      const validatorResult = validateOutfit(outfitState)
+      setFullLookResult({ ...d, outfitState, validatorResult })
+      setProgress(100)
+      setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
+      return
+    }
+
+    // ── PHOTO MODE — vision with local fallback ──
     if ((mode === "A" || mode === "B") && suitPhoto) {
       setIsDemo(true)
       setAnalyzing(true); setProgress(0); setCurrentStep(0)
@@ -20618,14 +20707,14 @@ function AnalyzerPage() {
     <div className="max-w-3xl mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-black text-gray-900">AI Suit Analyzer</h1>
-        <p className="text-gray-500 text-sm mt-1">Upload your suit and receive a complete wardrobe blueprint in seconds.</p>
+        <p className="text-gray-500 text-sm mt-1">Upload a suit, describe a combination, or send the Fashion Police a full worn look.</p>
       </div>
 
       {!done ? (
         <>
           {/* Mode selector */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            {[{id:"A",label:"Suit Only",sub:"1 photo"},{id:"B",label:"Suit + Shirt",sub:"2 photos"},{id:"C",label:"Text Description",sub:"Describe it"}].map(m=>(
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            {[{id:"A",label:"Suit Only",sub:"1 photo"},{id:"B",label:"Suit + Shirt",sub:"2 photos"},{id:"D",label:"Full Look",sub:"Fashion Police"},{id:"C",label:"Text Description",sub:"Describe it"}].map(m=>(
               <button key={m.id} onClick={()=>setMode(m.id)}
                 className={`py-3 px-4 rounded-xl border-2 text-left transition-all`}
                 style={mode===m.id?{borderColor:GOLD,background:"#fffbeb"}:{borderColor:"#e5e7eb",background:"white"}}>
@@ -20721,6 +20810,40 @@ function AnalyzerPage() {
             </div>
           )}
 
+          {mode==="D" && (
+            <div className="mb-6">
+              <label htmlFor="full-look-upload" style={{display:"block",cursor:"pointer"}}>
+                <div className="border-2 border-dashed rounded-2xl p-8 text-center transition-all hover:border-yellow-400 hover:bg-yellow-50"
+                  style={{borderColor: fullLookPhoto ? GOLD : "#e5e7eb", background: fullLookPhoto ? "#fffbeb" : "white"}}>
+                  {fullLookPhoto ? (
+                    <div className="relative">
+                      <img src={fullLookPhoto} alt="Full look" className="w-full max-h-[420px] object-cover rounded-xl mb-3"/>
+                      <div className="text-xs font-black text-yellow-700">Fashion Police photo ready</div>
+                      <div className="text-xs text-gray-400 mt-1">Tap to change</div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center bg-gray-100">
+                        <Shield size={26} className="text-gray-300"/>
+                      </div>
+                      <div className="font-black text-gray-800 text-sm mb-1">Full Look Photo</div>
+                      <div className="text-xs text-gray-400 max-w-sm mx-auto">Upload yourself already dressed with the suit, shirt, tie, and pocket square. Dapper will read the outfit with AI and judge the whole combination.</div>
+                      <div className="mt-3 text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-400 inline-block">Tap to take photo or upload</div>
+                    </>
+                  )}
+                </div>
+                <input
+                  id="full-look-upload"
+                  type="file"
+                  accept="image/*"
+                  style={{display:"none"}}
+                  onChange={e => handlePhotoSelect(e, setFullLookPhoto)}
+                />
+              </label>
+              <div className="text-xs text-gray-400 mt-2">Best results: full torso visible, natural light, tie and pocket square unobstructed.</div>
+            </div>
+          )}
+
           {mode==="C" && (
             <div className="mb-6">
               <textarea value={textInput} onChange={e=>setTextInput(e.target.value)}
@@ -20740,7 +20863,7 @@ function AnalyzerPage() {
             <button onClick={runAnalysis}
               className="w-full py-4 rounded-2xl font-bold text-base text-white flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-98"
               style={{background:`linear-gradient(135deg,${NAVY} 0%,#1e3a5f 100%)`}}>
-              <Wand2 size={20}/> Analyze My Suit
+              {mode === "D" ? <><Shield size={20}/> Fashion Police This Look</> : <><Wand2 size={20}/> Analyze My Suit</>}
             </button>
           ) : (
             <div className="rounded-2xl p-8 text-center" style={{background:NAVY}}>
@@ -20758,15 +20881,91 @@ function AnalyzerPage() {
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-black text-gray-900">Analysis Complete ✓</h2>
-              {photoResult
-                ? <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:"#059669"}}>📷 Photo Analysis — Instant</span>
+              {fullLookResult
+                ? <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:"#991b1b"}}>Fashion Police Review</span>
+                : photoResult
+                  ? <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:"#059669"}}>📷 Photo Analysis — Instant</span>
                 : isDemo
                   ? <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-400">DEMO — add API key for real results</span>
                   : <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:GOLD}}>✦ AI Analysis</span>
               }
             </div>
-            <button onClick={()=>{setDone(false);setShirtIdx(0);setTieIdx(null);setPkgIdx(null);setComboAssessment(null);setPhotoResult(null);setShirtPhotoResult(null);setSuitPhoto(null);setShirtPhoto(null);setCorrecting(false);setCorrection({color:'',pattern:'',fabric:''});setCorrectingShirt(false);setShirtCorrection({color:'',pattern:''})}} className="text-sm text-gray-400 hover:text-gray-600 underline">← New Analysis</button>
+            <button onClick={()=>{setDone(false);setShirtIdx(0);setTieIdx(null);setPkgIdx(null);setComboAssessment(null);setPhotoResult(null);setShirtPhotoResult(null);setFullLookResult(null);setSuitPhoto(null);setShirtPhoto(null);setFullLookPhoto(null);setSuitFile(null);setShirtFile(null);setFullLookFile(null);setCorrecting(false);setCorrection({color:'',pattern:'',fabric:''});setCorrectingShirt(false);setShirtCorrection({color:'',pattern:''})}} className="text-sm text-gray-400 hover:text-gray-600 underline">← New Analysis</button>
           </div>
+
+          {/* FULL LOOK FASHION POLICE RESULT */}
+          {fullLookResult && (() => {
+            const fp = fullLookResult.fashionPolice || {}
+            const local = fullLookResult.validatorResult || {}
+            const score = fp.score ?? local.overallScore ?? 0
+            const verdict = fp.verdict || local.verdict || "Fashion Police Review"
+            const verdictColor = local.verdictColor || (score >= 9 ? "#166534" : score >= 7 ? "#1d4ed8" : score >= 5 ? "#92400e" : "#991b1b")
+            const strengths = fp.strengths?.length ? fp.strengths : (local.compliments || [])
+            const recommendations = fp.recommendations?.length
+              ? fp.recommendations
+              : [...(local.issues || []), ...(local.warnings || [])].map(item => item.fix || item.message).filter(Boolean)
+            const priorityFix = fp.priorityFix && fp.priorityFix !== "null" ? fp.priorityFix : null
+            const rows = [
+              ["Suit", fullLookResult.outfitState?.suit],
+              ["Shirt", fullLookResult.outfitState?.shirt],
+              ["Tie", fullLookResult.outfitState?.tie || "No tie detected"],
+              ["Pocket Square", fullLookResult.outfitState?.pocketSquare || "Not visible"],
+              ["Shoes", fullLookResult.outfitState?.shoes || "Not visible"],
+              ["Belt", fullLookResult.outfitState?.belt || "Not visible"],
+            ]
+            return (
+              <div className="space-y-4">
+                <div className="rounded-2xl overflow-hidden border border-gray-100 bg-white shadow-sm">
+                  {fullLookPhoto && <img src={fullLookPhoto} alt="Full outfit" className="w-full max-h-[520px] object-cover"/>}
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div>
+                        <div className="text-xs font-black tracking-widest text-gray-400 mb-1">FASHION POLICE</div>
+                        <h3 className="text-2xl font-black" style={{color:verdictColor}}>{verdict}</h3>
+                        <p className="text-sm text-gray-500 mt-2 leading-relaxed">{fp.assessment || local.issues?.[0]?.message || "Dapper reviewed the visible outfit elements."}</p>
+                      </div>
+                      <div className="text-center rounded-2xl px-4 py-3 flex-shrink-0" style={{background:"#f8fafc",border:"1px solid #e5e7eb"}}>
+                        <div className="text-3xl font-black" style={{color:verdictColor}}>{score}</div>
+                        <div className="text-xs font-black text-gray-400">/10</div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      {rows.map(([label, value]) => (
+                        <div key={label} className="rounded-xl p-3" style={{background:value && !/not visible|no tie detected/i.test(value) ? "#f1f5f9" : "#f8fafc",border:"1px solid #e5e7eb"}}>
+                          <div className="text-xs font-black tracking-wider text-gray-400">{label.toUpperCase()}</div>
+                          <div className="text-xs font-semibold text-gray-700 mt-1">{value || "Not visible"}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {strengths.length > 0 && (
+                      <div className="rounded-xl p-4 mb-3" style={{background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
+                        <div className="text-xs font-black tracking-wider text-green-700 mb-2">WHAT WORKS</div>
+                        <ul className="space-y-1 text-sm text-green-800">
+                          {strengths.slice(0,3).map((item, i) => <li key={i}>{item}</li>)}
+                        </ul>
+                      </div>
+                    )}
+
+                    {(recommendations.length > 0 || priorityFix) && (
+                      <div className="rounded-xl p-4" style={{background:"#fffbeb",border:"1px solid " + GOLD}}>
+                        <div className="text-xs font-black tracking-wider text-yellow-700 mb-2">HOW TO IMPROVE IT</div>
+                        {priorityFix && <p className="text-sm font-bold text-yellow-900 mb-2">Priority: {priorityFix}</p>}
+                        <ul className="space-y-1 text-sm text-yellow-900">
+                          {recommendations.slice(0,4).map((item, i) => <li key={i}>{item}</li>)}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div className="mt-3 text-xs text-gray-400">
+                      AI read: {fullLookResult.imageQuality || "unknown"} image, {fullLookResult.lighting || "unknown"} lighting. {fullLookResult.notes || ""}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
 
           {/* Photo detected results — with correction UI */}
           {photoResult && (
