@@ -555,6 +555,10 @@ const fileToVisionImage = (file, options = {}) => {
 }
 
 const isImageProcessingError = (message) => /could not process image|invalid image|unsupported image/i.test(String(message || ''))
+const isRetryableVisionError = (message) => (
+  isImageProcessingError(message) ||
+  /too large for the analyzer|payload too large|could not compress/i.test(String(message || ''))
+)
 
 const NON_OUTFIT_TEXT_PATTERN = /\b(screenshot|chat|discord|slack|message|ui|interface|screen|chart|graph|document|text|recipe|food|avatar|not an outfit|non-outfit|no person|no visible person|no clothing|not visible)\b/i
 
@@ -666,8 +670,7 @@ const runVisionRequestWithFallbacks = async (imageFile, requestFn) => {
       return { data, visionImage, variant: variant.label }
     } catch (err) {
       lastErr = err
-      const retryable = isImageProcessingError(err.message) || /too large for the analyzer|payload too large|could not compress/i.test(String(err.message || ''))
-      if (!retryable || variant === variants[variants.length - 1]) break
+      if (!isRetryableVisionError(err.message) || variant === variants[variants.length - 1]) break
     }
   }
 
@@ -835,13 +838,19 @@ export function useClaudeVision() {
     setRawResult(null)
     try {
       if (!imageFile) throw new Error("No image file provided")
-      const visionImage = await fileToVisionImage(imageFile)
-      const preflight = await requestFullLookPreflight(visionImage)
+      const { data: preflight, visionImage: preflightVisionImage } = await runVisionRequestWithFallbacks(imageFile, requestFullLookPreflight)
       if (isRejectedByPreflight(preflight)) {
         throw new Error(nonOutfitMessage(preflight))
       }
 
-      const { data } = await runVisionRequestWithFallbacks(imageFile, (nextVisionImage) => requestFullLookAnalysis(nextVisionImage, styleProfile))
+      let data
+      try {
+        data = await requestFullLookAnalysis(preflightVisionImage, styleProfile)
+      } catch (primaryErr) {
+        if (!isRetryableVisionError(primaryErr.message)) throw primaryErr
+        const retried = await runVisionRequestWithFallbacks(imageFile, (nextVisionImage) => requestFullLookAnalysis(nextVisionImage, styleProfile))
+        data = retried.data
+      }
       const rawText = data.content?.[0]?.text || ""
       const parsed = parseClaudeJson(rawText, 'Full Look')
       setRawResult(parsed)
