@@ -651,6 +651,8 @@ function classifyColor(h, s, l) {
   }
   if (h >= 15 && h <= 40) {
     // Browns / tans / beige
+    if (l < 34 && s < 24) return "charcoal"
+    if (l < 40 && s < 18) return "charcoal"
     if (l < 35) return "brown"
     if (l < 55) return "brown"
     return "beige"
@@ -779,8 +781,19 @@ function analyzePhotoLocally(dataURL, options = {}) {
   })
 }
 
+const SUIT_LOCAL_CROPS = [
+  { label: "broad jacket", rect: { x: 0.12, y: 0.08, width: 0.76, height: 0.74 } },
+  { label: "left jacket panel", rect: { x: 0.10, y: 0.16, width: 0.26, height: 0.60 } },
+  { label: "right jacket panel", rect: { x: 0.64, y: 0.16, width: 0.26, height: 0.60 } },
+  { label: "left lapel body", rect: { x: 0.18, y: 0.16, width: 0.22, height: 0.54 } },
+  { label: "right lapel body", rect: { x: 0.60, y: 0.16, width: 0.22, height: 0.54 } },
+  { label: "core torso", rect: { x: 0.24, y: 0.12, width: 0.52, height: 0.56 } },
+]
+
 const FULL_LOOK_LOCAL_SUIT_CROPS = [
   { label: "broad torso", rect: { x: 0.18, y: 0.08, width: 0.64, height: 0.60 } },
+  { label: "left torso panel", rect: { x: 0.16, y: 0.16, width: 0.22, height: 0.50 } },
+  { label: "right torso panel", rect: { x: 0.62, y: 0.16, width: 0.22, height: 0.50 } },
   { label: "core torso", rect: { x: 0.24, y: 0.12, width: 0.52, height: 0.54 } },
   { label: "jacket body", rect: { x: 0.20, y: 0.18, width: 0.60, height: 0.46 } },
   { label: "tight jacket", rect: { x: 0.28, y: 0.16, width: 0.44, height: 0.48 } },
@@ -817,10 +830,10 @@ function scoreFullLookLocalSuitCandidate(result) {
   return score
 }
 
-async function analyzeFullLookSuitLocally(dataURL) {
+async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   const candidates = []
 
-  for (const crop of FULL_LOOK_LOCAL_SUIT_CROPS) {
+  for (const crop of cropSet) {
     const result = await analyzePhotoLocally(dataURL, { crop: crop.rect })
     if (!result) continue
     candidates.push({
@@ -851,6 +864,10 @@ async function analyzeFullLookSuitLocally(dataURL) {
   }
 
   return best
+}
+
+async function analyzeFullLookSuitLocally(dataURL) {
+  return analyzeSuitLocally(dataURL, FULL_LOOK_LOCAL_SUIT_CROPS)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -20871,7 +20888,7 @@ function AnalyzerPage() {
       const visionResult = await analyzeOutfit(suitFile);
       if (visionResult.success && visionResult.data?.suit?.visible !== false && visionResult.data?.suit?.color) {
         const d = visionResult.data;
-        const localSuitResult = await analyzePhotoLocally(suitPhoto)
+        const localSuitResult = await analyzeSuitLocally(suitPhoto)
         const correctedPhotoResult = reconcileDarkSuitPhotoRead({
           colorKey: d.suit.color,
           patternInfo: { pattern: d.suit.patternLabel, fabric: d.suit.fabric, formality: 'Business Formal' },
@@ -20887,7 +20904,7 @@ function AnalyzerPage() {
         setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
         setPhotoResult(correctedPhotoResult);
       } else {
-        const suitResult = await analyzePhotoLocally(suitPhoto);
+        const suitResult = await analyzeSuitLocally(suitPhoto);
         const analysis = getAnalysisFromPhotoResult(suitResult);
         setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
         if (suitResult) setPhotoResult(suitResult);
@@ -23850,7 +23867,12 @@ function OutfitValidatorPage() {
       } catch (visionErr) {
         console.warn("[Dapper Validator] Vision failed, using local detection", visionErr)
       }
-      if (!detected) detected = localDetectionForPiece(await analyzePhotoLocally(dataURL), pieceKey)
+      if (!detected) {
+        const localScan = pieceKey === "suit"
+          ? await analyzeSuitLocally(dataURL)
+          : await analyzePhotoLocally(dataURL)
+        detected = localDetectionForPiece(localScan, pieceKey)
+      }
       if (detected) {
         setPhotoDetected(prev => ({ ...prev, [pieceKey]: detected }))
         applyDetectedPiece(pieceKey, detected)
