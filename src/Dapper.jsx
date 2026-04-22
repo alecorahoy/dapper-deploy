@@ -19385,6 +19385,14 @@ const COLOR_FAMILY_LABELS = {
 const SUSPICIOUS_DARK_SUIT_KEYS = new Set(["brown","chocolate","olive","green","forestgreen","bottle","sage","moss","jade"])
 const LOCAL_DARK_NEUTRAL_KEYS = new Set(["black","charcoal"])
 
+function rgbToHexString(r, g, b) {
+  const values = [r, g, b].map((value) => {
+    const clamped = Math.max(0, Math.min(255, Math.round(Number(value) || 0)))
+    return clamped.toString(16).padStart(2, "0")
+  })
+  return `#${values.join("")}`
+}
+
 function reconcileDarkSuitPhotoRead(visionSuitResult, localSuitResult) {
   if (!visionSuitResult || !localSuitResult) return visionSuitResult
   if (!SUSPICIOUS_DARK_SUIT_KEYS.has(visionSuitResult.colorKey)) return visionSuitResult
@@ -19398,6 +19406,31 @@ function reconcileDarkSuitPhotoRead(visionSuitResult, localSuitResult) {
     g: localSuitResult.g,
     b: localSuitResult.b,
     colorCorrectionNote: visionSuitResult.colorCorrectionNote || `Local color sanity check changed ${visionSuitResult.colorLabel || visionSuitResult.colorKey} to ${correctedLabel}.`,
+  }
+}
+
+function reconcileDarkFullLookRead(fullLookResult, localSuitResult) {
+  if (!fullLookResult?.suit?.visible) return fullLookResult
+  const visionSuitResult = fullLookSuitPhotoResult(fullLookResult)
+  const correctedSuit = reconcileDarkSuitPhotoRead(visionSuitResult, localSuitResult)
+  if (!correctedSuit) return fullLookResult
+  if (correctedSuit.colorKey === visionSuitResult.colorKey) return fullLookResult
+
+  const correctionNote = correctedSuit.colorCorrectionNote || `Local suit audit rechecked the outfit as ${correctedSuit.colorLabel}.`
+  return {
+    ...fullLookResult,
+    suit: {
+      ...fullLookResult.suit,
+      color: correctedSuit.colorKey,
+      colorLabel: correctedSuit.colorLabel,
+      colorHex: correctedSuit.colorHex || rgbToHexString(correctedSuit.r, correctedSuit.g, correctedSuit.b) || fullLookResult.suit.colorHex,
+      colorCorrectionNote: correctionNote,
+    },
+    fashionPolice: fullLookResult.fashionPolice ? {
+      ...fullLookResult.fashionPolice,
+      assessment: [fullLookResult.fashionPolice.assessment, `Local suit audit rechecked the suit as ${correctedSuit.colorLabel}.`].filter(Boolean).join(" "),
+    } : fullLookResult.fashionPolice,
+    notes: [fullLookResult.notes, correctionNote].filter(Boolean).join(" "),
   }
 }
 
@@ -20911,7 +20944,8 @@ function AnalyzerPage() {
         return
       }
 
-      const d = visionResult.data
+      const localFullLookSuitResult = await analyzeFullLookSuitLocally(fullLookPhoto)
+      const d = reconcileDarkFullLookRead(visionResult.data, localFullLookSuitResult)
       const suitResult = fullLookSuitPhotoResult(d)
       if (suitResult) setAnalysisData(applyStyleLensToAnalysis(getAnalysisFromPhotoResult(suitResult), activeStyleLens))
       else setAnalysisData(ANALYSIS)
