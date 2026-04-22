@@ -20642,7 +20642,9 @@ function AnalyzerPage() {
   const [suitFile, setSuitFile] = useState(null)
   const [shirtFile, setShirtFile] = useState(null)
   const [fullLookFile, setFullLookFile] = useState(null)
+  const [preparingPhoto, setPreparingPhoto] = useState("")
   const selectedStyleLens = styleLensById(styleLens)
+  const isPreparingUpload = Boolean(preparingPhoto)
 
   useEffect(() => () => releaseObjectUrl(suitPhoto), [suitPhoto])
   useEffect(() => () => releaseObjectUrl(shirtPhoto), [shirtPhoto])
@@ -20656,6 +20658,8 @@ function AnalyzerPage() {
     }
     e.target.value = ""
     setKeyError("")
+    const slotLabel = setter === setSuitPhoto ? "suit" : setter === setShirtPhoto ? "shirt" : "full look"
+    setPreparingPhoto(isHeicLike(rawFile) ? `Converting ${slotLabel} photo from HEIC...` : `Preparing ${slotLabel} photo...`)
 
     let file = rawFile
     try {
@@ -20666,6 +20670,7 @@ function AnalyzerPage() {
       if (setter === setShirtPhoto) setShirtFile(null)
       if (setter === setFullLookPhoto) setFullLookFile(null)
       setter(null)
+      setPreparingPhoto("")
       return
     }
 
@@ -20681,6 +20686,7 @@ function AnalyzerPage() {
     if (isHeicLike(rawFile) && !isHeicLike(file)) {
       setKeyError("HEIC photo converted to JPG for compatibility.")
     }
+    setPreparingPhoto("")
   }
 
   const STEPS = [
@@ -20941,6 +20947,7 @@ function AnalyzerPage() {
                   id="suit-upload"
                   type="file"
                   accept="image/*,.heic,.heif"
+                  disabled={isPreparingUpload}
                   style={{display:"none"}}
                   onChange={e => handlePhotoSelect(e, setSuitPhoto)}
                 />
@@ -20972,7 +20979,7 @@ function AnalyzerPage() {
                     id="shirt-upload"
                     type="file"
                     accept="image/*,.heic,.heif"
-                    
+                    disabled={isPreparingUpload}
                     style={{display:"none"}}
                     onChange={e => handlePhotoSelect(e, setShirtPhoto)}
                   />
@@ -21008,6 +21015,7 @@ function AnalyzerPage() {
                   id="full-look-upload"
                   type="file"
                   accept="image/*,.heic,.heif"
+                  disabled={isPreparingUpload}
                   style={{display:"none"}}
                   onChange={e => handlePhotoSelect(e, setFullLookPhoto)}
                 />
@@ -21029,13 +21037,18 @@ function AnalyzerPage() {
             </div>
           )}
 
+          {preparingPhoto && <p className="text-xs text-blue-600 mb-3 px-1">{preparingPhoto}</p>}
           {keyError && <p className="text-xs text-red-400 mb-3 px-1">{keyError}</p>}
 
           {!analyzing ? (
-            <button onClick={runAnalysis}
+            <button onClick={runAnalysis} disabled={isPreparingUpload}
               className="w-full py-4 rounded-2xl font-bold text-base text-white flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-98"
-              style={{background:`linear-gradient(135deg,${NAVY} 0%,#1e3a5f 100%)`}}>
-              {mode === "D" ? <><Shield size={20}/> Fashion Police This Look</> : <><Wand2 size={20}/> Analyze My Suit</>}
+              style={{background:`linear-gradient(135deg,${NAVY} 0%,#1e3a5f 100%)`,opacity:isPreparingUpload?0.55:1}}>
+              {isPreparingUpload
+                ? <>Preparing Photo…</>
+                : mode === "D"
+                  ? <><Shield size={20}/> Fashion Police This Look</>
+                  : <><Wand2 size={20}/> Analyze My Suit</>}
             </button>
           ) : (
             <div className="rounded-2xl p-8 text-center" style={{background:NAVY}}>

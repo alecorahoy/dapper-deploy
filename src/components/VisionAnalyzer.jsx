@@ -1,6 +1,7 @@
 // VisionAnalyzer.jsx — Dapper AI Vision Component
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useClaudeVision } from '../hooks/useClaudeVision'
+import { ensureBrowserImageFile, isHeicLike } from '../utils/imageFiles.js'
 
 const confidenceColor = (score) => {
   if (score >= 0.85) return { bg: 'rgba(74, 222, 128, 0.12)', text: '#4ade80', label: 'High confidence' }
@@ -279,22 +280,48 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
   const [preview, setPreview] = useState(null)
   const [result, setResult] = useState(null)
   const [correctionTarget, setCorrectionTarget] = useState(null)
+  const [preparing, setPreparing] = useState(false)
+  const [notice, setNotice] = useState('')
+  const [localError, setLocalError] = useState('')
+
+  useEffect(() => () => {
+    if (preview?.startsWith?.('blob:')) URL.revokeObjectURL(preview)
+  }, [preview])
 
   const handleFileChange = useCallback(async (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    const imageLike = file.type?.startsWith('image/') || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || '')
+    const rawFile = e.target.files?.[0]
+    if (!rawFile) return
+    const imageLike = rawFile.type?.startsWith('image/') || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(rawFile.name || '')
     if (!imageLike) return
+    setPreparing(true)
+    setLocalError('')
+    setNotice('')
+    let file = rawFile
+    try {
+      file = await ensureBrowserImageFile(rawFile)
+    } catch (err) {
+      setPreview(null)
+      setResult(null)
+      setLocalError(err.message || 'Could not prepare this photo.')
+      clearError()
+      setPreparing(false)
+      return
+    }
+    if (preview?.startsWith?.('blob:')) URL.revokeObjectURL(preview)
     const url = URL.createObjectURL(file)
     setPreview(url)
     setResult(null)
     clearError()
+    if (isHeicLike(rawFile) && !isHeicLike(file)) {
+      setNotice('HEIC photo converted to JPG for compatibility.')
+    }
     const { success, data } = await analyzeOutfit(file)
     if (success && data) {
       setResult(data)
       onAnalysisComplete?.(data)
     }
-  }, [analyzeOutfit, onAnalysisComplete, clearError])
+    setPreparing(false)
+  }, [analyzeOutfit, onAnalysisComplete, clearError, preview])
 
   const handleDrop = useCallback((e) => {
     e.preventDefault()
@@ -325,8 +352,12 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
   }, [correctionTarget, result, onAnalysisComplete])
 
   const handleReset = () => {
+    if (preview?.startsWith?.('blob:')) URL.revokeObjectURL(preview)
     setPreview(null)
     setResult(null)
+    setNotice('')
+    setLocalError('')
+    setPreparing(false)
     clearError()
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
@@ -342,18 +373,19 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
           <div
             onDrop={handleDrop}
             onDragOver={e => e.preventDefault()}
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => !preparing && fileInputRef.current?.click()}
             style={{
               border: '2px dashed rgba(201,168,76,0.3)',
               borderRadius: 16,
               padding: '40px 24px',
               textAlign: 'center',
-              cursor: 'pointer',
+              cursor: preparing ? 'wait' : 'pointer',
               background: 'rgba(201,168,76,0.03)',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               gap: 12,
+              opacity: preparing ? 0.7 : 1,
             }}
           >
             <div style={{ fontSize: 40 }}>📸</div>
@@ -364,15 +396,17 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
                 color: '#f0ede6',
                 fontWeight: 700,
                 marginBottom: 6,
-              }}>Drop your outfit photo</div>
+              }}>{preparing ? 'Preparing your photo' : 'Drop your outfit photo'}</div>
               <div style={{
                 fontFamily: 'DM Sans, sans-serif',
                 fontSize: 12,
                 color: 'rgba(240,237,230,0.4)',
                 lineHeight: 1.5,
               }}>
-                Claude AI will identify color, pattern & fabric<br />
-                with expert menswear precision
+                {preparing
+                  ? 'Converting or optimizing the file for analysis...'
+                  : <>Claude AI will identify color, pattern & fabric<br />
+                    with expert menswear precision</>}
               </div>
             </div>
             <div style={{
@@ -384,7 +418,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
               padding: '8px 20px',
               borderRadius: 999,
               letterSpacing: '0.05em',
-            }}>Choose Photo</div>
+            }}>{preparing ? 'Preparing…' : 'Choose Photo'}</div>
           </div>
         )}
 
@@ -396,7 +430,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
                 alt="Outfit preview"
                 style={{ width: '100%', maxHeight: 320, objectFit: 'cover', display: 'block' }}
               />
-              {isAnalyzing && (
+              {(isAnalyzing || preparing) && (
                 <div style={{
                   position: 'absolute', inset: 0,
                   background: 'rgba(8,15,30,0.75)',
@@ -419,7 +453,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
                     fontSize: 14,
                     color: '#C9A84C',
                     fontStyle: 'italic',
-                  }}>Reading your outfit...</div>
+                  }}>{preparing ? 'Preparing your photo...' : 'Reading your outfit...'}</div>
                 </div>
               )}
               {result && !isAnalyzing && (
@@ -444,7 +478,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
                 </div>
               )}
             </div>
-            {!isAnalyzing && (
+            {!isAnalyzing && !preparing && (
               <button onClick={handleReset} style={{
                 background: 'transparent',
                 border: '1px solid rgba(255,255,255,0.1)',
@@ -460,7 +494,21 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
           </div>
         )}
 
-        {error && (
+        {notice && !localError && (
+          <div style={{
+            background: 'rgba(74,163,255,0.08)',
+            border: '1px solid rgba(74,163,255,0.22)',
+            borderRadius: 12,
+            padding: '12px 14px',
+            fontFamily: 'DM Sans, sans-serif',
+            fontSize: 12,
+            color: '#7dd3fc',
+          }}>
+            {notice}
+          </div>
+        )}
+
+        {(localError || error) && (
           <div style={{
             background: 'rgba(248,113,113,0.08)',
             border: '1px solid rgba(248,113,113,0.25)',
@@ -474,9 +522,9 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
               ⚠️ Detection failed
             </div>
             <div style={{ fontFamily: 'DM Mono, monospace', fontSize: 11, color: 'rgba(248,113,113,0.7)', wordBreak: 'break-word' }}>
-              {error}
+              {localError || error}
             </div>
-            <button onClick={clearError} style={{
+            <button onClick={() => { setLocalError(''); clearError() }} style={{
               background: 'transparent',
               border: '1px solid rgba(248,113,113,0.3)',
               borderRadius: 8,
@@ -557,6 +605,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
           ref={fileInputRef}
           type="file"
           accept="image/*,.heic,.heif"
+          disabled={preparing || isAnalyzing}
           onChange={handleFileChange}
           style={{ display: 'none' }}
         />
