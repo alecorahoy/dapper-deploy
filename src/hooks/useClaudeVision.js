@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { ensureBrowserImageFile } from '../utils/imageFiles.js'
+import { prepareVisionImageFile } from '../utils/imageFiles.js'
 
 const VISION_SYSTEM_PROMPT = `You are a world-class menswear expert and fashion director with 30 years of experience at Savile Row tailors and luxury fashion houses. You have an encyclopedic knowledge of suit fabrics, patterns, and color terminology used by professional stylists.
 
@@ -401,7 +401,7 @@ const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
 })
 
 const fileToRawVisionImage = async (file) => {
-  const compatibleFile = await ensureBrowserImageFile(file)
+  const compatibleFile = await prepareVisionImageFile(file)
   const mediaType = normalizeVisionMediaType(compatibleFile)
   if (!mediaType) {
     throw new Error('This image format is missing a readable file type. Please upload a JPG, PNG, or WebP photo.')
@@ -464,7 +464,7 @@ const fileToVisionImage = (file, options = {}) => {
   return new Promise(async (resolve, reject) => {
     let compatibleFile = file
     try {
-      compatibleFile = await ensureBrowserImageFile(file)
+      compatibleFile = await prepareVisionImageFile(file)
     } catch (err) {
       reject(err)
       return
