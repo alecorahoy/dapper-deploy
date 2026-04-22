@@ -20643,7 +20643,11 @@ function AnalyzerPage() {
   const [fullLookFile, setFullLookFile] = useState(null)
   const selectedStyleLens = styleLensById(styleLens)
 
-  const handlePhotoSelect = async (e, setter) => {
+  useEffect(() => () => releaseObjectUrl(suitPhoto), [suitPhoto])
+  useEffect(() => () => releaseObjectUrl(shirtPhoto), [shirtPhoto])
+  useEffect(() => () => releaseObjectUrl(fullLookPhoto), [fullLookPhoto])
+
+  const handlePhotoSelect = (e, setter) => {
     const file = e.target.files[0]
     if (!isImageFileLike(file)) {
       setKeyError("Please upload an image file: JPG, PNG, WebP, GIF, HEIC, or HEIF.")
@@ -20651,24 +20655,17 @@ function AnalyzerPage() {
     }
     e.target.value = ""
     setKeyError("")
+    const nextPreview = URL.createObjectURL(file)
+    if (setter === setSuitPhoto) releaseObjectUrl(suitPhoto)
+    if (setter === setShirtPhoto) releaseObjectUrl(shirtPhoto)
+    if (setter === setFullLookPhoto) releaseObjectUrl(fullLookPhoto)
     if (setter === setSuitPhoto) setSuitFile(file)
     if (setter === setShirtPhoto) setShirtFile(file)
     if (setter === setFullLookPhoto) setFullLookFile(file)
-    try {
-      const preview = await resizeInlinePhoto(file, { maxSide:900, quality:0.76, maxLength:680000 })
-      setter(preview)
-    } catch (err) {
-      try {
-        const rawPreview = await readFileDataUrl(file)
-        setter(rawPreview)
-        setKeyError("Preview fallback in use. If analysis fails, export the photo as JPG or PNG and try again.")
-      } catch {
-        if (setter === setSuitPhoto) setSuitFile(null)
-        if (setter === setShirtPhoto) setShirtFile(null)
-        if (setter === setFullLookPhoto) setFullLookFile(null)
-        setter(null)
-        setKeyError(err.message || "Could not read that photo. Please choose it again.")
-      }
+    setter(nextPreview)
+    const looksLikeHeic = /\.(heic|heif)$/i.test(file.name || "") || /heic|heif/i.test(file.type || "")
+    if (looksLikeHeic) {
+      setKeyError("HEIC/HEIF photo selected. Upload is ready, but if analysis fails please export it as JPG or PNG.")
     }
   }
 
@@ -21816,6 +21813,14 @@ function SectionLabel({n, label}) {
 
 function isImageFileLike(file) {
   return Boolean(file && (file.type?.startsWith("image/") || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || "")))
+}
+
+function isObjectUrl(value) {
+  return typeof value === "string" && value.startsWith("blob:")
+}
+
+function releaseObjectUrl(value) {
+  if (isObjectUrl(value)) URL.revokeObjectURL(value)
 }
 
 function readFileDataUrl(file) {
