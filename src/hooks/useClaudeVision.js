@@ -417,23 +417,48 @@ const fileToRawVisionImage = async (file) => {
 }
 
 const drawDecodedImageToVisionImage = (image, width, height, options, source) => {
-  const { maxSize, quality, outputType } = options
+  const { maxSize, quality, outputType, maxBase64Length = 1800000 } = options
   let w = width, h = height
   if (!w || !h) throw new Error('The selected image has no readable dimensions.')
   if (w > maxSize || h > maxSize) {
     if (w > h) { h = Math.round(h * maxSize / w); w = maxSize }
     else { w = Math.round(w * maxSize / h); h = maxSize }
   }
-  const canvas = document.createElement('canvas')
-  canvas.width = w; canvas.height = h
-  const ctx = canvas.getContext('2d')
-  if (!ctx) throw new Error('Could not prepare the selected image for analysis.')
-  ctx.drawImage(image, 0, 0, w, h)
-  const dataURL = canvas.toDataURL(outputType, quality)
-  const base64 = dataURL.split(',')[1]
-  if (!base64) throw new Error('Could not compress the selected image.')
-  const mediaType = dataURL.slice(5, dataURL.indexOf(';')) || outputType
-  return { base64, mediaType, source, maxSize }
+  let workingWidth = w
+  let workingHeight = h
+  let workingQuality = quality
+  const minQuality = outputType === 'image/png' ? quality : 0.42
+  const minSide = 280
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const canvas = document.createElement('canvas')
+    canvas.width = workingWidth
+    canvas.height = workingHeight
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('Could not prepare the selected image for analysis.')
+    ctx.drawImage(image, 0, 0, workingWidth, workingHeight)
+    const dataURL = canvas.toDataURL(outputType, workingQuality)
+    const base64 = dataURL.split(',')[1]
+    if (!base64) throw new Error('Could not compress the selected image.')
+    const mediaType = dataURL.slice(5, dataURL.indexOf(';')) || outputType
+    if (base64.length <= maxBase64Length || outputType === 'image/png') {
+      return { base64, mediaType, source, maxSize: Math.max(workingWidth, workingHeight) }
+    }
+
+    if (workingQuality > minQuality + 0.04) {
+      workingQuality = Math.max(minQuality, workingQuality - 0.08)
+      continue
+    }
+
+    if (Math.max(workingWidth, workingHeight) <= minSide) {
+      return { base64, mediaType, source, maxSize: Math.max(workingWidth, workingHeight) }
+    }
+
+    workingWidth = Math.max(1, Math.round(workingWidth * 0.82))
+    workingHeight = Math.max(1, Math.round(workingHeight * 0.82))
+  }
+
+  throw new Error('Could not compress the selected image to a stable size for analysis.')
 }
 
 const fileToBitmapVisionImage = async (file, options) => {
