@@ -19384,6 +19384,7 @@ const COLOR_FAMILY_LABELS = {
 
 const SUSPICIOUS_DARK_SUIT_KEYS = new Set(["brown","chocolate","olive","green","forestgreen","bottle","sage","moss","jade"])
 const LOCAL_DARK_NEUTRAL_KEYS = new Set(["black","charcoal"])
+const LOCAL_DARK_AUDIT_KEYS = new Set(["black","charcoal","navy"])
 
 function rgbToHexString(r, g, b) {
   const values = [r, g, b].map((value) => {
@@ -19396,12 +19397,13 @@ function rgbToHexString(r, g, b) {
 function reconcileDarkSuitPhotoRead(visionSuitResult, localSuitResult) {
   if (!visionSuitResult || !localSuitResult) return visionSuitResult
   if (!SUSPICIOUS_DARK_SUIT_KEYS.has(visionSuitResult.colorKey)) return visionSuitResult
-  if (!LOCAL_DARK_NEUTRAL_KEYS.has(localSuitResult.colorKey)) return visionSuitResult
+  if (!LOCAL_DARK_AUDIT_KEYS.has(localSuitResult.colorKey)) return visionSuitResult
   const correctedLabel = COLOR_FAMILY_LABELS[localSuitResult.colorKey] || visionSuitResult.colorLabel
   return {
     ...visionSuitResult,
     colorKey: localSuitResult.colorKey,
     colorLabel: correctedLabel,
+    colorHex: localSuitResult.colorHex || rgbToHexString(localSuitResult.r, localSuitResult.g, localSuitResult.b) || visionSuitResult.colorHex,
     r: localSuitResult.r,
     g: localSuitResult.g,
     b: localSuitResult.b,
