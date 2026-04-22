@@ -830,6 +830,42 @@ function scoreFullLookLocalSuitCandidate(result) {
   return score
 }
 
+function isSuitPanelCrop(label = "") {
+  return /panel|lapel/i.test(label)
+}
+
+function averageSuitMetric(candidates, key) {
+  if (!candidates.length) return 0
+  return candidates.reduce((sum, candidate) => sum + (Number(candidate?.[key]) || 0), 0) / candidates.length
+}
+
+function buildConsensusSuitCandidate(candidates, forcedColorKey) {
+  if (!candidates.length) return null
+  const base = [...candidates].sort((a, b) => b.localSuitScore - a.localSuitScore)[0]
+  const avgL = averageSuitMetric(candidates, "l")
+  const avgS = averageSuitMetric(candidates, "s")
+  const avgH = averageSuitMetric(candidates, "h")
+  const avgR = averageSuitMetric(candidates, "r")
+  const avgG = averageSuitMetric(candidates, "g")
+  const avgB = averageSuitMetric(candidates, "b")
+
+  return {
+    ...base,
+    colorKey: forcedColorKey || base.colorKey,
+    h: avgH,
+    s: avgS,
+    l: avgL,
+    r: Math.round(avgR),
+    g: Math.round(avgG),
+    b: Math.round(avgB),
+    sampleCoverage: averageSuitMetric(candidates, "sampleCoverage"),
+    darkPixelRatio: averageSuitMetric(candidates, "darkPixelRatio"),
+    neutralPixelRatio: averageSuitMetric(candidates, "neutralPixelRatio"),
+    cropLabel: `consensus: ${candidates.map((candidate) => candidate.cropLabel).join(", ")}`,
+    localSuitScore: averageSuitMetric(candidates, "localSuitScore"),
+  }
+}
+
 async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   const candidates = []
 
@@ -852,6 +888,26 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   candidates.sort((a, b) => b.localSuitScore - a.localSuitScore)
 
   const best = candidates[0]
+  const panelCandidates = candidates.filter((candidate) => isSuitPanelCrop(candidate.cropLabel))
+  const darkNeutralPanels = panelCandidates.filter((candidate) =>
+    LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey) &&
+    candidate.darkPixelRatio >= 0.42 &&
+    candidate.neutralPixelRatio >= 0.36
+  )
+  if (darkNeutralPanels.length >= 2) {
+    const avgL = averageSuitMetric(darkNeutralPanels, "l")
+    const forcedColorKey = avgL < 19 ? "black" : "charcoal"
+    return buildConsensusSuitCandidate(darkNeutralPanels, forcedColorKey)
+  }
+
+  const navyPanels = panelCandidates.filter((candidate) =>
+    candidate.colorKey === "navy" &&
+    candidate.darkPixelRatio >= 0.35
+  )
+  if (navyPanels.length >= 2 && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
+    return buildConsensusSuitCandidate(navyPanels, "navy")
+  }
+
   const bestDarkNeutral = candidates.find((candidate) => LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey))
   const bestNavy = candidates.find((candidate) => candidate.colorKey === "navy")
 
