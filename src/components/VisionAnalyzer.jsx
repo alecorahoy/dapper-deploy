@@ -1,7 +1,7 @@
 // VisionAnalyzer.jsx — Dapper AI Vision Component
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { useClaudeVision } from '../hooks/useClaudeVision'
-import { ensureBrowserImageFile, isHeicLike } from '../utils/imageFiles.js'
+import { isHeicLike, prepareVisionImageFile } from '../utils/imageFiles.js'
 
 const confidenceColor = (score) => {
   if (score >= 0.85) return { bg: 'rgba(74, 222, 128, 0.12)', text: '#4ade80', label: 'High confidence' }
@@ -299,7 +299,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
     setNotice('')
     let file = rawFile
     try {
-      file = await ensureBrowserImageFile(rawFile)
+      file = await prepareVisionImageFile(rawFile)
     } catch (err) {
       setPreview(null)
       setResult(null)
@@ -313,8 +313,8 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
     setPreview(url)
     setResult(null)
     clearError()
-    if (isHeicLike(rawFile) && !isHeicLike(file)) {
-      setNotice('HEIC photo converted to JPG for compatibility.')
+    if ((isHeicLike(rawFile) && !isHeicLike(file)) || (rawFile.type && file.type && rawFile.type !== file.type)) {
+      setNotice('Photo optimized to JPG for compatibility.')
     }
     const { success, data } = await analyzeOutfit(file)
     if (success && data) {

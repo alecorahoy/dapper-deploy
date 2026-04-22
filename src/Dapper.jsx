@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
 import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts, useProblemReports, useAdminProblemReports } from './hooks/useFirestore.js'
-import { ensureBrowserImageFile, isHeicLike } from './utils/imageFiles.js'
+import { ensureBrowserImageFile, isHeicLike, prepareVisionImageFile } from './utils/imageFiles.js'
 import AuthModal from './components/AuthModal.jsx'
 import {
   Shirt, Calendar, Users, Tag, Upload, Heart,
@@ -20663,7 +20663,7 @@ function AnalyzerPage() {
 
     let file = rawFile
     try {
-      file = await ensureBrowserImageFile(rawFile)
+      file = await prepareVisionImageFile(rawFile)
     } catch (err) {
       setKeyError(err.message || "Could not prepare that photo.")
       if (setter === setSuitPhoto) setSuitFile(null)
@@ -20683,8 +20683,8 @@ function AnalyzerPage() {
     if (setter === setFullLookPhoto) setFullLookFile(file)
     setter(nextPreview)
 
-    if (isHeicLike(rawFile) && !isHeicLike(file)) {
-      setKeyError("HEIC photo converted to JPG for compatibility.")
+    if ((isHeicLike(rawFile) && !isHeicLike(file)) || (rawFile.type && file.type && rawFile.type !== file.type)) {
+      setKeyError("Photo optimized to JPG for compatibility.")
     }
     setPreparingPhoto("")
   }
