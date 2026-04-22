@@ -4,9 +4,13 @@ export function isHeicLike(file) {
   return /\.(heic|heif)$/.test(name) || type.includes("heic") || type.includes("heif")
 }
 
+const PREPARED_JPEG_SUFFIX = "-dapper-ready"
+
 function normalizedJpegName(file) {
-  const baseName = String(file?.name || "photo").replace(/\.[a-z0-9]+$/i, "")
-  return `${baseName || "photo"}.jpg`
+  const baseName = String(file?.name || "photo")
+    .replace(/\.[a-z0-9]+$/i, "")
+    .replace(new RegExp(`${PREPARED_JPEG_SUFFIX}$`, "i"), "")
+  return `${baseName || "photo"}${PREPARED_JPEG_SUFFIX}.jpg`
 }
 
 function loadImageFromSrc(src) {
@@ -27,6 +31,31 @@ async function decodeBitmap(file) {
   } catch {
     return createImageBitmap(file)
   }
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onerror = () => reject(new Error("Could not read this image."))
+    reader.onload = () => resolve(reader.result)
+    reader.readAsDataURL(file)
+  })
+}
+
+function dataUrlToBlob(dataUrl) {
+  const [meta, data] = String(dataUrl || "").split(",")
+  const mime = meta?.match(/data:(.*?);base64/i)?.[1] || "image/jpeg"
+  if (!data) throw new Error("Could not convert this photo to a compatible JPG.")
+  const binary = atob(data)
+  const bytes = new Uint8Array(binary.length)
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i)
+  return new Blob([bytes], { type: mime })
+}
+
+function isPreparedJpeg(file) {
+  const name = String(file?.name || "").toLowerCase()
+  const type = String(file?.type || "").toLowerCase()
+  return type === "image/jpeg" && name.endsWith(`${PREPARED_JPEG_SUFFIX}.jpg`)
 }
 
 export async function ensureBrowserImageFile(file) {
@@ -56,6 +85,7 @@ export async function ensureBrowserImageFile(file) {
 export async function prepareVisionImageFile(file, { maxSide = 1600, quality = 0.88 } = {}) {
   const compatibleFile = await ensureBrowserImageFile(file)
   if (!compatibleFile) return compatibleFile
+  if (isPreparedJpeg(compatibleFile)) return compatibleFile
 
   const clampSize = (width, height) => {
     if (!width || !height) throw new Error("The selected image has no readable dimensions.")
@@ -76,8 +106,11 @@ export async function prepareVisionImageFile(file, { maxSide = 1600, quality = 0
     ctx.fillStyle = "#ffffff"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", quality))
-    if (!(blob instanceof Blob)) throw new Error("Could not convert this photo to a compatible JPG.")
+    let blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", quality))
+    if (!(blob instanceof Blob)) {
+      const dataUrl = canvas.toDataURL("image/jpeg", quality)
+      blob = dataUrlToBlob(dataUrl)
+    }
     return new File([blob], normalizedJpegName(compatibleFile), {
       type: "image/jpeg",
       lastModified: compatibleFile.lastModified || Date.now(),
@@ -97,8 +130,14 @@ export async function prepareVisionImageFile(file, { maxSide = 1600, quality = 0
         bitmap.close?.()
       }
     } catch (bitmapErr) {
-      console.warn("[Dapper Image] Vision file preparation fell back to original file", imgErr, bitmapErr)
-      return compatibleFile
+      try {
+        const dataUrl = await readFileAsDataUrl(compatibleFile)
+        const dataUrlImage = await loadImageFromSrc(dataUrl)
+        return await renderToJpegFile(dataUrlImage, dataUrlImage.width, dataUrlImage.height)
+      } catch (dataUrlErr) {
+        console.warn("[Dapper Image] Vision file preparation fell back to original file", imgErr, bitmapErr, dataUrlErr)
+        return compatibleFile
+      }
     }
   } finally {
     URL.revokeObjectURL(objectUrl)
