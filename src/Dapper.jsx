@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
 import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts, useProblemReports, useAdminProblemReports } from './hooks/useFirestore.js'
+import { ensureBrowserImageFile, isHeicLike } from './utils/imageFiles.js'
 import AuthModal from './components/AuthModal.jsx'
 import {
   Shirt, Calendar, Users, Tag, Upload, Heart,
@@ -20647,14 +20648,27 @@ function AnalyzerPage() {
   useEffect(() => () => releaseObjectUrl(shirtPhoto), [shirtPhoto])
   useEffect(() => () => releaseObjectUrl(fullLookPhoto), [fullLookPhoto])
 
-  const handlePhotoSelect = (e, setter) => {
-    const file = e.target.files[0]
-    if (!isImageFileLike(file)) {
+  const handlePhotoSelect = async (e, setter) => {
+    const rawFile = e.target.files[0]
+    if (!isImageFileLike(rawFile)) {
       setKeyError("Please upload an image file: JPG, PNG, WebP, GIF, HEIC, or HEIF.")
       return
     }
     e.target.value = ""
     setKeyError("")
+
+    let file = rawFile
+    try {
+      file = await ensureBrowserImageFile(rawFile)
+    } catch (err) {
+      setKeyError(err.message || "Could not prepare that photo.")
+      if (setter === setSuitPhoto) setSuitFile(null)
+      if (setter === setShirtPhoto) setShirtFile(null)
+      if (setter === setFullLookPhoto) setFullLookFile(null)
+      setter(null)
+      return
+    }
+
     const nextPreview = URL.createObjectURL(file)
     if (setter === setSuitPhoto) releaseObjectUrl(suitPhoto)
     if (setter === setShirtPhoto) releaseObjectUrl(shirtPhoto)
@@ -20663,9 +20677,9 @@ function AnalyzerPage() {
     if (setter === setShirtPhoto) setShirtFile(file)
     if (setter === setFullLookPhoto) setFullLookFile(file)
     setter(nextPreview)
-    const looksLikeHeic = /\.(heic|heif)$/i.test(file.name || "") || /heic|heif/i.test(file.type || "")
-    if (looksLikeHeic) {
-      setKeyError("HEIC/HEIF photo selected. Upload is ready, but if analysis fails please export it as JPG or PNG.")
+
+    if (isHeicLike(rawFile) && !isHeicLike(file)) {
+      setKeyError("HEIC photo converted to JPG for compatibility.")
     }
   }
 
@@ -21876,8 +21890,9 @@ function drawInlinePhoto(image, width, height, { maxSide, quality, maxLength }) 
 async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLength = 680000 } = {}) {
   if (!isImageFileLike(file)) throw new Error("Please choose an image file.")
 
+  const compatibleFile = await ensureBrowserImageFile(file)
   const options = { maxSide, quality, maxLength }
-  const objectUrl = URL.createObjectURL(file)
+  const objectUrl = URL.createObjectURL(compatibleFile)
   try {
     const img = await new Promise((resolve, reject) => {
       const image = new Image()
@@ -21889,7 +21904,7 @@ async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLengt
   } catch (imgErr) {
     if (typeof createImageBitmap === "function") {
       try {
-        const bitmap = await createImageBitmap(file)
+        const bitmap = await createImageBitmap(compatibleFile)
         try {
           return drawInlinePhoto(bitmap, bitmap.width, bitmap.height, options)
         } finally {
@@ -21899,8 +21914,8 @@ async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLengt
         // Fall through to the raw-data fallback below.
       }
     }
-    const dataUrl = await readFileDataUrl(file)
-    const looksLikeHeic = /\.(heic|heif)$/i.test(file.name || "") || /heic|heif/i.test(file.type || "")
+    const dataUrl = await readFileDataUrl(compatibleFile)
+    const looksLikeHeic = /\.(heic|heif)$/i.test(compatibleFile.name || "") || /heic|heif/i.test(compatibleFile.type || "")
     if (looksLikeHeic) throw new Error("This looks like a HEIC/HEIF photo. Please export it as JPG or PNG and try again.")
     if (dataUrl.length <= maxLength) return dataUrl
     throw imgErr

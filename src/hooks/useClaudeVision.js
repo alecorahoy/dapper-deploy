@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { ensureBrowserImageFile } from '../utils/imageFiles.js'
 
 const VISION_SYSTEM_PROMPT = `You are a world-class menswear expert and fashion director with 30 years of experience at Savile Row tailors and luxury fashion houses. You have an encyclopedic knowledge of suit fabrics, patterns, and color terminology used by professional stylists.
 
@@ -400,7 +401,8 @@ const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
 })
 
 const fileToRawVisionImage = async (file) => {
-  const mediaType = normalizeVisionMediaType(file)
+  const compatibleFile = await ensureBrowserImageFile(file)
+  const mediaType = normalizeVisionMediaType(compatibleFile)
   if (!mediaType) {
     throw new Error('This image format is missing a readable file type. Please upload a JPG, PNG, or WebP photo.')
   }
@@ -408,7 +410,7 @@ const fileToRawVisionImage = async (file) => {
     throw new Error('This looks like a HEIC/HEIF photo. The AI analyzer needs JPG, PNG, WebP, or GIF. Please export the photo as JPG or take it again using a compatible camera format.')
   }
 
-  const dataURL = await readFileAsDataURL(file)
+  const dataURL = await readFileAsDataURL(compatibleFile)
   const base64 = String(dataURL || '').split(',')[1]
   if (!base64) throw new Error('Could not read image data from the selected file.')
   return { base64, mediaType, source: 'raw' }
@@ -459,18 +461,25 @@ const fileToVisionImage = (file, options = {}) => {
     allowRawFallback = true,
   } = options
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    let compatibleFile = file
+    try {
+      compatibleFile = await ensureBrowserImageFile(file)
+    } catch (err) {
+      reject(err)
+      return
+    }
     const img = new Image()
-    const url = URL.createObjectURL(file)
+    const url = URL.createObjectURL(compatibleFile)
     const fallbackToRaw = () => {
       if (!allowRawFallback) {
         reject(new Error('Could not create a compatible preview image from the selected file.'))
         return
       }
-      fileToRawVisionImage(file).then(resolve).catch(reject)
+      fileToRawVisionImage(compatibleFile).then(resolve).catch(reject)
     }
     const fallbackToBitmapOrRaw = () => {
-      fileToBitmapVisionImage(file, { maxSize, quality, outputType })
+      fileToBitmapVisionImage(compatibleFile, { maxSize, quality, outputType })
         .then(resolve)
         .catch(fallbackToRaw)
     }
