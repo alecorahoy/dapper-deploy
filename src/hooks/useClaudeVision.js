@@ -469,7 +469,7 @@ const drawDecodedImageToVisionImage = (image, width, height, options, source) =>
     const base64 = dataURL.split(',')[1]
     if (!base64) throw new Error('Could not compress the selected image.')
     const mediaType = dataURL.slice(5, dataURL.indexOf(';')) || outputType
-    if (base64.length <= maxBase64Length || outputType === 'image/png') {
+    if (base64.length <= maxBase64Length) {
       return { base64, mediaType, source, maxSize: Math.max(workingWidth, workingHeight) }
     }
 
