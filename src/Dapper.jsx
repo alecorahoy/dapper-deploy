@@ -740,6 +740,7 @@ function analyzePhotoLocally(dataURL, options = {}) {
 
       // Collect all pixel colors (skip near-white background pixels)
       let rSum = 0, gSum = 0, bSum = 0, count = 0
+      let darkCount = 0, neutralCount = 0
       const pixels = data
 
       for (let i = 0; i < data.length; i += 4) {
@@ -749,6 +750,8 @@ function analyzePhotoLocally(dataURL, options = {}) {
         const brightness = (r + g + b) / 3
         if (brightness > 220) continue
         rSum += r; gSum += g; bSum += b; count++
+        if (brightness < 120) darkCount++
+        if (Math.max(r, g, b) - Math.min(r, g, b) < 26) neutralCount++
       }
 
       if (count === 0) { resolve(null); return }
@@ -761,12 +764,93 @@ function analyzePhotoLocally(dataURL, options = {}) {
       const colorKey  = classifyColor(h, s, l)
       const patternInfo = detectPattern(pixels, size, size)
       const fabricStr = detectFabric(l, s)
+      const sampleCoverage = count / (size * size)
+      const darkPixelRatio = darkCount / count
+      const neutralPixelRatio = neutralCount / count
 
-      resolve({ colorKey, h, s, l, r, g, b, patternInfo, fabricStr })
+      resolve({
+        colorKey, h, s, l, r, g, b, patternInfo, fabricStr,
+        sampleCoverage, darkPixelRatio, neutralPixelRatio,
+        crop: crop || null,
+      })
     }
     img.onerror = () => resolve(null)
     img.src = dataURL
   })
+}
+
+const FULL_LOOK_LOCAL_SUIT_CROPS = [
+  { label: "broad torso", rect: { x: 0.18, y: 0.08, width: 0.64, height: 0.60 } },
+  { label: "core torso", rect: { x: 0.24, y: 0.12, width: 0.52, height: 0.54 } },
+  { label: "jacket body", rect: { x: 0.20, y: 0.18, width: 0.60, height: 0.46 } },
+  { label: "tight jacket", rect: { x: 0.28, y: 0.16, width: 0.44, height: 0.48 } },
+]
+
+function scoreFullLookLocalSuitCandidate(result) {
+  if (!result) return Number.NEGATIVE_INFINITY
+  let score = 0
+
+  score += Math.min(result.sampleCoverage || 0, 0.9) * 16
+  score += Math.min(result.darkPixelRatio || 0, 0.9) * 28
+  score += Math.min(result.neutralPixelRatio || 0, 0.9) * 24
+
+  if (LOCAL_DARK_NEUTRAL_KEYS.has(result.colorKey)) score += 18
+  else if (result.colorKey === "navy") score += 10
+  else if (SUSPICIOUS_DARK_SUIT_KEYS.has(result.colorKey)) score -= 14
+
+  if (result.l < 18) score += 12
+  else if (result.l < 28) score += 8
+  else if (result.l < 40) score += 3
+  else score -= 8
+
+  if (result.s < 16) score += 10
+  else if (result.s < 24) score += 5
+  else if (result.s > 36) score -= 8
+
+  const formality = String(result.patternInfo?.formality || "")
+  if (formality.includes("Business")) score += 6
+
+  const pattern = String(result.patternInfo?.pattern || "")
+  if (pattern.includes("Bold Pattern")) score -= 8
+  if (pattern.includes("Horizontal Stripe")) score -= 4
+
+  return score
+}
+
+async function analyzeFullLookSuitLocally(dataURL) {
+  const candidates = []
+
+  for (const crop of FULL_LOOK_LOCAL_SUIT_CROPS) {
+    const result = await analyzePhotoLocally(dataURL, { crop: crop.rect })
+    if (!result) continue
+    candidates.push({
+      ...result,
+      cropLabel: crop.label,
+      localSuitScore: scoreFullLookLocalSuitCandidate(result),
+    })
+  }
+
+  if (!candidates.length) {
+    return analyzePhotoLocally(dataURL, {
+      crop: { x: 0.2, y: 0.08, width: 0.6, height: 0.62 }
+    })
+  }
+
+  candidates.sort((a, b) => b.localSuitScore - a.localSuitScore)
+
+  const best = candidates[0]
+  const bestDarkNeutral = candidates.find((candidate) => LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey))
+  const bestNavy = candidates.find((candidate) => candidate.colorKey === "navy")
+
+  if (bestDarkNeutral && bestDarkNeutral.localSuitScore >= best.localSuitScore - 8) {
+    return bestDarkNeutral
+  }
+
+  if (bestNavy && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey) && bestNavy.localSuitScore >= best.localSuitScore - 6) {
+    return bestNavy
+  }
+
+  return best
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -20734,13 +20818,11 @@ function AnalyzerPage() {
       clearInterval(iv)
 
       if (!visionResult.success) {
-        const localFallback = await analyzePhotoLocally(fullLookPhoto, {
-          crop: { x: 0.2, y: 0.08, width: 0.6, height: 0.62 }
-        })
+        const localFallback = await analyzeFullLookSuitLocally(fullLookPhoto)
         if (localFallback) {
           const partialResult = {
             ...localFallback,
-            colorCorrectionNote: "Full Look AI could not process this photo, so Dapper used a local suit read from the outfit image."
+            colorCorrectionNote: "Full Look AI could not process this photo, so Dapper checked multiple torso crops and used the best local suit read from the outfit image."
           }
           const analysis = getAnalysisFromPhotoResult(partialResult)
           setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens))
