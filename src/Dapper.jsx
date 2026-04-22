@@ -21859,6 +21859,24 @@ function readFileDataUrl(file) {
   })
 }
 
+function loadImageFromSrc(src) {
+  return new Promise((resolve, reject) => {
+    const image = new Image()
+    image.onerror = () => reject(new Error("Could not load this image."))
+    image.onload = () => resolve(image)
+    image.src = src
+  })
+}
+
+async function decodeImageBitmap(file) {
+  if (typeof createImageBitmap !== "function") throw new Error("createImageBitmap is not available.")
+  try {
+    return await createImageBitmap(file, { imageOrientation: "from-image" })
+  } catch {
+    return createImageBitmap(file)
+  }
+}
+
 function drawInlinePhoto(image, width, height, { maxSide, quality, maxLength }) {
   if (!width || !height) throw new Error("Could not read this image size.")
   const scale = Math.min(1, maxSide / Math.max(width, height))
@@ -21872,23 +21890,23 @@ function drawInlinePhoto(image, width, height, { maxSide, quality, maxLength }) 
   ctx.drawImage(image, 0, 0, w, h)
   let workingCanvas = canvas
   let workingQuality = quality
-  const minQuality = 0.38
-  const minSide = 320
+  const minQuality = 0.28
+  const minSide = 220
 
-  for (let attempt = 0; attempt < 8; attempt++) {
+  for (let attempt = 0; attempt < 12; attempt++) {
     const dataUrl = workingCanvas.toDataURL("image/jpeg", workingQuality)
     if (dataUrl.length <= maxLength) return dataUrl
 
     if (workingQuality > minQuality + 0.04) {
-      workingQuality = Math.max(minQuality, workingQuality - 0.1)
+      workingQuality = Math.max(minQuality, workingQuality - 0.08)
       continue
     }
 
     if (Math.max(workingCanvas.width, workingCanvas.height) <= minSide) break
 
     const nextCanvas = document.createElement("canvas")
-    nextCanvas.width = Math.max(minSide, Math.round(workingCanvas.width * 0.82))
-    nextCanvas.height = Math.max(minSide, Math.round(workingCanvas.height * 0.82))
+    nextCanvas.width = Math.max(1, Math.round(workingCanvas.width * 0.76))
+    nextCanvas.height = Math.max(1, Math.round(workingCanvas.height * 0.76))
     const nextCtx = nextCanvas.getContext("2d")
     if (!nextCtx) break
     nextCtx.drawImage(workingCanvas, 0, 0, nextCanvas.width, nextCanvas.height)
@@ -21906,32 +21924,33 @@ async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLengt
   const compatibleFile = await ensureBrowserImageFile(file)
   const options = { maxSide, quality, maxLength }
   const objectUrl = URL.createObjectURL(compatibleFile)
+  const decodeAttempts = []
   try {
-    const img = await new Promise((resolve, reject) => {
-      const image = new Image()
-      image.onerror = () => reject(new Error("Could not load this image."))
-      image.onload = () => resolve(image)
-      image.src = objectUrl
-    })
+    const img = await loadImageFromSrc(objectUrl)
     return drawInlinePhoto(img, img.width, img.height, options)
   } catch (imgErr) {
-    if (typeof createImageBitmap === "function") {
+    decodeAttempts.push(imgErr)
+    try {
+      const bitmap = await decodeImageBitmap(compatibleFile)
       try {
-        const bitmap = await createImageBitmap(compatibleFile)
-        try {
-          return drawInlinePhoto(bitmap, bitmap.width, bitmap.height, options)
-        } finally {
-          bitmap.close?.()
-        }
-      } catch {
-        // Fall through to the raw-data fallback below.
+        return drawInlinePhoto(bitmap, bitmap.width, bitmap.height, options)
+      } finally {
+        bitmap.close?.()
       }
+    } catch (bitmapErr) {
+      decodeAttempts.push(bitmapErr)
     }
     const dataUrl = await readFileDataUrl(compatibleFile)
     const looksLikeHeic = /\.(heic|heif)$/i.test(compatibleFile.name || "") || /heic|heif/i.test(compatibleFile.type || "")
     if (looksLikeHeic) throw new Error("This looks like a HEIC/HEIF photo. Please export it as JPG or PNG and try again.")
+    try {
+      const dataUrlImage = await loadImageFromSrc(dataUrl)
+      return drawInlinePhoto(dataUrlImage, dataUrlImage.width, dataUrlImage.height, options)
+    } catch (dataUrlErr) {
+      decodeAttempts.push(dataUrlErr)
+    }
     if (dataUrl.length <= maxLength) return dataUrl
-    throw imgErr
+    throw decodeAttempts[decodeAttempts.length - 1] || new Error("Could not prepare this image.")
   } finally {
     URL.revokeObjectURL(objectUrl)
   }

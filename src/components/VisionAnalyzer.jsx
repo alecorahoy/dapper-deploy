@@ -290,6 +290,7 @@ export function VisionAnalyzer({ onAnalysisComplete, mode = 'full', className = 
 
   const handleFileChange = useCallback(async (e) => {
     const rawFile = e.target.files?.[0]
+    if (e.target) e.target.value = ''
     if (!rawFile) return
     const imageLike = rawFile.type?.startsWith('image/') || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(rawFile.name || '')
     if (!imageLike) return

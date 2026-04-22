@@ -822,7 +822,7 @@ export function useClaudeVision() {
 
       let detectedSuit = normalizeDetectedPiece(parsed.suit, "#1a2744", "suit")
       const firstPassSuitLabel = detectedSuit.colorLabel || parsed.suit?.color || "unknown"
-      if (isGreenishSuitRead(detectedSuit)) {
+      if (isSuspiciousDarkSuitRead(detectedSuit)) {
         try {
           const audited = await auditSuitColorWithVision(visionImage, firstPassSuitLabel)
           const auditedSuit = preferBlackForGreenishNearBlackAudit(detectedSuit, normalizeDetectedPiece(audited, detectedSuit.colorHex, "suit"))
