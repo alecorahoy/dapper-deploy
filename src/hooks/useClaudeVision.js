@@ -400,6 +400,15 @@ const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
   reader.readAsDataURL(file)
 })
 
+const MAX_VISION_BASE64_LENGTH = 1800000
+
+const loadImageFromSrc = (src) => new Promise((resolve, reject) => {
+  const image = new Image()
+  image.onload = () => resolve(image)
+  image.onerror = () => reject(new Error('Could not decode the selected image.'))
+  image.src = src
+})
+
 const fileToRawVisionImage = async (file) => {
   const compatibleFile = await prepareVisionImageFile(file)
   const mediaType = normalizeVisionMediaType(compatibleFile)
@@ -413,11 +422,30 @@ const fileToRawVisionImage = async (file) => {
   const dataURL = await readFileAsDataURL(compatibleFile)
   const base64 = String(dataURL || '').split(',')[1]
   if (!base64) throw new Error('Could not read image data from the selected file.')
+  if (base64.length > MAX_VISION_BASE64_LENGTH) {
+    try {
+      const image = await loadImageFromSrc(dataURL)
+      return drawDecodedImageToVisionImage(
+        image,
+        image.width,
+        image.height,
+        {
+          maxSize: 1280,
+          quality: 0.68,
+          outputType: 'image/jpeg',
+          maxBase64Length: Math.round(MAX_VISION_BASE64_LENGTH * 0.88),
+        },
+        'raw-resized'
+      )
+    } catch (resizeErr) {
+      console.warn('[Dapper Vision] Raw fallback remained large after file read', resizeErr)
+    }
+  }
   return { base64, mediaType, source: 'raw' }
 }
 
 const drawDecodedImageToVisionImage = (image, width, height, options, source) => {
-  const { maxSize, quality, outputType, maxBase64Length = 1800000 } = options
+  const { maxSize, quality, outputType, maxBase64Length = MAX_VISION_BASE64_LENGTH } = options
   let w = width, h = height
   if (!w || !h) throw new Error('The selected image has no readable dimensions.')
   if (w > maxSize || h > maxSize) {
