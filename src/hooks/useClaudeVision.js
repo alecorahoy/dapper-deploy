@@ -629,6 +629,54 @@ const requestFullLookAnalysis = async (visionImage, styleProfile) => {
   return response.json()
 }
 
+const requestSuitPhotoAnalysis = async (visionImage) => {
+  const response = await fetch('/api/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 1024,
+      system: VISION_SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: [
+        { type: 'image', source: { type: 'base64', media_type: visionImage.mediaType, data: visionImage.base64 } },
+        { type: 'text', text: VISION_USER_PROMPT },
+      ]}],
+    }),
+  })
+  if (!response.ok) {
+    const errData = await response.json().catch(() => ({}))
+    throw new Error(apiErrorMessage(errData, response.status))
+  }
+  return response.json()
+}
+
+const runVisionRequestWithFallbacks = async (imageFile, requestFn) => {
+  const variants = [
+    { label: 'primary', options: {} },
+    { label: 'smaller-jpeg', options: { maxSize: 640, quality: 0.6, outputType: 'image/jpeg', allowRawFallback: false } },
+    { label: 'smaller-png', options: { maxSize: 512, quality: 0.55, outputType: 'image/png', allowRawFallback: false } },
+    { label: 'tiny-jpeg', options: { maxSize: 420, quality: 0.5, outputType: 'image/jpeg', allowRawFallback: false } },
+  ]
+
+  let lastErr = null
+  for (const variant of variants) {
+    try {
+      const visionImage = await fileToVisionImage(imageFile, variant.options)
+      const data = await requestFn(visionImage)
+      return { data, visionImage, variant: variant.label }
+    } catch (err) {
+      lastErr = err
+      const retryable = isImageProcessingError(err.message) || /too large for the analyzer|payload too large|could not compress/i.test(String(err.message || ''))
+      if (!retryable || variant === variants[variants.length - 1]) break
+    }
+  }
+
+  if (lastErr) {
+    throw new Error(`${lastErr.message}. Dapper retried smaller JPEG and PNG versions automatically, but the image still could not be processed.`)
+  }
+  throw new Error('Could not prepare the selected image for analysis.')
+}
+
 const auditSuitColorWithVision = async (visionImage, firstPassColor) => {
   const response = await fetch("/api/analyze", {
     method: "POST",
@@ -664,26 +712,8 @@ export function useClaudeVision() {
     try {
       console.log('[Dapper Vision] imageFile:', imageFile, typeof imageFile)
       if (!imageFile) throw new Error('No image file provided')
-      const visionImage = await fileToVisionImage(imageFile)
+      const { data, visionImage } = await runVisionRequestWithFallbacks(imageFile, requestSuitPhotoAnalysis)
       console.log('[Dapper Vision] base64 length:', visionImage.base64?.length, 'media:', visionImage.mediaType)
-      const response = await fetch('/api/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 1024,
-          system: VISION_SYSTEM_PROMPT,
-          messages: [{ role: 'user', content: [
-            { type: 'image', source: { type: 'base64', media_type: visionImage.mediaType, data: visionImage.base64 } },
-            { type: 'text', text: VISION_USER_PROMPT },
-          ]}],
-        }),
-      })
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}))
-        throw new Error(apiErrorMessage(errData, response.status))
-      }
-      const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
       const parsed = parseClaudeJson(rawText, 'Suit Photo')
       setRawResult(parsed)
@@ -811,26 +841,7 @@ export function useClaudeVision() {
         throw new Error(nonOutfitMessage(preflight))
       }
 
-      let data
-      try {
-        data = await requestFullLookAnalysis(visionImage, styleProfile)
-      } catch (primaryErr) {
-        if (!isImageProcessingError(primaryErr.message)) throw primaryErr
-        if (visionImage.source === 'raw') {
-          throw new Error('Could not process image. Please export this photo as JPG or PNG and upload that version.')
-        }
-        try {
-          const retryImage = await fileToVisionImage(imageFile, {
-            maxSize: 512,
-            quality: 0.55,
-            outputType: 'image/png',
-            allowRawFallback: false,
-          })
-          data = await requestFullLookAnalysis(retryImage, styleProfile)
-        } catch (retryErr) {
-          throw new Error(`${retryErr.message}. Retried with a smaller PNG version and the API still could not process it.`)
-        }
-      }
+      const { data } = await runVisionRequestWithFallbacks(imageFile, (nextVisionImage) => requestFullLookAnalysis(nextVisionImage, styleProfile))
       const rawText = data.content?.[0]?.text || ""
       const parsed = parseClaudeJson(rawText, 'Full Look')
       setRawResult(parsed)
