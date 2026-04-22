@@ -721,7 +721,7 @@ function detectFabric(avgLightness, saturation) {
   return "Lightweight wool, ~200 g/m²"
 }
 
-function analyzePhotoLocally(dataURL) {
+function analyzePhotoLocally(dataURL, options = {}) {
   return new Promise((resolve) => {
     const img = new Image()
     img.onload = () => {
@@ -730,7 +730,12 @@ function analyzePhotoLocally(dataURL) {
       const size = 120
       canvas.width = size; canvas.height = size
       const ctx = canvas.getContext("2d")
-      ctx.drawImage(img, 0, 0, size, size)
+      const crop = options?.crop
+      const sx = crop ? Math.max(0, Math.round(img.width * crop.x)) : 0
+      const sy = crop ? Math.max(0, Math.round(img.height * crop.y)) : 0
+      const sw = crop ? Math.max(1, Math.round(img.width * crop.width)) : img.width
+      const sh = crop ? Math.max(1, Math.round(img.height * crop.height)) : img.height
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, size, size)
       const { data } = ctx.getImageData(0, 0, size, size)
 
       // Collect all pixel colors (skip near-white background pixels)
@@ -20729,6 +20734,22 @@ function AnalyzerPage() {
       clearInterval(iv)
 
       if (!visionResult.success) {
+        const localFallback = await analyzePhotoLocally(fullLookPhoto, {
+          crop: { x: 0.2, y: 0.08, width: 0.6, height: 0.62 }
+        })
+        if (localFallback) {
+          const partialResult = {
+            ...localFallback,
+            colorCorrectionNote: "Full Look AI could not process this photo, so Dapper used a local suit read from the outfit image."
+          }
+          const analysis = getAnalysisFromPhotoResult(partialResult)
+          setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens))
+          setPhotoResult(partialResult)
+          setFullLookResult(null)
+          setProgress(100)
+          setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
+          return
+        }
         setProgress(0)
         setAnalyzing(false)
         setKeyError(visionResult.error ? `Full Look analysis failed: ${visionResult.error}` : "Full Look could not read this photo. Please reselect a JPG, PNG, or WebP image and try again.")
@@ -21261,8 +21282,8 @@ function AnalyzerPage() {
               <div className="rounded-2xl p-4" style={{background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
                 <div className="flex items-start gap-3">
                   <div className="w-14 h-14 rounded-xl flex-shrink-0 border-2 border-white shadow overflow-hidden">
-                    {suitPhoto
-                      ? <img src={suitPhoto} alt="suit" className="w-full h-full object-cover"/>
+                    {(mode === "D" ? (fullLookPhoto || suitPhoto) : suitPhoto)
+                      ? <img src={(mode === "D" ? (fullLookPhoto || suitPhoto) : suitPhoto)} alt="suit" className="w-full h-full object-cover"/>
                       : <div className="w-full h-full" style={{background:`rgb(${photoResult.r},${photoResult.g},${photoResult.b})`}}/>
                     }
                   </div>
