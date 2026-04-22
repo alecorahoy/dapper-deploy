@@ -21877,13 +21877,13 @@ async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLengt
   if (!isImageFileLike(file)) throw new Error("Please choose an image file.")
 
   const options = { maxSide, quality, maxLength }
-  const dataUrl = await readFileDataUrl(file)
+  const objectUrl = URL.createObjectURL(file)
   try {
     const img = await new Promise((resolve, reject) => {
       const image = new Image()
       image.onerror = () => reject(new Error("Could not load this image."))
       image.onload = () => resolve(image)
-      image.src = dataUrl
+      image.src = objectUrl
     })
     return drawInlinePhoto(img, img.width, img.height, options)
   } catch (imgErr) {
@@ -21899,10 +21899,13 @@ async function resizeInlinePhoto(file, { maxSide = 900, quality = 0.76, maxLengt
         // Fall through to the raw-data fallback below.
       }
     }
+    const dataUrl = await readFileDataUrl(file)
     const looksLikeHeic = /\.(heic|heif)$/i.test(file.name || "") || /heic|heif/i.test(file.type || "")
     if (looksLikeHeic) throw new Error("This looks like a HEIC/HEIF photo. Please export it as JPG or PNG and try again.")
     if (dataUrl.length <= maxLength) return dataUrl
     throw imgErr
+  } finally {
+    URL.revokeObjectURL(objectUrl)
   }
 }
 
