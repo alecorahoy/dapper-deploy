@@ -944,6 +944,49 @@ function averageSuitMetric(candidates, key) {
   return candidates.reduce((sum, candidate) => sum + (Number(candidate?.[key]) || 0), 0) / candidates.length
 }
 
+function clampSuitConfidence(value) {
+  return Math.max(0.05, Math.min(0.99, value))
+}
+
+function calculateLocalSuitConfidence(result) {
+  if (!result) return 0
+
+  const score = Number(result.localSuitScore) || 0
+  const darkRatio = Number(result.darkPixelRatio) || 0
+  const darkNeutralRatio = Number(result.darkNeutralPixelRatio) || 0
+  const samplingMode = String(result.colorSamplingMode || "")
+  const cropLabel = String(result.cropLabel || "")
+  const colorKey = String(result.colorKey || "")
+  const r = Number(result.r) || 0
+  const g = Number(result.g) || 0
+  const b = Number(result.b) || 0
+  const spread = Math.max(r, g, b) - Math.min(r, g, b)
+  const blueLead = b - Math.max(r, g)
+  const hasConsensus = cropLabel.startsWith("consensus:")
+
+  let confidence = 0.16
+  confidence += Math.max(0, Math.min(0.42, score / 105))
+  confidence += Math.min(darkRatio, 0.9) * 0.12
+  confidence += Math.min(darkNeutralRatio, 0.9) * 0.16
+
+  if (samplingMode === "dark-neutral-trimmed") confidence += 0.12
+  else if (samplingMode === "dark-neutral") confidence += 0.09
+  else if (samplingMode === "dark-trimmed") confidence += 0.07
+  else if (samplingMode === "dark") confidence += 0.04
+
+  if (hasConsensus) confidence += 0.12
+
+  if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) {
+    if (spread <= 34) confidence += 0.06
+  } else if (colorKey === "navy") {
+    if (blueLead >= 8) confidence += 0.08
+  } else if (SUSPICIOUS_DARK_SUIT_KEYS.has(colorKey)) {
+    confidence -= 0.14
+  }
+
+  return clampSuitConfidence(confidence)
+}
+
 function buildConsensusSuitCandidate(candidates, forcedColorKey) {
   if (!candidates.length) return null
   const base = [...candidates].sort((a, b) => b.localSuitScore - a.localSuitScore)[0]
@@ -954,7 +997,7 @@ function buildConsensusSuitCandidate(candidates, forcedColorKey) {
   const avgG = averageSuitMetric(candidates, "g")
   const avgB = averageSuitMetric(candidates, "b")
 
-  return {
+  const consensusResult = {
     ...base,
     colorKey: forcedColorKey || base.colorKey,
     h: avgH,
@@ -970,6 +1013,10 @@ function buildConsensusSuitCandidate(candidates, forcedColorKey) {
     cropLabel: `consensus: ${candidates.map((candidate) => candidate.cropLabel).join(", ")}`,
     localSuitScore: averageSuitMetric(candidates, "localSuitScore"),
   }
+  return {
+    ...consensusResult,
+    localSuitConfidence: calculateLocalSuitConfidence(consensusResult),
+  }
 }
 
 async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
@@ -982,14 +1029,29 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
       ...result,
       cropLabel: crop.label,
       localSuitScore: scoreFullLookLocalSuitCandidate(result),
+      localSuitConfidence: 0,
     })
   }
 
   if (!candidates.length) {
-    return analyzePhotoLocally(dataURL, {
+    const fallbackResult = await analyzePhotoLocally(dataURL, {
       crop: { x: 0.2, y: 0.08, width: 0.6, height: 0.62 },
       preferDarkPixels: true,
     })
+    if (!fallbackResult) return null
+    const scoredFallback = {
+      ...fallbackResult,
+      cropLabel: "fallback torso",
+      localSuitScore: scoreFullLookLocalSuitCandidate(fallbackResult),
+    }
+    return {
+      ...scoredFallback,
+      localSuitConfidence: calculateLocalSuitConfidence(scoredFallback),
+    }
+  }
+
+  for (const candidate of candidates) {
+    candidate.localSuitConfidence = calculateLocalSuitConfidence(candidate)
   }
 
   candidates.sort((a, b) => b.localSuitScore - a.localSuitScore)
@@ -19506,6 +19568,7 @@ function isReliableLocalDarkSuitAudit(localSuitResult) {
 
   const colorKey = localSuitResult.colorKey
   const score = Number(localSuitResult.localSuitScore) || 0
+  const confidence = Number(localSuitResult.localSuitConfidence) || 0
   const darkRatio = Number(localSuitResult.darkPixelRatio) || 0
   const darkNeutralRatio = Number(localSuitResult.darkNeutralPixelRatio) || 0
   const samplingMode = String(localSuitResult.colorSamplingMode || "")
@@ -19518,15 +19581,15 @@ function isReliableLocalDarkSuitAudit(localSuitResult) {
   const blueLead = b - Math.max(r, g)
 
   if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) {
-    if (hasConsensus && darkNeutralRatio >= 0.16 && samplingMode.includes("dark")) return true
-    if (score >= 56) return true
-    return score >= 44 && darkNeutralRatio >= 0.18 && spread <= 34
+    if (hasConsensus && confidence >= 0.68 && darkNeutralRatio >= 0.16 && samplingMode.includes("dark")) return true
+    if (confidence >= 0.78) return true
+    return confidence >= 0.62 && score >= 44 && darkNeutralRatio >= 0.18 && spread <= 34
   }
 
   if (colorKey === "navy") {
-    if (hasConsensus && darkRatio >= 0.28 && blueLead >= 6) return true
-    if (score >= 54) return true
-    return score >= 42 && darkRatio >= 0.3 && blueLead >= 8
+    if (hasConsensus && confidence >= 0.66 && darkRatio >= 0.28 && blueLead >= 6) return true
+    if (confidence >= 0.76) return true
+    return confidence >= 0.6 && score >= 42 && darkRatio >= 0.3 && blueLead >= 8
   }
 
   return false
