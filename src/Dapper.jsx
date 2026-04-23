@@ -669,6 +669,9 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
   const greenBias = g - Math.max(r, b)
   const darkNeutralPixelRatio = Number(options.darkNeutralPixelRatio) || 0
   const darkPixelRatio = Number(options.darkPixelRatio) || 0
+  const sceneWarmBias = Number(options.sceneWarmBias) || 0
+  const warmCastBias = Math.max(0, sceneWarmBias - 4)
+  const effectiveWarmBias = warmBias - warmCastBias * (darkNeutralPixelRatio >= 0.16 ? 0.82 : 0.58)
 
   if (l < 16 && spread < 22) return "black"
   if (l < 22 && spread < 28 && darkNeutralPixelRatio > 0.22) return "black"
@@ -679,8 +682,8 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
   if (b >= r + 14 && b >= g + 6 && l < 54) return "navy"
   if (b >= r + 10 && darkPixelRatio > 0.34 && l < 50) return "navy"
 
-  if (warmBias >= 10 && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
-    const strength = Math.min(0.58, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(warmBias, 28) / 110)
+  if ((warmBias >= 10 || sceneWarmBias >= 12) && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
+    const strength = Math.min(0.64, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(Math.max(warmBias, sceneWarmBias), 30) / 100)
     const correctedR = Math.max(0, Math.min(255, Math.round(r - warmBias * strength)))
     const correctedG = Math.max(0, Math.min(255, Math.round(g + warmBias * strength * 0.2)))
     const correctedB = Math.max(0, Math.min(255, Math.round(b + warmBias * strength * 0.72)))
@@ -697,8 +700,8 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
     }
   }
 
-  if (warmBias >= 22 && s > 20 && l > 24) return "brown"
-  if (warmBias >= 16 && spread > 20 && s > 18 && l > 22 && darkNeutralPixelRatio < 0.2) return "brown"
+  if (effectiveWarmBias >= 22 && s > 20 && l > 24) return "brown"
+  if (effectiveWarmBias >= 16 && spread > 20 && s > 18 && l > 22 && darkNeutralPixelRatio < 0.2) return "brown"
 
   if (greenBias >= 14 && g >= b + 10 && s > 22 && l > 24) return "olive"
 
@@ -876,12 +879,16 @@ function analyzePhotoLocally(dataURL, options = {}) {
       const g = Math.round(colorGSum / colorCount)
       const b = Math.round(colorBSum / colorCount)
       const { h, s, l } = rgbToHsl(r, g, b)
+      const sceneR = Math.round(rSum / count)
+      const sceneG = Math.round(gSum / count)
+      const sceneB = Math.round(bSum / count)
+      const sceneWarmBias = sceneR - sceneB
       const sampleCoverage = count / (size * size)
       const darkPixelRatio = darkCount / count
       const neutralPixelRatio = neutralCount / count
       const darkNeutralPixelRatio = darkNeutralCount / count
       const colorKey  = options?.preferDarkPixels
-        ? classifySuitColor(r, g, b, h, s, l, { darkPixelRatio, darkNeutralPixelRatio })
+        ? classifySuitColor(r, g, b, h, s, l, { darkPixelRatio, darkNeutralPixelRatio, sceneWarmBias })
         : classifyColor(h, s, l)
       const patternInfo = detectPattern(pixels, size, size)
       const fabricStr = detectFabric(l, s)
@@ -889,7 +896,7 @@ function analyzePhotoLocally(dataURL, options = {}) {
       resolve({
         colorKey, h, s, l, r, g, b, patternInfo, fabricStr,
         sampleCoverage, darkPixelRatio, neutralPixelRatio, darkNeutralPixelRatio,
-        colorSamplingMode,
+        colorSamplingMode, sceneWarmBias,
         crop: crop || null,
       })
     }
