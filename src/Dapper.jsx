@@ -1296,6 +1296,40 @@ function recoverReliableSingleSuitCandidate(candidate) {
   return isReliableLocalDarkSuitAudit(normalized) ? normalized : null
 }
 
+function pickStrongestReliableDarkCandidate(candidates, referenceCandidate) {
+  if (!Array.isArray(candidates) || !candidates.length) return null
+
+  const recoveredCandidates = candidates
+    .map((candidate) => {
+      if (!candidate) return null
+      const recovered = recoverReliableSingleSuitCandidate(candidate)
+      if (recovered) return recovered
+      if (LOCAL_DARK_AUDIT_KEYS.has(candidate.colorKey) && isReliableLocalDarkSuitAudit(candidate)) return candidate
+      return null
+    })
+    .filter(Boolean)
+
+  if (!recoveredCandidates.length) return null
+
+  recoveredCandidates.sort((a, b) => {
+    const confidenceDiff = (Number(b.localSuitConfidence) || 0) - (Number(a.localSuitConfidence) || 0)
+    if (Math.abs(confidenceDiff) > 0.0001) return confidenceDiff
+    return (Number(b.localSuitScore) || 0) - (Number(a.localSuitScore) || 0)
+  })
+
+  const strongest = recoveredCandidates[0]
+  const referenceScore = Number(referenceCandidate?.localSuitScore) || 0
+  const referenceConfidence = Number(referenceCandidate?.localSuitConfidence) || 0
+  const strongestScore = Number(strongest.localSuitScore) || 0
+  const strongestConfidence = Number(strongest.localSuitConfidence) || 0
+
+  if (strongestConfidence >= 0.8) return strongest
+  if (strongestConfidence >= 0.74 && strongestScore >= referenceScore - 14) return strongest
+  if (strongestConfidence >= referenceConfidence + 0.16 && strongestScore >= referenceScore - 18) return strongest
+
+  return null
+}
+
 function clampSuitConfidence(value) {
   return Math.max(0.05, Math.min(0.99, value))
 }
@@ -1515,6 +1549,8 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   }
 
   if (SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
+    const strongestRecoveredCandidate = pickStrongestReliableDarkCandidate(candidates, best)
+    if (strongestRecoveredCandidate) return strongestRecoveredCandidate
     const recoveredBest = recoverReliableSingleSuitCandidate(best)
     if (recoveredBest) return recoveredBest
   }
