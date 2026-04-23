@@ -1287,6 +1287,15 @@ function normalizeSuitVoteCandidate(candidate) {
   return candidate
 }
 
+function recoverReliableSingleSuitCandidate(candidate) {
+  if (!candidate) return null
+  const normalized = normalizeSuitVoteCandidate(candidate)
+  if (!normalized) return null
+  if (normalized.colorKey === candidate.colorKey) return null
+  if (!LOCAL_DARK_AUDIT_KEYS.has(normalized.colorKey)) return null
+  return isReliableLocalDarkSuitAudit(normalized) ? normalized : null
+}
+
 function clampSuitConfidence(value) {
   return Math.max(0.05, Math.min(0.99, value))
 }
@@ -1457,10 +1466,12 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
       localSuitVoteShare: 0,
       localSuitVoteCount: 1,
     }
-    return {
+    const fallbackCandidate = {
       ...scoredFallback,
       localSuitConfidence: calculateLocalSuitConfidence(scoredFallback),
     }
+    const recoveredFallback = recoverReliableSingleSuitCandidate(fallbackCandidate)
+    return recoveredFallback || fallbackCandidate
   }
 
   for (const candidate of candidates) {
@@ -1504,6 +1515,11 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
 
   if (bestNavy && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey) && bestNavy.localSuitScore >= best.localSuitScore - 6) {
     return normalizeSuitVoteCandidate(bestNavy)
+  }
+
+  if (SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
+    const recoveredBest = recoverReliableSingleSuitCandidate(best)
+    if (recoveredBest) return recoveredBest
   }
 
   return best
