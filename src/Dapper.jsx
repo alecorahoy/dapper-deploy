@@ -662,6 +662,62 @@ function classifyColor(h, s, l) {
   return "navy" // fallback
 }
 
+function scoreSuitColorDecision(colorKey, metrics = {}) {
+  const spread = Number(metrics.spread) || 0
+  const warmBias = Number(metrics.warmBias) || 0
+  const effectiveWarmBias = Number(metrics.effectiveWarmBias) || 0
+  const blueBias = Number(metrics.blueBias) || 0
+  const greenBias = Number(metrics.greenBias) || 0
+  const darkPixelRatio = Number(metrics.darkPixelRatio) || 0
+  const darkNeutralPixelRatio = Number(metrics.darkNeutralPixelRatio) || 0
+  const sceneNeutralWarmBias = Number(metrics.sceneNeutralWarmBias) || 0
+  const l = Number(metrics.l) || 0
+  const s = Number(metrics.s) || 0
+
+  let score = 0
+
+  if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) {
+    score += darkNeutralPixelRatio * 52
+    score += darkPixelRatio * 18
+    if (spread <= 34) score += 10
+    if (l < 42) score += 8
+    if (sceneNeutralWarmBias >= 10) score += 8
+    if (effectiveWarmBias > 16) score -= 8
+    if (s > 26) score -= 5
+    return score
+  }
+
+  if (colorKey === "navy") {
+    score += darkPixelRatio * 18
+    score += Math.max(0, blueBias) * 1.8
+    if (l < 52) score += 8
+    if (sceneNeutralWarmBias >= 10) score += 3
+    if (spread >= 8) score += 4
+    if (effectiveWarmBias > 18) score -= 6
+    return score
+  }
+
+  if (colorKey === "brown") {
+    score += Math.max(0, effectiveWarmBias) * 1.35
+    score += Math.max(0, s - 10) * 0.45
+    if (sceneNeutralWarmBias >= 10) score -= 14
+    if (darkNeutralPixelRatio >= 0.16) score -= 12
+    if (spread <= 34 && darkPixelRatio >= 0.32) score -= 8
+    return score
+  }
+
+  if (colorKey === "olive") {
+    score += Math.max(0, greenBias) * 1.4
+    score += Math.max(0, s - 12) * 0.35
+    if (sceneNeutralWarmBias >= 10) score -= 10
+    if (darkNeutralPixelRatio >= 0.16) score -= 10
+    return score
+  }
+
+  score += Math.max(0, warmBias) * 0.5
+  return score
+}
+
 function classifySuitColor(r, g, b, h, s, l, options = {}) {
   const spread = Math.max(r, g, b) - Math.min(r, g, b)
   const warmBias = r - b
@@ -677,6 +733,7 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
     : sceneWarmBias
   const warmCastBias = Math.max(0, trustedSceneWarmBias - 4)
   const effectiveWarmBias = warmBias - warmCastBias * (darkNeutralPixelRatio >= 0.16 ? 0.88 : 0.62)
+  const rawKey = classifyColor(h, s, l)
 
   if (l < 16 && spread < 22) return "black"
   if (l < 22 && spread < 28 && darkNeutralPixelRatio > 0.22) return "black"
@@ -687,6 +744,8 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
   if (b >= r + 14 && b >= g + 6 && l < 54) return "navy"
   if (b >= r + 10 && darkPixelRatio > 0.34 && l < 50) return "navy"
 
+  let correctedKey = null
+  let correctedMetrics = null
   if ((warmBias >= 10 || trustedSceneWarmBias >= 12) && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
     const correctionBias = Math.max(warmBias * 0.72, warmCastBias)
     const strength = Math.min(0.66, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(Math.max(warmBias, trustedSceneWarmBias), 30) / 100)
@@ -695,14 +754,43 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
     const correctedB = Math.max(0, Math.min(255, Math.round(b + correctionBias * strength * 0.72)))
     const correctedSpread = Math.max(correctedR, correctedG, correctedB) - Math.min(correctedR, correctedG, correctedB)
     const correctedBlueLead = correctedB - Math.max(correctedR, correctedG)
+    const correctedGreenBias = correctedG - Math.max(correctedR, correctedB)
     const { h: correctedH, s: correctedS, l: correctedL } = rgbToHsl(correctedR, correctedG, correctedB)
-    const correctedKey = classifyColor(correctedH, correctedS, correctedL)
+    correctedKey = classifyColor(correctedH, correctedS, correctedL)
+    correctedMetrics = {
+      spread: correctedSpread,
+      warmBias: correctedR - correctedB,
+      effectiveWarmBias: correctedR - correctedB,
+      blueBias: correctedBlueLead,
+      greenBias: correctedGreenBias,
+      darkPixelRatio,
+      darkNeutralPixelRatio,
+      sceneNeutralWarmBias,
+      l: correctedL,
+      s: correctedS,
+    }
+  }
 
-    if (LOCAL_DARK_NEUTRAL_KEYS.has(correctedKey) && correctedL < 42 && correctedSpread <= 34) {
+  if (correctedKey) {
+    const rawScore = scoreSuitColorDecision(rawKey, {
+      spread,
+      warmBias,
+      effectiveWarmBias,
+      blueBias,
+      greenBias,
+      darkPixelRatio,
+      darkNeutralPixelRatio,
+      sceneNeutralWarmBias,
+      l,
+      s,
+    })
+    const correctedScore = scoreSuitColorDecision(correctedKey, correctedMetrics)
+
+    if (LOCAL_DARK_AUDIT_KEYS.has(correctedKey) && SUSPICIOUS_DARK_SUIT_KEYS.has(rawKey) && correctedScore >= rawScore - 1.5) {
       return correctedKey
     }
-    if (correctedKey === "navy" && correctedBlueLead >= 6 && correctedL < 52) {
-      return "navy"
+    if (correctedScore >= rawScore + 4) {
+      return correctedKey
     }
   }
 
@@ -711,7 +799,7 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
 
   if (greenBias >= 14 && g >= b + 10 && s > 22 && l > 24) return "olive"
 
-  return classifyColor(h, s, l)
+  return rawKey
 }
 
 function detectPattern(pixels, width, height) {
