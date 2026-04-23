@@ -679,6 +679,24 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
   if (b >= r + 14 && b >= g + 6 && l < 54) return "navy"
   if (b >= r + 10 && darkPixelRatio > 0.34 && l < 50) return "navy"
 
+  if (warmBias >= 10 && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
+    const strength = Math.min(0.58, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(warmBias, 28) / 110)
+    const correctedR = Math.max(0, Math.min(255, Math.round(r - warmBias * strength)))
+    const correctedG = Math.max(0, Math.min(255, Math.round(g + warmBias * strength * 0.2)))
+    const correctedB = Math.max(0, Math.min(255, Math.round(b + warmBias * strength * 0.72)))
+    const correctedSpread = Math.max(correctedR, correctedG, correctedB) - Math.min(correctedR, correctedG, correctedB)
+    const correctedBlueLead = correctedB - Math.max(correctedR, correctedG)
+    const { h: correctedH, s: correctedS, l: correctedL } = rgbToHsl(correctedR, correctedG, correctedB)
+    const correctedKey = classifyColor(correctedH, correctedS, correctedL)
+
+    if (LOCAL_DARK_NEUTRAL_KEYS.has(correctedKey) && correctedL < 42 && correctedSpread <= 34) {
+      return correctedKey
+    }
+    if (correctedKey === "navy" && correctedBlueLead >= 6 && correctedL < 52) {
+      return "navy"
+    }
+  }
+
   if (warmBias >= 22 && s > 20 && l > 24) return "brown"
   if (warmBias >= 16 && spread > 20 && s > 18 && l > 22 && darkNeutralPixelRatio < 0.2) return "brown"
 
