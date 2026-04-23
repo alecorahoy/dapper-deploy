@@ -751,16 +751,22 @@ function buildDarkSuitDecisionContext(r, g, b, h, s, l, options = {}) {
   let correctedKey = null
   let correctedMetrics = null
   let correctedScore = Number.NEGATIVE_INFINITY
+  let correctedR = null
+  let correctedG = null
+  let correctedB = null
+  let correctedH = null
+  let correctedS = null
+  let correctedL = null
   if ((warmBias >= 10 || trustedSceneWarmBias >= 12) && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
     const correctionBias = Math.max(warmBias * 0.72, warmCastBias)
     const strength = Math.min(0.66, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(Math.max(warmBias, trustedSceneWarmBias), 30) / 100)
-    const correctedR = Math.max(0, Math.min(255, Math.round(r - correctionBias * strength)))
-    const correctedG = Math.max(0, Math.min(255, Math.round(g + correctionBias * strength * 0.2)))
-    const correctedB = Math.max(0, Math.min(255, Math.round(b + correctionBias * strength * 0.72)))
+    correctedR = Math.max(0, Math.min(255, Math.round(r - correctionBias * strength)))
+    correctedG = Math.max(0, Math.min(255, Math.round(g + correctionBias * strength * 0.2)))
+    correctedB = Math.max(0, Math.min(255, Math.round(b + correctionBias * strength * 0.72)))
     const correctedSpread = Math.max(correctedR, correctedG, correctedB) - Math.min(correctedR, correctedG, correctedB)
     const correctedBlueLead = correctedB - Math.max(correctedR, correctedG)
     const correctedGreenBias = correctedG - Math.max(correctedR, correctedB)
-    const { h: correctedH, s: correctedS, l: correctedL } = rgbToHsl(correctedR, correctedG, correctedB)
+    ;({ h: correctedH, s: correctedS, l: correctedL } = rgbToHsl(correctedR, correctedG, correctedB))
     correctedKey = classifyColor(correctedH, correctedS, correctedL)
     correctedMetrics = {
       spread: correctedSpread,
@@ -796,6 +802,12 @@ function buildDarkSuitDecisionContext(r, g, b, h, s, l, options = {}) {
     correctedKey,
     correctedMetrics,
     correctedScore,
+    correctedR,
+    correctedG,
+    correctedB,
+    correctedH,
+    correctedS,
+    correctedL,
   }
 }
 
@@ -1202,21 +1214,72 @@ function normalizeSuitVoteCandidate(candidate) {
   if (!candidate) return null
 
   const voteFamily = inferSuitVoteFamily(candidate)
+  const r = Number(candidate?.r) || 0
+  const g = Number(candidate?.g) || 0
+  const b = Number(candidate?.b) || 0
+  const h = Number(candidate?.h)
+  const s = Number(candidate?.s)
+  const l = Number(candidate?.l)
+  const hasHsl = Number.isFinite(h) && Number.isFinite(s) && Number.isFinite(l)
+  const hsl = hasHsl ? { h, s, l } : rgbToHsl(r, g, b)
+  const decision = buildDarkSuitDecisionContext(r, g, b, hsl.h, hsl.s, hsl.l, {
+    darkPixelRatio: Number(candidate?.darkPixelRatio) || 0,
+    darkNeutralPixelRatio: Number(candidate?.darkNeutralPixelRatio) || 0,
+    sceneWarmBias: Number(candidate?.sceneWarmBias) || 0,
+    sceneNeutralWarmBias: Number(candidate?.sceneNeutralWarmBias) || 0,
+    sceneNeutralPixelRatio: Number(candidate?.neutralPixelRatio) || 0,
+  })
+  const correctedFamily = decision.correctedKey
+    ? (LOCAL_DARK_NEUTRAL_KEYS.has(decision.correctedKey) ? "dark-neutral" : decision.correctedKey)
+    : null
+  const useCorrectedColor = correctedFamily && correctedFamily === voteFamily && Number.isFinite(decision.correctedR)
+  const representativeL = useCorrectedColor ? decision.correctedL : hsl.l
+
   if (voteFamily === "dark-neutral") {
-    const forcedColorKey = Number(candidate?.l) < 19 ? "black" : "charcoal"
-    if (LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey) && candidate.colorKey === forcedColorKey) return candidate
-    const normalized = { ...candidate, colorKey: forcedColorKey }
+    const forcedColorKey = representativeL < 19 ? "black" : "charcoal"
+    if (LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey) && candidate.colorKey === forcedColorKey && !useCorrectedColor) return candidate
+    const normalized = {
+      ...candidate,
+      colorKey: forcedColorKey,
+      r: useCorrectedColor ? decision.correctedR : r,
+      g: useCorrectedColor ? decision.correctedG : g,
+      b: useCorrectedColor ? decision.correctedB : b,
+      h: useCorrectedColor ? decision.correctedH : hsl.h,
+      s: useCorrectedColor ? decision.correctedS : hsl.s,
+      l: useCorrectedColor ? decision.correctedL : hsl.l,
+      colorHex: rgbToHexString(
+        useCorrectedColor ? decision.correctedR : r,
+        useCorrectedColor ? decision.correctedG : g,
+        useCorrectedColor ? decision.correctedB : b
+      ),
+    }
     return {
       ...normalized,
+      localSuitScore: scoreFullLookLocalSuitCandidate(normalized),
       localSuitConfidence: calculateLocalSuitConfidence(normalized),
     }
   }
 
   if (voteFamily === "navy") {
-    if (candidate.colorKey === "navy") return candidate
-    const normalized = { ...candidate, colorKey: "navy" }
+    if (candidate.colorKey === "navy" && !useCorrectedColor) return candidate
+    const normalized = {
+      ...candidate,
+      colorKey: "navy",
+      r: useCorrectedColor ? decision.correctedR : r,
+      g: useCorrectedColor ? decision.correctedG : g,
+      b: useCorrectedColor ? decision.correctedB : b,
+      h: useCorrectedColor ? decision.correctedH : hsl.h,
+      s: useCorrectedColor ? decision.correctedS : hsl.s,
+      l: useCorrectedColor ? decision.correctedL : hsl.l,
+      colorHex: rgbToHexString(
+        useCorrectedColor ? decision.correctedR : r,
+        useCorrectedColor ? decision.correctedG : g,
+        useCorrectedColor ? decision.correctedB : b
+      ),
+    }
     return {
       ...normalized,
+      localSuitScore: scoreFullLookLocalSuitCandidate(normalized),
       localSuitConfidence: calculateLocalSuitConfidence(normalized),
     }
   }
@@ -1286,13 +1349,15 @@ function calculateLocalSuitConfidence(result) {
 
 function buildConsensusSuitCandidate(candidates, forcedColorKey) {
   if (!candidates.length) return null
-  const base = [...candidates].sort((a, b) => b.localSuitScore - a.localSuitScore)[0]
-  const avgL = averageSuitMetric(candidates, "l")
-  const avgS = averageSuitMetric(candidates, "s")
-  const avgH = averageSuitMetric(candidates, "h")
-  const avgR = averageSuitMetric(candidates, "r")
-  const avgG = averageSuitMetric(candidates, "g")
-  const avgB = averageSuitMetric(candidates, "b")
+  const normalizedCandidates = candidates.map((candidate) => normalizeSuitVoteCandidate(candidate)).filter(Boolean)
+  const sourceCandidates = normalizedCandidates.length ? normalizedCandidates : candidates
+  const base = [...sourceCandidates].sort((a, b) => b.localSuitScore - a.localSuitScore)[0]
+  const avgL = averageSuitMetric(sourceCandidates, "l")
+  const avgS = averageSuitMetric(sourceCandidates, "s")
+  const avgH = averageSuitMetric(sourceCandidates, "h")
+  const avgR = averageSuitMetric(sourceCandidates, "r")
+  const avgG = averageSuitMetric(sourceCandidates, "g")
+  const avgB = averageSuitMetric(sourceCandidates, "b")
 
   const consensusResult = {
     ...base,
@@ -1303,12 +1368,13 @@ function buildConsensusSuitCandidate(candidates, forcedColorKey) {
     r: Math.round(avgR),
     g: Math.round(avgG),
     b: Math.round(avgB),
-    sampleCoverage: averageSuitMetric(candidates, "sampleCoverage"),
-    darkPixelRatio: averageSuitMetric(candidates, "darkPixelRatio"),
-    neutralPixelRatio: averageSuitMetric(candidates, "neutralPixelRatio"),
-    darkNeutralPixelRatio: averageSuitMetric(candidates, "darkNeutralPixelRatio"),
-    cropLabel: `consensus: ${candidates.map((candidate) => candidate.cropLabel).join(", ")}`,
-    localSuitScore: averageSuitMetric(candidates, "localSuitScore"),
+    colorHex: rgbToHexString(Math.round(avgR), Math.round(avgG), Math.round(avgB)),
+    sampleCoverage: averageSuitMetric(sourceCandidates, "sampleCoverage"),
+    darkPixelRatio: averageSuitMetric(sourceCandidates, "darkPixelRatio"),
+    neutralPixelRatio: averageSuitMetric(sourceCandidates, "neutralPixelRatio"),
+    darkNeutralPixelRatio: averageSuitMetric(sourceCandidates, "darkNeutralPixelRatio"),
+    cropLabel: `consensus: ${sourceCandidates.map((candidate) => candidate.cropLabel).join(", ")}`,
+    localSuitScore: averageSuitMetric(sourceCandidates, "localSuitScore"),
   }
   return {
     ...consensusResult,
