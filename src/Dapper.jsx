@@ -946,6 +946,7 @@ const FULL_LOOK_LOCAL_SUIT_CROPS = [
 function scoreFullLookLocalSuitCandidate(result) {
   if (!result) return Number.NEGATIVE_INFINITY
   let score = 0
+  const sceneNeutralWarmBias = Number(result.sceneNeutralWarmBias) || 0
 
   score += Math.min(result.sampleCoverage || 0, 0.9) * 16
   score += Math.min(result.darkPixelRatio || 0, 0.9) * 28
@@ -960,6 +961,12 @@ function scoreFullLookLocalSuitCandidate(result) {
   if (LOCAL_DARK_NEUTRAL_KEYS.has(result.colorKey)) score += 18
   else if (result.colorKey === "navy") score += 10
   else if (SUSPICIOUS_DARK_SUIT_KEYS.has(result.colorKey)) score -= 14
+
+  if (sceneNeutralWarmBias >= 10 && result.darkNeutralPixelRatio >= 0.16) {
+    if (LOCAL_DARK_NEUTRAL_KEYS.has(result.colorKey)) score += 8
+    else if (result.colorKey === "navy") score += 5
+    else if (SUSPICIOUS_DARK_SUIT_KEYS.has(result.colorKey)) score -= 10
+  }
 
   if (result.l < 18) score += 12
   else if (result.l < 28) score += 8
@@ -996,6 +1003,7 @@ function inferSuitVoteFamily(candidate) {
 
   const darkRatio = Number(candidate?.darkPixelRatio) || 0
   const darkNeutralRatio = Number(candidate?.darkNeutralPixelRatio) || 0
+  const sceneNeutralWarmBias = Number(candidate?.sceneNeutralWarmBias) || 0
   const samplingMode = String(candidate?.colorSamplingMode || "")
   const r = Number(candidate?.r) || 0
   const g = Number(candidate?.g) || 0
@@ -1004,6 +1012,10 @@ function inferSuitVoteFamily(candidate) {
   const blueLead = b - Math.max(r, g)
 
   if (darkNeutralRatio >= 0.22 && darkRatio >= 0.34 && spread <= 38 && samplingMode.includes("dark")) {
+    return "dark-neutral"
+  }
+
+  if (sceneNeutralWarmBias >= 10 && darkNeutralRatio >= 0.16 && darkRatio >= 0.3 && spread <= 40) {
     return "dark-neutral"
   }
 
@@ -1024,6 +1036,7 @@ function calculateLocalSuitConfidence(result) {
   const score = Number(result.localSuitScore) || 0
   const darkRatio = Number(result.darkPixelRatio) || 0
   const darkNeutralRatio = Number(result.darkNeutralPixelRatio) || 0
+  const sceneNeutralWarmBias = Number(result.sceneNeutralWarmBias) || 0
   const samplingMode = String(result.colorSamplingMode || "")
   const cropLabel = String(result.cropLabel || "")
   const colorKey = String(result.colorKey || "")
@@ -1052,10 +1065,13 @@ function calculateLocalSuitConfidence(result) {
 
   if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) {
     if (spread <= 34) confidence += 0.06
+    if (sceneNeutralWarmBias >= 10 && darkNeutralRatio >= 0.16) confidence += 0.05
   } else if (colorKey === "navy") {
     if (blueLead >= 8) confidence += 0.08
+    if (sceneNeutralWarmBias >= 10 && darkRatio >= 0.28) confidence += 0.03
   } else if (SUSPICIOUS_DARK_SUIT_KEYS.has(colorKey)) {
     confidence -= 0.14
+    if (sceneNeutralWarmBias >= 10 && darkNeutralRatio >= 0.14) confidence -= 0.08
   }
 
   return clampSuitConfidence(confidence)
