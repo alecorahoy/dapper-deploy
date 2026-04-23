@@ -1087,6 +1087,7 @@ function scoreFullLookLocalSuitCandidate(result) {
   let score = 0
   const sceneNeutralWarmBias = Number(result.sceneNeutralWarmBias) || 0
   const voteFamily = inferSuitVoteFamily(result)
+  const cropTrust = getSuitCropTrustProfile(result.cropLabel)
 
   score += Math.min(result.sampleCoverage || 0, 0.9) * 16
   score += Math.min(result.darkPixelRatio || 0, 0.9) * 28
@@ -1124,11 +1125,40 @@ function scoreFullLookLocalSuitCandidate(result) {
   if (pattern.includes("Bold Pattern")) score -= 8
   if (pattern.includes("Horizontal Stripe")) score -= 4
 
+  if (cropTrust.isConsensus) score += 8
+  else if (cropTrust.isPanel) score += 10
+  else if (cropTrust.isJacketBody) score += 6
+  else if (cropTrust.isBroadJacket) score += 3
+  else if (cropTrust.isBroadTorso) score -= 2
+  else if (cropTrust.isCoreTorso) score -= 7
+  else if (cropTrust.isFallback) score -= 5
+
+  if (SUSPICIOUS_DARK_SUIT_KEYS.has(result.colorKey) && (cropTrust.isCoreTorso || cropTrust.isBroadTorso || cropTrust.isFallback)) {
+    score -= 6
+  }
+
+  if ((voteFamily === "dark-neutral" || voteFamily === "navy") && (cropTrust.isPanel || cropTrust.isJacketBody)) {
+    score += 4
+  }
+
   return score
 }
 
 function isSuitPanelCrop(label = "") {
   return /panel|lapel/i.test(label)
+}
+
+function getSuitCropTrustProfile(label = "") {
+  const normalizedLabel = String(label || "").toLowerCase()
+  return {
+    isPanel: /panel|lapel/.test(normalizedLabel),
+    isCoreTorso: normalizedLabel.includes("core torso"),
+    isBroadTorso: normalizedLabel.includes("broad torso"),
+    isBroadJacket: normalizedLabel.includes("broad jacket"),
+    isJacketBody: normalizedLabel.includes("jacket body") || normalizedLabel.includes("tight jacket"),
+    isFallback: normalizedLabel.includes("fallback torso"),
+    isConsensus: normalizedLabel.startsWith("consensus:"),
+  }
 }
 
 function averageSuitMetric(candidates, key) {
@@ -1353,6 +1383,7 @@ function calculateLocalSuitConfidence(result) {
   const voteShare = Number(result.localSuitVoteShare) || 0
   const voteCount = Number(result.localSuitVoteCount) || 0
   const voteFamily = inferSuitVoteFamily(result)
+  const cropTrust = getSuitCropTrustProfile(cropLabel)
 
   let confidence = 0.16
   confidence += Math.max(0, Math.min(0.42, score / 105))
@@ -1367,6 +1398,13 @@ function calculateLocalSuitConfidence(result) {
   if (hasConsensus) confidence += 0.12
   confidence += Math.min(voteShare, 0.95) * 0.12
   confidence += Math.min(voteCount, 4) * 0.02
+
+  if (cropTrust.isPanel) confidence += 0.06
+  else if (cropTrust.isJacketBody) confidence += 0.04
+  else if (cropTrust.isBroadJacket) confidence += 0.02
+  else if (cropTrust.isBroadTorso) confidence -= 0.04
+  else if (cropTrust.isCoreTorso) confidence -= 0.08
+  else if (cropTrust.isFallback) confidence -= 0.05
 
   if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) {
     if (spread <= 34) confidence += 0.06
@@ -1385,6 +1423,7 @@ function calculateLocalSuitConfidence(result) {
   } else if (SUSPICIOUS_DARK_SUIT_KEYS.has(colorKey)) {
     confidence -= 0.14
     if (sceneNeutralWarmBias >= 10 && darkNeutralRatio >= 0.14) confidence -= 0.08
+    if (cropTrust.isCoreTorso || cropTrust.isBroadTorso || cropTrust.isFallback) confidence -= 0.06
   }
 
   return clampSuitConfidence(confidence)
