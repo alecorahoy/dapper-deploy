@@ -19501,10 +19501,42 @@ function rgbToHexString(r, g, b) {
   return `#${values.join("")}`
 }
 
+function isReliableLocalDarkSuitAudit(localSuitResult) {
+  if (!localSuitResult) return false
+
+  const colorKey = localSuitResult.colorKey
+  const score = Number(localSuitResult.localSuitScore) || 0
+  const darkRatio = Number(localSuitResult.darkPixelRatio) || 0
+  const darkNeutralRatio = Number(localSuitResult.darkNeutralPixelRatio) || 0
+  const samplingMode = String(localSuitResult.colorSamplingMode || "")
+  const cropLabel = String(localSuitResult.cropLabel || "")
+  const hasConsensus = cropLabel.startsWith("consensus:")
+  const r = Number(localSuitResult.r) || 0
+  const g = Number(localSuitResult.g) || 0
+  const b = Number(localSuitResult.b) || 0
+  const spread = Math.max(r, g, b) - Math.min(r, g, b)
+  const blueLead = b - Math.max(r, g)
+
+  if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) {
+    if (hasConsensus && darkNeutralRatio >= 0.16 && samplingMode.includes("dark")) return true
+    if (score >= 56) return true
+    return score >= 44 && darkNeutralRatio >= 0.18 && spread <= 34
+  }
+
+  if (colorKey === "navy") {
+    if (hasConsensus && darkRatio >= 0.28 && blueLead >= 6) return true
+    if (score >= 54) return true
+    return score >= 42 && darkRatio >= 0.3 && blueLead >= 8
+  }
+
+  return false
+}
+
 function reconcileDarkSuitPhotoRead(visionSuitResult, localSuitResult) {
   if (!visionSuitResult || !localSuitResult) return visionSuitResult
   if (!SUSPICIOUS_DARK_SUIT_KEYS.has(visionSuitResult.colorKey)) return visionSuitResult
   if (!LOCAL_DARK_AUDIT_KEYS.has(localSuitResult.colorKey)) return visionSuitResult
+  if (!isReliableLocalDarkSuitAudit(localSuitResult)) return visionSuitResult
   const correctedLabel = COLOR_FAMILY_LABELS[localSuitResult.colorKey] || visionSuitResult.colorLabel
   return {
     ...visionSuitResult,
