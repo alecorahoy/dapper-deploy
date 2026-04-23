@@ -662,6 +662,31 @@ function classifyColor(h, s, l) {
   return "navy" // fallback
 }
 
+function classifySuitColor(r, g, b, h, s, l, options = {}) {
+  const spread = Math.max(r, g, b) - Math.min(r, g, b)
+  const warmBias = r - b
+  const blueBias = b - Math.max(r, g)
+  const greenBias = g - Math.max(r, b)
+  const darkNeutralPixelRatio = Number(options.darkNeutralPixelRatio) || 0
+  const darkPixelRatio = Number(options.darkPixelRatio) || 0
+
+  if (l < 16 && spread < 22) return "black"
+  if (l < 22 && spread < 28 && darkNeutralPixelRatio > 0.22) return "black"
+  if (l < 32 && spread < 18) return "charcoal"
+  if (l < 38 && spread < 24 && darkNeutralPixelRatio > 0.28) return "charcoal"
+
+  if (blueBias >= 10 && l < 48) return "navy"
+  if (b >= r + 14 && b >= g + 6 && l < 54) return "navy"
+  if (b >= r + 10 && darkPixelRatio > 0.34 && l < 50) return "navy"
+
+  if (warmBias >= 22 && s > 20 && l > 24) return "brown"
+  if (warmBias >= 16 && spread > 20 && s > 18 && l > 22 && darkNeutralPixelRatio < 0.2) return "brown"
+
+  if (greenBias >= 14 && g >= b + 10 && s > 22 && l > 24) return "olive"
+
+  return classifyColor(h, s, l)
+}
+
 function detectPattern(pixels, width, height) {
   // Sample a grid of pixels and look for color variance
   // High variance in rows → stripe
@@ -791,14 +816,15 @@ function analyzePhotoLocally(dataURL, options = {}) {
       const g = Math.round(colorGSum / colorCount)
       const b = Math.round(colorBSum / colorCount)
       const { h, s, l } = rgbToHsl(r, g, b)
-
-      const colorKey  = classifyColor(h, s, l)
-      const patternInfo = detectPattern(pixels, size, size)
-      const fabricStr = detectFabric(l, s)
       const sampleCoverage = count / (size * size)
       const darkPixelRatio = darkCount / count
       const neutralPixelRatio = neutralCount / count
       const darkNeutralPixelRatio = darkNeutralCount / count
+      const colorKey  = options?.preferDarkPixels
+        ? classifySuitColor(r, g, b, h, s, l, { darkPixelRatio, darkNeutralPixelRatio })
+        : classifyColor(h, s, l)
+      const patternInfo = detectPattern(pixels, size, size)
+      const fabricStr = detectFabric(l, s)
 
       resolve({
         colorKey, h, s, l, r, g, b, patternInfo, fabricStr,
