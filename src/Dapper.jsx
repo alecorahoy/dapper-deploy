@@ -743,6 +743,9 @@ function analyzePhotoLocally(dataURL, options = {}) {
       // Collect all pixel colors (skip near-white background pixels)
       let rSum = 0, gSum = 0, bSum = 0, count = 0
       let darkCount = 0, neutralCount = 0
+      let darkRSum = 0, darkGSum = 0, darkBSum = 0
+      let darkNeutralCount = 0
+      let darkNeutralRSum = 0, darkNeutralGSum = 0, darkNeutralBSum = 0
       const pixels = data
 
       for (let i = 0; i < data.length; i += 4) {
@@ -751,16 +754,42 @@ function analyzePhotoLocally(dataURL, options = {}) {
         // Skip very bright pixels (background / flash glare)
         const brightness = (r + g + b) / 3
         if (brightness > 220) continue
+        const channelSpread = Math.max(r, g, b) - Math.min(r, g, b)
         rSum += r; gSum += g; bSum += b; count++
-        if (brightness < 120) darkCount++
-        if (Math.max(r, g, b) - Math.min(r, g, b) < 26) neutralCount++
+        if (brightness < 120) {
+          darkCount++
+          darkRSum += r; darkGSum += g; darkBSum += b
+        }
+        if (channelSpread < 26) neutralCount++
+        if (brightness < 150 && channelSpread < 34) {
+          darkNeutralCount++
+          darkNeutralRSum += r; darkNeutralGSum += g; darkNeutralBSum += b
+        }
       }
 
       if (count === 0) { resolve(null); return }
 
-      const r = Math.round(rSum / count)
-      const g = Math.round(gSum / count)
-      const b = Math.round(bSum / count)
+      let colorRSum = rSum, colorGSum = gSum, colorBSum = bSum, colorCount = count
+      let colorSamplingMode = "overall"
+      if (options?.preferDarkPixels) {
+        if (darkNeutralCount >= Math.max(220, count * 0.16)) {
+          colorRSum = darkNeutralRSum
+          colorGSum = darkNeutralGSum
+          colorBSum = darkNeutralBSum
+          colorCount = darkNeutralCount
+          colorSamplingMode = "dark-neutral"
+        } else if (darkCount >= Math.max(320, count * 0.22)) {
+          colorRSum = darkRSum
+          colorGSum = darkGSum
+          colorBSum = darkBSum
+          colorCount = darkCount
+          colorSamplingMode = "dark"
+        }
+      }
+
+      const r = Math.round(colorRSum / colorCount)
+      const g = Math.round(colorGSum / colorCount)
+      const b = Math.round(colorBSum / colorCount)
       const { h, s, l } = rgbToHsl(r, g, b)
 
       const colorKey  = classifyColor(h, s, l)
@@ -769,10 +798,12 @@ function analyzePhotoLocally(dataURL, options = {}) {
       const sampleCoverage = count / (size * size)
       const darkPixelRatio = darkCount / count
       const neutralPixelRatio = neutralCount / count
+      const darkNeutralPixelRatio = darkNeutralCount / count
 
       resolve({
         colorKey, h, s, l, r, g, b, patternInfo, fabricStr,
-        sampleCoverage, darkPixelRatio, neutralPixelRatio,
+        sampleCoverage, darkPixelRatio, neutralPixelRatio, darkNeutralPixelRatio,
+        colorSamplingMode,
         crop: crop || null,
       })
     }
@@ -806,6 +837,10 @@ function scoreFullLookLocalSuitCandidate(result) {
   score += Math.min(result.sampleCoverage || 0, 0.9) * 16
   score += Math.min(result.darkPixelRatio || 0, 0.9) * 28
   score += Math.min(result.neutralPixelRatio || 0, 0.9) * 24
+  score += Math.min(result.darkNeutralPixelRatio || 0, 0.9) * 18
+
+  if (result.colorSamplingMode === "dark-neutral") score += 6
+  else if (result.colorSamplingMode === "dark") score += 3
 
   if (LOCAL_DARK_NEUTRAL_KEYS.has(result.colorKey)) score += 18
   else if (result.colorKey === "navy") score += 10
@@ -861,6 +896,7 @@ function buildConsensusSuitCandidate(candidates, forcedColorKey) {
     sampleCoverage: averageSuitMetric(candidates, "sampleCoverage"),
     darkPixelRatio: averageSuitMetric(candidates, "darkPixelRatio"),
     neutralPixelRatio: averageSuitMetric(candidates, "neutralPixelRatio"),
+    darkNeutralPixelRatio: averageSuitMetric(candidates, "darkNeutralPixelRatio"),
     cropLabel: `consensus: ${candidates.map((candidate) => candidate.cropLabel).join(", ")}`,
     localSuitScore: averageSuitMetric(candidates, "localSuitScore"),
   }
@@ -870,7 +906,7 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   const candidates = []
 
   for (const crop of cropSet) {
-    const result = await analyzePhotoLocally(dataURL, { crop: crop.rect })
+    const result = await analyzePhotoLocally(dataURL, { crop: crop.rect, preferDarkPixels: true })
     if (!result) continue
     candidates.push({
       ...result,
@@ -881,7 +917,8 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
 
   if (!candidates.length) {
     return analyzePhotoLocally(dataURL, {
-      crop: { x: 0.2, y: 0.08, width: 0.6, height: 0.62 }
+      crop: { x: 0.2, y: 0.08, width: 0.6, height: 0.62 },
+      preferDarkPixels: true,
     })
   }
 
