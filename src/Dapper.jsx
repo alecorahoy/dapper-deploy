@@ -944,6 +944,12 @@ function averageSuitMetric(candidates, key) {
   return candidates.reduce((sum, candidate) => sum + (Number(candidate?.[key]) || 0), 0) / candidates.length
 }
 
+function suitVoteFamilyKey(colorKey = "") {
+  if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) return "dark-neutral"
+  if (colorKey === "navy") return "navy"
+  return colorKey
+}
+
 function clampSuitConfidence(value) {
   return Math.max(0.05, Math.min(0.99, value))
 }
@@ -963,6 +969,8 @@ function calculateLocalSuitConfidence(result) {
   const spread = Math.max(r, g, b) - Math.min(r, g, b)
   const blueLead = b - Math.max(r, g)
   const hasConsensus = cropLabel.startsWith("consensus:")
+  const voteShare = Number(result.localSuitVoteShare) || 0
+  const voteCount = Number(result.localSuitVoteCount) || 0
 
   let confidence = 0.16
   confidence += Math.max(0, Math.min(0.42, score / 105))
@@ -975,6 +983,8 @@ function calculateLocalSuitConfidence(result) {
   else if (samplingMode === "dark") confidence += 0.04
 
   if (hasConsensus) confidence += 0.12
+  confidence += Math.min(voteShare, 0.95) * 0.12
+  confidence += Math.min(voteCount, 4) * 0.02
 
   if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) {
     if (spread <= 34) confidence += 0.06
@@ -1019,6 +1029,52 @@ function buildConsensusSuitCandidate(candidates, forcedColorKey) {
   }
 }
 
+function buildWeightedSuitVoteCandidate(candidates) {
+  if (!candidates.length) return null
+
+  const buckets = new Map()
+  let totalWeight = 0
+
+  for (const candidate of candidates) {
+    const familyKey = suitVoteFamilyKey(candidate.colorKey)
+    if (familyKey !== "dark-neutral" && familyKey !== "navy") continue
+
+    const confidence = Number(candidate.localSuitConfidence) || calculateLocalSuitConfidence(candidate)
+    const score = Number(candidate.localSuitScore) || 0
+    const weight = Math.max(0.08, confidence) * Math.max(10, score)
+    totalWeight += weight
+
+    const existing = buckets.get(familyKey) || { familyKey, weight: 0, candidates: [] }
+    existing.weight += weight
+    existing.candidates.push(candidate)
+    buckets.set(familyKey, existing)
+  }
+
+  if (!buckets.size || totalWeight <= 0) return null
+
+  const winner = [...buckets.values()].sort((a, b) => b.weight - a.weight)[0]
+  const voteShare = winner.weight / totalWeight
+  if (winner.candidates.length < 2 || voteShare < 0.58) return null
+
+  const forcedColorKey = winner.familyKey === "dark-neutral"
+    ? (averageSuitMetric(winner.candidates, "l") < 19 ? "black" : "charcoal")
+    : "navy"
+
+  const votedResult = buildConsensusSuitCandidate(winner.candidates, forcedColorKey)
+  if (!votedResult) return null
+
+  return {
+    ...votedResult,
+    localSuitVoteShare: voteShare,
+    localSuitVoteCount: winner.candidates.length,
+    localSuitConfidence: calculateLocalSuitConfidence({
+      ...votedResult,
+      localSuitVoteShare: voteShare,
+      localSuitVoteCount: winner.candidates.length,
+    }),
+  }
+}
+
 async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   const candidates = []
 
@@ -1030,6 +1086,8 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
       cropLabel: crop.label,
       localSuitScore: scoreFullLookLocalSuitCandidate(result),
       localSuitConfidence: 0,
+      localSuitVoteShare: 0,
+      localSuitVoteCount: 1,
     })
   }
 
@@ -1043,6 +1101,8 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
       ...fallbackResult,
       cropLabel: "fallback torso",
       localSuitScore: scoreFullLookLocalSuitCandidate(fallbackResult),
+      localSuitVoteShare: 0,
+      localSuitVoteCount: 1,
     }
     return {
       ...scoredFallback,
@@ -1075,6 +1135,11 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   )
   if (navyPanels.length >= 2 && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
     return buildConsensusSuitCandidate(navyPanels, "navy")
+  }
+
+  const weightedVoteResult = buildWeightedSuitVoteCandidate(panelCandidates)
+  if (weightedVoteResult && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
+    return weightedVoteResult
   }
 
   const bestDarkNeutral = candidates.find((candidate) => LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey))
