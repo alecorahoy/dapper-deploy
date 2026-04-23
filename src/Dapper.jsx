@@ -670,8 +670,13 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
   const darkNeutralPixelRatio = Number(options.darkNeutralPixelRatio) || 0
   const darkPixelRatio = Number(options.darkPixelRatio) || 0
   const sceneWarmBias = Number(options.sceneWarmBias) || 0
-  const warmCastBias = Math.max(0, sceneWarmBias - 4)
-  const effectiveWarmBias = warmBias - warmCastBias * (darkNeutralPixelRatio >= 0.16 ? 0.82 : 0.58)
+  const sceneNeutralWarmBias = Number(options.sceneNeutralWarmBias) || 0
+  const sceneNeutralPixelRatio = Number(options.sceneNeutralPixelRatio) || 0
+  const trustedSceneWarmBias = sceneNeutralPixelRatio >= 0.16
+    ? Math.max(sceneNeutralWarmBias, sceneWarmBias * 0.65)
+    : sceneWarmBias
+  const warmCastBias = Math.max(0, trustedSceneWarmBias - 4)
+  const effectiveWarmBias = warmBias - warmCastBias * (darkNeutralPixelRatio >= 0.16 ? 0.88 : 0.62)
 
   if (l < 16 && spread < 22) return "black"
   if (l < 22 && spread < 28 && darkNeutralPixelRatio > 0.22) return "black"
@@ -682,11 +687,12 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
   if (b >= r + 14 && b >= g + 6 && l < 54) return "navy"
   if (b >= r + 10 && darkPixelRatio > 0.34 && l < 50) return "navy"
 
-  if ((warmBias >= 10 || sceneWarmBias >= 12) && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
-    const strength = Math.min(0.64, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(Math.max(warmBias, sceneWarmBias), 30) / 100)
-    const correctedR = Math.max(0, Math.min(255, Math.round(r - warmBias * strength)))
-    const correctedG = Math.max(0, Math.min(255, Math.round(g + warmBias * strength * 0.2)))
-    const correctedB = Math.max(0, Math.min(255, Math.round(b + warmBias * strength * 0.72)))
+  if ((warmBias >= 10 || trustedSceneWarmBias >= 12) && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
+    const correctionBias = Math.max(warmBias * 0.72, warmCastBias)
+    const strength = Math.min(0.66, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(Math.max(warmBias, trustedSceneWarmBias), 30) / 100)
+    const correctedR = Math.max(0, Math.min(255, Math.round(r - correctionBias * strength)))
+    const correctedG = Math.max(0, Math.min(255, Math.round(g + correctionBias * strength * 0.2)))
+    const correctedB = Math.max(0, Math.min(255, Math.round(b + correctionBias * strength * 0.72)))
     const correctedSpread = Math.max(correctedR, correctedG, correctedB) - Math.min(correctedR, correctedG, correctedB)
     const correctedBlueLead = correctedB - Math.max(correctedR, correctedG)
     const { h: correctedH, s: correctedS, l: correctedL } = rgbToHsl(correctedR, correctedG, correctedB)
@@ -810,6 +816,7 @@ function analyzePhotoLocally(dataURL, options = {}) {
       let rSum = 0, gSum = 0, bSum = 0, count = 0
       let darkCount = 0, neutralCount = 0
       let darkRSum = 0, darkGSum = 0, darkBSum = 0
+      let neutralRSum = 0, neutralGSum = 0, neutralBSum = 0
       let darkNeutralCount = 0
       let darkNeutralRSum = 0, darkNeutralGSum = 0, darkNeutralBSum = 0
       const darkSamples = []
@@ -829,7 +836,10 @@ function analyzePhotoLocally(dataURL, options = {}) {
           darkRSum += r; darkGSum += g; darkBSum += b
           darkSamples.push({ r, g, b, brightness })
         }
-        if (channelSpread < 26) neutralCount++
+        if (channelSpread < 26) {
+          neutralCount++
+          neutralRSum += r; neutralGSum += g; neutralBSum += b
+        }
         if (brightness < 150 && channelSpread < 34) {
           darkNeutralCount++
           darkNeutralRSum += r; darkNeutralGSum += g; darkNeutralBSum += b
@@ -883,12 +893,22 @@ function analyzePhotoLocally(dataURL, options = {}) {
       const sceneG = Math.round(gSum / count)
       const sceneB = Math.round(bSum / count)
       const sceneWarmBias = sceneR - sceneB
+      const sceneNeutralR = neutralCount ? Math.round(neutralRSum / neutralCount) : sceneR
+      const sceneNeutralG = neutralCount ? Math.round(neutralGSum / neutralCount) : sceneG
+      const sceneNeutralB = neutralCount ? Math.round(neutralBSum / neutralCount) : sceneB
+      const sceneNeutralWarmBias = sceneNeutralR - sceneNeutralB
       const sampleCoverage = count / (size * size)
       const darkPixelRatio = darkCount / count
       const neutralPixelRatio = neutralCount / count
       const darkNeutralPixelRatio = darkNeutralCount / count
       const colorKey  = options?.preferDarkPixels
-        ? classifySuitColor(r, g, b, h, s, l, { darkPixelRatio, darkNeutralPixelRatio, sceneWarmBias })
+        ? classifySuitColor(r, g, b, h, s, l, {
+            darkPixelRatio,
+            darkNeutralPixelRatio,
+            sceneWarmBias,
+            sceneNeutralWarmBias,
+            sceneNeutralPixelRatio: neutralPixelRatio,
+          })
         : classifyColor(h, s, l)
       const patternInfo = detectPattern(pixels, size, size)
       const fabricStr = detectFabric(l, s)
@@ -896,7 +916,7 @@ function analyzePhotoLocally(dataURL, options = {}) {
       resolve({
         colorKey, h, s, l, r, g, b, patternInfo, fabricStr,
         sampleCoverage, darkPixelRatio, neutralPixelRatio, darkNeutralPixelRatio,
-        colorSamplingMode, sceneWarmBias,
+        colorSamplingMode, sceneWarmBias, sceneNeutralWarmBias,
         crop: crop || null,
       })
     }
