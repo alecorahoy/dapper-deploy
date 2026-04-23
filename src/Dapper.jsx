@@ -944,9 +944,28 @@ function averageSuitMetric(candidates, key) {
   return candidates.reduce((sum, candidate) => sum + (Number(candidate?.[key]) || 0), 0) / candidates.length
 }
 
-function suitVoteFamilyKey(colorKey = "") {
+function inferSuitVoteFamily(candidate) {
+  const colorKey = String(candidate?.colorKey || "")
   if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) return "dark-neutral"
   if (colorKey === "navy") return "navy"
+
+  const darkRatio = Number(candidate?.darkPixelRatio) || 0
+  const darkNeutralRatio = Number(candidate?.darkNeutralPixelRatio) || 0
+  const samplingMode = String(candidate?.colorSamplingMode || "")
+  const r = Number(candidate?.r) || 0
+  const g = Number(candidate?.g) || 0
+  const b = Number(candidate?.b) || 0
+  const spread = Math.max(r, g, b) - Math.min(r, g, b)
+  const blueLead = b - Math.max(r, g)
+
+  if (darkNeutralRatio >= 0.22 && darkRatio >= 0.34 && spread <= 38 && samplingMode.includes("dark")) {
+    return "dark-neutral"
+  }
+
+  if ((blueLead >= 7 && darkRatio >= 0.28) || (b >= r + 10 && darkRatio >= 0.32 && spread >= 8)) {
+    return "navy"
+  }
+
   return colorKey
 }
 
@@ -1036,7 +1055,7 @@ function buildWeightedSuitVoteCandidate(candidates) {
   let totalWeight = 0
 
   for (const candidate of candidates) {
-    const familyKey = suitVoteFamilyKey(candidate.colorKey)
+    const familyKey = inferSuitVoteFamily(candidate)
     if (familyKey !== "dark-neutral" && familyKey !== "navy") continue
 
     const confidence = Number(candidate.localSuitConfidence) || calculateLocalSuitConfidence(candidate)
