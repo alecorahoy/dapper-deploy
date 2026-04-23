@@ -718,7 +718,7 @@ function scoreSuitColorDecision(colorKey, metrics = {}) {
   return score
 }
 
-function classifySuitColor(r, g, b, h, s, l, options = {}) {
+function buildDarkSuitDecisionContext(r, g, b, h, s, l, options = {}) {
   const spread = Math.max(r, g, b) - Math.min(r, g, b)
   const warmBias = r - b
   const blueBias = b - Math.max(r, g)
@@ -734,18 +734,23 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
   const warmCastBias = Math.max(0, trustedSceneWarmBias - 4)
   const effectiveWarmBias = warmBias - warmCastBias * (darkNeutralPixelRatio >= 0.16 ? 0.88 : 0.62)
   const rawKey = classifyColor(h, s, l)
-
-  if (l < 16 && spread < 22) return "black"
-  if (l < 22 && spread < 28 && darkNeutralPixelRatio > 0.22) return "black"
-  if (l < 32 && spread < 18) return "charcoal"
-  if (l < 38 && spread < 24 && darkNeutralPixelRatio > 0.28) return "charcoal"
-
-  if (blueBias >= 10 && l < 48) return "navy"
-  if (b >= r + 14 && b >= g + 6 && l < 54) return "navy"
-  if (b >= r + 10 && darkPixelRatio > 0.34 && l < 50) return "navy"
+  const rawMetrics = {
+    spread,
+    warmBias,
+    effectiveWarmBias,
+    blueBias,
+    greenBias,
+    darkPixelRatio,
+    darkNeutralPixelRatio,
+    sceneNeutralWarmBias,
+    l,
+    s,
+  }
+  const rawScore = scoreSuitColorDecision(rawKey, rawMetrics)
 
   let correctedKey = null
   let correctedMetrics = null
+  let correctedScore = Number.NEGATIVE_INFINITY
   if ((warmBias >= 10 || trustedSceneWarmBias >= 12) && darkPixelRatio >= 0.26 && (darkNeutralPixelRatio >= 0.14 || spread <= 36)) {
     const correctionBias = Math.max(warmBias * 0.72, warmCastBias)
     const strength = Math.min(0.66, 0.18 + darkNeutralPixelRatio * 0.9 + Math.min(Math.max(warmBias, trustedSceneWarmBias), 30) / 100)
@@ -769,23 +774,57 @@ function classifySuitColor(r, g, b, h, s, l, options = {}) {
       l: correctedL,
       s: correctedS,
     }
+    correctedScore = scoreSuitColorDecision(correctedKey, correctedMetrics)
   }
 
-  if (correctedKey) {
-    const rawScore = scoreSuitColorDecision(rawKey, {
-      spread,
-      warmBias,
-      effectiveWarmBias,
-      blueBias,
-      greenBias,
-      darkPixelRatio,
-      darkNeutralPixelRatio,
-      sceneNeutralWarmBias,
-      l,
-      s,
-    })
-    const correctedScore = scoreSuitColorDecision(correctedKey, correctedMetrics)
+  return {
+    spread,
+    warmBias,
+    blueBias,
+    greenBias,
+    darkNeutralPixelRatio,
+    darkPixelRatio,
+    sceneWarmBias,
+    sceneNeutralWarmBias,
+    sceneNeutralPixelRatio,
+    trustedSceneWarmBias,
+    warmCastBias,
+    effectiveWarmBias,
+    rawKey,
+    rawMetrics,
+    rawScore,
+    correctedKey,
+    correctedMetrics,
+    correctedScore,
+  }
+}
 
+function classifySuitColor(r, g, b, h, s, l, options = {}) {
+  const decision = buildDarkSuitDecisionContext(r, g, b, h, s, l, options)
+  const {
+    spread,
+    warmBias,
+    blueBias,
+    greenBias,
+    darkNeutralPixelRatio,
+    darkPixelRatio,
+    effectiveWarmBias,
+    rawKey,
+    rawScore,
+    correctedKey,
+    correctedScore,
+  } = decision
+
+  if (l < 16 && spread < 22) return "black"
+  if (l < 22 && spread < 28 && darkNeutralPixelRatio > 0.22) return "black"
+  if (l < 32 && spread < 18) return "charcoal"
+  if (l < 38 && spread < 24 && darkNeutralPixelRatio > 0.28) return "charcoal"
+
+  if (blueBias >= 10 && l < 48) return "navy"
+  if (b >= r + 14 && b >= g + 6 && l < 54) return "navy"
+  if (b >= r + 10 && darkPixelRatio > 0.34 && l < 50) return "navy"
+
+  if (correctedKey) {
     if (LOCAL_DARK_AUDIT_KEYS.has(correctedKey) && SUSPICIOUS_DARK_SUIT_KEYS.has(rawKey) && correctedScore >= rawScore - 1.5) {
       return correctedKey
     }
@@ -1035,6 +1074,7 @@ function scoreFullLookLocalSuitCandidate(result) {
   if (!result) return Number.NEGATIVE_INFINITY
   let score = 0
   const sceneNeutralWarmBias = Number(result.sceneNeutralWarmBias) || 0
+  const voteFamily = inferSuitVoteFamily(result)
 
   score += Math.min(result.sampleCoverage || 0, 0.9) * 16
   score += Math.min(result.darkPixelRatio || 0, 0.9) * 28
@@ -1046,13 +1086,13 @@ function scoreFullLookLocalSuitCandidate(result) {
   else if (result.colorSamplingMode === "dark-trimmed") score += 5
   else if (result.colorSamplingMode === "dark") score += 3
 
-  if (LOCAL_DARK_NEUTRAL_KEYS.has(result.colorKey)) score += 18
-  else if (result.colorKey === "navy") score += 10
+  if (voteFamily === "dark-neutral") score += 18
+  else if (voteFamily === "navy") score += 10
   else if (SUSPICIOUS_DARK_SUIT_KEYS.has(result.colorKey)) score -= 14
 
   if (sceneNeutralWarmBias >= 10 && result.darkNeutralPixelRatio >= 0.16) {
-    if (LOCAL_DARK_NEUTRAL_KEYS.has(result.colorKey)) score += 8
-    else if (result.colorKey === "navy") score += 5
+    if (voteFamily === "dark-neutral") score += 8
+    else if (voteFamily === "navy") score += 5
     else if (SUSPICIOUS_DARK_SUIT_KEYS.has(result.colorKey)) score -= 10
   }
 
@@ -1084,10 +1124,54 @@ function averageSuitMetric(candidates, key) {
   return candidates.reduce((sum, candidate) => sum + (Number(candidate?.[key]) || 0), 0) / candidates.length
 }
 
+function inferCompensatedSuitVoteFamily(candidate) {
+  if (!candidate) return null
+
+  const colorKey = String(candidate?.colorKey || "")
+  const r = Number(candidate?.r) || 0
+  const g = Number(candidate?.g) || 0
+  const b = Number(candidate?.b) || 0
+  if (r === 0 && g === 0 && b === 0) return null
+
+  const h = Number(candidate?.h)
+  const s = Number(candidate?.s)
+  const l = Number(candidate?.l)
+  const hasHsl = Number.isFinite(h) && Number.isFinite(s) && Number.isFinite(l)
+  const hsl = hasHsl ? { h, s, l } : rgbToHsl(r, g, b)
+  const decision = buildDarkSuitDecisionContext(r, g, b, hsl.h, hsl.s, hsl.l, {
+    darkPixelRatio: Number(candidate?.darkPixelRatio) || 0,
+    darkNeutralPixelRatio: Number(candidate?.darkNeutralPixelRatio) || 0,
+    sceneWarmBias: Number(candidate?.sceneWarmBias) || 0,
+    sceneNeutralWarmBias: Number(candidate?.sceneNeutralWarmBias) || 0,
+    sceneNeutralPixelRatio: Number(candidate?.neutralPixelRatio) || 0,
+  })
+
+  if (!decision.correctedKey || !LOCAL_DARK_AUDIT_KEYS.has(decision.correctedKey)) return null
+
+  const correctedFamily = LOCAL_DARK_NEUTRAL_KEYS.has(decision.correctedKey) ? "dark-neutral" : decision.correctedKey
+  const suspiciousSource = SUSPICIOUS_DARK_SUIT_KEYS.has(colorKey) || SUSPICIOUS_DARK_SUIT_KEYS.has(decision.rawKey)
+
+  if (suspiciousSource && decision.correctedScore >= decision.rawScore - 1.5) return correctedFamily
+  if (decision.correctedScore >= decision.rawScore + 3) return correctedFamily
+
+  if (correctedFamily === "dark-neutral" && decision.sceneNeutralWarmBias >= 10 && decision.darkNeutralPixelRatio >= 0.16) {
+    return correctedFamily
+  }
+
+  if (correctedFamily === "navy" && decision.darkPixelRatio >= 0.28 && decision.correctedScore >= decision.rawScore) {
+    return correctedFamily
+  }
+
+  return null
+}
+
 function inferSuitVoteFamily(candidate) {
   const colorKey = String(candidate?.colorKey || "")
   if (LOCAL_DARK_NEUTRAL_KEYS.has(colorKey)) return "dark-neutral"
   if (colorKey === "navy") return "navy"
+
+  const compensatedFamily = inferCompensatedSuitVoteFamily(candidate)
+  if (compensatedFamily) return compensatedFamily
 
   const darkRatio = Number(candidate?.darkPixelRatio) || 0
   const darkNeutralRatio = Number(candidate?.darkNeutralPixelRatio) || 0
@@ -1114,6 +1198,32 @@ function inferSuitVoteFamily(candidate) {
   return colorKey
 }
 
+function normalizeSuitVoteCandidate(candidate) {
+  if (!candidate) return null
+
+  const voteFamily = inferSuitVoteFamily(candidate)
+  if (voteFamily === "dark-neutral") {
+    const forcedColorKey = Number(candidate?.l) < 19 ? "black" : "charcoal"
+    if (LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey) && candidate.colorKey === forcedColorKey) return candidate
+    const normalized = { ...candidate, colorKey: forcedColorKey }
+    return {
+      ...normalized,
+      localSuitConfidence: calculateLocalSuitConfidence(normalized),
+    }
+  }
+
+  if (voteFamily === "navy") {
+    if (candidate.colorKey === "navy") return candidate
+    const normalized = { ...candidate, colorKey: "navy" }
+    return {
+      ...normalized,
+      localSuitConfidence: calculateLocalSuitConfidence(normalized),
+    }
+  }
+
+  return candidate
+}
+
 function clampSuitConfidence(value) {
   return Math.max(0.05, Math.min(0.99, value))
 }
@@ -1136,6 +1246,7 @@ function calculateLocalSuitConfidence(result) {
   const hasConsensus = cropLabel.startsWith("consensus:")
   const voteShare = Number(result.localSuitVoteShare) || 0
   const voteCount = Number(result.localSuitVoteCount) || 0
+  const voteFamily = inferSuitVoteFamily(result)
 
   let confidence = 0.16
   confidence += Math.max(0, Math.min(0.42, score / 105))
@@ -1157,6 +1268,14 @@ function calculateLocalSuitConfidence(result) {
   } else if (colorKey === "navy") {
     if (blueLead >= 8) confidence += 0.08
     if (sceneNeutralWarmBias >= 10 && darkRatio >= 0.28) confidence += 0.03
+  } else if (voteFamily === "dark-neutral") {
+    if (spread <= 38) confidence += 0.06
+    if (darkNeutralRatio >= 0.16) confidence += 0.05
+    if (sceneNeutralWarmBias >= 10) confidence += 0.05
+  } else if (voteFamily === "navy") {
+    confidence += 0.05
+    if (blueLead >= 5) confidence += 0.05
+    if (darkRatio >= 0.28) confidence += 0.03
   } else if (SUSPICIOUS_DARK_SUIT_KEYS.has(colorKey)) {
     confidence -= 0.14
     if (sceneNeutralWarmBias >= 10 && darkNeutralRatio >= 0.14) confidence -= 0.08
@@ -1287,7 +1406,7 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   const best = candidates[0]
   const panelCandidates = candidates.filter((candidate) => isSuitPanelCrop(candidate.cropLabel))
   const darkNeutralPanels = panelCandidates.filter((candidate) =>
-    LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey) &&
+    inferSuitVoteFamily(candidate) === "dark-neutral" &&
     candidate.darkPixelRatio >= 0.42 &&
     candidate.neutralPixelRatio >= 0.36
   )
@@ -1298,7 +1417,7 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   }
 
   const navyPanels = panelCandidates.filter((candidate) =>
-    candidate.colorKey === "navy" &&
+    inferSuitVoteFamily(candidate) === "navy" &&
     candidate.darkPixelRatio >= 0.35
   )
   if (navyPanels.length >= 2 && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
@@ -1310,15 +1429,15 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
     return weightedVoteResult
   }
 
-  const bestDarkNeutral = candidates.find((candidate) => LOCAL_DARK_NEUTRAL_KEYS.has(candidate.colorKey))
-  const bestNavy = candidates.find((candidate) => candidate.colorKey === "navy")
+  const bestDarkNeutral = candidates.find((candidate) => inferSuitVoteFamily(candidate) === "dark-neutral")
+  const bestNavy = candidates.find((candidate) => inferSuitVoteFamily(candidate) === "navy")
 
   if (bestDarkNeutral && bestDarkNeutral.localSuitScore >= best.localSuitScore - 8) {
-    return bestDarkNeutral
+    return normalizeSuitVoteCandidate(bestDarkNeutral)
   }
 
   if (bestNavy && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey) && bestNavy.localSuitScore >= best.localSuitScore - 6) {
-    return bestNavy
+    return normalizeSuitVoteCandidate(bestNavy)
   }
 
   return best
