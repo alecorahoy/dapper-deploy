@@ -748,6 +748,26 @@ function detectFabric(avgLightness, saturation) {
   return "Lightweight wool, ~200 g/m²"
 }
 
+function averageTrimmedPixelSamples(samples, trimRatio = 0.18) {
+  if (!Array.isArray(samples) || !samples.length) return null
+  const ordered = [...samples].sort((a, b) => a.brightness - b.brightness)
+  const trim = Math.min(Math.floor(ordered.length * trimRatio), Math.floor((ordered.length - 1) / 2))
+  const slice = ordered.slice(trim, ordered.length - trim || ordered.length)
+  if (!slice.length) return null
+  const totals = slice.reduce((acc, sample) => {
+    acc.r += sample.r
+    acc.g += sample.g
+    acc.b += sample.b
+    return acc
+  }, { r: 0, g: 0, b: 0 })
+  return {
+    r: Math.round(totals.r / slice.length),
+    g: Math.round(totals.g / slice.length),
+    b: Math.round(totals.b / slice.length),
+    count: slice.length,
+  }
+}
+
 function analyzePhotoLocally(dataURL, options = {}) {
   return new Promise((resolve) => {
     const img = new Image()
@@ -771,6 +791,8 @@ function analyzePhotoLocally(dataURL, options = {}) {
       let darkRSum = 0, darkGSum = 0, darkBSum = 0
       let darkNeutralCount = 0
       let darkNeutralRSum = 0, darkNeutralGSum = 0, darkNeutralBSum = 0
+      const darkSamples = []
+      const darkNeutralSamples = []
       const pixels = data
 
       for (let i = 0; i < data.length; i += 4) {
@@ -784,11 +806,13 @@ function analyzePhotoLocally(dataURL, options = {}) {
         if (brightness < 120) {
           darkCount++
           darkRSum += r; darkGSum += g; darkBSum += b
+          darkSamples.push({ r, g, b, brightness })
         }
         if (channelSpread < 26) neutralCount++
         if (brightness < 150 && channelSpread < 34) {
           darkNeutralCount++
           darkNeutralRSum += r; darkNeutralGSum += g; darkNeutralBSum += b
+          darkNeutralSamples.push({ r, g, b, brightness })
         }
       }
 
@@ -798,17 +822,35 @@ function analyzePhotoLocally(dataURL, options = {}) {
       let colorSamplingMode = "overall"
       if (options?.preferDarkPixels) {
         if (darkNeutralCount >= Math.max(220, count * 0.16)) {
-          colorRSum = darkNeutralRSum
-          colorGSum = darkNeutralGSum
-          colorBSum = darkNeutralBSum
-          colorCount = darkNeutralCount
-          colorSamplingMode = "dark-neutral"
+          const trimmedDarkNeutral = averageTrimmedPixelSamples(darkNeutralSamples)
+          if (trimmedDarkNeutral) {
+            colorRSum = trimmedDarkNeutral.r * trimmedDarkNeutral.count
+            colorGSum = trimmedDarkNeutral.g * trimmedDarkNeutral.count
+            colorBSum = trimmedDarkNeutral.b * trimmedDarkNeutral.count
+            colorCount = trimmedDarkNeutral.count
+            colorSamplingMode = "dark-neutral-trimmed"
+          } else {
+            colorRSum = darkNeutralRSum
+            colorGSum = darkNeutralGSum
+            colorBSum = darkNeutralBSum
+            colorCount = darkNeutralCount
+            colorSamplingMode = "dark-neutral"
+          }
         } else if (darkCount >= Math.max(320, count * 0.22)) {
-          colorRSum = darkRSum
-          colorGSum = darkGSum
-          colorBSum = darkBSum
-          colorCount = darkCount
-          colorSamplingMode = "dark"
+          const trimmedDark = averageTrimmedPixelSamples(darkSamples)
+          if (trimmedDark) {
+            colorRSum = trimmedDark.r * trimmedDark.count
+            colorGSum = trimmedDark.g * trimmedDark.count
+            colorBSum = trimmedDark.b * trimmedDark.count
+            colorCount = trimmedDark.count
+            colorSamplingMode = "dark-trimmed"
+          } else {
+            colorRSum = darkRSum
+            colorGSum = darkGSum
+            colorBSum = darkBSum
+            colorCount = darkCount
+            colorSamplingMode = "dark"
+          }
         }
       }
 
@@ -865,7 +907,9 @@ function scoreFullLookLocalSuitCandidate(result) {
   score += Math.min(result.neutralPixelRatio || 0, 0.9) * 24
   score += Math.min(result.darkNeutralPixelRatio || 0, 0.9) * 18
 
-  if (result.colorSamplingMode === "dark-neutral") score += 6
+  if (result.colorSamplingMode === "dark-neutral-trimmed") score += 8
+  else if (result.colorSamplingMode === "dark-neutral") score += 6
+  else if (result.colorSamplingMode === "dark-trimmed") score += 5
   else if (result.colorSamplingMode === "dark") score += 3
 
   if (LOCAL_DARK_NEUTRAL_KEYS.has(result.colorKey)) score += 18
