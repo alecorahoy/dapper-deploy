@@ -1437,20 +1437,30 @@ function buildWeightedSuitVoteCandidate(candidates) {
   }
 }
 
+function buildPreparedLocalSuitCandidate(result, cropLabel, extra = {}) {
+  if (!result) return null
+
+  const baseCandidate = {
+    ...result,
+    cropLabel,
+    localSuitScore: scoreFullLookLocalSuitCandidate(result),
+    localSuitConfidence: 0,
+    localSuitVoteShare: 0,
+    localSuitVoteCount: 1,
+    ...extra,
+  }
+  baseCandidate.localSuitConfidence = calculateLocalSuitConfidence(baseCandidate)
+  return normalizeSuitVoteCandidate(baseCandidate)
+}
+
 async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   const candidates = []
 
   for (const crop of cropSet) {
     const result = await analyzePhotoLocally(dataURL, { crop: crop.rect, preferDarkPixels: true })
     if (!result) continue
-    candidates.push({
-      ...result,
-      cropLabel: crop.label,
-      localSuitScore: scoreFullLookLocalSuitCandidate(result),
-      localSuitConfidence: 0,
-      localSuitVoteShare: 0,
-      localSuitVoteCount: 1,
-    })
+    const candidate = buildPreparedLocalSuitCandidate(result, crop.label)
+    if (candidate) candidates.push(candidate)
   }
 
   if (!candidates.length) {
@@ -1459,23 +1469,10 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
       preferDarkPixels: true,
     })
     if (!fallbackResult) return null
-    const scoredFallback = {
-      ...fallbackResult,
-      cropLabel: "fallback torso",
-      localSuitScore: scoreFullLookLocalSuitCandidate(fallbackResult),
-      localSuitVoteShare: 0,
-      localSuitVoteCount: 1,
-    }
-    const fallbackCandidate = {
-      ...scoredFallback,
-      localSuitConfidence: calculateLocalSuitConfidence(scoredFallback),
-    }
+    const fallbackCandidate = buildPreparedLocalSuitCandidate(fallbackResult, "fallback torso")
+    if (!fallbackCandidate) return null
     const recoveredFallback = recoverReliableSingleSuitCandidate(fallbackCandidate)
     return recoveredFallback || fallbackCandidate
-  }
-
-  for (const candidate of candidates) {
-    candidate.localSuitConfidence = calculateLocalSuitConfidence(candidate)
   }
 
   candidates.sort((a, b) => b.localSuitScore - a.localSuitScore)
