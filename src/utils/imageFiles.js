@@ -4,6 +4,45 @@ export function isHeicLike(file) {
   return /\.(heic|heif)$/.test(name) || type.includes("heic") || type.includes("heif")
 }
 
+// Detect HEIC/HEIF by magic bytes even when the file claims to be JPEG/PNG.
+// iPhones sometimes save files with a .jpeg extension and image/jpeg MIME
+// that are actually HEIC internally — browsers can't decode them and Claude
+// rejects them with "Could not process image". Real JPEGs start with FFD8FF.
+// HEIC/HEIF files start with `....ftypheic/heix/hevc/mif1/msf1/heim/hevm/hevs`.
+async function sniffActualMediaType(file) {
+  if (!file || typeof file.slice !== "function") return null
+  try {
+    const head = await file.slice(0, 16).arrayBuffer()
+    const bytes = new Uint8Array(head)
+    if (bytes.length < 12) return null
+    // JPEG SOI = FF D8 FF
+    if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) return "image/jpeg"
+    // PNG = 89 50 4E 47 0D 0A 1A 0A
+    if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return "image/png"
+    // WebP = RIFF....WEBP
+    if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46 &&
+        bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50) return "image/webp"
+    // GIF = GIF87a / GIF89a
+    if (bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46) return "image/gif"
+    // ISO BMFF container — HEIC/HEIF/MP4 etc. Offset 4..7 = "ftyp", offset 8..11 = brand.
+    if (bytes[4] === 0x66 && bytes[5] === 0x74 && bytes[6] === 0x79 && bytes[7] === 0x70) {
+      const brand = String.fromCharCode(bytes[8], bytes[9], bytes[10], bytes[11])
+      const heicBrands = new Set(["heic", "heix", "heim", "heis", "hevc", "hevm", "hevs", "mif1", "msf1"])
+      if (heicBrands.has(brand)) return "image/heic"
+    }
+  } catch (err) {
+    console.warn("[Dapper Image] Magic-byte sniff failed", err)
+  }
+  return null
+}
+
+export async function isActuallyHeic(file) {
+  if (!file) return false
+  if (isHeicLike(file)) return true
+  const sniffed = await sniffActualMediaType(file)
+  return sniffed === "image/heic"
+}
+
 const PREPARED_JPEG_SUFFIX = "-dapper-ready"
 
 function normalizedJpegName(file) {
@@ -59,7 +98,16 @@ function isPreparedJpeg(file) {
 }
 
 export async function ensureBrowserImageFile(file) {
-  if (!file || !isHeicLike(file)) return file
+  if (!file) return file
+  const declaredHeic = isHeicLike(file)
+  const sniffedType = declaredHeic ? "image/heic" : await sniffActualMediaType(file)
+  const needsHeicConversion = declaredHeic || sniffedType === "image/heic"
+  if (!needsHeicConversion) return file
+
+  if (!declaredHeic) {
+    console.warn("[Dapper Image] File claims to be", file.type || "(no type)",
+      "but magic bytes indicate HEIC — converting via heic2any", { name: file.name, size: file.size })
+  }
 
   try {
     const { default: heic2any } = await import("heic2any")

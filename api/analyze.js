@@ -89,12 +89,25 @@ export default async function handler(req) {
       body: JSON.stringify(body)
     })
 
-    const data = await response.json()
+    const rawText = await response.text()
+    let data
+    try { data = rawText ? JSON.parse(rawText) : {} }
+    catch { data = { error: { message: rawText || `Upstream HTTP ${response.status} returned no JSON body.` } } }
+
     if (!response.ok) {
+      const upstreamMsg = typeof data?.error?.message === 'string'
+        ? data.error.message
+        : (typeof data?.error === 'string' ? data.error : (data?.message || `Upstream HTTP ${response.status}`))
       console.error('[api/analyze] upstream error', JSON.stringify({
         status: response.status,
-        error: typeof data?.error?.message === 'string' ? data.error.message : data?.error || data?.message || 'Unknown upstream error',
+        error: upstreamMsg,
+        rawSnippet: rawText.slice(0, 300),
       }))
+      // Guarantee the response body has error.message so the client shows a real message
+      // instead of a generic "API error: <status>" when Anthropic returns an empty / non-JSON body.
+      if (!data?.error || typeof data.error !== 'object' || typeof data.error.message !== 'string') {
+        data = { ...(data || {}), error: { message: `${upstreamMsg} (status ${response.status})` } }
+      }
     }
     return new Response(JSON.stringify(data), {
       status: response.status,

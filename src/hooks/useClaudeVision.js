@@ -557,7 +557,10 @@ const fileToVisionImage = (file, options = {}) => {
 const isImageProcessingError = (message) => /could not process image|invalid image|unsupported image/i.test(String(message || ''))
 const isRetryableVisionError = (message) => (
   isImageProcessingError(message) ||
-  /too large for the analyzer|payload too large|could not compress/i.test(String(message || ''))
+  /too large for the analyzer|payload too large|could not compress/i.test(String(message || '')) ||
+  // Transient / deployment-edge failures worth retrying with a smaller variant.
+  /api error:\s*(404|408|429|5\d\d)/i.test(String(message || '')) ||
+  /upstream http\s*(404|408|429|5\d\d)/i.test(String(message || ''))
 )
 
 const NON_OUTFIT_TEXT_PATTERN = /\b(screenshot|chat|discord|slack|message|ui|interface|screen|chart|graph|document|text|recipe|food|avatar|not an outfit|non-outfit|no person|no visible person|no clothing|not visible)\b/i
