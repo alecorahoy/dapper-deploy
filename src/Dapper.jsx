@@ -21811,7 +21811,18 @@ function AnalyzerPage() {
       return
     }
 
-    const nextPreview = URL.createObjectURL(file)
+    let nextPreview
+    try {
+      nextPreview = await readFileDataUrl(file)
+    } catch (err) {
+      setKeyError(err.message || "Could not read that photo for preview.")
+      if (setter === setSuitPhoto) setSuitFile(null)
+      if (setter === setShirtPhoto) setShirtFile(null)
+      if (setter === setFullLookPhoto) setFullLookFile(null)
+      setter(null)
+      setPreparingPhoto("")
+      return
+    }
     if (setter === setSuitPhoto) releaseObjectUrl(suitPhoto)
     if (setter === setShirtPhoto) releaseObjectUrl(shirtPhoto)
     if (setter === setFullLookPhoto) releaseObjectUrl(fullLookPhoto)
