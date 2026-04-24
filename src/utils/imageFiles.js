@@ -135,7 +135,12 @@ export async function prepareVisionImageFile(file, { maxSide = 1600, quality = 0
         const dataUrlImage = await loadImageFromSrc(dataUrl)
         return await renderToJpegFile(dataUrlImage, dataUrlImage.width, dataUrlImage.height)
       } catch (dataUrlErr) {
-        console.error("[Dapper Image] Vision file preparation failed", {
+        // Browser can't decode this file, but the raw bytes may still be a
+        // valid JPEG/PNG/WebP that Claude can decode server-side. Return the
+        // original so the raw vision path can send bytes directly to the API.
+        // (Happens with CMYK JPEGs, some color-profile-heavy iPhone exports,
+        // and oversized images that exceed the browser's canvas limits.)
+        console.error("[Dapper Image] Browser decode failed, falling back to raw bytes", {
           imgErr: imgErr?.message,
           bitmapErr: bitmapErr?.message,
           dataUrlErr: dataUrlErr?.message,
@@ -143,13 +148,7 @@ export async function prepareVisionImageFile(file, { maxSide = 1600, quality = 0
           fileName: compatibleFile?.name || "(unnamed)",
           fileSize: compatibleFile?.size,
         })
-        const format = (compatibleFile?.type || compatibleFile?.name || "").toLowerCase()
-        const hint = format.includes("heic") || format.includes("heif")
-          ? " (HEIC/HEIF — please export as JPG)"
-          : format
-            ? ` (detected: ${compatibleFile?.type || compatibleFile?.name})`
-            : ""
-        throw new Error(`Dapper could not decode this photo in the browser${hint}. Please try a JPG, PNG, or WebP photo.`)
+        return compatibleFile
       }
     }
   } finally {
