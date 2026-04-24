@@ -60,7 +60,7 @@ export default async function handler(req) {
       mediaTypes: imageStats.mediaTypes,
     }))
 
-    if (imageStats.largestBase64Length > 2200000 || payloadSize > 2600000) {
+    if (imageStats.largestBase64Length > 3700000 || payloadSize > 4000000) {
       console.warn('[api/analyze] payload rejected before upstream', JSON.stringify({
         approxPayloadChars: payloadSize,
         imageCount: imageStats.imageCount,

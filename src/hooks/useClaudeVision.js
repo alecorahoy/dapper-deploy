@@ -400,7 +400,7 @@ const readFileAsDataURL = (file) => new Promise((resolve, reject) => {
   reader.readAsDataURL(file)
 })
 
-const MAX_VISION_BASE64_LENGTH = 1800000
+const MAX_VISION_BASE64_LENGTH = 3600000
 
 const loadImageFromSrc = (src) => new Promise((resolve, reject) => {
   const image = new Image()
