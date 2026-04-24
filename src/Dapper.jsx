@@ -1240,6 +1240,61 @@ function inferSuitVoteFamily(candidate) {
   return colorKey
 }
 
+function summarizeLocalSuitCandidate(candidate) {
+  if (!candidate) return null
+  const r = Number(candidate?.r) || 0
+  const g = Number(candidate?.g) || 0
+  const b = Number(candidate?.b) || 0
+  return {
+    cropLabel: String(candidate.cropLabel || ""),
+    colorKey: String(candidate.colorKey || ""),
+    voteFamily: inferSuitVoteFamily(candidate),
+    confidence: Number((Number(candidate.localSuitConfidence) || 0).toFixed(3)),
+    score: Number((Number(candidate.localSuitScore) || 0).toFixed(1)),
+    voteShare: Number((Number(candidate.localSuitVoteShare) || 0).toFixed(3)),
+    voteCount: Number(candidate.localSuitVoteCount) || 0,
+    samplingMode: String(candidate.colorSamplingMode || ""),
+    darkPixelRatio: Number((Number(candidate.darkPixelRatio) || 0).toFixed(3)),
+    darkNeutralPixelRatio: Number((Number(candidate.darkNeutralPixelRatio) || 0).toFixed(3)),
+    neutralPixelRatio: Number((Number(candidate.neutralPixelRatio) || 0).toFixed(3)),
+    sampleCoverage: Number((Number(candidate.sampleCoverage) || 0).toFixed(3)),
+    sceneWarmBias: Number((Number(candidate.sceneWarmBias) || 0).toFixed(1)),
+    sceneNeutralWarmBias: Number((Number(candidate.sceneNeutralWarmBias) || 0).toFixed(1)),
+    spread: Math.max(r, g, b) - Math.min(r, g, b),
+    blueLead: b - Math.max(r, g),
+    rgb: { r, g, b },
+    colorHex: candidate.colorHex || rgbToHexString(r, g, b),
+  }
+}
+
+function attachLocalSuitDiagnostics(result, diagnostics) {
+  if (!result || !diagnostics) return result
+  return {
+    ...result,
+    localSuitDiagnostics: diagnostics,
+  }
+}
+
+function buildLocalSuitDiagnostics({ selected, candidates = [], method, notes = [] } = {}) {
+  const candidateSummaries = candidates
+    .filter(Boolean)
+    .sort((a, b) => {
+      const confidenceDiff = (Number(b.localSuitConfidence) || 0) - (Number(a.localSuitConfidence) || 0)
+      if (Math.abs(confidenceDiff) > 0.0001) return confidenceDiff
+      return (Number(b.localSuitScore) || 0) - (Number(a.localSuitScore) || 0)
+    })
+    .map((candidate) => summarizeLocalSuitCandidate(candidate))
+
+  const selectedSummary = summarizeLocalSuitCandidate(selected)
+  return {
+    method: String(method || "single-crop"),
+    selected: selectedSummary,
+    candidateCount: candidateSummaries.length,
+    candidates: candidateSummaries,
+    notes: notes.filter(Boolean),
+  }
+}
+
 function normalizeSuitVoteCandidate(candidate) {
   if (!candidate) return null
 
@@ -1545,7 +1600,13 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
     const fallbackCandidate = buildPreparedLocalSuitCandidate(fallbackResult, "fallback torso")
     if (!fallbackCandidate) return null
     const recoveredFallback = recoverReliableSingleSuitCandidate(fallbackCandidate)
-    return recoveredFallback || fallbackCandidate
+    const selected = recoveredFallback || fallbackCandidate
+    return attachLocalSuitDiagnostics(selected, buildLocalSuitDiagnostics({
+      selected,
+      candidates: [fallbackCandidate, recoveredFallback].filter(Boolean),
+      method: recoveredFallback ? "strongest-single-crop-recovery" : "fallback-single-crop",
+      notes: ["No standard crop candidates succeeded, so the fallback torso crop was used."],
+    }))
   }
 
   candidates.sort((a, b) => b.localSuitScore - a.localSuitScore)
@@ -1560,7 +1621,13 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
   if (darkNeutralPanels.length >= 2) {
     const avgL = averageSuitMetric(darkNeutralPanels, "l")
     const forcedColorKey = avgL < 19 ? "black" : "charcoal"
-    return buildConsensusSuitCandidate(darkNeutralPanels, forcedColorKey)
+    const selected = buildConsensusSuitCandidate(darkNeutralPanels, forcedColorKey)
+    return attachLocalSuitDiagnostics(selected, buildLocalSuitDiagnostics({
+      selected,
+      candidates,
+      method: "consensus-dark-neutral-panels",
+      notes: ["Multiple trusted panel/lapel crops agreed on a dark-neutral read."],
+    }))
   }
 
   const navyPanels = panelCandidates.filter((candidate) =>
@@ -1568,33 +1635,75 @@ async function analyzeSuitLocally(dataURL, cropSet = SUIT_LOCAL_CROPS) {
     candidate.darkPixelRatio >= 0.35
   )
   if (navyPanels.length >= 2 && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
-    return buildConsensusSuitCandidate(navyPanels, "navy")
+    const selected = buildConsensusSuitCandidate(navyPanels, "navy")
+    return attachLocalSuitDiagnostics(selected, buildLocalSuitDiagnostics({
+      selected,
+      candidates,
+      method: "consensus-navy-panels",
+      notes: ["Multiple trusted panel crops recovered navy from a suspicious broad read."],
+    }))
   }
 
   const weightedVoteResult = buildWeightedSuitVoteCandidate(panelCandidates)
   if (weightedVoteResult && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
-    return weightedVoteResult
+    return attachLocalSuitDiagnostics(weightedVoteResult, buildLocalSuitDiagnostics({
+      selected: weightedVoteResult,
+      candidates,
+      method: "weighted-panel-vote",
+      notes: ["Panel crops were weighted by score and confidence to break a suspicious broad result."],
+    }))
   }
 
   const bestDarkNeutral = candidates.find((candidate) => inferSuitVoteFamily(candidate) === "dark-neutral")
   const bestNavy = candidates.find((candidate) => inferSuitVoteFamily(candidate) === "navy")
 
   if (bestDarkNeutral && bestDarkNeutral.localSuitScore >= best.localSuitScore - 8) {
-    return normalizeSuitVoteCandidate(bestDarkNeutral)
+    const selected = normalizeSuitVoteCandidate(bestDarkNeutral)
+    return attachLocalSuitDiagnostics(selected, buildLocalSuitDiagnostics({
+      selected,
+      candidates,
+      method: "strongest-dark-neutral-crop",
+      notes: ["A trusted dark-neutral crop beat or nearly matched the broad best crop."],
+    }))
   }
 
   if (bestNavy && SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey) && bestNavy.localSuitScore >= best.localSuitScore - 6) {
-    return normalizeSuitVoteCandidate(bestNavy)
+    const selected = normalizeSuitVoteCandidate(bestNavy)
+    return attachLocalSuitDiagnostics(selected, buildLocalSuitDiagnostics({
+      selected,
+      candidates,
+      method: "strongest-navy-crop",
+      notes: ["A trusted navy crop rescued a suspicious warm-cast broad result."],
+    }))
   }
 
   if (SUSPICIOUS_DARK_SUIT_KEYS.has(best.colorKey)) {
     const strongestRecoveredCandidate = pickStrongestReliableDarkCandidate(candidates, best)
-    if (strongestRecoveredCandidate) return strongestRecoveredCandidate
+    if (strongestRecoveredCandidate) {
+      return attachLocalSuitDiagnostics(strongestRecoveredCandidate, buildLocalSuitDiagnostics({
+        selected: strongestRecoveredCandidate,
+        candidates,
+        method: "strongest-single-crop-recovery",
+        notes: ["A single crop recovered a stronger dark-suit candidate than the broad best crop."],
+      }))
+    }
     const recoveredBest = recoverReliableSingleSuitCandidate(best)
-    if (recoveredBest) return recoveredBest
+    if (recoveredBest) {
+      return attachLocalSuitDiagnostics(recoveredBest, buildLocalSuitDiagnostics({
+        selected: recoveredBest,
+        candidates,
+        method: "best-crop-recovery",
+        notes: ["The broad best crop was corrected locally into a reliable dark-suit candidate."],
+      }))
+    }
   }
 
-  return best
+  return attachLocalSuitDiagnostics(best, buildLocalSuitDiagnostics({
+    selected: best,
+    candidates,
+    method: "best-single-crop",
+    notes: ["No stronger consensus or rescue path beat the highest-scoring crop."],
+  }))
 }
 
 async function analyzeFullLookSuitLocally(dataURL) {
@@ -20115,6 +20224,7 @@ function reconcileDarkSuitPhotoRead(visionSuitResult, localSuitResult) {
     r: localSuitResult.r,
     g: localSuitResult.g,
     b: localSuitResult.b,
+    localSuitDiagnostics: localSuitResult.localSuitDiagnostics || visionSuitResult.localSuitDiagnostics,
     colorCorrectionNote: visionSuitResult.colorCorrectionNote || `Local color sanity check changed ${visionSuitResult.colorLabel || visionSuitResult.colorKey} to ${correctedLabel}.`,
   }
 }
@@ -20134,6 +20244,7 @@ function reconcileDarkFullLookRead(fullLookResult, localSuitResult) {
       color: correctedSuit.colorKey,
       colorLabel: correctedSuit.colorLabel,
       colorHex: correctedSuit.colorHex || rgbToHexString(correctedSuit.r, correctedSuit.g, correctedSuit.b) || fullLookResult.suit.colorHex,
+      localSuitDiagnostics: correctedSuit.localSuitDiagnostics || localSuitResult.localSuitDiagnostics,
       colorCorrectionNote: correctionNote,
     },
     fashionPolice: fullLookResult.fashionPolice ? {
@@ -21508,6 +21619,67 @@ function fullLookColorKeyFromLabel(label, fallback = "navy") {
   return validatorKey || fallback || "navy"
 }
 
+function LocalSuitDebugCard({ diagnostics }) {
+  if (!diagnostics?.selected) return null
+  const selected = diagnostics.selected
+  const candidateRows = Array.isArray(diagnostics.candidates) ? diagnostics.candidates : []
+
+  return (
+    <div className="rounded-xl p-4" style={{ background:"#fff7ed", border:"1px solid #fdba74" }}>
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <div>
+          <div className="text-xs font-black tracking-wider" style={{ color:"#9a3412" }}>LOCAL SUIT DEBUG</div>
+          <div className="text-sm font-bold text-gray-900">
+            {selected.colorKey} via {diagnostics.method}
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-xs text-gray-500">Confidence</div>
+          <div className="text-sm font-black text-gray-900">{Math.round((selected.confidence || 0) * 100)}%</div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 mb-3">
+        {[
+          ["Winning crop", selected.cropLabel || "n/a"],
+          ["Winning family", selected.voteFamily || "n/a"],
+          ["Score", selected.score],
+          ["Dark neutral", selected.darkNeutralPixelRatio],
+          ["Dark ratio", selected.darkPixelRatio],
+          ["Warm bias", selected.sceneNeutralWarmBias],
+        ].map(([label, value]) => (
+          <div key={label} className="rounded-lg p-2" style={{ background:"rgba(255,255,255,0.65)", border:"1px solid rgba(251,146,60,0.25)" }}>
+            <div className="text-[10px] font-black tracking-wider text-gray-400">{label.toUpperCase()}</div>
+            <div className="text-xs font-semibold text-gray-700 mt-1 break-words">{String(value ?? "n/a")}</div>
+          </div>
+        ))}
+      </div>
+
+      {diagnostics.notes?.length > 0 && (
+        <div className="mb-3 text-xs text-gray-600">
+          {diagnostics.notes.join(" ")}
+        </div>
+      )}
+
+      <div className="space-y-2">
+        {candidateRows.slice(0, 6).map((candidate, index) => (
+          <div key={`${candidate.cropLabel || "crop"}-${index}`} className="rounded-lg p-2" style={{ background:"rgba(255,255,255,0.55)", border:"1px solid rgba(148,163,184,0.2)" }}>
+            <div className="flex items-center justify-between gap-2">
+              <div className="text-xs font-bold text-gray-900">{candidate.cropLabel || "crop"}</div>
+              <div className="text-[11px] font-semibold text-gray-500">
+                {candidate.colorKey} / {candidate.voteFamily}
+              </div>
+            </div>
+            <div className="mt-1 text-[11px] text-gray-600">
+              conf {Math.round((candidate.confidence || 0) * 100)}% · score {candidate.score} · dark {candidate.darkPixelRatio} · neutral {candidate.darkNeutralPixelRatio}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ─────────────────────────────────────────────
 // PAGE: AI ANALYZER
 // ─────────────────────────────────────────────
@@ -21548,12 +21720,19 @@ function AnalyzerPage() {
   const [shirtFile, setShirtFile] = useState(null)
   const [fullLookFile, setFullLookFile] = useState(null)
   const [preparingPhoto, setPreparingPhoto] = useState("")
+  const [showAnalyzerDebug, setShowAnalyzerDebug] = useState(false)
   const selectedStyleLens = styleLensById(styleLens)
   const isPreparingUpload = Boolean(preparingPhoto)
 
   useEffect(() => () => releaseObjectUrl(suitPhoto), [suitPhoto])
   useEffect(() => () => releaseObjectUrl(shirtPhoto), [shirtPhoto])
   useEffect(() => () => releaseObjectUrl(fullLookPhoto), [fullLookPhoto])
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const params = new URLSearchParams(window.location.search)
+    const enabled = params.get("analyzerDebug") === "1" || window.localStorage.getItem("dapper.analyzerDebug") === "1"
+    if (enabled) setShowAnalyzerDebug(true)
+  }, [])
 
   const handlePhotoSelect = async (e, setter) => {
     const rawFile = e.target.files[0]
@@ -21655,7 +21834,14 @@ function AnalyzerPage() {
       }
 
       const localFullLookSuitResult = await analyzeFullLookSuitLocally(fullLookPhoto)
-      const d = reconcileDarkFullLookRead(visionResult.data, localFullLookSuitResult)
+      const reconciledFullLook = reconcileDarkFullLookRead(visionResult.data, localFullLookSuitResult)
+      const d = localFullLookSuitResult?.localSuitDiagnostics ? {
+        ...reconciledFullLook,
+        suit: reconciledFullLook?.suit ? {
+          ...reconciledFullLook.suit,
+          localSuitDiagnostics: reconciledFullLook.suit?.localSuitDiagnostics || localFullLookSuitResult.localSuitDiagnostics,
+        } : reconciledFullLook?.suit,
+      } : reconciledFullLook
       const suitResult = fullLookSuitPhotoResult(d)
       if (suitResult) setAnalysisData(applyStyleLensToAnalysis(getAnalysisFromPhotoResult(suitResult), activeStyleLens))
       else setAnalysisData(ANALYSIS)
@@ -21700,9 +21886,13 @@ function AnalyzerPage() {
           visionData: d,
           r: 26, g: 39, b: 78
         }, localSuitResult)
-        const analysis = getAnalysisFromPhotoResult(correctedPhotoResult);
+        const finalPhotoResult = localSuitResult?.localSuitDiagnostics ? {
+          ...correctedPhotoResult,
+          localSuitDiagnostics: correctedPhotoResult?.localSuitDiagnostics || localSuitResult.localSuitDiagnostics,
+        } : correctedPhotoResult
+        const analysis = getAnalysisFromPhotoResult(finalPhotoResult);
         setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
-        setPhotoResult(correctedPhotoResult);
+        setPhotoResult(finalPhotoResult);
       } else {
         const suitResult = await analyzeSuitLocally(suitPhoto);
         const analysis = getAnalysisFromPhotoResult(suitResult);
@@ -22155,6 +22345,11 @@ function AnalyzerPage() {
                     <div className="mt-3 text-xs text-gray-400">
                       AI read: {fullLookResult.imageQuality || "unknown"} image, {fullLookResult.lighting || "unknown"} lighting. {fullLookResult.notes || ""}
                     </div>
+                    {showAnalyzerDebug && fullLookResult.suit?.localSuitDiagnostics && (
+                      <div className="mt-4">
+                        <LocalSuitDebugCard diagnostics={fullLookResult.suit.localSuitDiagnostics} />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -22200,6 +22395,11 @@ function AnalyzerPage() {
                           style={{borderColor:GOLD,color:"#92400e",background:"#fffbeb"}}>
                           ✏️ Correct Detection
                         </button>
+                        {showAnalyzerDebug && photoResult.localSuitDiagnostics && (
+                          <div className="mt-3">
+                            <LocalSuitDebugCard diagnostics={photoResult.localSuitDiagnostics} />
+                          </div>
+                        )}
                       </>
                     ) : (
                       <div className="space-y-2">
