@@ -21959,11 +21959,24 @@ function AnalyzerPage() {
         const analysis = getAnalysisFromPhotoResult(finalPhotoResult);
         setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
         setPhotoResult(finalPhotoResult);
+        setIsDemo(false);
       } else {
         const suitResult = await analyzeSuitLocally(suitPhoto);
-        const analysis = getAnalysisFromPhotoResult(suitResult);
-        setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
-        if (suitResult) setPhotoResult(suitResult);
+        if (suitResult) {
+          const analysis = getAnalysisFromPhotoResult(suitResult);
+          setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens));
+          setPhotoResult(suitResult);
+          setIsDemo(false);
+        } else {
+          // Both Claude vision and local fallback failed. Show a real error instead
+          // of silently displaying the hardcoded ANALYSIS demo data.
+          clearInterval(iv)
+          setAnalyzing(false)
+          setProgress(0)
+          const apiErr = visionResult?.error ? ` (${visionResult.error})` : ""
+          setKeyError(`Suit analysis could not read this photo${apiErr}. Try a tighter crop or a different JPG/PNG.`)
+          return
+        }
       }
       if (mode === "B" && shirtPhoto) {
         const shirtResult = await analyzePhotoLocally(shirtPhoto);
