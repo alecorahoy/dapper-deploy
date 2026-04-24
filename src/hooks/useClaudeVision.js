@@ -657,25 +657,50 @@ const requestSuitPhotoAnalysis = async (visionImage) => {
 const runVisionRequestWithFallbacks = async (imageFile, requestFn) => {
   const variants = [
     { label: 'primary', options: {} },
-    { label: 'smaller-jpeg', options: { maxSize: 640, quality: 0.6, outputType: 'image/jpeg', allowRawFallback: false } },
-    { label: 'smaller-png', options: { maxSize: 512, quality: 0.55, outputType: 'image/png', allowRawFallback: false } },
-    { label: 'tiny-jpeg', options: { maxSize: 420, quality: 0.5, outputType: 'image/jpeg', allowRawFallback: false } },
+    { label: 'smaller-jpeg', options: { maxSize: 640, quality: 0.6, outputType: 'image/jpeg', allowRawFallback: true } },
+    { label: 'smaller-png', options: { maxSize: 512, quality: 0.55, outputType: 'image/png', allowRawFallback: true } },
+    { label: 'tiny-jpeg', options: { maxSize: 420, quality: 0.5, outputType: 'image/jpeg', allowRawFallback: true } },
   ]
 
+  const attempts = []
   let lastErr = null
+  let lastVariant = null
+  let rawSourceSeen = false
   for (const variant of variants) {
     try {
       const visionImage = await fileToVisionImage(imageFile, variant.options)
+      // If we already sent raw bytes on the previous attempt and the API rejected
+      // them, retrying with raw bytes again (because the browser cannot decode
+      // this file) just wastes time. Bail out with a clear error.
+      if (visionImage?.source === 'raw' || visionImage?.source === 'raw-resized') {
+        if (rawSourceSeen) {
+          const reason = lastErr?.message || 'unknown API error'
+          throw new Error(
+            `The analyzer rejected this photo even at a smaller size, and the browser could not re-encode it locally. File: ${imageFile?.type || 'unknown type'}, ${(imageFile?.size ? Math.round(imageFile.size/1024) : '?')} KB. Server response: ${reason}`
+          )
+        }
+        rawSourceSeen = true
+      }
       const data = await requestFn(visionImage)
       return { data, visionImage, variant: variant.label }
     } catch (err) {
       lastErr = err
+      lastVariant = variant.label
+      attempts.push(`${variant.label}: ${err.message}`)
       if (!isRetryableVisionError(err.message) || variant === variants[variants.length - 1]) break
     }
   }
 
+  console.error('[Dapper Vision] All variants failed', {
+    file: imageFile?.name,
+    type: imageFile?.type,
+    sizeKB: imageFile?.size ? Math.round(imageFile.size / 1024) : null,
+    attempts,
+  })
+
   if (lastErr) {
-    throw new Error(`${lastErr.message}. Dapper retried smaller JPEG and PNG versions automatically, but the image still could not be processed.`)
+    const sizeKB = imageFile?.size ? `${Math.round(imageFile.size/1024)} KB` : '?'
+    throw new Error(`${lastErr.message} [${imageFile?.type || 'unknown'} · ${sizeKB} · last variant: ${lastVariant}]`)
   }
   throw new Error('Could not prepare the selected image for analysis.')
 }
