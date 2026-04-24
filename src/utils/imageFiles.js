@@ -135,8 +135,21 @@ export async function prepareVisionImageFile(file, { maxSide = 1600, quality = 0
         const dataUrlImage = await loadImageFromSrc(dataUrl)
         return await renderToJpegFile(dataUrlImage, dataUrlImage.width, dataUrlImage.height)
       } catch (dataUrlErr) {
-        console.warn("[Dapper Image] Vision file preparation fell back to original file", imgErr, bitmapErr, dataUrlErr)
-        return compatibleFile
+        console.error("[Dapper Image] Vision file preparation failed", {
+          imgErr: imgErr?.message,
+          bitmapErr: bitmapErr?.message,
+          dataUrlErr: dataUrlErr?.message,
+          fileType: compatibleFile?.type || "(unknown)",
+          fileName: compatibleFile?.name || "(unnamed)",
+          fileSize: compatibleFile?.size,
+        })
+        const format = (compatibleFile?.type || compatibleFile?.name || "").toLowerCase()
+        const hint = format.includes("heic") || format.includes("heif")
+          ? " (HEIC/HEIF — please export as JPG)"
+          : format
+            ? ` (detected: ${compatibleFile?.type || compatibleFile?.name})`
+            : ""
+        throw new Error(`Dapper could not decode this photo in the browser${hint}. Please try a JPG, PNG, or WebP photo.`)
       }
     }
   } finally {
