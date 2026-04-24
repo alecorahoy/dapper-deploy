@@ -21757,6 +21757,7 @@ function AnalyzerPage() {
   const [suitPhoto, setSuitPhoto]     = useState(null)
   const [shirtPhoto, setShirtPhoto]   = useState(null)
   const [fullLookPhoto, setFullLookPhoto] = useState(null)
+  const [previewRenderFailed, setPreviewRenderFailed] = useState(false)
   const [photoResult, setPhotoResult]           = useState(null)
   const [shirtPhotoResult, setShirtPhotoResult] = useState(null)
   const [fullLookResult, setFullLookResult]     = useState(null)
@@ -21795,6 +21796,7 @@ function AnalyzerPage() {
     }
     e.target.value = ""
     setKeyError("")
+    setPreviewRenderFailed(false)
     const slotLabel = setter === setSuitPhoto ? "suit" : setter === setShirtPhoto ? "shirt" : "full look"
     setPreparingPhoto(isHeicLike(rawFile) ? `Converting ${slotLabel} photo from HEIC...` : `Preparing ${slotLabel} photo...`)
 
@@ -22133,7 +22135,26 @@ function AnalyzerPage() {
                   style={{borderColor: fullLookPhoto ? GOLD : "#e5e7eb", background: fullLookPhoto ? "#fffbeb" : "white"}}>
                   {fullLookPhoto ? (
                     <div className="relative">
-                      <img src={fullLookPhoto} alt="Full look" className="w-full max-h-[420px] object-cover rounded-xl mb-3"/>
+                      {previewRenderFailed ? (
+                        <div className="w-full py-10 rounded-xl mb-3 flex flex-col items-center justify-center gap-2"
+                          style={{background:"#fffbeb", border:`1px dashed ${GOLD}`}}>
+                          <Shield size={32} style={{color: GOLD}}/>
+                          <div className="text-sm font-bold text-gray-700">
+                            {fullLookFile?.name || "Photo loaded"}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {fullLookFile?.size ? `${Math.round(fullLookFile.size/1024)} KB · ` : ""}
+                            preview unavailable — photo will still be analyzed
+                          </div>
+                        </div>
+                      ) : (
+                        <img
+                          src={fullLookPhoto}
+                          alt="Full look"
+                          className="w-full max-h-[420px] object-cover rounded-xl mb-3"
+                          onError={() => setPreviewRenderFailed(true)}
+                        />
+                      )}
                       <div className="text-xs font-black text-yellow-700">Fashion Police photo ready</div>
                       <div className="text-xs text-gray-400 mt-1">Tap to change</div>
                     </div>
