@@ -21248,7 +21248,7 @@ function accountPlanCaption(entitlement) {
 // SIDEBAR
 // ─────────────────────────────────────────────
 
-function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, onReportProblem, entitlement, isAdmin }) {
+function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, onReportProblem, entitlement, isAdmin, collapsed = false }) {
   const items = [
     { id:"analyzer",  icon:Wand2,    label:"AI Analyzer" },
     { id:"validator", icon:Check,    label:"Outfit Validator", badge:"NEW" },
@@ -21263,90 +21263,115 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, 
   const planLabel   = accountPlanLabel(entitlement)
   const planCaption = accountPlanCaption(entitlement)
   const planUsed    = entitlement?.plan === "free" ? "1 of 3 used this month" : "Unlimited access"
+  const isCompact   = !mobile && collapsed
+  const widthClass  = mobile ? "w-72" : (isCompact ? "w-16" : "w-64")
 
   return (
-    <div style={{background:NAVY,color:"white"}} className={`flex flex-col h-full ${mobile?"w-72":"w-64"} flex-shrink-0`}>
+    <div style={{background:NAVY,color:"white"}} className={`flex flex-col h-full ${widthClass} flex-shrink-0 transition-[width] duration-200 ease-out overflow-hidden`}>
       {/* Logo */}
-      <div className="px-6 py-5 flex items-center justify-between border-b border-white border-opacity-10">
-        <div className="flex items-center gap-2">
-          <div style={{background:GOLD}} className="w-8 h-8 rounded-lg flex items-center justify-center">
+      <div className={`${isCompact?"px-3":"px-6"} py-5 flex items-center justify-between border-b border-white border-opacity-10`}>
+        <div className="flex items-center gap-2 min-w-0">
+          <div style={{background:GOLD}} className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
             <Shirt size={16} color={NAVY} />
           </div>
-          <span className="text-xl font-black tracking-widest">DAPPER</span>
+          {!isCompact && <span className="text-xl font-black tracking-widest whitespace-nowrap">DAPPER</span>}
         </div>
         {mobile && <button onClick={onClose}><X size={20} /></button>}
       </div>
 
       {/* Usage badge */}
-      <div className="mx-4 mt-4 mb-1 px-3 py-2 rounded-xl" style={{background:"rgba(201,168,76,0.1)",border:"1px solid rgba(201,168,76,0.25)"}}>
-        <div className="flex items-center justify-between mb-1">
-          <div>
-            <div className="text-xs font-bold tracking-widest" style={{color:GOLD}}>{planLabel.toUpperCase()} TIER</div>
-            <div className="text-xs text-gray-400">{planCaption}</div>
+      {!isCompact && (
+        <div className="mx-4 mt-4 mb-1 px-3 py-2 rounded-xl" style={{background:"rgba(201,168,76,0.1)",border:"1px solid rgba(201,168,76,0.25)"}}>
+          <div className="flex items-center justify-between mb-1">
+            <div>
+              <div className="text-xs font-bold tracking-widest" style={{color:GOLD}}>{planLabel.toUpperCase()} TIER</div>
+              <div className="text-xs text-gray-400">{planCaption}</div>
+            </div>
+            {entitlement?.plan !== "elite" && (
+              <button onClick={()=>{setPage("pricing");if(onClose)onClose()}} className="text-xs font-bold px-2 py-1 rounded-lg" style={{background:GOLD,color:NAVY}}>Pro</button>
+            )}
           </div>
-          {entitlement?.plan !== "elite" && (
-            <button onClick={()=>{setPage("pricing");if(onClose)onClose()}} className="text-xs font-bold px-2 py-1 rounded-lg" style={{background:GOLD,color:NAVY}}>Pro</button>
-          )}
+          <div className="flex gap-1 mt-1">
+            {[1,2,3].map(i=><div key={i} className="h-1 flex-1 rounded-full" style={{background:entitlement?.plan !== "free" || i===1?GOLD:"rgba(255,255,255,0.1)"}} />)}
+          </div>
+          <div className="text-xs text-gray-500 mt-1">{planUsed}</div>
         </div>
-        <div className="flex gap-1 mt-1">
-          {[1,2,3].map(i=><div key={i} className="h-1 flex-1 rounded-full" style={{background:entitlement?.plan !== "free" || i===1?GOLD:"rgba(255,255,255,0.1)"}} />)}
-        </div>
-        <div className="text-xs text-gray-500 mt-1">{planUsed}</div>
-      </div>
+      )}
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-3 space-y-0.5">
+      <nav className={`flex-1 ${isCompact?"px-2":"px-3"} py-3 space-y-0.5`}>
         {items.map((item)=>{
           const {id,icon:Icon,label,badge} = item
           const active = page===id
           return (
             <button key={id} onClick={()=>{setPage(id);if(onClose)onClose()}}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${active?"":"text-gray-400 hover:text-white hover:bg-white hover:bg-opacity-5"}`}
+              title={isCompact ? label : undefined}
+              className={`w-full flex items-center ${isCompact?"justify-center px-0":"gap-3 px-4"} py-2.5 rounded-xl text-sm font-medium transition-all ${active?"":"text-gray-400 hover:text-white hover:bg-white hover:bg-opacity-5"}`}
               style={active?{background:"rgba(201,168,76,0.15)",color:GOLD}:{}}
             >
               <Icon size={17}/>
-              <span>{label}</span>
-              {badge && <span className="ml-auto text-xs px-1.5 py-0.5 rounded-md font-bold" style={{background:GOLD,color:NAVY}}>{badge}</span>}
+              {!isCompact && <span className="whitespace-nowrap">{label}</span>}
+              {!isCompact && badge && <span className="ml-auto text-xs px-1.5 py-0.5 rounded-md font-bold" style={{background:GOLD,color:NAVY}}>{badge}</span>}
             </button>
           )
         })}
       </nav>
 
       {/* Report problem */}
-      <div className="px-4 pb-3">
+      <div className={`${isCompact?"px-2":"px-4"} pb-3`}>
         <button onClick={()=>{ onReportProblem?.(); if(onClose)onClose() }}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-gray-300 hover:text-white"
+          title={isCompact ? "Report a Problem" : undefined}
+          className={`w-full flex items-center ${isCompact?"justify-center px-0 py-2.5":"gap-3 px-4 py-3"} rounded-xl text-sm font-bold transition-all text-gray-300 hover:text-white`}
           style={{background:"rgba(255,255,255,0.06)",border:"1px solid rgba(255,255,255,0.08)"}}>
           <MessageCircle size={16}/>
-          Report a Problem
+          {!isCompact && <span className="whitespace-nowrap">Report a Problem</span>}
         </button>
       </div>
 
       {/* User */}
-      <div className="p-4 border-t border-white border-opacity-10">
+      <div className={`${isCompact?"p-2":"p-4"} border-t border-white border-opacity-10`}>
         {user ? (
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0" style={{background:GOLD,color:NAVY}}>
-              {initials}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-semibold truncate">{displayName}</div>
-              <div className="text-xs text-gray-500">{planLabel} Member{isAdmin ? " · Owner" : ""}</div>
-            </div>
-            <button onClick={onLogOut} title="Sign out"
-              className="p-1.5 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all">
-              <LogOut size={15} className="text-gray-500"/>
+          isCompact ? (
+            <button onClick={onLogOut} title={`${displayName} — sign out`}
+              className="w-full flex items-center justify-center py-2 rounded-lg hover:bg-white hover:bg-opacity-5 transition-all">
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0" style={{background:GOLD,color:NAVY}}>
+                {initials}
+              </div>
             </button>
-          </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0" style={{background:GOLD,color:NAVY}}>
+                {initials}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-semibold truncate">{displayName}</div>
+                <div className="text-xs text-gray-500">{planLabel} Member{isAdmin ? " · Owner" : ""}</div>
+              </div>
+              <button onClick={onLogOut} title="Sign out"
+                className="p-1.5 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all">
+                <LogOut size={15} className="text-gray-500"/>
+              </button>
+            </div>
+          )
         ) : (
           <button onClick={onAuthClick}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all"
+            title={isCompact ? "Sign in to sync data" : undefined}
+            className={`w-full flex items-center ${isCompact?"justify-center px-0 py-2.5":"gap-3 px-4 py-3"} rounded-xl text-sm font-bold transition-all`}
             style={{background:"rgba(201,168,76,0.15)",color:GOLD}}>
             <LogIn size={16}/>
-            Sign in to sync data
+            {!isCompact && <span className="whitespace-nowrap">Sign in to sync data</span>}
           </button>
         )}
       </div>
+    </div>
+  )
+}
+
+function DesktopSidebarShell(props) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <div className="hidden lg:flex" onMouseEnter={()=>setHovered(true)} onMouseLeave={()=>setHovered(false)}>
+      <Sidebar {...props} collapsed={!hovered} />
     </div>
   )
 }
@@ -21681,6 +21706,33 @@ function LocalSuitDebugCard({ diagnostics }) {
 }
 
 // ─────────────────────────────────────────────
+// SHARED UI: SelectableCard
+// One canonical card treatment for single-select choices
+// (analyzer modes, style lens, etc.). Keeps the selected/
+// non-selected visual language consistent across the app.
+// ─────────────────────────────────────────────
+
+function SelectableCard({ selected, onClick, title, subtitle, icon, className = "", size = "md" }) {
+  const padding = size === "sm" ? "py-3 px-4" : "p-4"
+  const titleSize = size === "sm" ? "text-sm" : "text-sm"
+  return (
+    <button type="button" onClick={onClick}
+      className={`${padding} rounded-xl border-2 text-left transition-all hover:shadow-sm ${className}`}
+      style={selected
+        ? {borderColor:GOLD, background:"#fffbeb", boxShadow:"0 2px 12px rgba(201,168,76,0.15)"}
+        : {borderColor:"#e5e7eb", background:"white"}}>
+      <div className="flex items-start gap-2">
+        {icon ? <span className="mt-0.5 flex-shrink-0" style={{color: selected ? "#92400e" : "#9ca3af"}}>{icon}</span> : null}
+        <div className="min-w-0">
+          <div className={`font-bold ${titleSize} text-gray-900`}>{title}</div>
+          {subtitle && <div className="text-xs text-gray-400 mt-0.5">{subtitle}</div>}
+        </div>
+      </div>
+    </button>
+  )
+}
+
+// ─────────────────────────────────────────────
 // PAGE: AI ANALYZER
 // ─────────────────────────────────────────────
 
@@ -21701,6 +21753,7 @@ function AnalyzerPage() {
   const [isDemo, setIsDemo]           = useState(false)
   const [occasion, setOccasion]       = useState("All")
   const [styleLens, setStyleLens]     = useState("classic")
+  const [refineOpen, setRefineOpen]   = useState(false)
   const [suitPhoto, setSuitPhoto]     = useState(null)
   const [shirtPhoto, setShirtPhoto]   = useState(null)
   const [fullLookPhoto, setFullLookPhoto] = useState(null)
@@ -21977,7 +22030,7 @@ function AnalyzerPage() {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-black text-gray-900">AI Suit Analyzer</h1>
+        <h1 className="text-3xl font-black text-gray-900 font-display">AI Suit Analyzer</h1>
         <p className="text-gray-500 text-sm mt-1">Upload a suit, describe a combination, or send the Fashion Police a full worn look.</p>
       </div>
 
@@ -21986,46 +22039,9 @@ function AnalyzerPage() {
           {/* Mode selector */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[{id:"A",label:"Suit Only",sub:"1 photo"},{id:"B",label:"Suit + Shirt",sub:"2 photos"},{id:"D",label:"Full Look",sub:"Fashion Police"},{id:"C",label:"Text Description",sub:"Describe it"}].map(m=>(
-              <button key={m.id} onClick={()=>setMode(m.id)}
-                className={`py-3 px-4 rounded-xl border-2 text-left transition-all`}
-                style={mode===m.id?{borderColor:GOLD,background:"#fffbeb"}:{borderColor:"#e5e7eb",background:"white"}}>
-                <div className="font-bold text-sm text-gray-900">{m.label}</div>
-                <div className="text-xs text-gray-400 mt-0.5">{m.sub}</div>
-              </button>
+              <SelectableCard key={m.id} selected={mode===m.id} onClick={()=>setMode(m.id)}
+                title={m.label} subtitle={m.sub} size="sm" />
             ))}
-          </div>
-
-          {/* Occasion selector */}
-          <div className="mb-6">
-            <div className="text-xs font-black tracking-wider text-gray-400 mb-2">OCCASION <span className="text-gray-300 font-normal">(optional — filters outfit packages)</span></div>
-            <div className="flex flex-wrap gap-2">
-              {["All","Office","Wedding","Formal","Date","Funeral","Church","Interview","Casual"].map(o=>(
-                <button key={o} onClick={()=>setOccasion(o)}
-                  className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
-                  style={occasion===o
-                    ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
-                    : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
-                  {o}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Style lens selector */}
-          <div className="mb-6">
-            <div className="text-xs font-black tracking-wider text-gray-400 mb-2">STYLE LENS <span className="text-gray-300 font-normal">(how Dapper judges the look)</span></div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {STYLE_LENSES.map(lens=>(
-                <button key={lens.id} onClick={()=>setStyleLens(lens.id)}
-                  className="p-3 rounded-xl border-2 text-left transition-all bg-white"
-                  style={styleLens===lens.id
-                    ? {borderColor:GOLD,background:"#fffbeb",boxShadow:"0 2px 12px rgba(201,168,76,0.15)"}
-                    : {borderColor:"#e5e7eb",background:"white"}}>
-                  <div className="font-black text-sm text-gray-900">{lens.label}</div>
-                  <div className="text-xs text-gray-400 mt-0.5">{lens.sub}</div>
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Upload zones — iOS/Android camera compatible */}
@@ -22146,6 +22162,48 @@ function AnalyzerPage() {
               <div className="text-xs text-gray-400 mt-2">Include: color, pattern, fabric, brand, and formality level for best results.</div>
             </div>
           )}
+
+          {/* Refine panel — collapsible occasion + style lens */}
+          <div className="mb-6 rounded-2xl border transition-all" style={{borderColor:refineOpen?"rgba(201,168,76,0.35)":"#e5e7eb", background:refineOpen?"#fffdf6":"white"}}>
+            <button type="button" onClick={()=>setRefineOpen(v=>!v)}
+              className="w-full flex items-center justify-between px-4 py-3 text-left">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black tracking-widest text-gray-700">REFINE</span>
+                <span className="text-xs text-gray-400">(optional)</span>
+                <span className="text-xs px-2 py-0.5 rounded-full" style={{background:"#fffbeb", color:"#92400e", border:`1px solid ${GOLD}`}}>
+                  {occasion} · {selectedStyleLens.label}
+                </span>
+              </div>
+              <span className="text-xs font-bold text-gray-400">{refineOpen ? "−" : "+"}</span>
+            </button>
+            {refineOpen && (
+              <div className="px-4 pb-4 space-y-5">
+                <div>
+                  <div className="text-[11px] font-black tracking-wider text-gray-400 mb-2">OCCASION <span className="text-gray-300 font-normal">— filters outfit packages</span></div>
+                  <div className="flex flex-wrap gap-2">
+                    {["All","Office","Wedding","Formal","Date","Funeral","Church","Interview","Casual"].map(o=>(
+                      <button key={o} onClick={()=>setOccasion(o)}
+                        className="px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all"
+                        style={occasion===o
+                          ? {borderColor:GOLD, background:"#fffbeb", color:"#92400e"}
+                          : {borderColor:"#e5e7eb", background:"white", color:"#6b7280"}}>
+                        {o}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[11px] font-black tracking-wider text-gray-400 mb-2">STYLE LENS <span className="text-gray-300 font-normal">— how Dapper judges the look</span></div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                    {STYLE_LENSES.map(lens=>(
+                      <SelectableCard key={lens.id} selected={styleLens===lens.id} onClick={()=>setStyleLens(lens.id)}
+                        title={lens.label} subtitle={lens.sub} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           {preparingPhoto && <p className="text-xs text-blue-600 mb-3 px-1">{preparingPhoto}</p>}
           {keyError && <p className="text-xs text-red-400 mb-3 px-1">{keyError}</p>}
@@ -23134,7 +23192,7 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
     <div className="max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 className="text-2xl font-black text-gray-900">My Closet</h1>
+          <h1 className="text-3xl font-black text-gray-900 font-display">My Closet</h1>
           <p className="text-gray-400 text-sm mt-0.5">{items.length} garments · {items.filter(i=>i.type==="Suit").length} suits</p>
         </div>
         <button onClick={openClosetModal} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90" style={{background:NAVY}}>
@@ -23611,7 +23669,7 @@ function CalendarPage({ closetItems, user }) {
     <div className="max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 className="text-2xl font-black text-gray-900">Outfit Calendar</h1>
+          <h1 className="text-3xl font-black text-gray-900 font-display">Outfit Calendar</h1>
           <p className="text-gray-400 text-sm mt-0.5">{wornLog.length} logged looks</p>
         </div>
         {/* Quick log button */}
@@ -24100,7 +24158,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 className="text-2xl font-black text-gray-900">Community</h1>
+          <h1 className="text-3xl font-black text-gray-900 font-display">Community</h1>
           <p className="text-gray-400 text-sm mt-0.5">Style inspiration from the Dapper community</p>
         </div>
         <div className="flex items-center gap-3">
@@ -24997,7 +25055,7 @@ function OutfitValidatorPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-black text-gray-900">Outfit Validator</h1>
+        <h1 className="text-3xl font-black text-gray-900 font-display">Outfit Validator</h1>
         <p className="text-gray-500 text-sm mt-1">Build the look from photos, then correct anything in text. The validator checks pattern, color, formality, occasion, shoes, and belt.</p>
       </div>
 
@@ -25285,7 +25343,7 @@ function PricingPage({ entitlement }) {
     <div className="max-w-4xl mx-auto">
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-3xl font-black text-gray-900 mb-2">Dress Better. Every Day.</h1>
+        <h1 className="text-4xl font-black text-gray-900 mb-2 font-display">Dress Better. Every Day.</h1>
         <p className="text-gray-500 max-w-md mx-auto text-sm leading-relaxed">
           Sin compromisos — paga mes a mes cuando quieras.<br/>
           <span style={{color:GOLD}} className="font-semibold">Ahorra 33% con el plan anual.</span>
@@ -26102,11 +26160,9 @@ export default function DapperApp() {
         <ReportProblemModal user={user} page={page} onClose={()=>setShowReport(false)}/>
       )}
 
-      {/* Desktop sidebar */}
-      <div className="hidden lg:flex">
-        <Sidebar page={page} setPage={setPage} user={user} onAuthClick={()=>setShowAuth(true)} onLogOut={logOut}
-          onReportProblem={()=>setShowReport(true)} entitlement={entitlement} isAdmin={isAdmin}/>
-      </div>
+      {/* Desktop sidebar — collapsible, expands on hover */}
+      <DesktopSidebarShell page={page} setPage={setPage} user={user} onAuthClick={()=>setShowAuth(true)} onLogOut={logOut}
+        onReportProblem={()=>setShowReport(true)} entitlement={entitlement} isAdmin={isAdmin}/>
 
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
@@ -26162,12 +26218,6 @@ export default function DapperApp() {
             onAuthClick={()=>setShowAuth(true)}
           />
         </main>
-
-        <button onClick={()=>setShowReport(true)}
-          className="fixed right-4 bottom-20 lg:bottom-5 z-30 flex items-center gap-2 px-4 py-3 rounded-xl text-xs font-black text-white shadow-lg"
-          style={{background:NAVY}}>
-          <MessageCircle size={15}/> Report a Problem
-        </button>
 
         {/* Mobile bottom nav */}
         <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-2 py-1 z-40">
