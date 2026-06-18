@@ -2,10 +2,27 @@ export const config = { runtime: "edge" }
 
 const DEFAULT_REPORT_EMAIL = "alecorahoy@gmail.com"
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+function isAllowedOrigin(req) {
+  const origin = req.headers.get("origin")
+  if (!origin) return { allowed: true, origin: null }
+  const host = req.headers.get("host") || ""
+  const sameOrigin = origin === `https://${host}` || origin === `http://${host}`
+  const envList = String(process.env.ALLOWED_ORIGINS || "")
+    .split(",").map((o) => o.trim()).filter(Boolean)
+  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+  const isVercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)
+  const allowed = sameOrigin || isLocal || isVercelPreview || envList.includes(origin)
+  return { allowed, origin }
+}
+
+function corsFor(req) {
+  const { origin } = isAllowedOrigin(req)
+  return {
+    "Access-Control-Allow-Origin": origin || "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Vary": "Origin",
+  }
 }
 
 const pageLabels = {
@@ -28,11 +45,11 @@ const typeLabels = {
   other: "Other",
 }
 
-function json(payload, status = 200) {
+function json(payload, status = 200, cors = {}) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
-      ...corsHeaders,
+      ...cors,
       "Content-Type": "application/json",
     },
   })
@@ -59,12 +76,19 @@ function recipients() {
 }
 
 export default async function handler(req) {
+  const cors = corsFor(req)
+  const { allowed } = isAllowedOrigin(req)
+
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders })
+    return new Response(null, { headers: cors })
   }
 
   if (req.method !== "POST") {
-    return json({ error: "Method not allowed" }, 405)
+    return json({ error: "Method not allowed" }, 405, cors)
+  }
+
+  if (!allowed) {
+    return json({ error: "Origin not allowed." }, 403, cors)
   }
 
   try {
@@ -86,7 +110,7 @@ export default async function handler(req) {
         emailSent: false,
         reason: "missing_resend_api_key",
         to,
-      })
+      }, 200, cors)
     }
 
     const pageLabel = pageLabels[page] || page || "Whole App"
@@ -155,11 +179,11 @@ export default async function handler(req) {
         emailSent: false,
         error: data?.message || data?.error || "Could not send email notification.",
         details: data,
-      }, 502)
+      }, 502, cors)
     }
 
-    return json({ emailSent: true, to, providerId: data?.id || "" })
+    return json({ emailSent: true, to, providerId: data?.id || "" }, 200, cors)
   } catch (err) {
-    return json({ emailSent: false, error: err.message || "Could not send email notification." }, 500)
+    return json({ emailSent: false, error: err.message || "Could not send email notification." }, 500, cors)
   }
 }

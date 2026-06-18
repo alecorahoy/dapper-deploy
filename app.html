@@ -7,6 +7,15 @@
     <title>Dapper — AI Men's Style Intelligence</title>
     <meta name="description" content="Get perfect shirt, tie, and outfit recommendations for any suit in seconds." />
 
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#080f1e" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Dapper" />
+
     <!-- Open Graph -->
     <meta property="og:type"        content="website" />
     <meta property="og:title"       content="Dapper — AI Men's Style Intelligence" />
@@ -115,11 +124,32 @@
     </script>
 
     <script>
-      // Dapper should not cache the app shell while we are shipping rapid fixes.
+      // Register the Dapper PWA service worker. Navigations are network-first
+      // (always fresh after deploys); assets are cached for offline use.
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations()
-          .then(registrations => registrations.forEach(reg => reg.unregister()))
-          .catch(() => {});
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .then(reg => {
+              // When a new SW is found, activate it immediately so users get updates.
+              reg.addEventListener('updatefound', () => {
+                const sw = reg.installing;
+                if (!sw) return;
+                sw.addEventListener('statechange', () => {
+                  if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+                    sw.postMessage('SKIP_WAITING');
+                  }
+                });
+              });
+            })
+            .catch(err => console.warn('[Dapper] Service worker registration failed', err));
+        });
+        // Reload once when the active SW changes, so a new version takes over cleanly.
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
       }
     </script>
   </body>

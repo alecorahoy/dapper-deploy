@@ -1,5 +1,35 @@
 export const config = { runtime: 'edge' }
 
+// ── CORS origin lock ───────────────────────────────────────────────
+// Same-origin app calls (incl. logged-out guests) keep working, but
+// off-site browsers can't use this paid AI proxy. Determined non-browser
+// clients can still spoof Origin — pair with Firebase App Check later.
+function isAllowedOrigin(req) {
+  const origin = req.headers.get('origin')
+  // No Origin header → same-origin fetch or non-browser; allow.
+  if (!origin) return { allowed: true, origin: null }
+
+  const host = req.headers.get('host') || ''
+  const sameOrigin = origin === `https://${host}` || origin === `http://${host}`
+  const envList = String(process.env.ALLOWED_ORIGINS || '')
+    .split(',').map((o) => o.trim()).filter(Boolean)
+  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+  const isVercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)
+
+  const allowed = sameOrigin || isLocal || isVercelPreview || envList.includes(origin)
+  return { allowed, origin }
+}
+
+function corsHeaders(req) {
+  const { origin } = isAllowedOrigin(req)
+  return {
+    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Vary': 'Origin',
+  }
+}
+
 function collectImagePayloadStats(messages) {
   const stats = { imageCount: 0, largestBase64Length: 0, totalBase64Length: 0, mediaTypes: [] }
   const safeMessages = Array.isArray(messages) ? messages : []
@@ -22,26 +52,31 @@ function collectImagePayloadStats(messages) {
 }
 
 export default async function handler(req) {
+  const cors = corsHeaders(req)
+  const { allowed } = isAllowedOrigin(req)
+
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    })
+    return new Response(null, { headers: cors })
   }
 
   if (req.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 })
+    return new Response('Method not allowed', { status: 405, headers: cors })
+  }
+
+  if (!allowed) {
+    return new Response(JSON.stringify({ error: { message: 'Origin not allowed.' } }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json', ...cors },
+    })
   }
 
   try {
-    const apiKey = process.env.VITE_ANTHROPIC_API_KEY
+    // Prefer ANTHROPIC_API_KEY; fall back to the legacy VITE_-prefixed name.
+    const apiKey = process.env.ANTHROPIC_API_KEY || process.env.VITE_ANTHROPIC_API_KEY
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: { message: 'Missing VITE_ANTHROPIC_API_KEY on the server.' } }), {
+      return new Response(JSON.stringify({ error: { message: 'Missing ANTHROPIC_API_KEY on the server.' } }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        headers: { 'Content-Type': 'application/json', ...cors }
       })
     }
 
@@ -72,7 +107,7 @@ export default async function handler(req) {
         }
       }), {
         status: 413,
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+        headers: { 'Content-Type': 'application/json', ...cors }
       })
     }
 
@@ -113,14 +148,14 @@ export default async function handler(req) {
       status: response.status,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        ...cors,
       }
     })
   } catch (err) {
     console.error('[api/analyze] handler error', err)
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+      headers: { 'Content-Type': 'application/json', ...cors }
     })
   }
 }

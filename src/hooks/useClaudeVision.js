@@ -925,7 +925,7 @@ export function useClaudeVision() {
       const firstPassSuitLabel = detectedSuit.colorLabel || parsed.suit?.color || "unknown"
       if (isSuspiciousDarkSuitRead(detectedSuit)) {
         try {
-          const audited = await auditSuitColorWithVision(visionImage, firstPassSuitLabel)
+          const audited = await auditSuitColorWithVision(preflightVisionImage, firstPassSuitLabel)
           const auditedSuit = preferBlackForGreenishNearBlackAudit(detectedSuit, normalizeDetectedPiece(audited, detectedSuit.colorHex, "suit"))
           if (shouldTrustSuitColorAudit(detectedSuit, auditedSuit)) {
             const patternLabel = auditedSuit.patternLabel && auditedSuit.patternLabel !== "solid"

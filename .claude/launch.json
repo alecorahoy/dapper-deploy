@@ -4,7 +4,7 @@
     {
       "name": "dapper-dev",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["vite", "preview", "--port", "5173"],
+      "runtimeArgs": ["vite", "--port", "5173"],
       "port": 5173
     }
   ]

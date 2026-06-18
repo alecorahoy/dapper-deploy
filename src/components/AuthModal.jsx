@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { X, Mail, Lock, User, Eye, EyeOff, Loader } from "lucide-react"
 
 const NAVY = "#080f1e"
@@ -53,6 +53,15 @@ export default function AuthModal({ onClose, useAuthHook }) {
   const [password,    setPassword]    = useState("")
   const [name,        setName]        = useState("")
   const [showPass,    setShowPass]    = useState(false)
+  const dialogRef = useRef(null)
+
+  // Close on Escape, and focus the first field on open (accessibility).
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose() }
+    document.addEventListener("keydown", onKey)
+    dialogRef.current?.querySelector("input")?.focus()
+    return () => document.removeEventListener("keydown", onKey)
+  }, [onClose])
 
   const switchMode = () => { setMode(m => m === "signin" ? "signup" : "signin"); clearError() }
 
@@ -74,8 +83,11 @@ export default function AuthModal({ onClose, useAuthHook }) {
   const handleKey = (e) => { if (e.key === "Enter" && !loading && email && password) handleSubmit() }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
+      onClick={onClose}>
+      <div ref={dialogRef} className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden"
+        role="dialog" aria-modal="true" aria-labelledby="auth-modal-title"
+        onClick={(e) => e.stopPropagation()}>
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4" style={{borderBottom:"1px solid #f1f5f9"}}>
@@ -86,14 +98,14 @@ export default function AuthModal({ onClose, useAuthHook }) {
               </div>
               <span className="font-black tracking-widest text-sm" style={{color:NAVY}}>DAPPER</span>
             </div>
-            <h2 className="text-xl font-black text-gray-900">
+            <h2 id="auth-modal-title" className="text-xl font-black text-gray-900">
               {mode === "signin" ? "Welcome back" : "Create account"}
             </h2>
             <p className="text-xs text-gray-400 mt-0.5">
               {mode === "signin" ? "Sign in to access your closet & calendar" : "Start building your style profile"}
             </p>
           </div>
-          <button onClick={onClose} className="p-1 rounded-lg hover:bg-gray-100">
+          <button onClick={onClose} aria-label="Close" className="p-1 rounded-lg hover:bg-gray-100">
             <X size={18} className="text-gray-400"/>
           </button>
         </div>

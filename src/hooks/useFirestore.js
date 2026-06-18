@@ -403,10 +403,11 @@ export function useCommunityPosts(user) {
     try {
       const postRef = doc(collection(db, "communityPosts"))
       const authorName = user.displayName || user.email?.split("@")[0] || "Dapper Member"
+      // NOTE: do not store authorEmail here — communityPosts is publicly
+      // readable, so persisting member emails would leak PII.
       await setDoc(postRef, {
         uid: user.uid,
         authorName,
-        authorEmail: user.email || "",
         authorInitials: communityInitials(user),
         avatar: communityAvatarColor(user.uid),
         badge: badge || "Member",

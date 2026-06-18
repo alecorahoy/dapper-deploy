@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
 import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts, useProblemReports, useAdminProblemReports } from './hooks/useFirestore.js'
@@ -21769,6 +21769,11 @@ function AnalyzerPage() {
   const [fullLookCorrection, setFullLookCorrection] = useState({ suitColor:"", suitPattern:"" })
   const suitInputRef  = { current: null }
   const shirtInputRef = { current: null }
+  const progressTimerRef = useRef(null)
+
+  // Clear any running progress interval if the user navigates away mid-analysis
+  // (prevents a leaked timer + setState-on-unmounted warnings).
+  useEffect(() => () => { if (progressTimerRef.current) clearInterval(progressTimerRef.current) }, [])
 
   const [suitFile, setSuitFile] = useState(null)
   const [shirtFile, setShirtFile] = useState(null)
@@ -21874,54 +21879,63 @@ function AnalyzerPage() {
         if (p >= 88) clearInterval(iv)
         setProgress(Math.min(p, 88))
       }, 220)
+      progressTimerRef.current = iv
 
-      const visionResult = await analyzeFullLook(fullLookFile, activeStyleLens)
-      clearInterval(iv)
+      try {
+        const visionResult = await analyzeFullLook(fullLookFile, activeStyleLens)
+        clearInterval(iv)
 
-      if (!visionResult.success) {
-        const localFallback = await analyzeFullLookSuitLocally(fullLookPhoto)
-        if (localFallback) {
-          const partialResult = {
-            ...localFallback,
-            colorCorrectionNote: "Full Look AI could not process this photo, so Dapper checked multiple torso crops and used the best local suit read from the outfit image."
+        if (!visionResult.success) {
+          const localFallback = await analyzeFullLookSuitLocally(fullLookPhoto)
+          if (localFallback) {
+            const partialResult = {
+              ...localFallback,
+              colorCorrectionNote: "Full Look AI could not process this photo, so Dapper checked multiple torso crops and used the best local suit read from the outfit image."
+            }
+            const analysis = getAnalysisFromPhotoResult(partialResult)
+            setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens))
+            setPhotoResult(partialResult)
+            setFullLookResult(null)
+            setProgress(100)
+            setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
+            return
           }
-          const analysis = getAnalysisFromPhotoResult(partialResult)
-          setAnalysisData(applyStyleLensToAnalysis(analysis, activeStyleLens))
-          setPhotoResult(partialResult)
-          setFullLookResult(null)
-          setProgress(100)
-          setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
+          setProgress(0)
+          setAnalyzing(false)
+          setKeyError(visionResult.error ? `Full Look analysis failed: ${visionResult.error}` : "Full Look could not read this photo. Please reselect a JPG, PNG, or WebP image and try again.")
           return
         }
+
+        const localFullLookSuitResult = await analyzeFullLookSuitLocally(fullLookPhoto)
+        const reconciledFullLook = reconcileDarkFullLookRead(visionResult.data, localFullLookSuitResult)
+        const d = localFullLookSuitResult?.localSuitDiagnostics ? {
+          ...reconciledFullLook,
+          suit: reconciledFullLook?.suit ? {
+            ...reconciledFullLook.suit,
+            localSuitDiagnostics: reconciledFullLook.suit?.localSuitDiagnostics || localFullLookSuitResult.localSuitDiagnostics,
+          } : reconciledFullLook?.suit,
+        } : reconciledFullLook
+        const suitResult = fullLookSuitPhotoResult(d)
+        if (suitResult) setAnalysisData(applyStyleLensToAnalysis(getAnalysisFromPhotoResult(suitResult), activeStyleLens))
+        else setAnalysisData(ANALYSIS)
+
+        const outfitState = fullLookValidatorState(d, occasion)
+        const validatorResult = validateOutfit(outfitState)
+        setFullLookCorrection({
+          suitColor: d.suit?.colorLabel || displayColorLabel(d.suit?.color) || "",
+          suitPattern: d.suit?.patternLabel || d.suit?.pattern || "Solid",
+        })
+        setFullLookResult({ ...d, outfitState, validatorResult })
+        setProgress(100)
+        setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
+        return
+      } catch (err) {
+        clearInterval(iv)
         setProgress(0)
         setAnalyzing(false)
-        setKeyError(visionResult.error ? `Full Look analysis failed: ${visionResult.error}` : "Full Look could not read this photo. Please reselect a JPG, PNG, or WebP image and try again.")
+        setKeyError(`Full Look analysis hit an unexpected error: ${err?.message || "please try another photo."}`)
         return
       }
-
-      const localFullLookSuitResult = await analyzeFullLookSuitLocally(fullLookPhoto)
-      const reconciledFullLook = reconcileDarkFullLookRead(visionResult.data, localFullLookSuitResult)
-      const d = localFullLookSuitResult?.localSuitDiagnostics ? {
-        ...reconciledFullLook,
-        suit: reconciledFullLook?.suit ? {
-          ...reconciledFullLook.suit,
-          localSuitDiagnostics: reconciledFullLook.suit?.localSuitDiagnostics || localFullLookSuitResult.localSuitDiagnostics,
-        } : reconciledFullLook?.suit,
-      } : reconciledFullLook
-      const suitResult = fullLookSuitPhotoResult(d)
-      if (suitResult) setAnalysisData(applyStyleLensToAnalysis(getAnalysisFromPhotoResult(suitResult), activeStyleLens))
-      else setAnalysisData(ANALYSIS)
-
-      const outfitState = fullLookValidatorState(d, occasion)
-      const validatorResult = validateOutfit(outfitState)
-      setFullLookCorrection({
-        suitColor: d.suit?.colorLabel || displayColorLabel(d.suit?.color) || "",
-        suitPattern: d.suit?.patternLabel || d.suit?.pattern || "Solid",
-      })
-      setFullLookResult({ ...d, outfitState, validatorResult })
-      setProgress(100)
-      setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
-      return
     }
 
     // ── PHOTO MODE — vision with local fallback ──
@@ -21935,7 +21949,9 @@ function AnalyzerPage() {
         if (p >= 88) clearInterval(iv)
         setProgress(Math.min(p, 88))
       }, 180)
+      progressTimerRef.current = iv
 
+      try {
       // Analyze suit photo — Claude Vision AI
       const visionResult = await analyzeOutfit(suitFile);
       if (visionResult.success && visionResult.data?.suit?.visible !== false && visionResult.data?.suit?.color) {
@@ -21987,6 +22003,13 @@ function AnalyzerPage() {
       setProgress(100)
       setTimeout(() => { setAnalyzing(false); setDone(true) }, 400)
       return
+      } catch (err) {
+        clearInterval(iv)
+        setProgress(0)
+        setAnalyzing(false)
+        setKeyError(`Suit analysis hit an unexpected error: ${err?.message || "please try another photo."}`)
+        return
+      }
     }
 
         setIsDemo(false)
@@ -22004,6 +22027,7 @@ function AnalyzerPage() {
       if(p>=88) clearInterval(iv)
       setProgress(Math.min(p,88))
     },220)
+    progressTimerRef.current = iv
 
     try {
 
@@ -22822,9 +22846,9 @@ function AnalyzerPage() {
                       <div className="text-xs font-black tracking-wider text-gray-500 mb-2">WHAT TO ADD</div>
                       <div className="grid grid-cols-3 gap-2 text-xs">
                         {[
-                          { label:"BEST TIES", items: getBestTiesForCombo(suitPat, shirtPat, analysisData.suit.colorFamily) },
+                          { label:"BEST TIES", items: getBestTiesForCombo(suitPat, shirtPat, analysisData?.suit?.colorFamily) },
                           { label:"POCKET SQUARE", items: getBestPSForShirt(shirtColor) },
-                          { label:"SHOES", items: getBestShoesForSuit(analysisData.suit.colorFamily) },
+                          { label:"SHOES", items: getBestShoesForSuit(analysisData?.suit?.colorFamily) },
                         ].map(({label, items}) => (
                           <div key={label} className="bg-white rounded-xl p-2">
                             <div className="font-black tracking-wider text-gray-400 mb-1" style={{fontSize:"8px"}}>{label}</div>
@@ -23462,7 +23486,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
     const cutoff = new Date(form.date); cutoff.setDate(cutoff.getDate()-14)
     const cutoffStr = cutoff.toISOString().split("T")[0]
     const recent = wornLog
-      .filter(e=>e.suit.toLowerCase().includes(form.suit.toLowerCase()) && e.date>=cutoffStr && e.date!==form.date)
+      .filter(e=>(e.suit||"").toLowerCase().includes(form.suit.toLowerCase()) && e.date>=cutoffStr && e.date!==form.date)
       .sort((a,b)=>b.date.localeCompare(a.date))
     return recent.length>0 ? recent[0] : null
   })()
@@ -23471,9 +23495,9 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
   const exactRepeat = (() => {
     if(!form.suit.trim()||!form.shirt.trim()) return null
     return wornLog.find(e=>
-      e.suit.toLowerCase().includes(form.suit.toLowerCase()) &&
-      e.shirt.toLowerCase().includes(form.shirt.toLowerCase()) &&
-      (form.tie ? e.tie.toLowerCase().includes(form.tie.toLowerCase()) : true) &&
+      (e.suit||"").toLowerCase().includes(form.suit.toLowerCase()) &&
+      (e.shirt||"").toLowerCase().includes(form.shirt.toLowerCase()) &&
+      (form.tie ? (e.tie||"").toLowerCase().includes(form.tie.toLowerCase()) : true) &&
       e.date!==form.date
     ) || null
   })()
@@ -25128,7 +25152,7 @@ function OutfitValidatorPage() {
                     <img src={photo} alt={label} className="w-full h-20 object-cover rounded-lg mb-1"/>
                     <div className="text-xs font-bold" style={{color:"#92400e"}}>✓ {label}</div>
                     {photoDetected[key] && (
-                      <div className="text-xs text-gray-500 mt-0.5">{photoDetected[key].colorLabel || displayColorLabel(photoDetected[key].colorKey)} · {photoDetected[key].patternInfo.pattern}</div>
+                      <div className="text-xs text-gray-500 mt-0.5">{photoDetected[key].colorLabel || displayColorLabel(photoDetected[key].colorKey)} · {photoDetected[key].patternInfo?.pattern}</div>
                     )}
                     <div className="text-xs text-gray-400 mt-0.5">Tap to change</div>
                   </div>
@@ -25356,12 +25380,39 @@ function OutfitValidatorPage() {
 }
 
 
-function PricingPage({ entitlement }) {
+function PricingPage({ entitlement, user, onAuthClick }) {
   const [selectedBilling, setSelectedBilling] = useState({}) // per-tier: "monthly" | "annual"
+  const [checkoutBusy, setCheckoutBusy] = useState("") // tierPlan currently being started
+  const [checkoutError, setCheckoutError] = useState("")
 
   const getBilling = (tierName) => selectedBilling[tierName] || "monthly"
   const setBilling = (tierName, val) => setSelectedBilling(p=>({...p,[tierName]:val}))
   const currentPlan = entitlement?.plan || "free"
+
+  // ── Stripe Checkout ──
+  // Requires the /api/create-checkout-session endpoint + Stripe price IDs
+  // configured in the deployment env (see STRIPE-SETUP.md).
+  const startCheckout = async (tierPlan, billing) => {
+    setCheckoutError("")
+    if (!user) { onAuthClick?.(); return }
+    setCheckoutBusy(tierPlan)
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: tierPlan, billing, uid: user.uid, email: user.email || "" }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data?.url) {
+        throw new Error(data?.error || "Could not start checkout. Please try again.")
+      }
+      window.location.href = data.url
+    } catch (err) {
+      console.error("[Dapper Checkout] failed", err)
+      setCheckoutError(err.message || "Could not start checkout. Please try again.")
+      setCheckoutBusy("")
+    }
+  }
 
   const tiers = [
     {
@@ -25510,11 +25561,18 @@ function PricingPage({ entitlement }) {
                 </div>
 
                 {/* CTA */}
-                <button disabled={isCurrent} className="mt-5 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90 active:scale-98 disabled:opacity-70"
+                <button
+                  disabled={isCurrent || (isPaid && checkoutBusy===tierPlan)}
+                  onClick={isPaid && !isCurrent ? () => startCheckout(tierPlan, billing) : undefined}
+                  aria-label={isCurrent ? `${tier.name} is your current plan` : isPaid ? `Subscribe to ${tier.name}` : tier.cta}
+                  className="mt-5 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90 active:scale-98 disabled:opacity-70"
                   style={{background:tier.ctaBg,color:tier.ctaColor}}>
-                  {isCurrent ? "Current Plan" : tier.cta}
-                  {!isCurrent && isPaid && billing==="annual" && " (Anual)"}
+                  {isCurrent ? "Current Plan" : (isPaid && checkoutBusy===tierPlan) ? "Redirecting…" : tier.cta}
+                  {!isCurrent && isPaid && checkoutBusy!==tierPlan && billing==="annual" && " (Anual)"}
                 </button>
+                {isPaid && checkoutError && checkoutBusy==="" && (
+                  <div className="mt-2 text-center text-xs font-semibold text-red-600">{checkoutError}</div>
+                )}
 
                 {/* Fine print */}
                 {isPaid && (
