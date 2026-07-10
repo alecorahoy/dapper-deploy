@@ -3,7 +3,21 @@ import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
 import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts, useProblemReports, useAdminProblemReports } from './hooks/useFirestore.js'
 import { ensureBrowserImageFile, isHeicLike, prepareVisionImageFile } from './utils/imageFiles.js'
-import { PATTERN_MATRIX } from './data/patternMatrix.js'
+// The ~1 MB style matrix is loaded on demand (first analysis) instead of in
+// the initial bundle. `ensurePatternMatrix()` is awaited before any analysis
+// runs; every later consumer (corrections, style-lens re-apply) only fires
+// after a completed analysis, so the cache is always warm by then.
+let PATTERN_MATRIX = null
+let _patternMatrixPromise = null
+function ensurePatternMatrix() {
+  if (PATTERN_MATRIX) return Promise.resolve(PATTERN_MATRIX)
+  if (!_patternMatrixPromise) {
+    _patternMatrixPromise = import('./data/patternMatrix.js')
+      .then(m => { PATTERN_MATRIX = m.PATTERN_MATRIX; return PATTERN_MATRIX })
+      .catch(err => { _patternMatrixPromise = null; throw err })
+  }
+  return _patternMatrixPromise
+}
 import AuthModal from './components/AuthModal.jsx'
 import {
   Shirt, Calendar, Users, Tag, Upload, Heart,
@@ -2602,9 +2616,10 @@ function getAnalysisFromPhotoResult(result) {
   const isLinen = result.fabricStr && result.fabricStr.toLowerCase().includes("linen")
   const finalPatternKey = isLinen ? "linen" : patternKey
 
-  // Look up in PATTERN_MATRIX first
+  // Look up in PATTERN_MATRIX first (null-safe: falls through to the
+  // generated analysis if the matrix hasn't loaded yet)
   const matrixKey = colorKey + "|" + finalPatternKey
-  if (PATTERN_MATRIX[matrixKey]) {
+  if (PATTERN_MATRIX?.[matrixKey]) {
     const matrixResult = normalizeMatrixResult(PATTERN_MATRIX[matrixKey])
     if (result.colorLabel) {
       return { ...matrixResult, suit: { ...matrixResult.suit, colorFamily: result.colorLabel } }
@@ -3128,7 +3143,7 @@ function getLocalAnalysis(text) {
 
   // Lookup in matrix
   const matrixKey = colorKey + "|" + patternKey
-  if (PATTERN_MATRIX[matrixKey]) return { ...normalizeMatrixResult(PATTERN_MATRIX[matrixKey]), _isMatrixMatch: true }
+  if (PATTERN_MATRIX?.[matrixKey]) return { ...normalizeMatrixResult(PATTERN_MATRIX[matrixKey]), _isMatrixMatch: true }
   // Color or pattern detected but not in matrix: generate the full outfit locally.
   if (colorMatched || patternMatched) return { ...buildGeneratedLocalAnalysis(colorKey, patternKey), _detectedColor: colorKey, _detectedPattern: patternKey }
 
@@ -4400,6 +4415,8 @@ function AnalyzerPage() {
     setKeyError("")
     setFullLookResult(null)
     setCorrectingFullLook(false)
+    // Ensure the style matrix is loaded before any lookup runs.
+    try { await ensurePatternMatrix() } catch { /* null-safe lookups fall back to generated analysis */ }
     const activeStyleLens = styleLensById(styleLens)
 
     // ── FULL LOOK MODE — API reads and judges the worn outfit ──
@@ -4629,7 +4646,7 @@ function AnalyzerPage() {
           {/* Mode selector */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             {[{id:"A",label:"Suit Only",sub:"1 photo"},{id:"B",label:"Suit + Shirt",sub:"2 photos"},{id:"D",label:"Full Look",sub:"Fashion Police"},{id:"C",label:"Text Description",sub:"Describe it"}].map(m=>(
-              <SelectableCard key={m.id} selected={mode===m.id} onClick={()=>setMode(m.id)}
+              <SelectableCard key={m.id} selected={mode===m.id} onClick={()=>{ setMode(m.id); ensurePatternMatrix().catch(()=>{}) }}
                 title={m.label} subtitle={m.sub} size="sm" />
             ))}
           </div>

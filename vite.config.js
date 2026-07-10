@@ -15,12 +15,11 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          react:         ['react', 'react-dom'],
-          lucide:        ['lucide-react'],
-          firebase:      ['firebase/app', 'firebase/auth', 'firebase/firestore'],
-          // ~1 MB static style matrix — its own chunk so app-code edits
-          // don't bust its cache, and it downloads in parallel.
-          patternMatrix: ['./src/data/patternMatrix.js'],
+          react:    ['react', 'react-dom'],
+          lucide:   ['lucide-react'],
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          // patternMatrix.js is now dynamically import()-ed on demand, so
+          // Vite emits it as its own lazy chunk automatically.
         },
       },
     },
