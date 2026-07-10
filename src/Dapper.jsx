@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, Component } from "react"
 import { useClaudeVision } from './hooks/useClaudeVision.js'
 import { useAuth } from './hooks/useAuth.js'
 import { useCloset, useWornLog, useCalendarEvents, useEntitlement, useAdminAccess, useAdminUsers, useCommunityPosts, useProblemReports, useAdminProblemReports } from './hooks/useFirestore.js'
@@ -8843,6 +8843,30 @@ function ReportProblemModal({ user, page, onClose }) {
 // ROOT APP
 // ─────────────────────────────────────────────
 
+// Catches render errors in a page so one crash doesn't white-screen the
+// whole app. Keyed by `page` in the parent, so navigating resets it.
+class PageErrorBoundary extends Component {
+  constructor(props) { super(props); this.state = { error: null } }
+  static getDerivedStateFromError(error) { return { error } }
+  componentDidCatch(error, info) { console.error("[Dapper] Page crashed:", error, info) }
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="max-w-md mx-auto mt-16 text-center">
+          <div className="text-4xl mb-3">⚠️</div>
+          <h2 className="text-lg font-black text-gray-900">Something went wrong on this page</h2>
+          <p className="text-sm text-gray-500 mt-1">The rest of the app still works — try another section, or reload.</p>
+          <button onClick={() => window.location.reload()}
+            className="mt-4 px-5 py-2.5 rounded-xl text-sm font-bold text-white" style={{background:"#0f172a"}}>
+            Reload
+          </button>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
+
 export default function DapperApp() {
   const [page,        setPage]       = useState("analyzer")
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -8929,6 +8953,7 @@ export default function DapperApp() {
 
         {/* Page */}
         <main className="flex-1 overflow-y-auto p-5 lg:p-8 pb-24 lg:pb-8">
+          <PageErrorBoundary key={page}>
           <Page
             closetItems={closetItems}
             setClosetItems={updateCloset}
@@ -8943,6 +8968,7 @@ export default function DapperApp() {
             setPage={setPage}
             onAuthClick={()=>setShowAuth(true)}
           />
+          </PageErrorBoundary>
         </main>
 
         {/* Mobile bottom nav */}
