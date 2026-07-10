@@ -4488,6 +4488,14 @@ function AnalyzerPage() {
         clearInterval(iv)
 
         if (!visionResult.success) {
+          // A deliberate "this is not an outfit photo" rejection must surface,
+          // never be papered over by a local pixel guess of the screenshot.
+          if (visionResult.nonOutfit) {
+            setProgress(0)
+            setAnalyzing(false)
+            setKeyError(visionResult.error || "This doesn't look like an outfit photo. Please upload a photo of a worn look.")
+            return
+          }
           const localFallback = await analyzeFullLookSuitLocally(fullLookPhoto)
           if (localFallback) {
             const partialResult = {
@@ -4538,6 +4546,17 @@ function AnalyzerPage() {
         setKeyError(`Full Look analysis hit an unexpected error: ${err?.message || "please try another photo."}`)
         return
       }
+    }
+
+    // Guard empty input like mode D does — without this, A/B/C fall through
+    // to the text engine and "analyze" the literal placeholder sentence.
+    if ((mode === "A" || mode === "B") && !suitPhoto) {
+      setKeyError("Upload a suit photo first.")
+      return
+    }
+    if (mode === "C" && !textInput.trim()) {
+      setKeyError("Describe your suit first — color, pattern, and fabric work best.")
+      return
     }
 
     // ── PHOTO MODE — vision with local fallback ──
@@ -4911,6 +4930,8 @@ function AnalyzerPage() {
                   ? <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:"#059669"}}>📷 Photo Analysis — Instant</span>
                 : isDemo
                   ? <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-400">DEMO — add API key for real results</span>
+                : (analysisData?._isMatrixMatch || analysisData?._detectedColor)
+                  ? <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:NAVY}}>⚡ Style Engine — Instant</span>
                   : <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{background:GOLD}}>✦ AI Analysis</span>
               }
             </div>

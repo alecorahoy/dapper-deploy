@@ -865,7 +865,9 @@ export function useClaudeVision() {
       if (!imageFile) throw new Error("No image file provided")
       const { data: preflight, visionImage: preflightVisionImage } = await runVisionRequestWithFallbacks(imageFile, requestFullLookPreflight)
       if (isRejectedByPreflight(preflight)) {
-        throw new Error(nonOutfitMessage(preflight))
+        const rejection = new Error(nonOutfitMessage(preflight))
+        rejection.nonOutfit = true // deliberate rejection — callers must NOT fall back to a local guess
+        throw rejection
       }
 
       let data
@@ -880,7 +882,9 @@ export function useClaudeVision() {
       const parsed = parseClaudeJson(rawText, 'Full Look')
       setRawResult(parsed)
       if (isNonOutfitFullLook(parsed)) {
-        throw new Error(nonOutfitMessage(parsed))
+        const rejection = new Error(nonOutfitMessage(parsed))
+        rejection.nonOutfit = true
+        throw rejection
       }
 
       const isVisible = (piece) => piece && piece.visible !== false && (piece.color || piece.pattern || piece.fabric || piece.material || piece.style)
@@ -974,7 +978,7 @@ export function useClaudeVision() {
       console.error("[Dapper Full Look] Error:", err)
       setError(err.message)
       setIsAnalyzing(false)
-      return { success: false, error: err.message, data: null }
+      return { success: false, error: err.message, nonOutfit: err.nonOutfit === true, data: null }
     }
   }, [])
 
