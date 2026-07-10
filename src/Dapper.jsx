@@ -7862,6 +7862,22 @@ function OutfitValidatorPage() {
         )}
       </div>
 
+      {/* Occasion selector — drives the occasion-specific validation rules */}
+      <div className="mb-4">
+        <div className="text-xs font-bold tracking-wider text-gray-400 mb-2">OCCASION (optional)</div>
+        <div className="flex flex-wrap gap-2">
+          {["All","Office","Wedding","Formal","Date","Funeral","Church","Interview","Casual"].map(o=>(
+            <button key={o} onClick={()=>{setOccasion(o);setResult(null)}}
+              className="px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition-all"
+              style={occasion===o||(o==="All"&&!occasion)
+                ? {background:NAVY,color:"white",borderColor:NAVY}
+                : {background:"white",color:"#64748b",borderColor:"#e5e7eb"}}>
+              {o}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Validate button */}
       <div className="flex gap-3 mb-6">
         <button onClick={handleValidate} disabled={analyzing || !canValidate}
