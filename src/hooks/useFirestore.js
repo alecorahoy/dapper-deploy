@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import {
   doc, collection,
-  setDoc, deleteDoc, updateDoc,
+  getDoc, setDoc, deleteDoc, updateDoc,
   onSnapshot,
   query, orderBy,
   serverTimestamp,
@@ -46,22 +46,46 @@ function userSeedKey(uid) {
   return `dapper.user.${uid}.closetSeeded.v1`
 }
 
-function hasSeededCloset(uid) {
-  if (typeof window === "undefined") return false
+function seedMarkerRef(uid) {
+  return doc(db, "users", uid, "meta", "closet")
+}
+
+// The seeded marker must live in Firestore, not per-device localStorage —
+// otherwise emptying the closet on machine A gets demo-re-seeded the moment
+// the user signs in on machine B. localStorage stays as a fast-path cache.
+async function hasSeededCloset(uid) {
   try {
-    return window.localStorage.getItem(userSeedKey(uid)) === "true"
-  } catch {
-    return false
+    if (typeof window !== "undefined" && window.localStorage.getItem(userSeedKey(uid)) === "true") return true
+  } catch { /* fall through to Firestore */ }
+  try {
+    const snap = await getDoc(seedMarkerRef(uid))
+    const seeded = snap.exists() && Boolean(snap.data()?.seededAt)
+    if (seeded) cacheSeededLocally(uid)
+    return seeded
+  } catch (err) {
+    // If we can't read the marker, do NOT seed — seeding on doubt is what
+    // resurrects intentionally-emptied closets.
+    console.warn("[Dapper] Could not read closet seed marker; skipping seed", err)
+    return true
   }
 }
 
-function markClosetSeeded(uid) {
+function cacheSeededLocally(uid) {
   if (typeof window === "undefined") return
   try {
     window.localStorage.setItem(userSeedKey(uid), "true")
-  } catch (err) {
-    console.warn("[Dapper] Could not mark closet as seeded", err)
+  } catch { /* cache only */ }
+}
+
+function markClosetSeeded(uid) {
+  if (typeof window !== "undefined") {
+    try {
+      if (window.localStorage.getItem(userSeedKey(uid)) === "true") return // already persisted
+    } catch { /* keep going */ }
   }
+  cacheSeededLocally(uid)
+  setDoc(seedMarkerRef(uid), { seededAt: serverTimestamp() }, { merge: true })
+    .catch((err) => console.warn("[Dapper] Could not persist closet seed marker", err))
 }
 
 function normalizeDate(value) {
@@ -576,7 +600,7 @@ export function useCloset(user, fallbackItems) {
           seeded = true
           try {
             if (cancelled) return
-            if (!hasSeededCloset(user.uid)) {
+            if (!(await hasSeededCloset(user.uid))) {
               setItems(fallbackItems)
               await seedCloset(user.uid, fallbackItems)
               markClosetSeeded(user.uid)
@@ -679,6 +703,7 @@ export function useCloset(user, fallbackItems) {
 export function useWornLog(user, fallbackLog) {
   const [wornLog, setWornLog] = useState(fallbackLog)
   const [synced, setSynced] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (!user) { setWornLog(fallbackLog); setSynced(false); return }
@@ -698,24 +723,50 @@ export function useWornLog(user, fallbackLog) {
         setWornLog(loaded)
       }
       setSynced(true)
+    }, (err) => {
+      console.error("[Dapper] Worn log sync failed", err)
+      setError("Could not sync your worn log. Please check your connection.")
     })
     return unsub
   }, [user?.uid, fallbackLog])
 
   const saveEntry = async (entry) => {
     if (!user) { setWornLog(p => [entry, ...p.filter(e => e.date !== entry.date)]); return }
-    await setDoc(doc(db, "users", user.uid, "wornLogEntries", String(entry.id)), { ...entry })
+    try {
+      // Key by DATE so re-logging a day overwrites instead of duplicating
+      // (docs used to be keyed by Date.now(), one new doc per save).
+      const dateKey = String(entry.date || entry.id)
+      await setDoc(doc(db, "users", user.uid, "wornLogEntries", dateKey), { ...entry, id: dateKey })
+      // Sweep any legacy id-keyed docs for the same date.
+      const legacy = wornLog.filter(e => e.date === entry.date && String(e.id) !== dateKey)
+      for (const dupe of legacy) {
+        await deleteDoc(doc(db, "users", user.uid, "wornLogEntries", String(dupe.id))).catch(() => {})
+      }
+      setError(null)
+    } catch (err) {
+      console.error("[Dapper] Worn log save failed", err)
+      setError("Could not save this look. Please try again.")
+      throw err
+    }
   }
   const deleteEntry = async (id) => {
     if (!user) return
-    await deleteDoc(doc(db, "users", user.uid, "wornLogEntries", String(id)))
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "wornLogEntries", String(id)))
+      setError(null)
+    } catch (err) {
+      console.error("[Dapper] Worn log delete failed", err)
+      setError("Could not delete this entry. Please try again.")
+      throw err
+    }
   }
-  return { wornLog, saveEntry, deleteEntry, synced }
+  return { wornLog, saveEntry, deleteEntry, synced, error }
 }
 
 export function useCalendarEvents(user, fallbackEvents) {
   const [events, setEvents] = useState(fallbackEvents)
   const [synced, setSynced] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (!user) { setEvents(fallbackEvents); setSynced(false); return }
@@ -736,6 +787,9 @@ export function useCalendarEvents(user, fallbackEvents) {
         setEvents(loaded)
       }
       setSynced(true)
+    }, (err) => {
+      console.error("[Dapper] Calendar sync failed", err)
+      setError("Could not sync your calendar. Please check your connection.")
     })
     return unsub
   }, [user?.uid, fallbackEvents])
@@ -743,13 +797,27 @@ export function useCalendarEvents(user, fallbackEvents) {
   const saveEvent = async (dateKey, occasion, outfit) => {
     const data = { outfit, occasion, color: "#080f1e" }
     if (!user) { setEvents(p => ({ ...p, [dateKey]: data })); return }
-    await setDoc(doc(db, "users", user.uid, "calendarDays", dateKey), data)
+    try {
+      await setDoc(doc(db, "users", user.uid, "calendarDays", dateKey), data)
+      setError(null)
+    } catch (err) {
+      console.error("[Dapper] Calendar save failed", err)
+      setError("Could not save this plan. Please try again.")
+      throw err
+    }
   }
   const deleteEvent = async (dateKey) => {
     if (!user) return
-    await deleteDoc(doc(db, "users", user.uid, "calendarDays", dateKey))
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "calendarDays", dateKey))
+      setError(null)
+    } catch (err) {
+      console.error("[Dapper] Calendar delete failed", err)
+      setError("Could not remove this plan. Please try again.")
+      throw err
+    }
   }
-  return { events, saveEvent, deleteEvent, synced }
+  return { events, saveEvent, deleteEvent, synced, error }
 }
 
 async function seedCloset(uid, items) {

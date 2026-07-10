@@ -6327,8 +6327,9 @@ function CalendarPage({ closetItems, user }) {
   const [planForm,   setPlanForm] = useState({ occasion:"Office", outfit:"" })
 
   // ── Firestore-backed data ──
-  const { wornLog, saveEntry }           = useWornLog(user, WORN_LOG_INIT)
-  const { events, saveEvent: saveEvtFn, deleteEvent } = useCalendarEvents(user, CALENDAR_EVENTS_INIT)
+  const { wornLog, saveEntry, error: wornLogError } = useWornLog(user, WORN_LOG_INIT)
+  const { events, saveEvent: saveEvtFn, deleteEvent, error: calendarError } = useCalendarEvents(user, CALENDAR_EVENTS_INIT)
+  const calendarDataError = wornLogError || calendarError
 
   const y = date.getFullYear(), m = date.getMonth()
   const totalDays = daysInMonth(y,m), firstDay = firstDayOf(y,m)
@@ -6336,23 +6337,25 @@ function CalendarPage({ closetItems, user }) {
   const selectedEvt = selectedKey ? events[selectedKey] : null
   const wornOnSelected = selectedKey ? wornLog.find(e=>e.date===selectedKey) : null
 
-  const saveEvent = (k, occ, outfit) => {
-    saveEvtFn(k, occ, outfit)
-  }
-
-  const submitPlan = () => {
+  // Await the writes: a rejected save must keep the editor open and show
+  // the hook's error banner, not silently pretend the outfit was logged.
+  const submitPlan = async () => {
     if (!selectedKey || !planForm.outfit.trim()) return
-    saveEvent(selectedKey, planForm.occasion, planForm.outfit.trim())
-    setPlanning(false)
-    setPlanForm({ occasion:"Office", outfit:"" })
+    try {
+      await saveEvtFn(selectedKey, planForm.occasion, planForm.outfit.trim())
+      setPlanning(false)
+      setPlanForm({ occasion:"Office", outfit:"" })
+    } catch { /* calendarError renders below */ }
   }
 
   // Close the inline plan editor when the selected day changes.
   useEffect(() => { setPlanning(false); setPlanForm({ occasion:"Office", outfit:"" }) }, [selectedKey])
 
-  const saveLog = (entry) => {
-    saveEntry(entry)
-    setShowLog(false)
+  const saveLog = async (entry) => {
+    try {
+      await saveEntry(entry)
+      setShowLog(false)
+    } catch { /* wornLogError renders below; keep the modal open */ }
   }
 
   const upcoming = Object.entries(events)
@@ -6386,6 +6389,12 @@ function CalendarPage({ closetItems, user }) {
           <Plus size={15}/> Log Today
         </button>
       </div>
+
+      {calendarDataError && (
+        <div className="mb-4 px-4 py-3 rounded-xl border border-red-200 bg-red-50 text-sm font-semibold text-red-700" role="alert">
+          {calendarDataError}
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 rounded-xl mb-5 w-fit" style={{background:"#f1f5f9"}}>
@@ -6488,7 +6497,7 @@ function CalendarPage({ closetItems, user }) {
                       <div className="flex items-center gap-2">
                         <button onClick={()=>{setPlanForm({occasion:selectedEvt.occasion||"Office",outfit:selectedEvt.outfit||""});setPlanning(true)}}
                           className="text-xs font-bold text-gray-400 hover:text-gray-600">Edit</button>
-                        <button onClick={()=>deleteEvent(selectedKey)}
+                        <button onClick={()=>deleteEvent(selectedKey).catch(()=>{ /* calendarError banner shows */ })}
                           className="text-xs font-bold text-red-300 hover:text-red-500">Clear</button>
                       </div>
                     </div>
