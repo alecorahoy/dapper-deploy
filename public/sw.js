@@ -10,7 +10,7 @@
 //
 // Bump CACHE_VERSION to force-refresh the precache on a new release.
 
-const CACHE_VERSION = "dapper-v2"
+const CACHE_VERSION = "dapper-v3"
 const APP_SHELL = [
   "/app.html",
   "/favicon.svg",
@@ -21,7 +21,8 @@ const APP_SHELL = [
 ]
 
 self.addEventListener("install", (event) => {
-  self.skipWaiting()
+  // No unconditional skipWaiting: the page shows an update prompt and posts
+  // SKIP_WAITING when the user opts in, so a deploy never yanks a live session.
   event.waitUntil(
     caches.open(CACHE_VERSION).then((cache) =>
       // Don't fail the whole install if one optional asset 404s.
@@ -46,7 +47,8 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return
 
   const url = new URL(request.url)
-  if (url.origin !== self.location.origin) return // don't touch cross-origin (API, fonts, Anthropic)
+  if (url.origin !== self.location.origin) return // don't touch cross-origin (fonts, Anthropic)
+  if (url.pathname.startsWith("/api/")) return // /api is same-origin — never cache it
 
   // 1) Navigations → network-first, offline fallback to the cached page.
   // Cache the app shell under "/app.html" ONLY for app routes; cache the
@@ -58,8 +60,12 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(request)
         .then((res) => {
-          const copy = res.clone()
-          caches.open(CACHE_VERSION).then((c) => c.put(cacheKey, copy)).catch(() => {})
+          // Only cache good, non-redirect responses — a deploy-window 500/404
+          // must never become the offline app shell.
+          if (res.ok && !res.redirected) {
+            const copy = res.clone()
+            caches.open(CACHE_VERSION).then((c) => c.put(cacheKey, copy)).catch(() => {})
+          }
           return res
         })
         .catch(() => caches.match(cacheKey).then((r) => r || caches.match("/app.html")))
@@ -72,8 +78,10 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       caches.match(request).then((cached) =>
         cached || fetch(request).then((res) => {
-          const copy = res.clone()
-          caches.open(CACHE_VERSION).then((c) => c.put(request, copy)).catch(() => {})
+          if (res.ok) {
+            const copy = res.clone()
+            caches.open(CACHE_VERSION).then((c) => c.put(request, copy)).catch(() => {})
+          }
           return res
         })
       )
@@ -85,8 +93,10 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(request).then((cached) => {
       const network = fetch(request).then((res) => {
-        const copy = res.clone()
-        caches.open(CACHE_VERSION).then((c) => c.put(request, copy)).catch(() => {})
+        if (res.ok) {
+          const copy = res.clone()
+          caches.open(CACHE_VERSION).then((c) => c.put(request, copy)).catch(() => {})
+        }
         return res
       }).catch(() => cached)
       return cached || network

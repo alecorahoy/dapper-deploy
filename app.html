@@ -126,25 +126,44 @@
       // Register the Dapper PWA service worker. Navigations are network-first
       // (always fresh after deploys); assets are cached for offline use.
       if ('serviceWorker' in navigator) {
+        // Offer the update instead of forcing it — a deploy must never yank a
+        // session mid-analysis or mid-checkout.
+        function showUpdateBar(sw) {
+          if (document.getElementById('sw-update-bar')) return;
+          const bar = document.createElement('div');
+          bar.id = 'sw-update-bar';
+          bar.style.cssText = 'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;background:#0B1628;color:#fff;padding:10px 16px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.35);display:flex;gap:12px;align-items:center;font:600 14px Inter,sans-serif';
+          bar.innerHTML = '<span>A new version of Dapper is ready.</span>';
+          const btn = document.createElement('button');
+          btn.textContent = 'Refresh';
+          btn.style.cssText = 'background:#C9A84C;color:#0B1628;border:0;border-radius:8px;padding:6px 14px;font:700 13px Inter,sans-serif;cursor:pointer';
+          btn.addEventListener('click', () => { btn.disabled = true; sw.postMessage('SKIP_WAITING'); });
+          bar.appendChild(btn);
+          document.body.appendChild(bar);
+        }
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js', { scope: '/' })
             .then(reg => {
-              // When a new SW is found, activate it immediately so users get updates.
+              // A SW may already be waiting from a previous visit.
+              if (reg.waiting && navigator.serviceWorker.controller) showUpdateBar(reg.waiting);
               reg.addEventListener('updatefound', () => {
                 const sw = reg.installing;
                 if (!sw) return;
                 sw.addEventListener('statechange', () => {
                   if (sw.state === 'installed' && navigator.serviceWorker.controller) {
-                    sw.postMessage('SKIP_WAITING');
+                    showUpdateBar(sw);
                   }
                 });
               });
             })
             .catch(err => console.warn('[Dapper] Service worker registration failed', err));
         });
-        // Reload once when the active SW changes, so a new version takes over cleanly.
+        // Reload when the controller CHANGES (user accepted the update) — but not
+        // on the very first install, where the controller goes from null to set.
+        let hadController = !!navigator.serviceWorker.controller;
         let refreshing = false;
         navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!hadController) { hadController = true; return; }
           if (refreshing) return;
           refreshing = true;
           window.location.reload();
