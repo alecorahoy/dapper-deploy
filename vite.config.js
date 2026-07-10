@@ -15,8 +15,9 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          react:  ['react', 'react-dom'],
-          lucide: ['lucide-react'],
+          react:    ['react', 'react-dom'],
+          lucide:   ['lucide-react'],
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
         },
       },
     },

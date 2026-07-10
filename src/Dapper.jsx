@@ -20333,30 +20333,39 @@ function normalizeMenswearText(text = "") {
 function parseComboFromText(text) {
   const t = normalizeMenswearText(text)
 
-  // Extract suit color
-  const suitColors = [
-    [/(?:black)\s*suit/,"black"],
-    [/(?:charcoal|dark\s*gr[ae]y)\s*suit/,"charcoal"],
-    [/(?:navy|midnight|dark\s*blue)\s*suit/,"navy"],
-    [/(?:grey|gray|silver)\s*suit/,"grey"],
-    [/(?:blue|cobalt|royal)\s*suit/,"blue"],
-    [/(?:burgundy|wine|oxblood|maroon)\s*suit/,"burgundy"],
-    [/(?:brown|chocolate|cognac|tobacco)\s*suit/,"brown"],
-    [/(?:beige|tan|camel|sand)\s*suit/,"beige"],
-    [/(?:green|olive|sage|forest)\s*suit/,"green"],
-    [/(?:white|cream|ivory)\s*suit/,"white"],
-    [/(?:purple|violet|plum)\s*suit/,"purple"],
-    [/(?:red|crimson|scarlet)\s*suit/,"red"],
+  // Extract suit color. A color counts as the SUIT color only when it sits
+  // before "suit" (up to two words away: "navy solid wool suit") or in a
+  // "suit in X / suit is X" phrase — a color attached to another garment
+  // ("burgundy tie with a green suit") must not win.
+  const SUIT_COLOR_DEFS = [
+    ["charcoal", "charcoal|dark\\s*gr[ae]y"],
+    ["navy",     "navy|midnight|dark\\s*blue"],
+    ["black",    "black"],
+    ["grey",     "grey|gray|silver"],
+    ["blue",     "blue|cobalt|royal"],
+    ["burgundy", "burgundy|wine|oxblood|maroon"],
+    ["brown",    "brown|chocolate|cognac|tobacco"],
+    ["beige",    "beige|tan|camel|sand"],
+    ["green",    "green|olive|sage|forest"],
+    ["white",    "white|cream|ivory"],
+    ["purple",   "purple|violet|plum"],
+    ["red",      "red|crimson|scarlet"],
   ]
   let suitColor = null
-  for (const [rx, color] of suitColors) {
-    if (rx.test(t)) { suitColor = color; break }
+  for (const [color, src] of SUIT_COLOR_DEFS) {
+    if (new RegExp("(?:" + src + ")(?:\\s+\\w+){0,2}\\s+suit").test(t)) { suitColor = color; break }
   }
-  // Fallback: detect any color word before/near "suit"
+  if (!suitColor) {
+    for (const [color, src] of SUIT_COLOR_DEFS) {
+      if (new RegExp("suit\\s+(?:in|is)\\s+(?:" + src + ")").test(t)) { suitColor = color; break }
+    }
+  }
+  // Fallback: any color word NOT attached to another garment
   if (!suitColor) {
     const colorWords = ["black","charcoal","navy","grey","gray","blue","burgundy","brown","beige","tan","green","olive","white","cream","ivory","purple","red","crimson"]
     for (const c of colorWords) {
-      if (t.includes(c)) { suitColor = c === "gray" ? "grey" : c === "tan" ? "beige" : c === "cream" || c === "ivory" ? "white" : c === "olive" ? "green" : c === "crimson" ? "red" : c; break }
+      const attachedToOtherGarment = new RegExp(c + "\\s+(?:\\w+\\s+)?(?:shirt|tie|belt|shoes?|loafers?|pocket)").test(t)
+      if (t.includes(c) && !attachedToOtherGarment) { suitColor = c === "gray" ? "grey" : c === "tan" ? "beige" : c === "cream" || c === "ivory" ? "white" : c === "olive" ? "green" : c === "crimson" ? "red" : c; break }
     }
   }
 
