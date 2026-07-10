@@ -8146,7 +8146,7 @@ function PricingPage({ entitlement, user, onAuthClick }) {
     },
     {
       name:"Dapper Pro", monthlyPrice:4.99, annualPrice:39.99, color:NAVY, badge:"Most Popular",
-      cta:"Start Free Trial", ctaBg:NAVY, ctaColor:"white",
+      cta:"Get Dapper Pro", ctaBg:NAVY, ctaColor:"white",
       features:["Unlimited AI analyses","Unlimited digital closet","Full outfit calendar + weather","Outfit comparison tool","Full social features (post, duel, challenge)","Date Mode complete","Shopping integration","Style School complete","Morning outfit push notifications","Gap Analyzer / Wardrobe Gaps"],
       locked:[],
     },
@@ -8311,7 +8311,7 @@ function PricingPage({ entitlement, user, onAuthClick }) {
 
       {/* Bottom trust bar */}
       <div className="mt-8 text-center flex items-center justify-center gap-6 text-xs text-gray-400 flex-wrap">
-        {["Prueba gratis 7 días","Cancela cuando quieras","Sin tarjeta para el plan Free"].map(t=>(
+        {["Cancela cuando quieras","Sin tarjeta para el plan Free","Pago seguro con Stripe"].map(t=>(
           <span key={t} className="flex items-center gap-1"><Check size={12} className="text-green-400"/>{t}</span>
         ))}
       </div>
@@ -8999,6 +8999,30 @@ export default function DapperApp() {
     if (!isAdmin && page === "admin") setPage("analyzer")
   }, [isAdmin, page])
 
+  // ── Post-checkout return ──
+  // Stripe sends the user back to /app?checkout=success|cancelled. Without
+  // this, a paying user lands on a silent Analyzer still labeled FREE TIER
+  // until the webhook writes the entitlement.
+  const [checkoutReturn, setCheckoutReturn] = useState(null)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const status = params.get("checkout")
+    if (status === "success" || status === "cancelled") {
+      setCheckoutReturn(status)
+      if (status === "success") setPage("pricing")
+      params.delete("checkout")
+      const qs = params.toString()
+      window.history.replaceState({}, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash)
+    }
+  }, [])
+  useEffect(() => {
+    if (checkoutReturn === "cancelled") {
+      const t = setTimeout(() => setCheckoutReturn(null), 8000)
+      return () => clearTimeout(t)
+    }
+  }, [checkoutReturn])
+  const paidPlanActive = entitlement?.plan === "pro" || entitlement?.plan === "elite"
+
   const NAV = [
     {id:"analyzer",  icon:Wand2,    label:"Analyzer"},
     {id:"validator", icon:Check,    label:"Validator"},
@@ -9013,6 +9037,27 @@ export default function DapperApp() {
 
   return (
     <div className="flex h-screen overflow-hidden" style={{background:"#f8fafc",fontFamily:"system-ui,-apple-system,sans-serif"}}>
+
+      {/* Post-checkout status */}
+      {checkoutReturn === "success" && (
+        <div role="status"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-3 text-white max-w-[92vw]"
+          style={{background: paidPlanActive ? "#065f46" : NAVY}}>
+          <span>
+            {paidPlanActive
+              ? `🎉 Payment received — your ${entitlement?.plan === "elite" ? "Elite" : "Pro"} plan is active.`
+              : "✓ Payment received — activating your plan… this usually takes a few seconds."}
+          </span>
+          <button onClick={()=>setCheckoutReturn(null)} aria-label="Dismiss notification" className="font-black text-white/80 hover:text-white">×</button>
+        </div>
+      )}
+      {checkoutReturn === "cancelled" && (
+        <div role="status"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-2xl shadow-xl text-sm font-bold flex items-center gap-3 bg-gray-800 text-white max-w-[92vw]">
+          <span>Checkout cancelled — you have not been charged.</span>
+          <button onClick={()=>setCheckoutReturn(null)} aria-label="Dismiss notification" className="font-black text-white/80 hover:text-white">×</button>
+        </div>
+      )}
 
       {/* Auth Modal */}
       {showAuth && (
