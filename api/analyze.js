@@ -1,5 +1,10 @@
 export const config = { runtime: 'edge' }
 
+// Only the models the app actually calls may pass through this proxy — without
+// this, any caller (esp. non-browser clients with no Origin header) could run
+// arbitrary, expensive Anthropic models on the owner's key.
+const ALLOWED_MODELS = new Set(['claude-haiku-4-5-20251001'])
+
 // ── CORS origin lock ───────────────────────────────────────────────
 // Same-origin app calls (incl. logged-out guests) keep working, but
 // off-site browsers can't use this paid AI proxy. Determined non-browser
@@ -81,6 +86,20 @@ export default async function handler(req) {
     }
 
     const body = await req.json()
+
+    if (!ALLOWED_MODELS.has(body?.model)) {
+      return new Response(JSON.stringify({ error: { message: 'Model not allowed.' } }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...cors }
+      })
+    }
+    if (!Array.isArray(body?.messages) || body.messages.length === 0) {
+      return new Response(JSON.stringify({ error: { message: 'Invalid request.' } }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json', ...cors }
+      })
+    }
+
     const payloadText = JSON.stringify(body)
     const payloadSize = payloadText.length
     const imageStats = collectImagePayloadStats(body?.messages)

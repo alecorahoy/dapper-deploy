@@ -17,7 +17,11 @@ service cloud.firestore {
 
     function hasActivePlan(data) {
       return data.status == "active"
-        && (data.plan == "pro" || data.plan == "elite");
+        && (data.plan == "pro" || data.plan == "elite")
+        // Defense-in-depth: if a Stripe cancel/expiry webhook is ever missed,
+        // an elapsed expiresAt still revokes access. (expiresAt is null on the
+        // initial checkout grant, which correctly stays active.)
+        && (!("expiresAt" in data) || data.expiresAt == null || request.time < data.expiresAt);
     }
 
     function hasActiveUidEntitlement() {
