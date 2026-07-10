@@ -4762,6 +4762,7 @@ function AnalyzerPage() {
           {mode==="C" && (
             <div className="mb-6">
               <textarea value={textInput} onChange={e=>setTextInput(e.target.value)}
+                aria-label="Describe your suit"
                 placeholder={`Describe your suit in detail…\n\nExample: "A mid-blue slim-fit wool suit with a subtle chalk stripe, notch lapel, and a slightly warm undertone. Brand is Canali."`}
                 className="w-full border-2 rounded-2xl p-5 text-sm text-gray-700 resize-none focus:outline-none transition-all"
                 style={{borderColor:"#e5e7eb",minHeight:"160px"}}
@@ -5931,13 +5932,13 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
               </div>
               <div>
                 <Label>Name</Label>
-                <input value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))}
+                <input aria-label="Item name" value={form.name} onChange={e=>setForm(p=>({...p,name:e.target.value}))}
                   placeholder="e.g. Navy Pinstripe" className="w-full mt-1 border-2 border-gray-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                   style={{borderColor:"#f1f5f9"}} onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
               </div>
               <div>
                 <Label>Brand</Label>
-                <input value={form.brand} onChange={e=>setForm(p=>({...p,brand:e.target.value}))}
+                <input aria-label="Brand" value={form.brand} onChange={e=>setForm(p=>({...p,brand:e.target.value}))}
                   placeholder="e.g. BOSS" className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
                   style={{borderColor:"#f1f5f9"}} onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
               </div>
@@ -6112,7 +6113,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── DATE ── */}
           <div>
             <Label>Date</Label>
-            <input type="date" value={form.date} onChange={e=>set("date",e.target.value)}
+            <input type="date" aria-label="Date worn" value={form.date} onChange={e=>set("date",e.target.value)}
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -6121,7 +6122,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── SUIT ── */}
           <div>
             <Label>Suit / Blazer</Label>
-            <input value={form.suit} onChange={e=>set("suit",e.target.value)}
+            <input aria-label="Suit" value={form.suit} onChange={e=>set("suit",e.target.value)}
               list="suits-list" placeholder="e.g. Navy Chalk Stripe"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
@@ -6151,7 +6152,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── SHIRT ── */}
           <div>
             <Label>Shirt</Label>
-            <input value={form.shirt} onChange={e=>set("shirt",e.target.value)}
+            <input aria-label="Shirt" value={form.shirt} onChange={e=>set("shirt",e.target.value)}
               list="shirts-list" placeholder="e.g. Crisp White Poplin"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
@@ -6162,7 +6163,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── TIE ── */}
           <div>
             <Label>Tie <span className="font-normal text-gray-400 normal-case">(or '—' if none)</span></Label>
-            <input value={form.tie} onChange={e=>set("tie",e.target.value)}
+            <input aria-label="Tie" value={form.tie} onChange={e=>set("tie",e.target.value)}
               list="ties-list" placeholder="e.g. Burgundy Grenadine"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
@@ -6173,7 +6174,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── SHOES ── */}
           <div>
             <Label>Shoes <span className="font-normal text-gray-400 normal-case">(optional)</span></Label>
-            <input value={form.shoes} onChange={e=>set("shoes",e.target.value)}
+            <input aria-label="Shoes" value={form.shoes} onChange={e=>set("shoes",e.target.value)}
               list="shoes-list" placeholder="e.g. Black Cap-Toe Oxford"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
@@ -6184,7 +6185,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── ACCESSORIES ── */}
           <div>
             <Label>Accessories <span className="font-normal text-gray-400 normal-case">(optional)</span></Label>
-            <input value={form.accessories} onChange={e=>set("accessories",e.target.value)}
+            <input aria-label="Accessories" value={form.accessories} onChange={e=>set("accessories",e.target.value)}
               list="accessories-list" placeholder="e.g. White Linen Square, Silver Watch"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
@@ -6195,7 +6196,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── OCCASION ── */}
           <div>
             <Label>Occasion</Label>
-            <input value={form.occasion} onChange={e=>set("occasion",e.target.value)}
+            <input aria-label="Occasion" value={form.occasion} onChange={e=>set("occasion",e.target.value)}
               placeholder="e.g. Board Meeting, dinner, interview..."
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
@@ -6205,7 +6206,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── NOTES ── */}
           <div>
             <Label>Notes <span className="font-normal text-gray-400 normal-case">(optional)</span></Label>
-            <textarea value={form.notes} onChange={e=>set("notes",e.target.value)}
+            <textarea aria-label="Notes" value={form.notes} onChange={e=>set("notes",e.target.value)}
               placeholder="How did it go? Any notes on the look?"
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none resize-none"
               style={{borderColor:"#f1f5f9"}} rows={2}
@@ -6719,20 +6720,20 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
         <div>
           <Label>Feed Title</Label>
-          <input value={draft.look} onChange={e=>setDraft(p=>({...p,look:e.target.value}))}
+          <input aria-label="Look title" value={draft.look} onChange={e=>setDraft(p=>({...p,look:e.target.value}))}
             placeholder="Optional, e.g. Sunday fit check"
             className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
         </div>
         <div>
           <Label>Outfit Details</Label>
-          <input value={draft.outfit} onChange={e=>setDraft(p=>({...p,outfit:e.target.value}))}
+          <input aria-label="Outfit" value={draft.outfit} onChange={e=>setDraft(p=>({...p,outfit:e.target.value}))}
             placeholder="Optional, e.g. Navy suit · white shirt"
             className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
         </div>
       </div>
       <div>
         <Label>Feed Text</Label>
-        <textarea value={draft.caption} onChange={e=>setDraft(p=>({...p,caption:e.target.value}))}
+        <textarea aria-label="Caption" value={draft.caption} onChange={e=>setDraft(p=>({...p,caption:e.target.value}))}
           placeholder="Write your feed post, question, or style note..."
           rows={3}
           className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
@@ -6765,7 +6766,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
       <div className="flex flex-col sm:flex-row gap-3 mt-3">
         <div className="flex-1">
           <Label>Tags</Label>
-          <input value={draft.tags} onChange={e=>setDraft(p=>({...p,tags:e.target.value}))}
+          <input aria-label="Tags" value={draft.tags} onChange={e=>setDraft(p=>({...p,tags:e.target.value}))}
             placeholder="#navy #business #grenadine"
             className="mt-1 w-full border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
         </div>
@@ -7789,6 +7790,7 @@ function OutfitValidatorPage() {
         </p>
         <textarea
           value={manualCorrection}
+          aria-label="Correction details"
           onChange={e => { setManualCorrection(e.target.value); setCorrectionFeedback(""); setResult(null) }}
           rows={4}
           className="w-full rounded-xl border-2 border-gray-100 p-3 text-sm text-gray-700 outline-none focus:border-yellow-500 resize-none"
@@ -8769,7 +8771,7 @@ function ReportProblemModal({ user, page, onClose }) {
 
               <div>
                 <Label>Where is the problem?</Label>
-                <select value={form.page} onChange={(e)=>setForm(p=>({...p,page:e.target.value}))}
+                <select aria-label="Page" value={form.page} onChange={(e)=>setForm(p=>({...p,page:e.target.value}))}
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 bg-white">
                   {REPORT_PAGE_OPTIONS.map((option) => (
                     <option key={option.id} value={option.id}>{option.label}</option>
@@ -8780,14 +8782,14 @@ function ReportProblemModal({ user, page, onClose }) {
 
               <div>
                 <Label>Title</Label>
-                <input value={form.title} onChange={(e)=>setForm(p=>({...p,title:e.target.value}))}
+                <input aria-label="Report title" value={form.title} onChange={(e)=>setForm(p=>({...p,title:e.target.value}))}
                   placeholder="Short summary"
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
               </div>
 
               <div>
                 <Label>What happened?</Label>
-                <textarea value={form.message} onChange={(e)=>setForm(p=>({...p,message:e.target.value}))}
+                <textarea aria-label="Message" value={form.message} onChange={(e)=>setForm(p=>({...p,message:e.target.value}))}
                   placeholder="Tell us what broke, what you expected, or what feature you want..."
                   rows={5}
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
@@ -8795,7 +8797,7 @@ function ReportProblemModal({ user, page, onClose }) {
 
               <div>
                 <Label>Email</Label>
-                <input value={form.email} onChange={(e)=>setForm(p=>({...p,email:e.target.value}))}
+                <input aria-label="Contact email" value={form.email} onChange={(e)=>setForm(p=>({...p,email:e.target.value}))}
                   placeholder="Optional contact email"
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
               </div>
