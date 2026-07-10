@@ -16,7 +16,7 @@ function GoogleIcon() {
   )
 }
 
-function Input({ icon: Icon, type = "text", placeholder, value, onChange, right }) {
+function Input({ icon: Icon, type = "text", placeholder, value, onChange, right, autoComplete }) {
   return (
     <div className="relative">
       {Icon && (
@@ -27,6 +27,8 @@ function Input({ icon: Icon, type = "text", placeholder, value, onChange, right 
       <input
         type={type}
         placeholder={placeholder}
+        aria-label={placeholder}
+        autoComplete={autoComplete}
         value={value}
         onChange={onChange}
         className="w-full rounded-xl border-2 py-3 text-sm focus:outline-none transition-colors"
@@ -133,6 +135,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
             <Input
               icon={User}
               placeholder="Your name"
+              autoComplete="name"
               value={name}
               onChange={e => setName(e.target.value)}
             />
@@ -143,6 +146,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
             icon={Mail}
             type="email"
             placeholder="Email address"
+            autoComplete="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
@@ -152,6 +156,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
             icon={Lock}
             type={showPass ? "text" : "password"}
             placeholder="Password"
+            autoComplete={mode === "signin" ? "current-password" : "new-password"}
             value={password}
             onChange={e => setPassword(e.target.value)}
             right={
