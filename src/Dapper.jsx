@@ -2851,19 +2851,21 @@ function parseComboFromText(text) {
   ]
   let suitColor = null
   for (const [color, src] of SUIT_COLOR_DEFS) {
-    if (new RegExp("(?:" + src + ")(?:\\s+\\w+){0,2}\\s+suit").test(t)) { suitColor = color; break }
+    // Word boundaries matter: without them "red" matches inside
+    // "tailoRED"/"textuRED" and "tan" inside "tarTAN".
+    if (new RegExp("\\b(?:" + src + ")\\b(?:\\s+\\w+){0,2}\\s+suit").test(t)) { suitColor = color; break }
   }
   if (!suitColor) {
     for (const [color, src] of SUIT_COLOR_DEFS) {
-      if (new RegExp("suit\\s+(?:in|is)\\s+(?:" + src + ")").test(t)) { suitColor = color; break }
+      if (new RegExp("suit\\s+(?:in|is)\\s+(?:" + src + ")\\b").test(t)) { suitColor = color; break }
     }
   }
   // Fallback: any color word NOT attached to another garment
   if (!suitColor) {
     const colorWords = ["black","charcoal","navy","grey","gray","blue","burgundy","brown","beige","tan","green","olive","white","cream","ivory","purple","red","crimson"]
     for (const c of colorWords) {
-      const attachedToOtherGarment = new RegExp(c + "\\s+(?:\\w+\\s+)?(?:shirt|tie|belt|shoes?|loafers?|pocket)").test(t)
-      if (t.includes(c) && !attachedToOtherGarment) { suitColor = c === "gray" ? "grey" : c === "tan" ? "beige" : c === "cream" || c === "ivory" ? "white" : c === "olive" ? "green" : c === "crimson" ? "red" : c; break }
+      const attachedToOtherGarment = new RegExp("\\b" + c + "\\b\\s+(?:\\w+\\s+)?(?:shirt|tie|belt|shoes?|loafers?|pocket)").test(t)
+      if (new RegExp("\\b" + c + "\\b").test(t) && !attachedToOtherGarment) { suitColor = c === "gray" ? "grey" : c === "tan" ? "beige" : c === "cream" || c === "ivory" ? "white" : c === "olive" ? "green" : c === "crimson" ? "red" : c; break }
     }
   }
 
@@ -2879,8 +2881,9 @@ function parseComboFromText(text) {
       if (patternWords.includes(w)) tiePattern = w
     }
     if (!tieColor && suitColor) {
-      // Check if description says "X suit with X tie" (same color repeated)
-      const sameColorRx = new RegExp(suitColor + ".*tie|" + suitColor + "\\s+tie")
+      // Only "X suit with X tie" — the color must sit right next to "tie",
+      // or a colorless "navy suit with a knit tie" would inherit navy.
+      const sameColorRx = new RegExp("\\b" + suitColor + "\\s+(?:\\w+\\s+)?tie\\b")
       if (sameColorRx.test(t)) tieColor = suitColor
     }
   }
