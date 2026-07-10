@@ -23748,10 +23748,12 @@ function CalendarPage({ closetItems, user }) {
   const [showLog,    setShowLog]  = useState(false)
   const [logDate,    setLogDate]  = useState(TODAY)
   const [filterSuit, setFilterSuit] = useState("All")
+  const [planning,   setPlanning] = useState(false)
+  const [planForm,   setPlanForm] = useState({ occasion:"Office", outfit:"" })
 
   // ── Firestore-backed data ──
   const { wornLog, saveEntry }           = useWornLog(user, WORN_LOG_INIT)
-  const { events, saveEvent: saveEvtFn } = useCalendarEvents(user, CALENDAR_EVENTS_INIT)
+  const { events, saveEvent: saveEvtFn, deleteEvent } = useCalendarEvents(user, CALENDAR_EVENTS_INIT)
 
   const y = date.getFullYear(), m = date.getMonth()
   const totalDays = daysInMonth(y,m), firstDay = firstDayOf(y,m)
@@ -23762,6 +23764,16 @@ function CalendarPage({ closetItems, user }) {
   const saveEvent = (k, occ, outfit) => {
     saveEvtFn(k, occ, outfit)
   }
+
+  const submitPlan = () => {
+    if (!selectedKey || !planForm.outfit.trim()) return
+    saveEvent(selectedKey, planForm.occasion, planForm.outfit.trim())
+    setPlanning(false)
+    setPlanForm({ occasion:"Office", outfit:"" })
+  }
+
+  // Close the inline plan editor when the selected day changes.
+  useEffect(() => { setPlanning(false); setPlanForm({ occasion:"Office", outfit:"" }) }, [selectedKey])
 
   const saveLog = (entry) => {
     saveEntry(entry)
@@ -23891,18 +23903,54 @@ function CalendarPage({ closetItems, user }) {
                   </div>
                 )}
                 {/* Planned entry */}
-                {selectedEvt ? (
+                {selectedEvt && !planning && (
                   <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-gray-300"/>
-                      <span className="text-xs font-bold text-gray-400">PLANNED</span>
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2.5 h-2.5 rounded-full bg-gray-300"/>
+                        <span className="text-xs font-bold text-gray-400">PLANNED{selectedEvt.occasion?` · ${selectedEvt.occasion}`:""}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button onClick={()=>{setPlanForm({occasion:selectedEvt.occasion||"Office",outfit:selectedEvt.outfit||""});setPlanning(true)}}
+                          className="text-xs font-bold text-gray-400 hover:text-gray-600">Edit</button>
+                        <button onClick={()=>deleteEvent(selectedKey)}
+                          className="text-xs font-bold text-red-300 hover:text-red-500">Clear</button>
+                      </div>
                     </div>
                     <div className="text-xs text-gray-500 bg-gray-50 rounded-lg p-2.5">{selectedEvt.outfit}</div>
                   </div>
-                ) : !wornOnSelected && (
+                )}
+
+                {/* Inline plan editor */}
+                {planning ? (
+                  <div className="mt-2 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2.5 h-2.5 rounded-full bg-gray-300"/>
+                      <span className="text-xs font-bold text-gray-400">PLAN THIS DAY</span>
+                    </div>
+                    <select aria-label="Occasion" value={planForm.occasion}
+                      onChange={e=>setPlanForm(p=>({...p,occasion:e.target.value}))}
+                      className="w-full text-xs rounded-lg border border-gray-200 px-2 py-2 bg-white">
+                      {["Office","Wedding","Formal","Date","Funeral","Church","Interview","Casual"].map(o=><option key={o}>{o}</option>)}
+                    </select>
+                    <input aria-label="Planned outfit" value={planForm.outfit}
+                      onChange={e=>setPlanForm(p=>({...p,outfit:e.target.value}))}
+                      onKeyDown={e=>{if(e.key==="Enter")submitPlan()}}
+                      placeholder="e.g. Navy suit, white shirt, burgundy tie"
+                      className="w-full text-xs rounded-lg border border-gray-200 px-2 py-2"/>
+                    <div className="flex gap-2">
+                      <button onClick={()=>{setPlanning(false);setPlanForm({occasion:"Office",outfit:""})}}
+                        className="flex-1 text-xs font-bold text-gray-400 rounded-lg py-2 border border-gray-200">Cancel</button>
+                      <button onClick={submitPlan} disabled={!planForm.outfit.trim()}
+                        className="flex-1 text-xs font-black text-white rounded-lg py-2 disabled:opacity-40" style={{background:NAVY}}>Save Plan</button>
+                    </div>
+                  </div>
+                ) : !selectedEvt && !wornOnSelected && (
                   <div className="text-center py-4">
                     <Shirt size={20} className="mx-auto text-gray-200 mb-2"/>
-                    <p className="text-xs text-gray-300">No log or plan</p>
+                    <p className="text-xs text-gray-300 mb-2">No log or plan</p>
+                    <button onClick={()=>setPlanning(true)}
+                      className="text-xs font-bold" style={{color:GOLD}}>+ Plan an outfit</button>
                   </div>
                 )}
               </div>
@@ -24112,6 +24160,16 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
   const [liked, setLiked] = useState({})
   const [draft, setDraft] = useState(COMMUNITY_DRAFT_INIT)
   const [showComposer, setShowComposer] = useState(false)
+  const [copiedId, setCopiedId] = useState(null)
+  const [joinNote, setJoinNote] = useState(null)
+
+  const copyLook = (post) => {
+    const parts = [post.look, post.outfit, post.caption].filter(Boolean)
+    const text = parts.join(" — ") || "Dapper look"
+    try { navigator.clipboard?.writeText(text) } catch {}
+    setCopiedId(post.id)
+    setTimeout(() => setCopiedId((id) => id === post.id ? null : id), 1600)
+  }
   const { posts, loading, saving, error, createPost, toggleLike } = useCommunityPosts(user)
   const plan = entitlement?.plan || "free"
   const canPost = Boolean(user && (isAdmin || plan === "pro" || plan === "elite"))
@@ -24398,11 +24456,12 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                   <Heart size={16} fill={postIsLiked(post)?"currentColor":"none"}/>
                   <span>{postLikeCount(post)}</span>
                 </button>
-                <button className="flex items-center gap-1.5 text-sm text-gray-300 hover:text-gray-500">
+                <div className="flex items-center gap-1.5 text-sm text-gray-300" title="Comments coming soon">
                   <MessageCircle size={16}/><span>{post.commentCount ?? post.comments ?? 0}</span>
-                </button>
-                <button className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-gray-500 ml-auto">
-                  <TrendingUp size={13}/> Copy Look
+                </div>
+                <button onClick={()=>copyLook(post)}
+                  className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-gray-500 ml-auto">
+                  <TrendingUp size={13}/> {copiedId===post.id ? "Copied!" : "Copy Look"}
                 </button>
               </div>
             </div>
@@ -24425,9 +24484,13 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                   <span className="text-xs text-gray-400 flex items-center gap-1"><Clock size={11}/> {c.daysLeft} days left</span>
                 </div>
               </div>
-              <button className="px-3 py-1.5 rounded-xl text-xs font-black text-white flex-shrink-0" style={{background:c.color}}>Join</button>
+              <button onClick={()=>{setJoinNote(c.id);setTimeout(()=>setJoinNote(n=>n===c.id?null:n),1800)}}
+                className="px-3 py-1.5 rounded-xl text-xs font-black text-white flex-shrink-0 transition-all" style={{background:c.color}}>
+                {joinNote===c.id ? "Soon" : "Join"}
+              </button>
             </div>
           ))}
+          <p className="text-xs text-center text-gray-300">Challenges are a preview — joining opens soon.</p>
         </div>
       )}
 
