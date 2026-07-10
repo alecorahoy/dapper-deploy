@@ -20557,7 +20557,15 @@ function getLocalComboAssessment(text) {
 }
 
 function getLocalAnalysis(text) {
-  const t = normalizeMenswearText(text)
+  const full = normalizeMenswearText(text)
+  // For SUIT-color detection, blank out clauses describing other garments so
+  // their colors aren't read as the suit color ("burgundy tie with a green
+  // suit" must resolve to green, not burgundy). Pattern detection still uses
+  // the full text below.
+  const t = full.replace(
+    /\b(?:\w+\s+){1,2}(?:shirt|tie|necktie|bow\s+tie|belt|shoes?|loafers?|oxfords?|derbys?|brogues?|boots?|pocket\s+square|socks?|watch)\b/g,
+    " "
+  )
 
   // Detect color (with match tracking)
   let colorKey = "navy"
@@ -26384,4 +26392,5 @@ export default function DapperApp() {
   )
 }
  
+
 
