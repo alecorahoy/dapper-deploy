@@ -7,8 +7,8 @@
 <meta name="description" content="AI-powered suit styling for the modern professional. Perfect shirt, tie, and outfit combinations — instantly."/>
 <meta property="og:title" content="Dapper — AI Men's Style Intelligence"/>
 <meta property="og:description" content="Get perfect shirt, tie, and outfit recommendations for any suit in seconds."/>
-<meta property="og:image" content="/og-image.png"/>
-<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:card" content="summary"/>
+<meta property="og:type" content="website"/>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
 <link rel="manifest" href="/manifest.json"/>
 <meta name="theme-color" content="#080f1e"/>
@@ -612,7 +612,7 @@ section {
 .testimonial-likes {
   margin-top: 20px;
   font-size: 12px;
-  color: var(--grayDim);
+  color: var(--gray);
   display: flex;
   gap: 16px;
 }
@@ -825,7 +825,7 @@ footer {
 }
 .footer-brand { flex: 1; min-width: 200px; }
 .footer-brand .nav-wordmark { font-size: 22px; margin-bottom: 12px; display: block; }
-.footer-tagline { font-size: 13px; color: var(--grayDim); font-style: italic; font-family: var(--serif); }
+.footer-tagline { font-size: 13px; color: var(--gray); font-style: italic; font-family: var(--serif); }
 .footer-col h4 {
   font-size: 10px;
   letter-spacing: 3px;
@@ -852,9 +852,9 @@ footer {
   flex-wrap: gap;
   gap: 16px;
 }
-.footer-copy { font-size: 12px; color: var(--grayDim); }
+.footer-copy { font-size: 12px; color: var(--gray); }
 .footer-legal { display: flex; gap: 24px; }
-.footer-legal a { font-size: 12px; color: var(--grayDim); text-decoration: none; }
+.footer-legal a { font-size: 12px; color: var(--gray); text-decoration: none; }
 .footer-legal a:hover { color: var(--gray); }
 
 /* ─── ANIMATIONS ─── */
@@ -906,6 +906,41 @@ footer {
   padding: 4px;
 }
 @media (max-width: 900px) { .mobile-menu-btn { display: block; } .nav-cta { display: none; } }
+
+/* Mobile nav dropdown (toggled by the hamburger) */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 72px;
+  left: 0; right: 0;
+  background: rgba(8, 15, 30, 0.98);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 12px 24px 20px;
+  z-index: 99;
+}
+.mobile-menu.open { display: block; }
+.mobile-menu a {
+  display: block;
+  padding: 14px 4px;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.mobile-menu a.mobile-menu-cta {
+  margin-top: 14px;
+  text-align: center;
+  background: var(--gold);
+  color: var(--navy);
+  border-radius: 10px;
+  border-bottom: none;
+  padding: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
 </style>
 </head>
 <body>
@@ -929,12 +964,21 @@ footer {
     <li><a href="#pricing">Pricing</a></li>
   </ul>
   <a href="#" class="nav-cta" onclick="launchApp()">Try It Free</a>
-  <button class="mobile-menu-btn" aria-label="Menu">
+  <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMobileMenu()">
     <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M3 12h18M3 6h18M3 18h18"/>
     </svg>
   </button>
 </nav>
+
+<!-- Mobile nav dropdown -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#features" onclick="toggleMobileMenu()">Features</a>
+  <a href="#how" onclick="toggleMobileMenu()">How It Works</a>
+  <a href="#community" onclick="toggleMobileMenu()">Community</a>
+  <a href="#pricing" onclick="toggleMobileMenu()">Pricing</a>
+  <a href="/app" class="mobile-menu-cta">Try It Free</a>
+</div>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero" id="top">
@@ -1180,7 +1224,7 @@ footer {
       <div class="pricing-card featured">
         <div class="pricing-badge">Most Refined</div>
         <div class="pricing-tier">The Professional</div>
-        <div class="pricing-price" id="proPrice"><sup>$</sup>4<span id="proDecimal">.99/mo</span></div>
+        <div class="pricing-price" id="proPrice"><sup>$</sup><span id="proAmount">4</span><span id="proDecimal">.99/mo</span></div>
         <div class="pricing-tagline">Full access for the dedicated professional.</div>
         <ul class="pricing-features">
           <li><span class="check">✓</span> Unlimited AI Analyses</li>
@@ -1196,7 +1240,7 @@ footer {
       <!-- Elite -->
       <div class="pricing-card">
         <div class="pricing-tier">The Elite</div>
-        <div class="pricing-price" id="elitePrice"><sup>$</sup>9<span id="eliteDecimal">.99/mo</span></div>
+        <div class="pricing-price" id="elitePrice"><sup>$</sup><span id="eliteAmount">9</span><span id="eliteDecimal">.99/mo</span></div>
         <div class="pricing-tagline">The pinnacle of sartorial intelligence.</div>
         <ul class="pricing-features">
           <li><span class="check">✓</span> Everything in Pro</li>
@@ -1285,6 +1329,14 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// ─── Mobile menu ───
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.mobile-menu-btn');
+  const open = menu.classList.toggle('open');
+  if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
 // ─── Launch App ───
 function launchApp() {
   // Change this URL to your actual deployed app URL
@@ -1297,8 +1349,10 @@ function toggleBilling() {
   annual = !annual;
   const track = document.getElementById('billingToggle');
   track.classList.toggle('active', annual);
-  document.getElementById('proDecimal').textContent  = annual ? '/mo (billed $39.99/yr)' : '.99/mo';
-  document.getElementById('eliteDecimal').textContent = annual ? '/mo (billed $79.99/yr)' : '.99/mo';
+  document.getElementById('proAmount').textContent   = annual ? '3' : '4';
+  document.getElementById('proDecimal').textContent  = annual ? '.33/mo (billed $39.99/yr)' : '.99/mo';
+  document.getElementById('eliteAmount').textContent = annual ? '6' : '9';
+  document.getElementById('eliteDecimal').textContent = annual ? '.67/mo (billed $79.99/yr)' : '.99/mo';
 }
 
 // ─── Scroll-reveal ───
