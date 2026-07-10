@@ -2519,6 +2519,18 @@ const COLOR_TO_HEX = {
   "Black":"#1A1A1A","Gold":"#C9A84C","Mustard":"#D4A017","Terracotta":"#C46B4C",
   "Copper":"#B87333","Wine":"#722F37","Coral":"#F88379","Teal":"#2A7F7F",
   "Slate":"#6A7BA2","Silver":"#C0C0C0","Pink":"#E8A5B5","Salmon":"#FA8072",
+  // Old-style matrix names that previously fell through to the grey/white
+  // fallback swatches. Keep multi-word names ABOVE the bare colors — the
+  // partial matcher walks insertion order.
+  "Dusty Rose":"#C08081","Dusty Mauve":"#B784A7","Ice Blue":"#D6ECEF",
+  "Burnt Orange":"#CC5500","Midnight Blue":"#191970","Cobalt Blue":"#0047AB",
+  "Moss Green":"#8A9A5B","Bottle Green":"#006A4E","Deep Green":"#05472A",
+  "Dark Green":"#013220","Jade":"#00A86B","Gunmetal":"#2A3439",
+  "Pewter":"#8E9294","Taupe":"#8B8589","Wheat":"#F5DEB3","Scarlet":"#FF2400",
+  "Oxblood":"#4A0000","Fawn":"#C8A97E","Russet":"#80461B","Aubergine":"#3D0C3E",
+  "Plum":"#673147","Beige":"#D9C7A7","Chambray":"#9DB6CC","Mauve":"#B784A7",
+  "Rose":"#C08081","Orange":"#D96C2C","Yellow":"#E8C547","Green":"#3E7C4A",
+  "Blue":"#3B6CA8","Red":"#B03030","Purple":"#6A4C93",
 }
 // Case-insensitive, partial-match hex lookup for free-form color names
 // coming from the data matrix or the AI ("Deep Burgundy" → Burgundy hex).
@@ -2569,22 +2581,44 @@ function normalizeMatrixResult(entry) {
   const suitDesc = entry.suit
     ? [entry.suit.colorFamily || entry.suit.color, entry.suit.pattern].filter(Boolean).join(" ")
     : ""
-  packages = packages.map(p => ({
-    ...p,
-    name: p.name || p.label || "Signature Look",
-    suit: p.suit || suitDesc,
-    pocketSquare: p.pocketSquare || p.pocket_square,
-    archetype: p.archetype || "Classic",
-    confidence: p.confidence || 4,
-    tip: p.tip || (p.pocketSquare || p.pocket_square
-      ? "Anchor the look with the " + (p.pocketSquare || p.pocket_square).toLowerCase() + " and keep the rest understated."
-      : "Keep the accessories in the same temperature family as the suit."),
-    shirtColor: p.shirtColor || (shirts[0] && shirts[0].colorCode) || "#F8F8F8",
-    tieColor: p.tieColor || hexForColorName(p.tie, "#555555"),
-    occasion: p.occasion || "Business Casual",
-  }))
+  const firstShirt = shirts[0]
+  const firstTie = firstShirt && firstShirt.ties && firstShirt.ties[0]
+  packages = packages.map(p => {
+    // Old-style families name the field "pocket" (1,148 packages) or
+    // "pocket_square" (fawn); the cards read "pocketSquare".
+    const pocketSq = p.pocketSquare || p.pocket_square || p.pocket
+    // Old-style packages carry no shirt/tie — derive from the top shirt
+    // pairing so the outfit rows render instead of silently vanishing.
+    const tie = p.tie || (firstTie && firstTie.name) || ""
+    return {
+      ...p,
+      name: p.name || p.label || "Signature Look",
+      suit: p.suit || suitDesc,
+      shirt: p.shirt || (firstShirt && firstShirt.name) || "",
+      tie,
+      pocketSquare: pocketSq,
+      archetype: p.archetype || "Classic",
+      confidence: p.confidence || 4,
+      tip: p.tip || (pocketSq
+        ? "Anchor the look with the " + pocketSq.toLowerCase() + " and keep the rest understated."
+        : "Keep the accessories in the same temperature family as the suit."),
+      shirtColor: p.shirtColor || (firstShirt && firstShirt.colorCode) || "#F8F8F8",
+      tieColor: p.tieColor || (p.tie ? hexForColorName(p.tie, "#555555") : (firstTie && firstTie.color) || "#555555"),
+      occasion: p.occasion || "Business Casual",
+    }
+  })
 
-  return { ...entry, shirts, packages }
+  // Old-style suit objects only carry {color, cut}; the header and the
+  // occasion filter read colorFamily/fit. Normalize once here.
+  const suit = entry.suit
+    ? {
+        ...entry.suit,
+        colorFamily: entry.suit.colorFamily || entry.suit.color || "",
+        fit: entry.suit.fit || entry.suit.cut || "",
+      }
+    : entry.suit
+
+  return { ...entry, suit, shirts, packages }
 }
 
 function getAnalysisFromPhotoResult(result) {
@@ -5343,7 +5377,7 @@ function AnalyzerPage() {
               <div className="flex-1">
                 <div className="flex flex-wrap gap-2 mb-2">
                   <span className="text-xs font-black tracking-wider px-2 py-0.5 rounded-full text-white" style={{background:NAVY}}>SUIT ANALYSIS</span>
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:"#fef3c7",color:"#92400e"}}>{analysisData?.suit?.formality || ""}</span>
+                  {analysisData?.suit?.formality ? <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:"#fef3c7",color:"#92400e"}}>{analysisData.suit.formality}</span> : null}
                 </div>
                 <h3 className="text-xl font-black text-gray-900">{analysisData?.suit?.colorFamily || ""}</h3>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1 mt-3 text-xs">
