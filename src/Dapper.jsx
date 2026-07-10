@@ -8842,7 +8842,7 @@ function ReportProblemModal({ user, page, onClose }) {
         url: typeof window !== "undefined" ? window.location.href : "",
       })
       setDeliveryNotice(result?.emailSent
-        ? "It also emailed alecorahoy@gmail.com."
+        ? "The Dapper team was notified by email."
         : "It is saved in the Admin problem report inbox.")
       setSent(true)
       setForm({ ...REPORT_FORM_INIT, email:user?.email || "" })

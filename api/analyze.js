@@ -1,27 +1,24 @@
+import { rateLimit, clientIp, originAllowed } from './_guard.js'
+
 export const config = { runtime: 'edge' }
 
 // Only the models the app actually calls may pass through this proxy — without
-// this, any caller (esp. non-browser clients with no Origin header) could run
-// arbitrary, expensive Anthropic models on the owner's key.
+// this, any caller could run arbitrary, expensive Anthropic models on the
+// owner's key.
 const ALLOWED_MODELS = new Set(['claude-haiku-4-5-20251001'])
 
 // ── CORS origin lock ───────────────────────────────────────────────
-// Same-origin app calls (incl. logged-out guests) keep working, but
-// off-site browsers can't use this paid AI proxy. Determined non-browser
-// clients can still spoof Origin — pair with Firebase App Check later.
+// Browsers always send Origin on POST, so requests without one are
+// non-browser clients and are rejected. Origin can still be spoofed by a
+// determined script — the rate limit below blunts that; Firebase App Check
+// is the real fix (owner setup pending).
 function isAllowedOrigin(req) {
   const origin = req.headers.get('origin')
-  // No Origin header → same-origin fetch or non-browser; allow.
-  if (!origin) return { allowed: true, origin: null }
-
-  const host = req.headers.get('host') || ''
-  const sameOrigin = origin === `https://${host}` || origin === `http://${host}`
-  const envList = String(process.env.ALLOWED_ORIGINS || '')
-    .split(',').map((o) => o.trim()).filter(Boolean)
-  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
-  const isVercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)
-
-  const allowed = sameOrigin || isLocal || isVercelPreview || envList.includes(origin)
+  const allowed = originAllowed({
+    origin,
+    host: req.headers.get('host') || '',
+    allowedOriginsEnv: process.env.ALLOWED_ORIGINS,
+  })
   return { allowed, origin }
 }
 
@@ -72,6 +69,15 @@ export default async function handler(req) {
     return new Response(JSON.stringify({ error: { message: 'Origin not allowed.' } }), {
       status: 403,
       headers: { 'Content-Type': 'application/json', ...cors },
+    })
+  }
+
+  // Per-IP burst limit: 20 analyses/minute is far above real usage.
+  const ip = clientIp(req.headers)
+  if (!rateLimit(`analyze:${ip}`, { limit: 20, windowMs: 60000 }).allowed) {
+    return new Response(JSON.stringify({ error: { message: 'Too many requests — please wait a minute and try again.' } }), {
+      status: 429,
+      headers: { 'Content-Type': 'application/json', 'Retry-After': '60', ...cors },
     })
   }
 

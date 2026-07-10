@@ -11,6 +11,7 @@
 // See STRIPE-SETUP.md for the full setup + webhook configuration.
 
 import Stripe from "stripe"
+import { rateLimit, clientIp, originAllowed as originOk } from "./_guard.js"
 
 const PRICE_ENV = {
   pro:   { monthly: "STRIPE_PRICE_PRO_MONTHLY",   annual: "STRIPE_PRICE_PRO_ANNUAL" },
@@ -18,14 +19,11 @@ const PRICE_ENV = {
 }
 
 function originAllowed(req) {
-  const origin = req.headers.origin
-  if (!origin) return true
-  const host = req.headers.host || ""
-  if (origin === `https://${host}` || origin === `http://${host}`) return true
-  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true
-  if (/^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)) return true
-  const envList = String(process.env.ALLOWED_ORIGINS || "").split(",").map((o) => o.trim())
-  return envList.includes(origin)
+  return originOk({
+    origin: req.headers.origin,
+    host: req.headers.host || "",
+    allowedOriginsEnv: process.env.ALLOWED_ORIGINS,
+  })
 }
 
 export default async function handler(req, res) {
@@ -35,6 +33,9 @@ export default async function handler(req, res) {
   }
   if (!originAllowed(req)) {
     return res.status(403).json({ error: "Origin not allowed." })
+  }
+  if (!rateLimit(`checkout:${clientIp(req.headers)}`, { limit: 10, windowMs: 600000 }).allowed) {
+    return res.status(429).json({ error: "Too many checkout attempts — please try again in a few minutes." })
   }
 
   const secretKey = process.env.STRIPE_SECRET_KEY

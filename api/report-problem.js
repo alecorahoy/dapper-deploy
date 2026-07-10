@@ -1,17 +1,16 @@
+import { rateLimit, clientIp, originAllowed } from "./_guard.js"
+
 export const config = { runtime: "edge" }
 
 const DEFAULT_REPORT_EMAIL = "alecorahoy@gmail.com"
 
 function isAllowedOrigin(req) {
   const origin = req.headers.get("origin")
-  if (!origin) return { allowed: true, origin: null }
-  const host = req.headers.get("host") || ""
-  const sameOrigin = origin === `https://${host}` || origin === `http://${host}`
-  const envList = String(process.env.ALLOWED_ORIGINS || "")
-    .split(",").map((o) => o.trim()).filter(Boolean)
-  const isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
-  const isVercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/.test(origin)
-  const allowed = sameOrigin || isLocal || isVercelPreview || envList.includes(origin)
+  const allowed = originAllowed({
+    origin,
+    host: req.headers.get("host") || "",
+    allowedOriginsEnv: process.env.ALLOWED_ORIGINS,
+  })
   return { allowed, origin }
 }
 
@@ -91,6 +90,13 @@ export default async function handler(req) {
     return json({ error: "Origin not allowed." }, 403, cors)
   }
 
+  // Each request sends a real email through the owner's Resend account —
+  // throttle hard (per-instance burst friction; see _guard.js).
+  const ip = clientIp(req.headers)
+  if (!rateLimit(`report:${ip}`, { limit: 5, windowMs: 600000 }).allowed) {
+    return json({ error: "Too many reports from this connection — please try again later." }, 429, cors)
+  }
+
   try {
     const body = await req.json()
     const type = clamp(body.type, 40)
@@ -106,11 +112,8 @@ export default async function handler(req) {
     const apiKey = process.env.RESEND_API_KEY
 
     if (!apiKey) {
-      return json({
-        emailSent: false,
-        reason: "missing_resend_api_key",
-        to,
-      }, 200, cors)
+      // Don't echo the recipient list to callers.
+      return json({ emailSent: false, reason: "missing_resend_api_key" }, 200, cors)
     }
 
     const pageLabel = pageLabels[page] || page || "Whole App"
@@ -182,7 +185,7 @@ export default async function handler(req) {
       }, 502, cors)
     }
 
-    return json({ emailSent: true, to, providerId: data?.id || "" }, 200, cors)
+    return json({ emailSent: true, providerId: data?.id || "" }, 200, cors)
   } catch (err) {
     return json({ emailSent: false, error: err.message || "Could not send email notification." }, 500, cors)
   }
