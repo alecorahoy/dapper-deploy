@@ -4301,6 +4301,7 @@ function AnalyzerPage() {
   const suitInputRef  = { current: null }
   const shirtInputRef = { current: null }
   const progressTimerRef = useRef(null)
+  const analyzeInFlightRef = useRef(false)
 
   // Clear any running progress interval if the user navigates away mid-analysis
   // (prevents a leaked timer + setState-on-unmounted warnings).
@@ -4385,7 +4386,17 @@ function AnalyzerPage() {
     "Finalizing style intelligence…",
   ]
 
+  // Re-entrancy guard: a second click mid-analysis would fire duplicate
+  // (paid) API calls and race on the result state. The ref blocks rapid
+  // double-clicks even before the disabled button re-renders.
   const runAnalysis = async () => {
+    if (analyzeInFlightRef.current) return
+    analyzeInFlightRef.current = true
+    try { await runAnalysisImpl() }
+    finally { analyzeInFlightRef.current = false }
+  }
+
+  const runAnalysisImpl = async () => {
     setKeyError("")
     setFullLookResult(null)
     setCorrectingFullLook(false)
@@ -4807,7 +4818,7 @@ function AnalyzerPage() {
           {keyError && <p className="text-xs text-red-400 mb-3 px-1">{keyError}</p>}
 
           {!analyzing ? (
-            <button onClick={runAnalysis} disabled={isPreparingUpload}
+            <button onClick={runAnalysis} disabled={isPreparingUpload || analyzing}
               className="w-full py-4 rounded-2xl font-bold text-base text-white flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-98"
               style={{background:`linear-gradient(135deg,${NAVY} 0%,#1e3a5f 100%)`,opacity:isPreparingUpload?0.55:1}}>
               {isPreparingUpload
@@ -6676,12 +6687,13 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
     const outfit = draft.outfit.trim()
     const caption = draft.caption.trim()
     if (!caption && !draft.photo) return
-    const tags = draft.tags
-      .split(/[\s,]+/)
-      .map(tag => tag.trim())
-      .filter(Boolean)
-      .map(tag => tag.startsWith("#") ? tag : `#${tag}`)
-      .slice(0, 6)
+    const tags = [...new Set(
+      draft.tags
+        .split(/[\s,]+/)
+        .map(tag => tag.trim())
+        .filter(Boolean)
+        .map(tag => tag.startsWith("#") ? tag : `#${tag}`)
+    )].slice(0, 6)
     try {
       await createPost({
         look: draft.look.trim(),
@@ -8311,6 +8323,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
 
   const revokeSelected = async () => {
     if (!selectedUser) { setMessage("Select a user first."); return }
+    if (!window.confirm(`Move ${selectedUser.email || selectedUser.uid} back to Free? This removes their paid access.`)) return
     setMessage("")
     try {
       await revokeEntitlement({ uid:selectedUser.uid, email:selectedUser.email, note:note || "Revoked from Admin." })
@@ -8338,6 +8351,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
 
   const revokeEmailComp = async (email = compEmail) => {
     if (!String(email).trim()) { setCompMessage("Enter an email first."); return }
+    if (!window.confirm(`Move ${String(email).trim().toLowerCase()} back to Free? This removes their paid access.`)) return
     setCompMessage("")
     try {
       await revokeEmailEntitlement({ email, note:compNote || "Revoked from Admin." })

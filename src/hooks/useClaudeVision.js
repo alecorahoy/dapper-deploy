@@ -440,6 +440,9 @@ const fileToRawVisionImage = async (file) => {
     } catch (resizeErr) {
       console.warn('[Dapper Vision] Raw fallback remained large after file read', resizeErr)
     }
+    // Still over the cap and we couldn't shrink it — fail here with an
+    // actionable message instead of shipping a payload the server will 413.
+    throw new Error('This photo is too large for the analyzer. Try a tighter crop, a screenshot of just the outfit, or a lower-resolution JPG.')
   }
   return { base64, mediaType, source: 'raw' }
 }
@@ -991,7 +994,10 @@ export function useClaudeVision() {
 Use professional menswear vocabulary. Be specific with hex colors. User description: "${description}"` }],
         }),
       })
-      if (!response.ok) throw new Error('API error: ' + response.status)
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}))
+        throw new Error(apiErrorMessage(errData, response.status))
+      }
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
       const cleanText = rawText
