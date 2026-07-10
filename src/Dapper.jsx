@@ -3744,6 +3744,24 @@ function dots(n)             { return Array.from({length:5},(_,i)=>i<n?"●":"�
 const NAVY = "#0f172a"
 const GOLD = "#C9A84C"
 
+// ── Free-tier limits (single source of truth) ──
+// NOTE: the landing page currently advertises 5 analyses / 10 garments;
+// the app has always said 3 / 20. Owner decision pending — change these
+// two numbers to realign everything at once.
+const FREE_LIMITS = { analysesPerMonth: 3, closetItems: 20 }
+const analysisMonthKey = () => {
+  const d = new Date()
+  return `dapper.analyses.${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`
+}
+function getMonthlyAnalysisCount() {
+  if (typeof window === "undefined") return 0
+  try { return Number(window.localStorage.getItem(analysisMonthKey())) || 0 } catch { return 0 }
+}
+function bumpMonthlyAnalysisCount() {
+  if (typeof window === "undefined") return
+  try { window.localStorage.setItem(analysisMonthKey(), String(getMonthlyAnalysisCount() + 1)) } catch { /* quota UI is best-effort */ }
+}
+
 const STYLE_LENSES = [
   {
     id: "classic",
@@ -3851,7 +3869,8 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, 
   const initials    = displayName[0].toUpperCase()
   const planLabel   = accountPlanLabel(entitlement)
   const planCaption = accountPlanCaption(entitlement)
-  const planUsed    = entitlement?.plan === "free" ? "1 of 3 used this month" : "Unlimited access"
+  const analysesUsed = entitlement?.plan === "free" ? Math.min(getMonthlyAnalysisCount(), FREE_LIMITS.analysesPerMonth) : 0
+  const planUsed    = entitlement?.plan === "free" ? `${analysesUsed} of ${FREE_LIMITS.analysesPerMonth} used this month` : "Unlimited access"
   const isCompact   = !mobile && collapsed
   const widthClass  = mobile ? "w-72" : (isCompact ? "w-16" : "w-64")
 
@@ -3881,7 +3900,7 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, 
             )}
           </div>
           <div className="flex gap-1 mt-1">
-            {[1,2,3].map(i=><div key={i} className="h-1 flex-1 rounded-full" style={{background:entitlement?.plan !== "free" || i===1?GOLD:"rgba(255,255,255,0.1)"}} />)}
+            {[1,2,3].map(i=><div key={i} className="h-1 flex-1 rounded-full" style={{background:entitlement?.plan !== "free" || i<=analysesUsed?GOLD:"rgba(255,255,255,0.1)"}} />)}
           </div>
           <div className="text-xs text-gray-500 mt-1">{planUsed}</div>
         </div>
@@ -4325,8 +4344,9 @@ function SelectableCard({ selected, onClick, title, subtitle, icon, className = 
 // PAGE: AI ANALYZER
 // ─────────────────────────────────────────────
 
-function AnalyzerPage() {
+function AnalyzerPage({ entitlement, setPage }) {
   const { analyzeOutfit, analyzeFullLook, analyzeText } = useClaudeVision()
+  const isFreePlan = !entitlement || entitlement.plan === "free"
   const [mode, setMode]               = useState("A")
   const [analyzing, setAnalyzing]     = useState(false)
   const [done, setDone]               = useState(false)
@@ -4339,6 +4359,7 @@ function AnalyzerPage() {
   const [textInput, setTextInput]     = useState("")
   const [analysisData, setAnalysisData] = useState(ANALYSIS)
   const [keyError, setKeyError]       = useState("")
+  const [limitReached, setLimitReached] = useState(false)
   const [isDemo, setIsDemo]           = useState(false)
   const [occasion, setOccasion]       = useState("All")
   const [styleLens, setStyleLens]     = useState("classic")
@@ -4456,8 +4477,16 @@ function AnalyzerPage() {
 
   const runAnalysisImpl = async () => {
     setKeyError("")
+    setLimitReached(false)
     setFullLookResult(null)
     setCorrectingFullLook(false)
+    // Enforce the advertised free-tier quota (FREE_LIMITS is the single
+    // source of truth). Client-side only — honest friction, not security.
+    if (isFreePlan && getMonthlyAnalysisCount() >= FREE_LIMITS.analysesPerMonth) {
+      setLimitReached(true)
+      setKeyError(`You've used your ${FREE_LIMITS.analysesPerMonth} free analyses this month. Upgrade to Pro for unlimited analyses.`)
+      return
+    }
     // Ensure the style matrix is loaded before any lookup runs.
     try { await ensurePatternMatrix() } catch { /* null-safe lookups fall back to generated analysis */ }
     const activeStyleLens = styleLensById(styleLens)
@@ -4473,6 +4502,7 @@ function AnalyzerPage() {
       setComboAssessment(null)
       setPhotoResult(null)
       setShirtPhotoResult(null)
+      if (isFreePlan) bumpMonthlyAnalysisCount()
       setAnalyzing(true); setProgress(0); setCurrentStep(0)
       let p = 0
       const iv = setInterval(() => {
@@ -4562,6 +4592,7 @@ function AnalyzerPage() {
     // ── PHOTO MODE — vision with local fallback ──
     if ((mode === "A" || mode === "B") && suitPhoto) {
       setIsDemo(true)
+      if (isFreePlan) bumpMonthlyAnalysisCount()
       setAnalyzing(true); setProgress(0); setCurrentStep(0)
       let p = 0
       const iv = setInterval(() => {
@@ -4640,7 +4671,8 @@ function AnalyzerPage() {
       ? textInput.trim()
       : "Please describe the suit you'd like analyzed."
 
-    setAnalyzing(true); setProgress(0); setCurrentStep(0)
+    if (isFreePlan) bumpMonthlyAnalysisCount()
+      setAnalyzing(true); setProgress(0); setCurrentStep(0)
     let p=0
     const iv = setInterval(()=>{
       p += Math.random()*8+2
@@ -4895,7 +4927,18 @@ function AnalyzerPage() {
           </div>
 
           {preparingPhoto && <p className="text-xs text-blue-600 mb-3 px-1">{preparingPhoto}</p>}
-          {keyError && <p className="text-xs text-red-400 mb-3 px-1">{keyError}</p>}
+          {keyError && (
+            <div className="mb-3 px-1">
+              <p className="text-xs text-red-400" role="alert">{keyError}</p>
+              {limitReached && setPage && (
+                <button onClick={()=>setPage("pricing")}
+                  className="mt-2 px-4 py-2 rounded-xl text-xs font-black"
+                  style={{background:GOLD,color:NAVY}}>
+                  See Pro plans →
+                </button>
+              )}
+            </div>
+          )}
 
           {!analyzing ? (
             <button onClick={runAnalysis} disabled={isPreparingUpload || analyzing}
@@ -5835,7 +5878,7 @@ const CLOSET_FORM_INIT = { type:"Suit", name:"", brand:"", color:"#1B3A6B", phot
 // PAGE: CLOSET
 // ─────────────────────────────────────────────
 
-function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthClick, closetSaving, closetError }) {
+function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthClick, closetSaving, closetError, entitlement, setPage }) {
   const [filter,  setFilter]  = useState("All")
   const items = closetItems || CLOSET_ITEMS_INIT
   const setItems = setClosetItems || (() => {})
@@ -5843,6 +5886,8 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
   const [selected,setSelected]= useState(null)
   const [form,    setForm]    = useState(CLOSET_FORM_INIT)
   const [saveError, setSaveError] = useState("")
+  const isFreePlan = !entitlement || entitlement.plan === "free"
+  const atClosetCap = isFreePlan && items.length >= FREE_LIMITS.closetItems
 
   const TYPES = ["All","Suit","Shirt","Tie","Shoes","Accessory"]
   const shown  = filter==="All" ? items : items.filter(i=>i.type===filter)
@@ -5870,6 +5915,10 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
 
   const save = async () => {
     if(!form.name.trim()) return
+    if (atClosetCap) {
+      setSaveError(`Free tier is limited to ${FREE_LIMITS.closetItems} garments. Upgrade to Pro for an unlimited closet.`)
+      return
+    }
     const { photoError, ...itemForm } = form
     const item = {...itemForm,id:`closet-${Date.now()}`,occasions:[]}
     setSaveError("")
@@ -5924,10 +5973,13 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
         </div>
       )}
 
-      {items.length>=15 && (
+      {isFreePlan && items.length >= FREE_LIMITS.closetItems - 5 && (
         <div className="mb-4 px-4 py-3 rounded-xl flex items-center justify-between" style={{background:"#fffbeb"}}>
-          <div className="flex items-center gap-2 text-sm text-yellow-800"><Lock size={14}/><span>Free tier: {items.length}/20 garments</span></div>
-          <button className="text-xs font-bold text-yellow-800 underline">Upgrade for unlimited</button>
+          <div className="flex items-center gap-2 text-sm text-yellow-800">
+            <Lock size={14}/>
+            <span>{atClosetCap ? `Free tier limit reached: ${items.length}/${FREE_LIMITS.closetItems} garments` : `Free tier: ${items.length}/${FREE_LIMITS.closetItems} garments`}</span>
+          </div>
+          <button onClick={()=>setPage && setPage("pricing")} className="text-xs font-bold text-yellow-800 underline">Upgrade for unlimited</button>
         </div>
       )}
 
