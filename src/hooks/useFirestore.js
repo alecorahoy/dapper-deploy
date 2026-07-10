@@ -439,7 +439,13 @@ export function useCommunityPosts(user) {
       updatedAt: serverTimestamp(),
       [`likedBy.${user.uid}`]: alreadyLiked ? deleteField() : true,
     }
-    await updateDoc(doc(db, "communityPosts", post.id), update)
+    try {
+      setError(null)
+      await updateDoc(doc(db, "communityPosts", post.id), update)
+    } catch (err) {
+      console.error("[Dapper] Like failed:", err)
+      setError("Could not update your like. Please try again.")
+    }
   }
 
   return { posts, loading, saving, error, createPost, toggleLike }
