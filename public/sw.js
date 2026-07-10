@@ -48,16 +48,21 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url)
   if (url.origin !== self.location.origin) return // don't touch cross-origin (API, fonts, Anthropic)
 
-  // 1) Navigations → network-first, offline fallback to cached app shell.
+  // 1) Navigations → network-first, offline fallback to the cached page.
+  // Cache the app shell under "/app.html" ONLY for app routes; cache the
+  // landing under its own key — otherwise visiting "/" online would
+  // overwrite the app shell and serve the landing to the app when offline.
   if (request.mode === "navigate") {
+    const isAppRoute = url.pathname === "/app" || url.pathname === "/app.html" || url.pathname.startsWith("/app/")
+    const cacheKey = isAppRoute ? "/app.html" : url.pathname
     event.respondWith(
       fetch(request)
         .then((res) => {
           const copy = res.clone()
-          caches.open(CACHE_VERSION).then((c) => c.put("/app.html", copy)).catch(() => {})
+          caches.open(CACHE_VERSION).then((c) => c.put(cacheKey, copy)).catch(() => {})
           return res
         })
-        .catch(() => caches.match("/app.html").then((r) => r || caches.match(request)))
+        .catch(() => caches.match(cacheKey).then((r) => r || caches.match("/app.html")))
     )
     return
   }

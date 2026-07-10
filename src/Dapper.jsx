@@ -4883,7 +4883,10 @@ function AnalyzerPage() {
             const local = fullLookResult.validatorResult || {}
             const score = fp.score ?? local.overallScore ?? 0
             const verdict = fp.score == null ? (local.verdict || fp.verdict || "Fashion Police Review") : (fp.verdict || local.verdict || "Fashion Police Review")
-            const verdictColor = local.verdictColor || (score >= 9 ? "#166534" : score >= 7 ? "#1d4ed8" : score >= 5 ? "#92400e" : "#991b1b")
+            // Color must match the score actually displayed: use the AI
+            // score's band when showing it, else the local verdict color.
+            const scoreColorFor = (s) => s >= 9 ? "#166534" : s >= 7 ? "#1d4ed8" : s >= 5 ? "#92400e" : "#991b1b"
+            const verdictColor = fp.score == null ? (local.verdictColor || scoreColorFor(score)) : scoreColorFor(score)
             const strengths = fp.strengths?.length ? fp.strengths : (local.compliments || [])
             const recommendations = fp.recommendations?.length
               ? fp.recommendations
@@ -5015,7 +5018,7 @@ function AnalyzerPage() {
                       <div className="rounded-xl p-4 mb-3" style={{background:"#f0fdf4",border:"1px solid #bbf7d0"}}>
                         <div className="text-xs font-black tracking-wider text-green-700 mb-2">WHAT WORKS</div>
                         <ul className="space-y-1 text-sm text-green-800">
-                          {strengths.slice(0,3).map((item, i) => <li key={i}>{item}</li>)}
+                          {strengths.slice(0,3).map((item, i) => <li key={`${i}-${item}`}>{item}</li>)}
                         </ul>
                       </div>
                     )}
@@ -5025,7 +5028,7 @@ function AnalyzerPage() {
                         <div className="text-xs font-black tracking-wider text-yellow-700 mb-2">HOW TO IMPROVE IT</div>
                         {priorityFix && <p className="text-sm font-bold text-yellow-900 mb-2">Priority: {priorityFix}</p>}
                         <ul className="space-y-1 text-sm text-yellow-900">
-                          {recommendations.slice(0,4).map((item, i) => <li key={i}>{item}</li>)}
+                          {recommendations.slice(0,4).map((item, i) => <li key={`${i}-${item}`}>{item}</li>)}
                         </ul>
                       </div>
                     )}
@@ -8333,6 +8336,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
   const [compExpiresAt, setCompExpiresAt] = useState("")
   const [compNote, setCompNote] = useState("")
   const [compMessage, setCompMessage] = useState("")
+  const [reportMessage, setReportMessage] = useState("")
 
   const filteredProfiles = profiles.filter((profile) => {
     const haystack = `${profile.email || ""} ${profile.displayName || ""} ${profile.uid || ""}`.toLowerCase()
@@ -8352,6 +8356,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
 
   const applyGrant = async () => {
     if (!selectedUser) { setMessage("Select a user first."); return }
+    if (plan === "free" && !window.confirm(`Set ${selectedUser.email || selectedUser.uid} to Free? This removes their paid access.`)) return
     setMessage("")
     try {
       if (plan === "free") {
@@ -8380,6 +8385,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
 
   const applyEmailComp = async () => {
     if (!compEmail.trim()) { setCompMessage("Enter an email first."); return }
+    if (compPlan === "free" && !window.confirm(`Set ${compEmail.trim().toLowerCase()} to Free? This removes their paid access.`)) return
     setCompMessage("")
     try {
       if (compPlan === "free") {
@@ -8407,10 +8413,11 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
   }
 
   const setReportStatus = async (report, status) => {
+    setReportMessage("")
     try {
       await updateReportStatus(report.id, status)
     } catch {
-      setMessage("Could not update this problem report.")
+      setReportMessage("Could not update this problem report.")
     }
   }
 
@@ -8483,6 +8490,9 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
             {openProblemReports.length} open
           </span>
         </div>
+        {reportMessage && (
+          <div className="text-xs font-semibold rounded-xl p-3 mb-3 bg-red-50 text-red-700">{reportMessage}</div>
+        )}
         {reportsLoading && <div className="text-sm text-gray-400 py-6 text-center">Loading reports...</div>}
         {!reportsLoading && visibleProblemReports.length === 0 && (
           <div className="text-sm text-gray-400 py-6 text-center">No problem reports yet.</div>
@@ -8572,9 +8582,9 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
             Revoke Email Comp
           </button>
         </div>
-        {(compMessage || error) && (
-          <div className={`mt-4 rounded-xl p-3 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
-            {error || compMessage}
+        {compMessage && (
+          <div className={`mt-4 rounded-xl p-3 text-sm ${/could not|enter |select /i.test(compMessage) ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+            {compMessage}
           </div>
         )}
         {emailComps.length > 0 && (
@@ -8610,6 +8620,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
           <div className="relative mb-4">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300"/>
             <input value={search} onChange={(e)=>setSearch(e.target.value)}
+              aria-label="Search users"
               placeholder="Search email, name, or UID"
               className="w-full border border-gray-100 rounded-xl pl-9 pr-3 py-3 text-sm focus:outline-none focus:border-gray-300"/>
           </div>
@@ -8709,10 +8720,13 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
                   Revoke To Free
                 </button>
               </div>
-              {(message || error) && (
-                <div className={`mt-4 rounded-xl p-3 text-sm ${error ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
-                  {error || message}
+              {message && (
+                <div className={`mt-4 rounded-xl p-3 text-sm ${/could not|enter |select /i.test(message) ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+                  {message}
                 </div>
+              )}
+              {error && (
+                <div className="mt-3 rounded-xl p-3 text-sm bg-red-50 text-red-700">{error}</div>
               )}
             </div>
           </div>
