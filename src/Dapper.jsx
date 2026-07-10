@@ -2569,10 +2569,12 @@ function normalizeMatrixResult(entry) {
     })),
   })) : rawShirts
 
-  // Collect packages from top level or from inside shirts
+  // Collect packages from top level or from inside shirts. Read from
+  // rawShirts: the normalization above rebuilds shirt objects without
+  // carrying `packages` over, so reading from `shirts` finds none.
   let packages = entry.packages && entry.packages.length > 0
     ? entry.packages
-    : shirts.flatMap(s => s.packages || [])
+    : rawShirts.flatMap(s => s.packages || [])
 
   // Normalize packages: old-style entries use {label, pocket_square, ...}
   // and omit the fields the package cards render (name, suit, archetype,
@@ -5606,12 +5608,15 @@ function AnalyzerPage() {
               )
             })()}
 
-            {/* Pocket square */}
-            <div className="bg-white rounded-xl border border-gray-100 p-4">
-              <div className="text-xs font-black tracking-wider text-gray-400 mb-1">POCKET SQUARE</div>
-              <div className="text-sm font-bold text-gray-800">{shirt?.pocketSquare?.name || "Pocket Square"} — {shirt?.pocketSquare?.fold || ""}</div>
-              <div className="text-xs text-gray-400">{shirt?.pocketSquare?.material || ""}</div>
-            </div>
+            {/* Pocket square — only when this shirt actually carries one
+                (normalized new-style shirts keep theirs in the packages) */}
+            {shirt?.pocketSquare?.name ? (
+              <div className="bg-white rounded-xl border border-gray-100 p-4">
+                <div className="text-xs font-black tracking-wider text-gray-400 mb-1">POCKET SQUARE</div>
+                <div className="text-sm font-bold text-gray-800">{shirt.pocketSquare.name}{shirt.pocketSquare.fold ? " — " + shirt.pocketSquare.fold : ""}</div>
+                <div className="text-xs text-gray-400">{shirt.pocketSquare.material || ""}</div>
+              </div>
+            ) : null}
           </div>
 
           {/* Packages */}
