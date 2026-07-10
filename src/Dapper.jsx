@@ -20011,9 +20011,27 @@ const _BASE_MAP = {
 }
 
 const COLOR_TO_HEX = {
-  "White":"#F8F8F8","Ivory White":"#FFFFF0","Pale Blue":"#B8D4E8","Pale Pink":"#F8D7DA",
-  "Light Blue":"#ADD8E6","Blue Oxford":"#89B4D4","Cream":"#FFFDD0","Ecru":"#F5F0E1",
-  "Pale Yellow":"#FDFFC2",
+  "White":"#F8F8F8","Ivory White":"#FFFFF0","Ivory":"#FFFFF0","Crisp White":"#F8F8F8",
+  "Pale Blue":"#B8D4E8","Pale Pink":"#F8D7DA","Light Blue":"#ADD8E6","Sky Blue":"#87CEEB",
+  "Blue Oxford":"#89B4D4","Cream":"#FFFDD0","Ecru":"#F5F0E1","Pale Yellow":"#FDFFC2",
+  "Champagne":"#F7E7CE","Blush":"#F4C2C2","Lavender":"#E6E6FA","Sage":"#B2AC88",
+  "Navy":"#1B2A4A","Burgundy":"#6D1A2A","Forest Green":"#228B22","Rust":"#B7410E",
+  "Olive":"#6B8E23","Chocolate":"#3D2B1F","Brown":"#5C4033","Tan":"#D2B48C",
+  "Camel":"#C19A6B","Charcoal":"#36454F","Grey":"#808080","Gray":"#808080",
+  "Black":"#1A1A1A","Gold":"#C9A84C","Mustard":"#D4A017","Terracotta":"#C46B4C",
+  "Copper":"#B87333","Wine":"#722F37","Coral":"#F88379","Teal":"#2A7F7F",
+  "Slate":"#6A7BA2","Silver":"#C0C0C0","Pink":"#E8A5B5","Salmon":"#FA8072",
+}
+// Case-insensitive, partial-match hex lookup for free-form color names
+// coming from the data matrix or the AI ("Deep Burgundy" → Burgundy hex).
+function hexForColorName(name, fallback) {
+  if (!name) return fallback
+  if (COLOR_TO_HEX[name]) return COLOR_TO_HEX[name]
+  const n = String(name).toLowerCase()
+  for (const [key, hex] of Object.entries(COLOR_TO_HEX)) {
+    if (n.includes(key.toLowerCase())) return hex
+  }
+  return fallback
 }
 function normalizeMatrixResult(entry) {
   if (!entry) return entry
@@ -20025,13 +20043,13 @@ function normalizeMatrixResult(entry) {
   const shirts = needsShirtNorm ? rawShirts.map((s, si) => ({
     id: si + 1,
     name: (s.color || "White") + (s.pattern && s.pattern !== "Solid" ? " " + s.pattern : "") + " " + (s.fabric || ""),
-    colorCode: COLOR_TO_HEX[s.color] || "#F8F8F8",
+    colorCode: hexForColorName(s.color, "#F8F8F8"),
     why: s.fabric ? s.fabric + " — " + (s.collar || "spread") + " collar, " + (s.cuffs || "button") + " cuffs." : "A versatile choice that complements this suit beautifully.",
     collar: s.collar,
     ties: (s.ties || []).map((t, ti) => ({
       id: ti + 1,
       name: (t.color || "") + " " + (t.pattern || "Solid"),
-      color: "#555555",
+      color: hexForColorName(t.color, "#555555"),
       pattern: t.pattern || "Solid",
       material: t.fabric || "Silk",
       width: t.width === "Slim" ? '2.5"' : '3"',
@@ -20046,9 +20064,25 @@ function normalizeMatrixResult(entry) {
     ? entry.packages
     : shirts.flatMap(s => s.packages || [])
 
-  // Ensure packages have occasion field for filtering
+  // Normalize packages: old-style entries use {label, pocket_square, ...}
+  // and omit the fields the package cards render (name, suit, archetype,
+  // confidence, tip, shirtColor/tieColor). Map + default them here so every
+  // data family renders, instead of patching each family's data by hand.
+  const suitDesc = entry.suit
+    ? [entry.suit.colorFamily || entry.suit.color, entry.suit.pattern].filter(Boolean).join(" ")
+    : ""
   packages = packages.map(p => ({
     ...p,
+    name: p.name || p.label || "Signature Look",
+    suit: p.suit || suitDesc,
+    pocketSquare: p.pocketSquare || p.pocket_square,
+    archetype: p.archetype || "Classic",
+    confidence: p.confidence || 4,
+    tip: p.tip || (p.pocketSquare || p.pocket_square
+      ? "Anchor the look with the " + (p.pocketSquare || p.pocket_square).toLowerCase() + " and keep the rest understated."
+      : "Keep the accessories in the same temperature family as the suit."),
+    shirtColor: p.shirtColor || (shirts[0] && shirts[0].colorCode) || "#F8F8F8",
+    tieColor: p.tieColor || hexForColorName(p.tie, "#555555"),
     occasion: p.occasion || "Business Casual",
   }))
 
@@ -26341,3 +26375,4 @@ export default function DapperApp() {
   )
 }
  
+
