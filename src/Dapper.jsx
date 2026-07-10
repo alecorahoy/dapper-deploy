@@ -8473,7 +8473,21 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
     .filter((entitlement) => entitlement.email)
     .sort((a, b) => String(a.email).localeCompare(String(b.email)))
   const openProblemReports = problemReports.filter((report) => report.status !== "resolved")
-  const visibleProblemReports = [...openProblemReports, ...problemReports.filter((report) => report.status === "resolved")].slice(0, 8)
+  const orderedProblemReports = [...openProblemReports, ...problemReports.filter((report) => report.status === "resolved")]
+  const [showAllReports, setShowAllReports] = useState(false)
+  const visibleProblemReports = showAllReports ? orderedProblemReports : orderedProblemReports.slice(0, 8)
+  const hiddenReportCount = orderedProblemReports.length - visibleProblemReports.length
+
+  // An admin revoke does NOT cancel Stripe billing, and the next
+  // subscription webhook silently re-grants the plan — warn before both.
+  const stripeSubWarning = (entitlementDoc) => {
+    const activeStripeSub = entitlementDoc?.source === "stripe"
+      && entitlementDoc?.stripeSubscriptionId
+      && entitlementDoc?.status === "active"
+    return activeStripeSub
+      ? "\n\nWARNING: this user has an ACTIVE STRIPE SUBSCRIPTION. Revoking here does NOT cancel billing — they will keep being charged, and the next Stripe renewal event will re-grant the plan. Cancel the subscription in the Stripe dashboard first."
+      : ""
+  }
 
   useEffect(() => {
     if (!selectedUid && filteredProfiles[0]?.uid) setSelectedUid(filteredProfiles[0].uid)
@@ -8481,7 +8495,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
 
   const applyGrant = async () => {
     if (!selectedUser) { setMessage("Select a user first."); return }
-    if (plan === "free" && !window.confirm(`Set ${selectedUser.email || selectedUser.uid} to Free? This removes their paid access.`)) return
+    if (plan === "free" && !window.confirm(`Set ${selectedUser.email || selectedUser.uid} to Free? This removes their paid access.${stripeSubWarning(selectedEntitlement)}`)) return
     setMessage("")
     try {
       if (plan === "free") {
@@ -8498,7 +8512,7 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
 
   const revokeSelected = async () => {
     if (!selectedUser) { setMessage("Select a user first."); return }
-    if (!window.confirm(`Move ${selectedUser.email || selectedUser.uid} back to Free? This removes their paid access.`)) return
+    if (!window.confirm(`Move ${selectedUser.email || selectedUser.uid} back to Free? This removes their paid access.${stripeSubWarning(selectedEntitlement)}`)) return
     setMessage("")
     try {
       await revokeEntitlement({ uid:selectedUser.uid, email:selectedUser.email, note:note || "Revoked from Admin." })
@@ -8621,6 +8635,12 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
         {reportsLoading && <div className="text-sm text-gray-400 py-6 text-center">Loading reports...</div>}
         {!reportsLoading && visibleProblemReports.length === 0 && (
           <div className="text-sm text-gray-400 py-6 text-center">No problem reports yet.</div>
+        )}
+        {(hiddenReportCount > 0 || showAllReports) && (
+          <button onClick={()=>setShowAllReports(v=>!v)}
+            className="mb-3 text-xs font-black underline text-gray-500 hover:text-gray-800">
+            {showAllReports ? "Show fewer" : `Show all ${orderedProblemReports.length} reports (${hiddenReportCount} hidden)`}
+          </button>
         )}
         <div className="space-y-3">
           {visibleProblemReports.map((report) => (
@@ -8965,7 +8985,7 @@ function ReportProblemModal({ user, page, onClose }) {
               <div>
                 <Label>Title</Label>
                 <input aria-label="Report title" value={form.title} onChange={(e)=>setForm(p=>({...p,title:e.target.value}))}
-                  placeholder="Short summary"
+                  placeholder="Short summary" maxLength={160}
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
               </div>
 
@@ -8973,14 +8993,17 @@ function ReportProblemModal({ user, page, onClose }) {
                 <Label>What happened?</Label>
                 <textarea aria-label="Message" value={form.message} onChange={(e)=>setForm(p=>({...p,message:e.target.value}))}
                   placeholder="Tell us what broke, what you expected, or what feature you want..."
-                  rows={5}
+                  rows={5} maxLength={3000}
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300 resize-none"/>
+                {form.message.length >= 2700 && (
+                  <p className="text-xs text-gray-400 mt-1 text-right">{form.message.length}/3000</p>
+                )}
               </div>
 
               <div>
                 <Label>Email</Label>
                 <input aria-label="Contact email" value={form.email} onChange={(e)=>setForm(p=>({...p,email:e.target.value}))}
-                  placeholder="Optional contact email"
+                  placeholder="Optional contact email" maxLength={180} type="email" autoComplete="email"
                   className="w-full mt-1 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-300"/>
               </div>
 
