@@ -2597,7 +2597,6 @@ function getAnalysisFromPhotoResult(result) {
 
   const colorKey   = result.colorKey === "light_grey" ? "grey" : result.colorKey
   const patternKey = patternToKey[result.patternInfo.pattern] || "solid"
-  console.log('[Dapper Matrix] colorKey:', colorKey, '| patternKey:', patternKey, '| inMatrix:', !!(PATTERN_MATRIX[colorKey+'|'+patternKey]))
 
   // Check if fabric looks like linen
   const isLinen = result.fabricStr && result.fabricStr.toLowerCase().includes("linen")
@@ -4571,7 +4570,6 @@ function AnalyzerPage() {
 
       if (needsComboCheck) {
         const useApiParser = shouldUseApiForTextDescription(description)
-        console.log(useApiParser ? "[Dapper Text] Ambiguous combo - using API parser" : "[Dapper Text] Combo detected - using local engine")
         let resolvedDescription = description
         let apiAssessment = null
 
@@ -4591,7 +4589,6 @@ function AnalyzerPage() {
         setComboAssessment(localCombo ? { ...localCombo, assessment: apiAssessment || localCombo.assessment } : null)
       } else {
         // Suit only - use the expanded local matrix.
-        console.log("[Dapper Text] Suit only - using expanded local engine")
         const localResult = getLocalAnalysis(description)
         setAnalysisData(applyStyleLensToAnalysis(localResult, activeStyleLens))
         setComboAssessment(null)
@@ -5162,8 +5159,6 @@ function AnalyzerPage() {
                             const patternInfo = { pattern: correction.pattern, fabric: correction.fabric || photoResult.fabricStr, formality: photoResult.patternInfo.formality }
                             const newResult = { ...photoResult, colorKey, colorLabel: correction.color, patternInfo, fabricStr: correction.fabric || photoResult.fabricStr }
                             const analysis = getAnalysisFromPhotoResult(newResult)
-                            console.log('[Dapper Correct] newResult:', JSON.stringify(newResult).substring(0,200))
-                            console.log('[Dapper Correct] analysis:', analysis ? 'HAS DATA — shirts:' + analysis?.shirts?.length : 'NULL/UNDEFINED')
                             if (!analysis) { console.error('[Dapper Correct] getAnalysisFromPhotoResult returned null'); return; }
                             setAnalysisData(applyStyleLensToAnalysis(analysis, selectedStyleLens))
                             setPhotoResult(newResult)

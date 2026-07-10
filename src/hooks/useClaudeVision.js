@@ -741,14 +741,11 @@ export function useClaudeVision() {
     setError(null)
     setRawResult(null)
     try {
-      console.log('[Dapper Vision] imageFile:', imageFile, typeof imageFile)
       if (!imageFile) throw new Error('No image file provided')
       const { data, visionImage } = await runVisionRequestWithFallbacks(imageFile, requestSuitPhotoAnalysis)
-      console.log('[Dapper Vision] base64 length:', visionImage.base64?.length, 'media:', visionImage.mediaType)
       const rawText = data.content?.[0]?.text || ''
       const parsed = parseClaudeJson(rawText, 'Suit Photo')
       setRawResult(parsed)
-      console.log('[Dapper RAW] Claude says suit color:', parsed.suit?.color, '| normalized:', parsed.suit?.color ? parsed.suit.color.toLowerCase() : 'none')
       const normalizeVisionPiece = (piece, fallbackHex, role) => {
         const normalized = piece?.visible !== false
           ? {
@@ -823,7 +820,6 @@ export function useClaudeVision() {
     setError(null)
     try {
       if (!userText || !userText.trim()) throw new Error('No text provided')
-      console.log('[Dapper Text] Parsing:', userText.substring(0, 80))
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -841,7 +837,6 @@ export function useClaudeVision() {
       const data = await response.json()
       const rawText = data.content?.[0]?.text || ''
       const parsed = parseClaudeJson(rawText, 'Text Parser')
-      console.log('[Dapper Text] Parsed:', parsed)
       const suit = parsed.suit || parsed
       const colorKey = normalizeColor(suit.color) || 'navy'
       const patternKey = (suit.pattern || 'solid').toLowerCase().replace(/ /g, '_')
@@ -849,7 +844,6 @@ export function useClaudeVision() {
       const tie = parsed.tie || null
       const shirt = parsed.shirt || null
       const assessment = parsed.assessment || null
-      console.log('[Dapper Text] Combo:', { colorKey, patternKey, tie, shirt, assessment })
       setIsAnalyzing(false)
       return { success: true, colorKey, patternKey, fabric, tie, shirt, assessment }
     } catch (err) {
@@ -985,7 +979,6 @@ export function useClaudeVision() {
     setIsAnalyzing(true)
     setError(null)
     try {
-      console.log('[Dapper Exotic] Generating for:', colorKey, patternKey)
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1029,7 +1022,6 @@ Use professional menswear vocabulary. Be specific with hex colors. User descript
         }
       }
       if (parsed?.suit && parsed?.shirts) {
-        console.log('[Dapper Exotic] Success — AI generated', parsed.shirts.length, 'shirts')
         setIsAnalyzing(false)
         return parsed
       }
