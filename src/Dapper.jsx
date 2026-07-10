@@ -2269,7 +2269,10 @@ function classifyShirtPattern(shirtName) {
   if (/end.on.end|end on end/.test(n)) return "end_on_end"
   if (/oxford/.test(n)) return "oxford"
   if (/chambray/.test(n)) return "chambray"
-  if (/gingham|vichy|guinga|cuadros?/.test(n)) return "gingham"
+  if (/gingham|vichy|guinga|cuadros?|plaid|check|windowpane|tattersall/.test(n)) return "gingham"
+  // Generic stripe/plaid words (esp. from photo detection like "White Striped")
+  // must not fall through to solid, or pattern-mixing rules never fire.
+  if (/stripe|striped|rayad[ao]|rayas?/.test(n)) return "fine_stripe"
   if (/poplin|popelina|voile|solid|s[oó]lid[ao]|lis[ao]/.test(n)) return "solid_shirt"
   return "solid_shirt"
 }
@@ -7546,6 +7549,8 @@ function OutfitValidatorPage() {
   const [photoError,      setPhotoError]     = useState("")
   const [manualCorrection, setManualCorrection] = useState("")
   const [correctionFeedback, setCorrectionFeedback] = useState("")
+  const validateTimerRef = useRef(null)
+  useEffect(() => () => { if (validateTimerRef.current) clearTimeout(validateTimerRef.current) }, [])
 
   const applyDetectedPiece = (pieceKey, detected) => {
     if (!detected) return
@@ -7625,6 +7630,9 @@ function OutfitValidatorPage() {
         applyDetectedPiece(pieceKey, detected)
         setResult(null)
       }
+    } catch (err) {
+      console.error("[Dapper Validator] Photo detection failed", err)
+      setPhotoError("Could not read this photo. Enter the details manually instead.")
     } finally {
       setPhotoAnalyzing(false)
     }
@@ -7705,10 +7713,12 @@ function OutfitValidatorPage() {
       setCorrectionFeedback(`Correction applied: ${describeCorrectionUpdates(correctionUpdates)}.`)
     }
     setAnalyzing(true)
-    setTimeout(() => {
+    if (validateTimerRef.current) clearTimeout(validateTimerRef.current)
+    validateTimerRef.current = setTimeout(() => {
       const r = validateOutfit(next)
       setResult(r)
       setAnalyzing(false)
+      validateTimerRef.current = null
     }, 800)
   }
 
@@ -8990,5 +9000,6 @@ export default function DapperApp() {
   )
 }
  
+
 
 
