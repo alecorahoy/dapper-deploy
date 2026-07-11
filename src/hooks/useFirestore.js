@@ -7,9 +7,15 @@ import {
   serverTimestamp,
   deleteField,
 } from "firebase/firestore"
-import { db } from "../firebase.js"
+import { auth, db } from "../firebase.js"
 
 const GUEST_CLOSET_KEY = "dapper.guestClosetItems.v1"
+
+// True when a listener error is just the sign-out race: the subscription
+// belongs to a user who is no longer (or not yet) the current auth user.
+function isStaleAuthError(err, uid) {
+  return err?.code === "permission-denied" && auth.currentUser?.uid !== uid
+}
 const FREE_ENTITLEMENT = {
   plan: "free",
   status: "active",
@@ -673,6 +679,7 @@ export function useCloset(user, fallbackItems) {
       }
       setSynced(true)
     }, (err) => {
+      if (isStaleAuthError(err, user.uid)) return
       console.error("[Dapper] Closet sync failed", err)
       setError("Could not sync closet. Please check your Firebase connection.")
       setSynced(false)
@@ -752,13 +759,20 @@ export function useCloset(user, fallbackItems) {
     }
     const next = typeof updater === "function" ? updater(items) : updater
     setItems(next)
-    const currentIds = new Set(items.map(i => String(i.id)))
-    const nextIds = new Set(next.map(i => String(i.id)))
-    for (const item of items) { if (!nextIds.has(String(item.id))) await removeItem(String(item.id)) }
-    for (const item of next) {
-      const itemRef = doc(db, "users", user.uid, "closetItems", String(item.id))
-      if (currentIds.has(String(item.id))) await setDoc(itemRef, { ...item }, { merge: true })
-      else await setDoc(itemRef, { ...item })
+    try {
+      const currentIds = new Set(items.map(i => String(i.id)))
+      const nextIds = new Set(next.map(i => String(i.id)))
+      for (const item of items) { if (!nextIds.has(String(item.id))) await removeItem(String(item.id)) }
+      for (const item of next) {
+        const itemRef = doc(db, "users", user.uid, "closetItems", String(item.id))
+        if (currentIds.has(String(item.id))) await setDoc(itemRef, { ...item }, { merge: true })
+        else await setDoc(itemRef, { ...item })
+      }
+      setError(null)
+    } catch (err) {
+      console.error("[Dapper] Closet bulk update failed midway", err)
+      setError("Could not sync all closet changes. Please retry.")
+      throw err
     }
   }
   return { items, addItem, updateItem, removeItem, updateCloset, synced, saving, error }
@@ -788,6 +802,7 @@ export function useWornLog(user, fallbackLog) {
       }
       setSynced(true)
     }, (err) => {
+      if (isStaleAuthError(err, user.uid)) return
       console.error("[Dapper] Worn log sync failed", err)
       setError("Could not sync your worn log. Please check your connection.")
     })
@@ -852,6 +867,7 @@ export function useCalendarEvents(user, fallbackEvents) {
       }
       setSynced(true)
     }, (err) => {
+      if (isStaleAuthError(err, user.uid)) return
       console.error("[Dapper] Calendar sync failed", err)
       setError("Could not sync your calendar. Please check your connection.")
     })

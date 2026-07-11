@@ -2915,7 +2915,7 @@ function parseComboFromText(text) {
   const tieMatch = t.match(/(?:(\w+)\s+)?(?:(\w+)\s+)?tie/)
   if (tieMatch) {
     const words = [tieMatch[1], tieMatch[2]].filter(Boolean)
-    const colorWords = ["black","charcoal","navy","grey","gray","blue","burgundy","brown","beige","tan","green","olive","white","cream","ivory","purple","red","crimson","gold","silver","yellow","orange","rust","pink","burgundy","maroon","wine"]
+    const colorWords = ["black","charcoal","navy","grey","gray","blue","burgundy","brown","beige","tan","green","olive","white","cream","ivory","purple","red","crimson","gold","silver","yellow","orange","rust","pink","maroon","wine"]
     const patternWords = ["solid","striped","stripe","polka","dot","paisley","knit","grenadine","repp","foulard","plaid","check"]
     for (const w of words) {
       if (colorWords.includes(w)) tieColor = w
@@ -7053,7 +7053,7 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
         <div>
           <h1 className="text-3xl font-black text-gray-900 font-display">Community</h1>
           <p className="text-gray-400 text-sm mt-0.5">Style inspiration from the Dapper community</p>
