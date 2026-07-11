@@ -5878,7 +5878,7 @@ const CLOSET_FORM_INIT = { type:"Suit", name:"", brand:"", color:"#1B3A6B", phot
 // PAGE: CLOSET
 // ─────────────────────────────────────────────
 
-function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthClick, closetSaving, closetError, entitlement, setPage }) {
+function ClosetPage({ closetItems, setClosetItems, addClosetItem, updateClosetItem, removeClosetItem, user, onAuthClick, closetSaving, closetError, entitlement, setPage }) {
   const [filter,  setFilter]  = useState("All")
   const items = closetItems || CLOSET_ITEMS_INIT
   const setItems = setClosetItems || (() => {})
@@ -5893,11 +5893,30 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
   const shown  = filter==="All" ? items : items.filter(i=>i.type===filter)
   const counts = TYPES.reduce((a,t)=>({...a,[t]:t==="All"?items.length:items.filter(i=>i.type===t).length}),{})
 
-  const resetClosetForm = () => setForm(CLOSET_FORM_INIT)
+  const [editingId, setEditingId] = useState(null)
+  const resetClosetForm = () => { setForm(CLOSET_FORM_INIT); setEditingId(null) }
   const openClosetModal = () => {
     setSaveError("")
     resetClosetForm()
     setModal(true)
+  }
+  const openEditModal = (item) => {
+    setSaveError("")
+    setEditingId(item.id)
+    setForm({ ...CLOSET_FORM_INIT, name: item.name || "", brand: item.brand || "", type: item.type || "Suit", color: item.color || "#1B2A4A", photo: item.photo || null, photoName: item.photoName || "", photoError: "" })
+    setModal(true)
+  }
+  const deleteSelected = async () => {
+    if (!selected) return
+    if (!window.confirm(`Delete "${selected.name}" from your closet? This can't be undone.`)) return
+    setSaveError("")
+    try {
+      if (removeClosetItem) await removeClosetItem(selected.id)
+      else setItems(p => p.filter(i => i.id !== selected.id))
+      setSelected(null)
+    } catch {
+      setSaveError("Could not delete this garment. Check your connection and try again.")
+    }
   }
 
   const handleClosetPhotoSelect = async (event) => {
@@ -5915,16 +5934,22 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
 
   const save = async () => {
     if(!form.name.trim()) return
-    if (atClosetCap) {
+    if (!editingId && atClosetCap) { // editing an existing item is always allowed
       setSaveError(`Free tier is limited to ${FREE_LIMITS.closetItems} garments. Upgrade to Pro for an unlimited closet.`)
       return
     }
     const { photoError, ...itemForm } = form
-    const item = {...itemForm,id:`closet-${Date.now()}`,occasions:[]}
     setSaveError("")
     try {
-      if (addClosetItem) await addClosetItem(item)
-      else setItems(p=>[...p,item])
+      if (editingId) {
+        if (updateClosetItem) await updateClosetItem(editingId, itemForm)
+        else setItems(p => p.map(i => i.id === editingId ? { ...i, ...itemForm } : i))
+        setSelected(s => s && s.id === editingId ? { ...s, ...itemForm } : s)
+      } else {
+        const item = {...itemForm,id:`closet-${Date.now()}`,occasions:[]}
+        if (addClosetItem) await addClosetItem(item)
+        else setItems(p=>[...p,item])
+      }
       setModal(false); resetClosetForm()
     } catch (err) {
       console.error("[Dapper] Closet save failed", err)
@@ -6008,19 +6033,29 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
       {/* Selected detail */}
       {selected && (
         <div className="mt-5 bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap">
             <div className="w-16 h-20 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden" style={{background:selected.color+"22"}}>
               {selected.photo
                 ? <img src={selected.photo} alt={selected.name} className="w-full h-full object-cover"/>
                 : <div className="w-8 h-8 rounded-full" style={{background:selected.color}}/>}
             </div>
-            <div>
+            <div className="flex-1 min-w-[180px]">
               <div className="text-xs font-black tracking-wider text-gray-400">{selected.type.toUpperCase()}</div>
               <h3 className="text-xl font-black text-gray-900">{selected.name}</h3>
               <div className="text-sm text-gray-500">{selected.brand}</div>
               <div className="flex gap-2 mt-2 flex-wrap">
                 {(selected.occasions || []).map(o=><span key={o} className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">{o}</span>)}
               </div>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={()=>openEditModal(selected)}
+                className="px-4 py-2 rounded-xl text-xs font-black border border-gray-200 text-gray-600 hover:bg-gray-50">
+                Edit
+              </button>
+              <button onClick={deleteSelected}
+                className="px-4 py-2 rounded-xl text-xs font-black border border-red-200 text-red-600 hover:bg-red-50">
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -6031,8 +6066,8 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-xl font-black">Add Garment</h2>
-              <button onClick={()=>{ setModal(false); resetClosetForm() }}><X size={20} className="text-gray-300"/></button>
+              <h2 className="text-xl font-black">{editingId ? "Edit Garment" : "Add Garment"}</h2>
+              <button aria-label="Close" onClick={()=>{ setModal(false); resetClosetForm() }}><X size={20} className="text-gray-400"/></button>
             </div>
             <div className="space-y-4">
               <div>
@@ -6092,7 +6127,7 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, user, onAuthCl
               <div className="flex gap-3 pt-2">
                 <button onClick={()=>{ setModal(false); resetClosetForm() }} className="flex-1 py-3 rounded-xl border border-gray-200 text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
                 <button onClick={save} disabled={!form.name.trim() || closetSaving} className="flex-1 py-3 rounded-xl text-sm font-bold text-white disabled:opacity-40 transition-all" style={{background:NAVY}}>
-                  {closetSaving ? "Saving..." : "Add to Closet"}
+                  {closetSaving ? "Saving..." : editingId ? "Save Changes" : "Add to Closet"}
                 </button>
               </div>
             </div>
@@ -6111,11 +6146,13 @@ function Label({children}) {
 // PAGE: CALENDAR
 // ─────────────────────────────────────────────
 
+// Recompute "today" at every use — a module-level constant freezes at page
+// load, so a tab left open past midnight highlighted the wrong day.
 function todayKey(date = new Date()) { return fmtDate(date.getFullYear(), date.getMonth(), date.getDate()) }
-const TODAY = todayKey()
 
 function daysAgo(dateStr) {
-  const diff = Math.floor((new Date(TODAY) - new Date(dateStr)) / 86400000)
+  const diff = Math.floor((new Date(todayKey()) - new Date(dateStr)) / 86400000)
+  if(diff < 0)  return "upcoming"
   if(diff === 0) return "today"
   if(diff === 1) return "yesterday"
   if(diff < 7)  return `${diff} days ago`
@@ -6133,7 +6170,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
   const SHOES_LIST = allItems.filter(i=>i.type==="Shoes").map(i=>i.name)
   const ACCESSORIES_LIST = allItems.filter(i=>i.type==="Accessory").map(i=>i.name)
   const [form, setForm] = useState({
-    date: defaultDate || TODAY,
+    date: defaultDate || todayKey(),
     suit: "", shirt: "", tie: "", shoes: "", accessories: "", occasion: "", notes: "", photo: null
   })
   const [dragging, setDragging] = useState(false)
@@ -6252,7 +6289,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
           {/* ── DATE ── */}
           <div>
             <Label>Date</Label>
-            <input type="date" aria-label="Date worn" value={form.date} onChange={e=>set("date",e.target.value)}
+            <input type="date" aria-label="Date worn" value={form.date} max={todayKey()} onChange={e=>set("date",e.target.value)}
               className="w-full mt-1 border-2 rounded-xl px-4 py-2.5 text-sm focus:outline-none"
               style={{borderColor:"#f1f5f9"}}
               onFocus={e=>e.target.style.borderColor=GOLD} onBlur={e=>e.target.style.borderColor="#f1f5f9"}/>
@@ -6369,6 +6406,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
 
 function CalendarPage({ closetItems, user }) {
   const initialDate = new Date()
+  const TODAY = todayKey() // per-render, so an overnight tab stays correct
   const [tab,        setTab]      = useState("calendar")
   const [date,       setDate]     = useState(() => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1))
   const [selDay,     setSelDay]   = useState(() => initialDate.getDate())
@@ -6379,7 +6417,8 @@ function CalendarPage({ closetItems, user }) {
   const [planForm,   setPlanForm] = useState({ occasion:"Office", outfit:"" })
 
   // ── Firestore-backed data ──
-  const { wornLog, saveEntry, error: wornLogError } = useWornLog(user, WORN_LOG_INIT)
+  const { wornLog, saveEntry, deleteEntry, error: wornLogError } = useWornLog(user, WORN_LOG_INIT)
+  const deleteWornEntry = (entry) => deleteEntry(entry.id)
   const { events, saveEvent: saveEvtFn, deleteEvent, error: calendarError } = useCalendarEvents(user, CALENDAR_EVENTS_INIT)
   const calendarDataError = wornLogError || calendarError
 
@@ -6410,8 +6449,9 @@ function CalendarPage({ closetItems, user }) {
     } catch { /* wornLogError renders below; keep the modal open */ }
   }
 
+  // "Upcoming" means from today — not from whichever month is displayed.
   const upcoming = Object.entries(events)
-    .filter(([k])=>k>=fmtDate(y,m,1))
+    .filter(([k])=>k>=TODAY)
     .sort(([a],[b])=>a.localeCompare(b))
     .slice(0,5)
 
@@ -6463,9 +6503,9 @@ function CalendarPage({ closetItems, user }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
             <div className="flex items-center justify-between mb-5">
-              <button onClick={()=>setDate(new Date(y,m-1,1))} className="p-2 rounded-xl hover:bg-gray-100"><ChevronLeft size={18}/></button>
+              <button aria-label="Previous month" onClick={()=>{setDate(new Date(y,m-1,1)); setSelDay(d=>d==null?d:Math.min(d, daysInMonth(y,m-1)))}} className="p-2 rounded-xl hover:bg-gray-100"><ChevronLeft size={18}/></button>
               <h2 className="font-black text-gray-900">{MONTHS[m]} {y}</h2>
-              <button onClick={()=>setDate(new Date(y,m+1,1))} className="p-2 rounded-xl hover:bg-gray-100"><ChevronRight size={18}/></button>
+              <button aria-label="Next month" onClick={()=>{setDate(new Date(y,m+1,1)); setSelDay(d=>d==null?d:Math.min(d, daysInMonth(y,m+1)))}} className="p-2 rounded-xl hover:bg-gray-100"><ChevronRight size={18}/></button>
             </div>
             <div className="grid grid-cols-7 mb-2">
               {DAYS.map(d=><div key={d} className="text-center text-xs font-bold text-gray-400 py-1">{d}</div>)}
@@ -6527,9 +6567,16 @@ function CalendarPage({ closetItems, user }) {
                       </div>
                     )}
                     <div className="p-3" style={{background:"#fffbeb"}}>
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <div className="w-2 h-2 rounded-full" style={{background:GOLD}}/>
-                        <span className="text-xs font-black" style={{color:GOLD}}>LOGGED</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full" style={{background:GOLD}}/>
+                          <span className="text-xs font-black" style={{color:GOLD}}>LOGGED</span>
+                        </div>
+                        <button aria-label="Delete this logged look"
+                          onClick={()=>{ if (window.confirm("Delete this logged look?")) deleteWornEntry(wornOnSelected).catch(()=>{}) }}
+                          className="text-xs font-bold text-red-500 hover:text-red-700 underline">
+                          Delete
+                        </button>
                       </div>
                       {!wornOnSelected.photo && <div className="text-xs font-bold text-gray-800">{wornOnSelected.suit}</div>}
                       <div className="text-xs text-gray-500 mt-0.5">{wornOnSelected.shirt}{wornOnSelected.tie&&wornOnSelected.tie!=="—"?` · ${wornOnSelected.tie}`:""}{wornOnSelected.shoes?` · 👞 ${wornOnSelected.shoes}`:""}{wornOnSelected.accessories?` · ✦ ${wornOnSelected.accessories}`:""}</div>
@@ -6635,7 +6682,7 @@ function CalendarPage({ closetItems, user }) {
             <div className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
               {topSuit ? (
                 <>
-                  <div className="w-5 h-5 rounded-full mx-auto mb-1" style={{background:CLOSET_ITEMS_INIT.find(i=>i.name===topSuit[0])?.color||NAVY}}/>
+                  <div className="w-5 h-5 rounded-full mx-auto mb-1" style={{background:(closetItems||CLOSET_ITEMS_INIT).find(i=>i.name===topSuit[0])?.color||NAVY}}/>
                   <div className="text-xs font-black text-gray-700 leading-tight">{topSuit[0].split(" ").slice(0,2).join(" ")}</div>
                   <div className="text-xs text-gray-400 mt-0.5">Favorite suit</div>
                 </>
@@ -6656,7 +6703,7 @@ function CalendarPage({ closetItems, user }) {
 
           {/* Log entries */}
           <div className="space-y-3">
-            {filteredLog.sort((a,b)=>b.date.localeCompare(a.date)).map((entry, idx, arr)=>{
+            {[...filteredLog].sort((a,b)=>b.date.localeCompare(a.date)).map((entry, idx, arr)=>{
               // Check if same suit was worn within previous 7 days from this entry
               const prev7 = arr.slice(idx+1).filter(e=>{
                 const diff = Math.floor((new Date(entry.date)-new Date(e.date))/86400000)
@@ -6751,6 +6798,11 @@ function CalendarPage({ closetItems, user }) {
                           </div>
                         )}
                       </div>
+                      <button aria-label={`Delete look logged on ${entry.date}`}
+                        onClick={()=>{ if (window.confirm("Delete this logged look?")) deleteWornEntry(entry).catch(()=>{}) }}
+                        className="flex-shrink-0 text-xs font-bold text-gray-400 hover:text-red-600 underline">
+                        Delete
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -9068,7 +9120,7 @@ export default function DapperApp() {
   const { isAdmin, adminProfile, error: adminAccessError } = useAdminAccess(user)
 
   // ── Firestore (falls back to mock data when logged out) ──
-  const { items: closetItems, addItem: addClosetItem, updateCloset, saving: closetSaving, error: closetError } = useCloset(user, CLOSET_ITEMS_INIT)
+  const { items: closetItems, addItem: addClosetItem, updateItem: updateClosetItem, removeItem: removeClosetItem, updateCloset, saving: closetSaving, error: closetError } = useCloset(user, CLOSET_ITEMS_INIT)
 
   useEffect(() => {
     if (!isAdmin && page === "admin") setPage("analyzer")
@@ -9191,6 +9243,8 @@ export default function DapperApp() {
             closetItems={closetItems}
             setClosetItems={updateCloset}
             addClosetItem={addClosetItem}
+            updateClosetItem={updateClosetItem}
+            removeClosetItem={removeClosetItem}
             user={user}
             closetSaving={closetSaving}
             closetError={closetError}

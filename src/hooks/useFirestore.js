@@ -664,7 +664,14 @@ export function useCloset(user, fallbackItems) {
       })
       return
     }
-    await updateDoc(doc(db, "users", user.uid, "closetItems", String(id)), data)
+    try {
+      await updateDoc(doc(db, "users", user.uid, "closetItems", String(id)), data)
+      setError(null)
+    } catch (err) {
+      console.error("[Dapper] Could not update closet item", err)
+      setError("Could not update this garment. Please try again.")
+      throw err
+    }
   }
   const removeItem = async (id) => {
     if (!user) {
@@ -675,7 +682,14 @@ export function useCloset(user, fallbackItems) {
       })
       return
     }
-    await deleteDoc(doc(db, "users", user.uid, "closetItems", String(id)))
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "closetItems", String(id)))
+      setError(null)
+    } catch (err) {
+      console.error("[Dapper] Could not delete closet item", err)
+      setError("Could not delete this garment. Please try again.")
+      throw err
+    }
   }
   const updateCloset = async (updater) => {
     if (!user) {
@@ -750,7 +764,7 @@ export function useWornLog(user, fallbackLog) {
     }
   }
   const deleteEntry = async (id) => {
-    if (!user) return
+    if (!user) { setWornLog(p => p.filter(e => String(e.id) !== String(id))); return }
     try {
       await deleteDoc(doc(db, "users", user.uid, "wornLogEntries", String(id)))
       setError(null)
