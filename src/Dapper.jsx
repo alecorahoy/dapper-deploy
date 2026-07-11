@@ -2817,6 +2817,11 @@ function reconcileDarkFullLookRead(fullLookResult, localSuitResult) {
     },
     fashionPolice: fullLookResult.fashionPolice ? {
       ...fullLookResult.fashionPolice,
+      // The AI's score was computed for the WRONG suit color — null it so the
+      // render path falls back to the locally recomputed validator verdict,
+      // exactly like the API-audit and manual-correction paths do.
+      score: null,
+      verdict: "Corrected Fashion Police Review",
       assessment: [fullLookResult.fashionPolice.assessment, `Local suit audit rechecked the suit as ${correctedSuit.colorLabel}.`].filter(Boolean).join(" "),
     } : fullLookResult.fashionPolice,
     notes: [fullLookResult.notes, correctionNote].filter(Boolean).join(" "),
@@ -7769,6 +7774,16 @@ function OutfitValidatorPage() {
   const [correctionFeedback, setCorrectionFeedback] = useState("")
   const validateTimerRef = useRef(null)
   useEffect(() => () => { if (validateTimerRef.current) clearTimeout(validateTimerRef.current) }, [])
+  // Cancel a pending validation when its inputs change under it — otherwise
+  // the 800ms timer pops a result computed from the OLD occasion/correction.
+  const cancelPendingValidate = () => {
+    if (validateTimerRef.current) { clearTimeout(validateTimerRef.current); validateTimerRef.current = null }
+    setAnalyzing(false)
+  }
+  // photoAnalyzing is shared by four upload tiles: count in-flight scans and
+  // tag each with a sequence so a slow older response can't clobber a newer one.
+  const photoScanCountRef = useRef(0)
+  const pieceScanSeqRef = useRef({})
 
   const applyDetectedPiece = (pieceKey, detected) => {
     if (!detected) return
@@ -7827,8 +7842,12 @@ function OutfitValidatorPage() {
   const handleValPhoto = async (file, dataURL, setter, pieceKey) => {
     setter(dataURL)
     if (!dataURL) return
+    const seq = (pieceScanSeqRef.current[pieceKey] || 0) + 1
+    pieceScanSeqRef.current[pieceKey] = seq
+    photoScanCountRef.current += 1
     setPhotoAnalyzing(true)
     setPhotoError("")
+    const isStale = () => pieceScanSeqRef.current[pieceKey] !== seq
     try {
       let detected = null
       try {
@@ -7843,16 +7862,22 @@ function OutfitValidatorPage() {
           : await analyzePhotoLocally(dataURL)
         detected = localDetectionForPiece(localScan, pieceKey)
       }
+      if (isStale()) return // a newer upload for this piece superseded us
       if (detected) {
         setPhotoDetected(prev => ({ ...prev, [pieceKey]: detected }))
         applyDetectedPiece(pieceKey, detected)
         setResult(null)
+      } else {
+        // Neither vision nor the local scan could read it — say so instead
+        // of leaving a checkmarked tile with no detection.
+        setPhotoError("Could not detect this piece from the photo — enter it manually below.")
       }
     } catch (err) {
       console.error("[Dapper Validator] Photo detection failed", err)
-      setPhotoError("Could not read this photo. Enter the details manually instead.")
+      if (!isStale()) setPhotoError("Could not read this photo. Enter the details manually instead.")
     } finally {
-      setPhotoAnalyzing(false)
+      photoScanCountRef.current = Math.max(0, photoScanCountRef.current - 1)
+      if (photoScanCountRef.current === 0) setPhotoAnalyzing(false)
     }
   }
 
@@ -8036,7 +8061,7 @@ function OutfitValidatorPage() {
         <textarea
           value={manualCorrection}
           aria-label="Correction details"
-          onChange={e => { setManualCorrection(e.target.value); setCorrectionFeedback(""); setResult(null) }}
+          onChange={e => { cancelPendingValidate(); setManualCorrection(e.target.value); setCorrectionFeedback(""); setResult(null) }}
           rows={4}
           className="w-full rounded-xl border-2 border-gray-100 p-3 text-sm text-gray-700 outline-none focus:border-yellow-500 resize-none"
           placeholder="Example: Occasion: wedding; Suit: navy houndstooth; Shirt: white poplin; Tie: burgundy grenadine; Pocket square: white linen; Shoes: black oxford; Belt: black leather"
@@ -8050,7 +8075,7 @@ function OutfitValidatorPage() {
             APPLY CORRECTION
           </button>
           <button
-            onClick={() => { setManualCorrection(""); setCorrectionFeedback(""); setResult(null) }}
+            onClick={() => { cancelPendingValidate(); setManualCorrection(""); setCorrectionFeedback(""); setResult(null) }}
             className="px-4 py-3 rounded-xl font-bold text-xs border-2 border-gray-100 text-gray-400">
             Clear
           </button>
@@ -8085,7 +8110,7 @@ function OutfitValidatorPage() {
         <div className="text-xs font-bold tracking-wider text-gray-400 mb-2">OCCASION (optional)</div>
         <div className="flex flex-wrap gap-2">
           {["All","Office","Wedding","Formal","Date","Funeral","Church","Interview","Casual"].map(o=>(
-            <button key={o} onClick={()=>{setOccasion(o);setResult(null)}}
+            <button key={o} onClick={()=>{cancelPendingValidate();setOccasion(o);setResult(null)}}
               className="px-3 py-1.5 rounded-xl text-xs font-bold border-2 transition-all"
               style={occasion===o||(o==="All"&&!occasion)
                 ? {background:NAVY,color:"white",borderColor:NAVY}
