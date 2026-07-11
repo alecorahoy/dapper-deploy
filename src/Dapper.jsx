@@ -7061,10 +7061,19 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
             style={{background:NAVY}}>
             <Plus size={15}/> Share to Feed
           </button>
-          <Search size={18} className="text-gray-300 cursor-pointer"/>
-          <Bell size={18} className="text-gray-300 cursor-pointer"/>
+          <Search size={18} className="text-gray-300" aria-hidden="true"/>
+          <Bell size={18} className="text-gray-300" aria-hidden="true"/>
         </div>
       </div>
+
+      {/* Hook errors were previously visible only inside the composer that
+          only entitled posters see — feed/like failures were silent for
+          everyone else. */}
+      {error && (
+        <div className="mb-4 px-4 py-3 rounded-xl border border-red-200 bg-red-50 text-sm font-semibold text-red-700" role="alert">
+          {error}
+        </div>
+      )}
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 rounded-xl mb-5 w-fit" style={{background:"#f1f5f9"}}>
@@ -8245,6 +8254,14 @@ function PricingPage({ entitlement, user, onAuthClick }) {
   const setBilling = (tierName, val) => setSelectedBilling(p=>({...p,[tierName]:val}))
   const currentPlan = entitlement?.plan || "free"
 
+  // Back-navigation from Stripe restores this component from bfcache with
+  // checkoutBusy still set — the CTA would stay stuck on "Redirecting…".
+  useEffect(() => {
+    const onPageShow = (e) => { if (e.persisted) setCheckoutBusy("") }
+    window.addEventListener("pageshow", onPageShow)
+    return () => window.removeEventListener("pageshow", onPageShow)
+  }, [])
+
   // ── Stripe Checkout ──
   // Requires the /api/create-checkout-session endpoint + Stripe price IDs
   // configured in the deployment env (see STRIPE-SETUP.md).
@@ -8416,14 +8433,15 @@ function PricingPage({ entitlement, user, onAuthClick }) {
                   ))}
                 </div>
 
-                {/* CTA */}
+                {/* CTA — the Free card is never clickable: for paid users it
+                    must not read "Current Plan" (UX-104) */}
                 <button
-                  disabled={isCurrent || (isPaid && checkoutBusy===tierPlan)}
+                  disabled={isCurrent || !isPaid || (isPaid && checkoutBusy===tierPlan)}
                   onClick={isPaid && !isCurrent ? () => startCheckout(tierPlan, billing) : undefined}
-                  aria-label={isCurrent ? `${tier.name} is your current plan` : isPaid ? `Subscribe to ${tier.name}` : tier.cta}
+                  aria-label={isCurrent ? `${tier.name} is your current plan` : isPaid ? `Subscribe to ${tier.name}` : "Free plan"}
                   className="mt-5 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90 active:scale-98 disabled:opacity-70"
                   style={{background:tier.ctaBg,color:tier.ctaColor}}>
-                  {isCurrent ? "Current Plan" : (isPaid && checkoutBusy===tierPlan) ? "Redirecting…" : tier.cta}
+                  {isCurrent ? "Current Plan" : !isPaid ? "Included with every account" : (checkoutBusy===tierPlan) ? "Redirecting…" : tier.cta}
                   {!isCurrent && isPaid && checkoutBusy!==tierPlan && billing==="annual" && " (Anual)"}
                 </button>
                 {isPaid && checkoutError && checkoutBusy==="" && (

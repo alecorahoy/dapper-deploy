@@ -51,7 +51,14 @@ export function useAuth() {
     try {
       await authReady
       const { user: u } = await createUserWithEmailAndPassword(auth, email, password)
-      if (displayName) await updateProfile(u, { displayName })
+      if (displayName) {
+        await updateProfile(u, { displayName })
+        // onAuthStateChanged already synced the profile BEFORE updateProfile
+        // ran, so the doc has displayName: "" — sync again with the real name.
+        syncUserProfile(u).catch((err) => {
+          console.warn("[Dapper Auth] Could not re-sync profile after signup", err)
+        })
+      }
       return u
     } catch (e) {
       setError(friendlyError(e.code))

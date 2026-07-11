@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import {
   doc, collection,
   getDoc, setDoc, deleteDoc, updateDoc,
   onSnapshot,
-  query, orderBy,
+  query, orderBy, limit,
   serverTimestamp,
   deleteField,
 } from "firebase/firestore"
@@ -142,12 +142,26 @@ export function useEntitlement(user) {
     let emailData = null
     let uidLoaded = false
     let emailLoaded = !user.email
+    let expiryTimer = null
 
     const update = () => {
       if (!uidLoaded || !emailLoaded) return
       setEntitlement(bestEntitlement(uidData, emailData))
       setLoading(false)
       setError(null)
+      // Re-evaluate the moment the soonest future expiry lapses, so a plan
+      // that expires mid-session downgrades the UI without waiting for a
+      // snapshot (rules already deny writes server-side).
+      if (expiryTimer) { clearTimeout(expiryTimer); expiryTimer = null }
+      const nextExpiry = [uidData?.expiresAt, emailData?.expiresAt]
+        .map(normalizeDate)
+        .filter(Boolean)
+        .map((d) => d.getTime())
+        .filter((t) => t > Date.now())
+      if (nextExpiry.length) {
+        const delay = Math.min(Math.min(...nextExpiry) - Date.now() + 1000, 2147000000)
+        expiryTimer = setTimeout(update, delay)
+      }
     }
 
     const uidRef = doc(db, "entitlements", user.uid)
@@ -156,10 +170,14 @@ export function useEntitlement(user) {
       uidLoaded = true
       update()
     }, (err) => {
+      // Do NOT force FREE here: a valid email comp may still arrive from the
+      // other listener. Mark the uid side as loaded-empty and let update()
+      // resolve the best entitlement.
       console.warn("[Dapper] Could not load entitlement", err)
-      setEntitlement(FREE_ENTITLEMENT)
-      setLoading(false)
+      uidData = null
+      uidLoaded = true
       setError("Could not load account plan.")
+      update()
     })
 
     let unsubEmail = () => {}
@@ -178,7 +196,7 @@ export function useEntitlement(user) {
       })
     }
 
-    return () => { unsubUid(); unsubEmail() }
+    return () => { unsubUid(); unsubEmail(); if (expiryTimer) clearTimeout(expiryTimer) }
   }, [user?.uid, user?.email])
 
   return { entitlement, loading, error }
@@ -221,6 +239,12 @@ export function useAdminUsers(user, isAdmin) {
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
+  // Snapshot callbacks may only clear LOAD errors — a background snapshot
+  // arriving right after a failed write must not wipe the write's banner.
+  const errorKindRef = useRef(null)
+  const setLoadError = (text) => { errorKindRef.current = "load"; setError(text) }
+  const setWriteError = (text) => { errorKindRef.current = "write"; setError(text) }
+  const clearLoadError = () => { if (errorKindRef.current !== "write") { errorKindRef.current = null; setError(null) } }
 
   useEffect(() => {
     if (!user || !isAdmin) { setProfiles([]); setEntitlements({}); setEmailEntitlements({}); setLoading(false); return }
@@ -231,20 +255,20 @@ export function useAdminUsers(user, isAdmin) {
     const unsubProfiles = onSnapshot(profilesRef, (snap) => {
       setProfiles(snap.docs.map((d) => ({ ...d.data(), uid: d.id })))
       setLoading(false)
-      setError(null)
+      clearLoadError()
     }, (err) => {
       console.error("[Dapper Admin] Could not load users", err)
-      setError("Could not load users. Check Firestore admin rules.")
+      setLoadError("Could not load users. Check Firestore admin rules.")
       setLoading(false)
     })
     const unsubEntitlements = onSnapshot(entitlementsRef, (snap) => {
       const next = {}
       snap.docs.forEach((d) => { next[d.id] = normalizeEntitlement(d.data()) })
       setEntitlements(next)
-      setError(null)
+      clearLoadError()
     }, (err) => {
       console.error("[Dapper Admin] Could not load entitlements", err)
-      setError("Could not load plans. Check Firestore admin rules.")
+      setLoadError("Could not load plans. Check Firestore admin rules.")
     })
     const unsubEmailEntitlements = onSnapshot(emailEntitlementsRef, (snap) => {
       const next = {}
@@ -253,10 +277,10 @@ export function useAdminUsers(user, isAdmin) {
         next[d.id] = { ...data, ...normalizeEntitlement(data), id: d.id, email: data.email || d.id }
       })
       setEmailEntitlements(next)
-      setError(null)
+      clearLoadError()
     }, (err) => {
       console.error("[Dapper Admin] Could not load email entitlements", err)
-      setError("Could not load email comp accounts. Check Firestore admin rules.")
+      setLoadError("Could not load email comp accounts. Check Firestore admin rules.")
     })
     return () => { unsubProfiles(); unsubEntitlements(); unsubEmailEntitlements() }
   }, [user?.uid, isAdmin])
@@ -280,10 +304,11 @@ export function useAdminUsers(user, isAdmin) {
         grantedAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         expiresAt: parsedExpiry && !Number.isNaN(parsedExpiry.getTime()) ? parsedExpiry : null,
+        revokedBy: deleteField(), revokedByEmail: deleteField(), revokedAt: deleteField(),
       }, { merge: true })
     } catch (err) {
       console.error("[Dapper Admin] Could not grant email entitlement", err)
-      setError("Could not update that email comp account.")
+      setWriteError("Could not update that email comp account.")
       throw err
     } finally {
       setSaving(false)
@@ -308,10 +333,11 @@ export function useAdminUsers(user, isAdmin) {
         revokedAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         expiresAt: null,
+        grantedBy: deleteField(), grantedByEmail: deleteField(), grantedAt: deleteField(),
       }, { merge: true })
     } catch (err) {
       console.error("[Dapper Admin] Could not revoke email entitlement", err)
-      setError("Could not revoke that email comp account.")
+      setWriteError("Could not revoke that email comp account.")
       throw err
     } finally {
       setSaving(false)
@@ -336,10 +362,11 @@ export function useAdminUsers(user, isAdmin) {
         grantedAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         expiresAt: parsedExpiry && !Number.isNaN(parsedExpiry.getTime()) ? parsedExpiry : null,
+        revokedBy: deleteField(), revokedByEmail: deleteField(), revokedAt: deleteField(),
       }, { merge: true })
     } catch (err) {
       console.error("[Dapper Admin] Could not grant entitlement", err)
-      setError("Could not update that account plan.")
+      setWriteError("Could not update that account plan.")
       throw err
     } finally {
       setSaving(false)
@@ -363,10 +390,11 @@ export function useAdminUsers(user, isAdmin) {
         revokedAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
         expiresAt: null,
+        grantedBy: deleteField(), grantedByEmail: deleteField(), grantedAt: deleteField(),
       }, { merge: true })
     } catch (err) {
       console.error("[Dapper Admin] Could not revoke entitlement", err)
-      setError("Could not revoke that account plan.")
+      setWriteError("Could not revoke that account plan.")
       throw err
     } finally {
       setSaving(false)
@@ -407,7 +435,9 @@ export function useCommunityPosts(user) {
 
   useEffect(() => {
     setLoading(true)
-    const ref = query(collection(db, "communityPosts"), orderBy("createdAt", "desc"))
+    // Bounded: every visitor downloads this feed (public read) and posts can
+    // embed base64 photos — an unbounded listener grows cost linearly forever.
+    const ref = query(collection(db, "communityPosts"), orderBy("createdAt", "desc"), limit(50))
     const unsub = onSnapshot(ref, (snap) => {
       setPosts(snap.docs.map((d) => ({ ...d.data(), id: d.id })))
       setLoading(false)
@@ -593,6 +623,26 @@ export function useCloset(user, fallbackItems) {
     if (!user) { setItems(readGuestCloset(fallbackItems)); setSynced(false); setError(null); return }
     let seeded = false
     let cancelled = false
+
+    // One-time guest→account migration: garments added while signed out
+    // (ids "closet-*"; demo seeds have numeric ids) are promised to sync by
+    // the guest-mode banner — write them to the account, then drop them
+    // from the guest key so they don't re-migrate.
+    const migrateGuestItems = async () => {
+      const guestItems = readGuestCloset([]).filter((i) => String(i?.id || "").startsWith("closet-"))
+      if (!guestItems.length) return
+      try {
+        for (const item of guestItems) {
+          await setDoc(doc(db, "users", user.uid, "closetItems", String(item.id)), { ...item, migratedFromGuest: true }, { merge: true })
+        }
+        writeGuestCloset(readGuestCloset([]).filter((i) => !String(i?.id || "").startsWith("closet-")))
+        markClosetSeeded(user.uid)
+      } catch (err) {
+        console.warn("[Dapper] Guest closet migration failed; will retry next sign-in", err)
+      }
+    }
+    migrateGuestItems()
+
     const ref = collection(db, "users", user.uid, "closetItems")
     const unsub = onSnapshot(ref, async (snap) => {
       if (snap.empty) {

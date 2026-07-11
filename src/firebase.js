@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app"
 import { browserLocalPersistence, getAuth, GoogleAuthProvider, setPersistence } from "firebase/auth"
-import { getFirestore } from "firebase/firestore"
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDe9e5VB5tvef8i4Cdpcrx9eegMNRm3A70",
@@ -14,7 +14,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 
 export const auth = getAuth(app)
-export const db   = getFirestore(app)
+// Persistent local cache: offline writes queue in IndexedDB and survive a
+// refresh instead of hanging the UI on an await that never resolves.
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+})
 export const googleProvider = new GoogleAuthProvider()
 
 export const authReady = setPersistence(auth, browserLocalPersistence).catch((err) => {
