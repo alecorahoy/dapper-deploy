@@ -3884,7 +3884,7 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, 
           </div>
           {!isCompact && <span className="text-xl font-black tracking-widest whitespace-nowrap">DAPPER</span>}
         </div>
-        {mobile && <button onClick={onClose}><X size={20} /></button>}
+        {mobile && <button aria-label="Close menu" onClick={onClose}><X size={20} /></button>}
       </div>
 
       {/* Usage badge */}
@@ -4359,6 +4359,7 @@ function AnalyzerPage({ entitlement, setPage }) {
   const [textInput, setTextInput]     = useState("")
   const [analysisData, setAnalysisData] = useState(ANALYSIS)
   const [keyError, setKeyError]       = useState("")
+  const [infoNotice, setInfoNotice]   = useState("")
   const [limitReached, setLimitReached] = useState(false)
   const [isDemo, setIsDemo]           = useState(false)
   const [occasion, setOccasion]       = useState("All")
@@ -4450,7 +4451,7 @@ function AnalyzerPage({ entitlement, setPage }) {
     setter(nextPreview)
 
     if ((isHeicLike(rawFile) && !isHeicLike(file)) || (rawFile.type && file.type && rawFile.type !== file.type)) {
-      setKeyError("Photo optimized to JPG for compatibility.")
+      setInfoNotice("Photo optimized to JPG for compatibility.")
     }
     setPreparingPhoto("")
   }
@@ -4477,6 +4478,7 @@ function AnalyzerPage({ entitlement, setPage }) {
 
   const runAnalysisImpl = async () => {
     setKeyError("")
+    setInfoNotice("")
     setLimitReached(false)
     setFullLookResult(null)
     setCorrectingFullLook(false)
@@ -4927,6 +4929,7 @@ function AnalyzerPage({ entitlement, setPage }) {
           </div>
 
           {preparingPhoto && <p className="text-xs text-blue-600 mb-3 px-1">{preparingPhoto}</p>}
+          {infoNotice && <p className="text-xs text-gray-500 mb-2 px-1" role="status">ℹ️ {infoNotice}</p>}
           {keyError && (
             <div className="mb-3 px-1">
               <p className="text-xs text-red-400" role="alert">{keyError}</p>
@@ -5906,6 +5909,14 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, updateClosetIt
     setForm({ ...CLOSET_FORM_INIT, name: item.name || "", brand: item.brand || "", type: item.type || "Suit", color: item.color || "#1B2A4A", photo: item.photo || null, photoName: item.photoName || "", photoError: "" })
     setModal(true)
   }
+  // Dialog semantics: Escape closes (matching the AuthModal fix from v1).
+  useEffect(() => {
+    if (!modal) return
+    const onKey = (e) => { if (e.key === "Escape") { setModal(false); resetClosetForm() } }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [modal])
+
   const deleteSelected = async () => {
     if (!selected) return
     if (!window.confirm(`Delete "${selected.name}" from your closet? This can't be undone.`)) return
@@ -6025,8 +6036,8 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, updateClosetIt
           </button>
         ))}
         <button onClick={openClosetModal} className="p-4 rounded-2xl border-2 border-dashed text-center hover:border-gray-300 transition-all" style={{borderColor:"#e5e7eb"}}>
-          <div className="h-20 flex items-center justify-center"><Plus size={22} className="text-gray-200"/></div>
-          <div className="text-sm text-gray-300">Add item</div>
+          <div className="h-20 flex items-center justify-center"><Plus size={22} className="text-gray-400"/></div>
+          <div className="text-sm text-gray-500">Add item</div>
         </button>
       </div>
 
@@ -6063,8 +6074,10 @@ function ClosetPage({ closetItems, setClosetItems, addClosetItem, updateClosetIt
 
       {/* Modal */}
       {modal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          role="dialog" aria-modal="true" aria-label={editingId ? "Edit garment" : "Add garment"}
+          onClick={(e)=>{ if (e.target === e.currentTarget) { setModal(false); resetClosetForm() } }}>
+          <div className="bg-white rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-xl font-black">{editingId ? "Edit Garment" : "Add Garment"}</h2>
               <button aria-label="Close" onClick={()=>{ setModal(false); resetClosetForm() }}><X size={20} className="text-gray-400"/></button>
@@ -6222,8 +6235,16 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
     onSave({ id:Date.now(), ...form, suitColor: allItems.find(i=>i.name===form.suit)?.color||NAVY })
   }
 
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose() }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [onClose])
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
+      role="dialog" aria-modal="true" aria-label="Log outfit"
+      onClick={(e)=>{ if (e.target === e.currentTarget) onClose() }}>
       <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col" style={{maxHeight:"92vh"}}>
 
         {/* Header */}
@@ -6232,7 +6253,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
             <h2 className="text-xl font-black text-gray-900">Log Outfit</h2>
             <p className="text-xs text-gray-400 mt-0.5">What did you wear today?</p>
           </div>
-          <button onClick={onClose}><X size={20} className="text-gray-300"/></button>
+          <button aria-label="Close" onClick={onClose}><X size={20} className="text-gray-400"/></button>
         </div>
 
         {/* Scrollable body */}
@@ -6279,7 +6300,7 @@ function LogModal({ onClose, onSave, wornLog, defaultDate, closetItems }) {
                 </div>
                 <div className="text-sm font-black text-gray-500 mb-1">Upload a photo of your look</div>
                 <div className="text-xs text-gray-300">Tap to select · or drag here</div>
-                <div className="text-xs text-gray-200 mt-1">JPG, PNG, WEBP · HEIC when supported</div>
+                <div className="text-xs text-gray-500 mt-1">JPG, PNG, WEBP · HEIC when supported</div>
                 <input type="file" accept="image/*,.heic,.heif" className="hidden" onChange={handlePhotoInput}/>
               </label>
             )}
@@ -6547,7 +6568,7 @@ function CalendarPage({ closetItems, user }) {
               <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-black text-gray-800">{MONTHS[m]} {selDay}</h3>
-                  <button onClick={()=>{setLogDate(fmtDate(y,m,selDay));setShowLog(true)}}
+                  <button aria-label={`Log an outfit for ${MONTHS[m]} ${selDay}`} onClick={()=>{setLogDate(fmtDate(y,m,selDay));setShowLog(true)}}
                     className="w-8 h-8 rounded-xl flex items-center justify-center text-white text-xs font-black" style={{background:NAVY}}>
                     <Plus size={14}/>
                   </button>
@@ -6848,6 +6869,12 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
   const [liked, setLiked] = useState({})
   const [draft, setDraft] = useState(COMMUNITY_DRAFT_INIT)
   const [showComposer, setShowComposer] = useState(false)
+  useEffect(() => {
+    if (!showComposer) return
+    const onKey = (e) => { if (e.key === "Escape") setShowComposer(false) }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [showComposer])
   const [copiedId, setCopiedId] = useState(null)
   const [joinNote, setJoinNote] = useState(null)
 
@@ -7050,15 +7077,17 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
       </div>
 
       {showComposer && canPost && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          role="dialog" aria-modal="true" aria-label="Share to feed"
+          onClick={(e)=>{ if (e.target === e.currentTarget) setShowComposer(false) }}>
           <div className="bg-white rounded-2xl p-5 w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl">
             <div className="flex items-center justify-between gap-3 mb-4">
               <div>
                 <div className="text-xl font-black text-gray-900">Share to Feed</div>
                 <div className="text-xs text-gray-400">Post a photo, thought, question, or outfit note</div>
               </div>
-              <button onClick={()=>setShowComposer(false)} className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-50">
-                <X size={19} className="text-gray-300"/>
+              <button aria-label="Close" onClick={()=>setShowComposer(false)} className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-gray-50">
+                <X size={19} className="text-gray-400"/>
               </button>
             </div>
             {renderPostForm()}
@@ -9215,8 +9244,8 @@ export default function DapperApp() {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Mobile topbar */}
         <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 flex-shrink-0">
-          <button onClick={()=>setSidebarOpen(true)}>
-            <Menu size={22} className="text-gray-600"/>
+          <button aria-label="Open menu" onClick={()=>setSidebarOpen(true)}>
+            <Menu size={22} className="text-gray-600" aria-hidden="true"/>
           </button>
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{background:GOLD}}>
@@ -9230,7 +9259,7 @@ export default function DapperApp() {
               {(user.displayName||user.email||"U")[0].toUpperCase()}
             </div>
           ) : (
-            <button onClick={()=>setShowAuth(true)}>
+            <button aria-label="Sign in" onClick={()=>setShowAuth(true)}>
               <LogIn size={20} className="text-gray-400"/>
             </button>
           )}
@@ -9265,8 +9294,8 @@ export default function DapperApp() {
               const active = page===id
               return (
                 <button key={id} onClick={()=>setPage(id)} className="flex-1 flex flex-col items-center py-2 gap-0.5">
-                  <Icon size={18} style={{color:active?GOLD:"#d1d5db"}}/>
-                  <span className="text-xs" style={{color:active?GOLD:"#d1d5db",fontWeight:active?700:400}}>{label}</span>
+                  <Icon size={18} style={{color:active?GOLD:"#6b7280"}}/>
+                  <span className="text-xs" style={{color:active?GOLD:"#6b7280",fontWeight:active?700:500}}>{label}</span>
                 </button>
               )
             })}

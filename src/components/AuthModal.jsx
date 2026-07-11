@@ -65,6 +65,9 @@ export default function AuthModal({ onClose, useAuthHook }) {
     return () => document.removeEventListener("keydown", onKey)
   }, [onClose])
 
+  // A failed attempt from a previous open must not greet the user on reopen.
+  useEffect(() => { clearError?.() }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const switchMode = () => { setMode(m => m === "signin" ? "signup" : "signin"); clearError() }
 
   const handleSubmit = async () => {
@@ -82,7 +85,11 @@ export default function AuthModal({ onClose, useAuthHook }) {
     if (u) onClose()
   }
 
-  const handleKey = (e) => { if (e.key === "Enter" && !loading && email && password) handleSubmit() }
+  // Enter submits from the INPUTS only — on a button (e.g. the password-eye
+  // toggle) Enter must activate that button, not fire a sign-in.
+  const handleKey = (e) => {
+    if (e.key === "Enter" && e.target.tagName === "INPUT" && !loading && email && password) handleSubmit()
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
@@ -160,7 +167,9 @@ export default function AuthModal({ onClose, useAuthHook }) {
             value={password}
             onChange={e => setPassword(e.target.value)}
             right={
-              <button onClick={() => setShowPass(p => !p)} className="text-gray-400 hover:text-gray-600">
+              <button type="button" onClick={() => setShowPass(p => !p)}
+                aria-label={showPass ? "Hide password" : "Show password"}
+                className="p-2 -m-2 text-gray-400 hover:text-gray-600">
                 {showPass ? <EyeOff size={15}/> : <Eye size={15}/>}
               </button>
             }
@@ -168,7 +177,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
 
           {/* Error */}
           {error && (
-            <div className="text-xs text-red-600 font-semibold bg-red-50 rounded-xl px-3 py-2">
+            <div role="alert" className="text-xs text-red-600 font-semibold bg-red-50 rounded-xl px-3 py-2">
               {error}
             </div>
           )}
@@ -176,8 +185,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
           {/* Submit */}
           <button onClick={handleSubmit} disabled={loading || !email || !password}
             className="w-full py-3 rounded-xl font-black text-sm transition-all disabled:opacity-40"
-            style={{background:NAVY, color:"white"}}
-            onKeyDown={handleKey}>
+            style={{background:NAVY, color:"white"}}>
             {loading
               ? <span className="flex items-center justify-center gap-2"><Loader size={15} className="animate-spin"/> Please wait…</span>
               : mode === "signin" ? "Sign In" : "Create Account"
@@ -195,7 +203,7 @@ export default function AuthModal({ onClose, useAuthHook }) {
 
         {/* Footer note */}
         <div className="px-6 pb-5 text-center">
-          <p className="text-xs text-gray-300">
+          <p className="text-xs text-gray-500">
             Your closet syncs across all devices. No card required.
           </p>
         </div>
