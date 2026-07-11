@@ -42,6 +42,16 @@ self.addEventListener("activate", (event) => {
   )
 })
 
+function offlineResponse() {
+  return new Response(
+    "<!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Dapper — offline</title></head>" +
+    "<body style='background:#080f1e;color:#e5e7eb;font-family:-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0'>" +
+    "<div style='text-align:center;padding:24px'><div style='font-size:40px'>👔</div><h1 style='font-size:20px'>You're offline</h1>" +
+    "<p style='color:#94a3b8;font-size:14px'>Reconnect and try again.</p></div></body></html>",
+    { status: 503, headers: { "Content-Type": "text/html; charset=utf-8" } }
+  )
+}
+
 self.addEventListener("fetch", (event) => {
   const { request } = event
   if (request.method !== "GET") return
@@ -68,7 +78,14 @@ self.addEventListener("fetch", (event) => {
           }
           return res
         })
-        .catch(() => caches.match(cacheKey).then((r) => r || caches.match("/app.html")))
+        .catch(() => caches.match(cacheKey).then((r) => {
+          if (r) return r
+          // Fall back to the app shell ONLY for app routes — a landing URL
+          // must not render the app UI offline. Total miss gets a real
+          // Response instead of resolving respondWith with undefined.
+          if (isAppRoute) return caches.match("/app.html").then((shell) => shell || offlineResponse())
+          return offlineResponse()
+        }))
     )
     return
   }

@@ -1357,8 +1357,9 @@ footer {
 </footer>
 
 <script>
-// ─── PWA service worker ───
-if ('serviceWorker' in navigator) {
+// ─── PWA service worker (production only — a SW caching the dev server
+// makes local HMR sessions serve stale responses) ───
+if ('serviceWorker' in navigator && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', { scope: '/' })
       .catch(err => console.warn('[Dapper] Service worker registration failed', err));

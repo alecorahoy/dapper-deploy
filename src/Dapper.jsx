@@ -3102,8 +3102,8 @@ function getLocalAnalysis(text) {
   const full = normalizeMenswearText(text)
   // For SUIT-color detection, blank out clauses describing other garments so
   // their colors aren't read as the suit color ("burgundy tie with a green
-  // suit" must resolve to green, not burgundy). Pattern detection still uses
-  // the full text below.
+  // suit" must resolve to green, not burgundy). Pattern detection uses the
+  // same blanked text, so other garments' patterns don't leak either.
   const t = full.replace(
     /\b(?:\w+\s+){1,2}(?:shirt|tie|necktie|bow\s+tie|belt|shoes?|loafers?|oxfords?|derbys?|brogues?|boots?|pocket\s+square|socks?|watch)\b/g,
     " "
@@ -4383,8 +4383,6 @@ function AnalyzerPage({ entitlement, setPage }) {
   const [shirtCorrection, setShirtCorrection]   = useState({ color:"", pattern:"" })
   const [correctingFullLook, setCorrectingFullLook] = useState(false)
   const [fullLookCorrection, setFullLookCorrection] = useState({ suitColor:"", suitPattern:"" })
-  const suitInputRef  = { current: null }
-  const shirtInputRef = { current: null }
   const progressTimerRef = useRef(null)
   const analyzeInFlightRef = useRef(false)
 
@@ -5586,7 +5584,7 @@ function AnalyzerPage({ entitlement, setPage }) {
             )}
 
             {/* Tie selector — Pattern Intelligence */}
-            <SectionLabel n={3} label={`Tie Pairings for "${shirt.name}"`}/>
+            <SectionLabel n={3} label={shirt?.name ? `Tie Pairings for "${shirt.name}"` : "Tie Pairings"}/>
             {(() => {
               if (!shirt || !shirt.ties) return null
               const suitPatKey = getSuitPatternKey(analysisData.suit?.pattern || '')
@@ -5695,7 +5693,7 @@ function AnalyzerPage({ entitlement, setPage }) {
           {/* Packages */}
           <div>
             <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-              <SectionLabel n={5} label="Complete Outfit Packages"/>
+              <SectionLabel n={4} label="Complete Outfit Packages"/>
               {occasion !== "All" && (
                 <div className="flex items-center gap-2">
                   <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{background:"#fffbeb",color:"#92400e",border:`1px solid ${GOLD}`}}>
@@ -8579,12 +8577,12 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
   const [plan, setPlan] = useState("pro")
   const [expiresAt, setExpiresAt] = useState("")
   const [note, setNote] = useState("")
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState(null)
   const [compEmail, setCompEmail] = useState("")
   const [compPlan, setCompPlan] = useState("pro")
   const [compExpiresAt, setCompExpiresAt] = useState("")
   const [compNote, setCompNote] = useState("")
-  const [compMessage, setCompMessage] = useState("")
+  const [compMessage, setCompMessage] = useState(null)
   const [reportMessage, setReportMessage] = useState("")
 
   const filteredProfiles = profiles.filter((profile) => {
@@ -8618,60 +8616,60 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
   }, [filteredProfiles, selectedUid])
 
   const applyGrant = async () => {
-    if (!selectedUser) { setMessage("Select a user first."); return }
+    if (!selectedUser) { setMessage({ text: "Select a user first.", kind: "error" }); return }
     if (plan === "free" && !window.confirm(`Set ${selectedUser.email || selectedUser.uid} to Free? This removes their paid access.${stripeSubWarning(selectedEntitlement)}`)) return
-    setMessage("")
+    setMessage(null)
     try {
       if (plan === "free") {
         await revokeEntitlement({ uid:selectedUser.uid, email:selectedUser.email, note:note || "Set to Free from Admin." })
-        setMessage(`${selectedUser.email || selectedUser.uid} is now on Free.`)
+        setMessage({ text: `${selectedUser.email || selectedUser.uid} is now on Free.`, kind: "ok" })
       } else {
         await grantEntitlement({ uid:selectedUser.uid, email:selectedUser.email, plan, expiresAt, note })
-        setMessage(`${selectedUser.email || selectedUser.uid} now has complimentary ${plan === "elite" ? "Elite" : "Pro"}.`)
+        setMessage({ text: `${selectedUser.email || selectedUser.uid} now has complimentary ${plan === "elite" ? "Elite" : "Pro"}.`, kind: "ok" })
       }
     } catch {
-      setMessage("Could not update this account. Check Firestore rules and admin access.")
+      setMessage({ text: "Could not update this account. Check Firestore rules and admin access.", kind: "error" })
     }
   }
 
   const revokeSelected = async () => {
-    if (!selectedUser) { setMessage("Select a user first."); return }
+    if (!selectedUser) { setMessage({ text: "Select a user first.", kind: "error" }); return }
     if (!window.confirm(`Move ${selectedUser.email || selectedUser.uid} back to Free? This removes their paid access.${stripeSubWarning(selectedEntitlement)}`)) return
-    setMessage("")
+    setMessage(null)
     try {
       await revokeEntitlement({ uid:selectedUser.uid, email:selectedUser.email, note:note || "Revoked from Admin." })
-      setMessage(`${selectedUser.email || selectedUser.uid} was moved back to Free.`)
+      setMessage({ text: `${selectedUser.email || selectedUser.uid} was moved back to Free.`, kind: "ok" })
     } catch {
-      setMessage("Could not revoke this account. Check Firestore rules and admin access.")
+      setMessage({ text: "Could not revoke this account. Check Firestore rules and admin access.", kind: "error" })
     }
   }
 
   const applyEmailComp = async () => {
-    if (!compEmail.trim()) { setCompMessage("Enter an email first."); return }
+    if (!compEmail.trim()) { setCompMessage({ text: "Enter an email first.", kind: "error" }); return }
     if (compPlan === "free" && !window.confirm(`Set ${compEmail.trim().toLowerCase()} to Free? This removes their paid access.`)) return
-    setCompMessage("")
+    setCompMessage(null)
     try {
       if (compPlan === "free") {
         await revokeEmailEntitlement({ email:compEmail, note:compNote || "Set to Free from Admin." })
-        setCompMessage(`${compEmail.trim().toLowerCase()} was moved back to Free.`)
+        setCompMessage({ text: `${compEmail.trim().toLowerCase()} was moved back to Free.`, kind: "ok" })
       } else {
         await grantEmailEntitlement({ email:compEmail, plan:compPlan, expiresAt:compExpiresAt, note:compNote })
-        setCompMessage(`${compEmail.trim().toLowerCase()} now has complimentary ${compPlan === "elite" ? "Elite" : "Pro"}.`)
+        setCompMessage({ text: `${compEmail.trim().toLowerCase()} now has complimentary ${compPlan === "elite" ? "Elite" : "Pro"}.`, kind: "ok" })
       }
     } catch {
-      setCompMessage("Could not update this email comp. Check Firestore rules and admin access.")
+      setCompMessage({ text: "Could not update this email comp. Check Firestore rules and admin access.", kind: "error" })
     }
   }
 
   const revokeEmailComp = async (email = compEmail) => {
-    if (!String(email).trim()) { setCompMessage("Enter an email first."); return }
+    if (!String(email).trim()) { setCompMessage({ text: "Enter an email first.", kind: "error" }); return }
     if (!window.confirm(`Move ${String(email).trim().toLowerCase()} back to Free? This removes their paid access.`)) return
-    setCompMessage("")
+    setCompMessage(null)
     try {
       await revokeEmailEntitlement({ email, note:compNote || "Revoked from Admin." })
-      setCompMessage(`${String(email).trim().toLowerCase()} was moved back to Free.`)
+      setCompMessage({ text: `${String(email).trim().toLowerCase()} was moved back to Free.`, kind: "ok" })
     } catch {
-      setCompMessage("Could not revoke this email comp. Check Firestore rules and admin access.")
+      setCompMessage({ text: "Could not revoke this email comp. Check Firestore rules and admin access.", kind: "error" })
     }
   }
 
@@ -8852,8 +8850,8 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
           </button>
         </div>
         {compMessage && (
-          <div className={`mt-4 rounded-xl p-3 text-sm ${/could not|enter |select /i.test(compMessage) ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
-            {compMessage}
+          <div className={`mt-4 rounded-xl p-3 text-sm ${compMessage.kind === "error" ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+            {compMessage.text}
           </div>
         )}
         {emailComps.length > 0 && (
@@ -8990,8 +8988,8 @@ function AdminPage({ user, isAdmin, adminAccessError, onAuthClick }) {
                 </button>
               </div>
               {message && (
-                <div className={`mt-4 rounded-xl p-3 text-sm ${/could not|enter |select /i.test(message) ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
-                  {message}
+                <div className={`mt-4 rounded-xl p-3 text-sm ${message.kind === "error" ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+                  {message.text}
                 </div>
               )}
               {error && (

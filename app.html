@@ -125,7 +125,8 @@
     <script>
       // Register the Dapper PWA service worker. Navigations are network-first
       // (always fresh after deploys); assets are cached for offline use.
-      if ('serviceWorker' in navigator) {
+      // Production only — a SW caching the dev server breaks local HMR sessions.
+      if ('serviceWorker' in navigator && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
         // Offer the update instead of forcing it — a deploy must never yank a
         // session mid-analysis or mid-checkout.
         function showUpdateBar(sw) {

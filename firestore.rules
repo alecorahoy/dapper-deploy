@@ -62,7 +62,25 @@ service cloud.firestore {
           "commentCount",
           "createdAt",
           "updatedAt"
-        ]);
+        ])
+        // Value constraints: posts are publicly readable and photos are
+        // inline base64 — cap sizes and pin the timestamps/counters so an
+        // entitled account can't write arbitrary ~1MB docs or backdate.
+        && request.resource.data.authorName is string && request.resource.data.authorName.size() <= 80
+        && request.resource.data.authorInitials is string && request.resource.data.authorInitials.size() <= 6
+        && request.resource.data.avatar is string && request.resource.data.avatar.size() <= 40
+        && request.resource.data.badge is string && request.resource.data.badge.size() <= 24
+        && request.resource.data.role is string && request.resource.data.role.size() <= 40
+        && request.resource.data.look is string && request.resource.data.look.size() <= 160
+        && request.resource.data.outfit is string && request.resource.data.outfit.size() <= 300
+        && request.resource.data.caption is string && request.resource.data.caption.size() <= 2000
+        && (request.resource.data.photo == null
+            || (request.resource.data.photo is string && request.resource.data.photo.size() <= 800000))
+        && request.resource.data.tags is list && request.resource.data.tags.size() <= 8
+        && request.resource.data.likedBy is map && request.resource.data.likedBy.size() == 0
+        && request.resource.data.commentCount == 0
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
     }
 
     function safeCommunityLikeUpdate() {

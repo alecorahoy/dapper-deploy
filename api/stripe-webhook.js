@@ -13,14 +13,15 @@
 // Subscribe to: checkout.session.completed, customer.subscription.updated,
 //               customer.subscription.deleted
 //
-// IMPORTANT: the raw request body is required for signature verification, so
-// the body parser is disabled below.
+// IMPORTANT: the raw request body is required for signature verification.
+// On plain Vercel Node functions the body helper is a LAZY getter (it only
+// parses when req.body is accessed), so reading the stream below yields the
+// raw bytes. The Next.js-style `config = { api: { bodyParser: false } }` is
+// NOT honored outside Next.js — just never touch req.body in this handler.
 
 import Stripe from "stripe"
 import { cert, getApps, initializeApp } from "firebase-admin/app"
 import { getFirestore, FieldValue } from "firebase-admin/firestore"
-
-export const config = { api: { bodyParser: false } }
 
 function getDb() {
   if (!getApps().length) {
