@@ -7,7 +7,13 @@
 <meta name="description" content="AI-powered suit styling for the modern professional. Perfect shirt, tie, and outfit combinations — instantly."/>
 <meta property="og:title" content="Dapper — AI Men's Style Intelligence"/>
 <meta property="og:description" content="Get perfect shirt, tie, and outfit recommendations for any suit in seconds."/>
-<meta name="twitter:card" content="summary"/>
+<!-- TODO(owner): once the production domain is final, make og:image absolute
+     and add <link rel="canonical"> + og:url with that domain. -->
+<meta property="og:image" content="/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/og-image.png"/>
 <meta property="og:type" content="website"/>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
 <link rel="manifest" href="/manifest.json"/>
@@ -15,7 +21,7 @@
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
 <style>
 /* ─── TOKENS ─── */
@@ -33,7 +39,7 @@
   --grayDim:#4a5568;
   --serif:  'Playfair Display', Georgia, serif;
   --sans:   'DM Sans', sans-serif;
-  --mono:   'DM Mono', monospace;
+  --mono:   'SF Mono', 'Menlo', monospace;
 }
 
 /* ─── RESET ─── */
@@ -598,7 +604,7 @@ section {
 .testimonial-outfit {
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--goldDim);
+  color: var(--gold);
   margin-bottom: 16px;
   letter-spacing: 0.5px;
 }
@@ -631,6 +637,9 @@ section {
 }
 .toggle-label { font-size: 13px; color: var(--gray); font-weight: 500; }
 .toggle-track {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
   width: 44px; height: 24px;
   background: var(--card);
   border: 1px solid rgba(201,168,76,0.2);
@@ -734,10 +743,14 @@ section {
   line-height: 1.4;
 }
 .pricing-features li .check { color: var(--gold); flex-shrink: 0; margin-top: 1px; }
-.pricing-features li.off { opacity: 0.35; text-decoration: line-through; }
+.pricing-features li.off { opacity: 0.7; color: var(--gray); text-decoration: line-through; }
 .pricing-features li.off .check { color: var(--grayDim); }
 .btn-pricing {
+  display: block;
   width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
   padding: 14px;
   border-radius: 4px;
   font-family: var(--sans);
@@ -849,13 +862,13 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: gap;
+  flex-wrap: wrap;
   gap: 16px;
 }
 .footer-copy { font-size: 12px; color: var(--gray); }
 .footer-legal { display: flex; gap: 24px; }
 .footer-legal a { font-size: 12px; color: var(--gray); text-decoration: none; }
-.footer-legal a:hover { color: var(--gray); }
+.footer-legal a:hover { color: var(--white); }
 
 /* ─── ANIMATIONS ─── */
 @keyframes fadeUp {
@@ -907,13 +920,21 @@ footer {
 }
 @media (max-width: 900px) { .mobile-menu-btn { display: block; } .nav-cta { display: none; } }
 
+/* Motion sensitivity: kill the infinite float, entrance animations, and
+   smooth scrolling for users who asked for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+
 /* Mobile nav dropdown (toggled by the hamburger) */
 .mobile-menu {
   display: none;
   position: fixed;
   top: 72px;
   left: 0; right: 0;
-  background: rgba(8, 15, 30, 0.98);
+  background: var(--navy);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
   border-bottom: 1px solid rgba(201, 168, 76, 0.2);
   padding: 12px 24px 20px;
   z-index: 99;
@@ -942,6 +963,21 @@ footer {
   font-size: 13px;
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Dapper — AI Men's Style Intelligence",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Web",
+  "description": "AI-powered suit styling: shirt, tie, and outfit recommendations in seconds.",
+  "offers": [
+    { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD" },
+    { "@type": "Offer", "name": "Dapper Pro", "price": "4.99", "priceCurrency": "USD" },
+    { "@type": "Offer", "name": "Dapper Elite", "price": "9.99", "priceCurrency": "USD" }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -963,7 +999,7 @@ footer {
     <li><a href="#community">Community</a></li>
     <li><a href="#pricing">Pricing</a></li>
   </ul>
-  <a href="#" class="nav-cta" onclick="launchApp()">Try It Free</a>
+  <a href="/app" class="nav-cta">Try It Free</a>
   <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMobileMenu()">
     <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
       <path d="M3 12h18M3 6h18M3 18h18"/>
@@ -1030,7 +1066,7 @@ footer {
       AI-powered suit styling for the modern professional. Perfect shirt, tie, and outfit combinations — instantly.
     </p>
     <div class="hero-actions fade-up">
-      <a href="#" class="btn-primary" onclick="launchApp()">Try It Free</a>
+      <a href="/app" class="btn-primary">Try It Free</a>
       <a href="#how" class="btn-ghost">See How It Works</a>
     </div>
     <div class="hero-stats fade-up">
@@ -1083,7 +1119,7 @@ footer {
     <div class="features-grid" style="margin-top:64px">
 
       <div class="feature-card wide">
-        <div class="feature-icon">🪄</div>
+        <div class="feature-icon" aria-hidden="true">🪄</div>
         <div>
           <div class="feature-name">AI Outfit Analyzer</div>
           <p class="feature-desc">The centerpiece. Describe or photograph your suit and receive expert-level recommendations with detailed reasoning — color theory, pattern harmony, occasion calibration, and more.</p>
@@ -1092,31 +1128,31 @@ footer {
       </div>
 
       <div class="feature-card">
-        <div class="feature-icon">👔</div>
+        <div class="feature-icon" aria-hidden="true">👔</div>
         <div class="feature-name">Smart Closet</div>
         <p class="feature-desc">A digital inventory of your entire tailoring. Track wear frequency, dry cleaning cycles, and which pieces you're neglecting.</p>
       </div>
 
       <div class="feature-card">
-        <div class="feature-icon">📅</div>
+        <div class="feature-icon" aria-hidden="true">📅</div>
         <div class="feature-name">Outfit Calendar</div>
         <p class="feature-desc">Sync your wardrobe with your schedule. Plan looks for meetings, events, and trips weeks in advance.</p>
       </div>
 
       <div class="feature-card">
-        <div class="feature-icon">👥</div>
+        <div class="feature-icon" aria-hidden="true">👥</div>
         <div class="feature-name">Style Community</div>
         <p class="feature-desc">Connect with modern sartorialists. Share your signature looks and discover combinations from elite dressers worldwide.</p>
       </div>
 
       <div class="feature-card">
-        <div class="feature-icon">📊</div>
+        <div class="feature-icon" aria-hidden="true">📊</div>
         <div class="feature-name">Wear Analytics</div>
         <p class="feature-desc">Visual data on your most effective combinations, cost-per-wear, and seasonal color palette performance.</p>
       </div>
 
       <div class="feature-card">
-        <div class="feature-icon">✨</div>
+        <div class="feature-icon" aria-hidden="true">✨</div>
         <div class="feature-name">Upgrade to Elite</div>
         <p class="feature-desc">Bespoke styling consultations, fabric texture recognition, and limited-edition combination reports curated by our style team.</p>
         <span class="feature-tag">Pro & Elite</span>
@@ -1196,9 +1232,9 @@ footer {
     <h2 class="section-title">Choose your<br><em>tier.</em></h2>
     <div class="pricing-toggle">
       <span class="toggle-label">Monthly</span>
-      <div class="toggle-track" id="billingToggle" onclick="toggleBilling()">
+      <button type="button" class="toggle-track" id="billingToggle" role="switch" aria-checked="false" aria-label="Annual billing" onclick="toggleBilling()">
         <div class="toggle-thumb"></div>
-      </div>
+      </button>
       <span class="toggle-label">Annual</span>
       <span class="save-badge">SAVE 33%</span>
     </div>
@@ -1217,7 +1253,7 @@ footer {
           <li class="off"><span class="check">✗</span> No Community Access</li>
           <li class="off"><span class="check">✗</span> No Analytics</li>
         </ul>
-        <button class="btn-pricing outline" onclick="launchApp()">Start Here</button>
+        <a href="/app" class="btn-pricing outline">Start Here</a>
       </div>
 
       <!-- Pro -->
@@ -1234,7 +1270,7 @@ footer {
           <li><span class="check">✓</span> Wear Analytics Dashboard</li>
           <li class="off"><span class="check">✗</span> No Bespoke Style Reports</li>
         </ul>
-        <button class="btn-pricing solid" onclick="launchApp()">Go Pro</button>
+        <a href="/app" class="btn-pricing solid">Go Pro</a>
       </div>
 
       <!-- Elite -->
@@ -1250,7 +1286,7 @@ footer {
           <li><span class="check">✓</span> Exclusive Community Badge</li>
           <li><span class="check">✓</span> Early Access to New Features</li>
         </ul>
-        <button class="btn-pricing outline" onclick="launchApp()">Apply for Elite</button>
+        <a href="/app" class="btn-pricing outline">Apply for Elite</a>
       </div>
     </div>
 
@@ -1269,7 +1305,7 @@ footer {
     <h2 class="section-title">The gentleman's AI.<br><em>Start free today.</em></h2>
     <p class="section-sub">5 free AI analyses every month. No credit card. No commitment. Just better dressing — starting now.</p>
     <div class="cta-banner-actions">
-      <a href="#" class="btn-primary" onclick="launchApp()">Launch Dapper Free</a>
+      <a href="/app" class="btn-primary">Launch Dapper Free</a>
       <a href="#pricing" class="btn-ghost">View Pricing</a>
     </div>
   </div>
@@ -1284,26 +1320,26 @@ footer {
         <p class="footer-tagline">The gentleman's AI.</p>
       </div>
       <div class="footer-col">
-        <h4>Product</h4>
+        <h3 class="footer-heading">Product</h3>
         <ul>
           <li><a href="#features">Features</a></li>
           <li><a href="#how">How It Works</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#" onclick="launchApp()">Launch App</a></li>
+          <li><a href="/app">Launch App</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Community</h4>
+        <h3 class="footer-heading">Community</h3>
         <ul>
           <li><a href="#community">Style Feed</a></li>
-          <li><a href="#">Elite Members</a></li>
-          <li><a href="#">Submit a Look</a></li>
+          <li><a href="#pricing">Elite Members</a></li>
+          <li><a href="/app">Submit a Look</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Company</h4>
+        <h3 class="footer-heading">Company</h3>
         <ul>
-          <li><a href="#">About</a></li>
+          <li><a href="#how">About</a></li>
           <li><a href="#">Privacy</a></li>
           <li><a href="#">Terms</a></li>
         </ul>
@@ -1336,12 +1372,19 @@ function toggleMobileMenu() {
   const open = menu.classList.toggle('open');
   if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
 }
-
-// ─── Launch App ───
-function launchApp() {
-  // Change this URL to your actual deployed app URL
-  window.location.href = '/app';
+function closeMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.mobile-menu-btn');
+  if (menu && menu.classList.contains('open')) {
+    menu.classList.remove('open');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
 }
+// A menu opened on mobile must not linger after rotating to desktop width
+// (the hamburger that closes it is display:none above 900px).
+window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobileMenu(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
+
 
 // ─── Billing Toggle ───
 let annual = false;
@@ -1349,6 +1392,7 @@ function toggleBilling() {
   annual = !annual;
   const track = document.getElementById('billingToggle');
   track.classList.toggle('active', annual);
+  track.setAttribute('aria-checked', annual ? 'true' : 'false');
   document.getElementById('proAmount').textContent   = annual ? '3' : '4';
   document.getElementById('proDecimal').textContent  = annual ? '.33/mo (billed $39.99/yr)' : '.99/mo';
   document.getElementById('eliteAmount').textContent = annual ? '6' : '9';
