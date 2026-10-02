@@ -552,77 +552,6 @@ section {
 }
 
 /* ─── TESTIMONIALS ─── */
-.testimonials {
-  padding: 120px 0;
-  background: var(--navy2);
-  border-top: 1px solid rgba(201,168,76,0.06);
-  border-bottom: 1px solid rgba(201,168,76,0.06);
-}
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-top: 64px;
-}
-.testimonial-card {
-  background: var(--card);
-  border-radius: 16px;
-  padding: 36px;
-  border-left: 3px solid var(--gold);
-  transition: transform 0.25s;
-}
-.testimonial-card:hover { transform: translateY(-4px); }
-.testimonial-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-.testimonial-avatar {
-  width: 44px; height: 44px;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: 16px;
-  color: var(--white);
-  flex-shrink: 0;
-}
-.testimonial-meta {}
-.testimonial-name {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--white);
-  text-transform: uppercase;
-}
-.testimonial-role {
-  font-size: 12px;
-  color: var(--gray);
-  font-style: italic;
-}
-.testimonial-outfit {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--gold);
-  margin-bottom: 16px;
-  letter-spacing: 0.5px;
-}
-.testimonial-quote {
-  font-family: var(--serif);
-  font-size: 16px;
-  color: var(--white);
-  line-height: 1.7;
-  font-style: italic;
-}
-.testimonial-likes {
-  margin-top: 20px;
-  font-size: 12px;
-  color: var(--gray);
-  display: flex;
-  gap: 16px;
-}
-.testimonial-likes span { color: var(--gray); font-weight: 600; }
 
 /* ─── PRICING ─── */
 .pricing {
@@ -896,10 +825,8 @@ footer {
   .container { padding: 0 24px; }
   .how-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
   .feature-card.wide { grid-column: span 1; flex-direction: column; gap: 0; }
-  .testimonials-grid { grid-template-columns: 1fr; }
   .how { padding: 80px 0; }
   .features { padding: 80px 0; }
-  .testimonials { padding: 80px 0; }
   .pricing { padding: 80px 0; }
   .cta-banner { padding: 80px 0; }
   .footer-inner { gap: 40px; }
@@ -997,7 +924,6 @@ footer {
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#how">How It Works</a></li>
-    <li><a href="#community">Community</a></li>
     <li><a href="#pricing">Pricing</a></li>
   </ul>
   <a href="/app" class="nav-cta">Try It Free</a>
@@ -1012,7 +938,6 @@ footer {
 <div class="mobile-menu" id="mobileMenu">
   <a href="#features" onclick="toggleMobileMenu()">Features</a>
   <a href="#how" onclick="toggleMobileMenu()">How It Works</a>
-  <a href="#community" onclick="toggleMobileMenu()">Community</a>
   <a href="#pricing" onclick="toggleMobileMenu()">Pricing</a>
   <a href="/app" class="mobile-menu-cta">Try It Free</a>
 </div>
@@ -1163,69 +1088,6 @@ footer {
   </div>
 </section>
 
-<!-- ═══ TESTIMONIALS ═══ -->
-<section class="testimonials" id="community">
-  <div class="container">
-    <div class="section-eyebrow">The Community</div>
-    <h2 class="section-title">Trusted by the<br><em>Tastemakers.</em></h2>
-    <div class="testimonials-grid">
-
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar" style="background:#1B3A6B">MV</div>
-          <div class="testimonial-meta">
-            <div class="testimonial-name">Marco Visconti</div>
-            <div class="testimonial-role">Milan Executive · Elite Member</div>
-          </div>
-        </div>
-        <div class="testimonial-outfit">Navy Chalk Stripe · White Poplin · Burgundy Grenadine</div>
-        <p class="testimonial-quote">"Closed a €2M deal in this configuration. The navy chalk stripe carries a weight in the room that no amount of small talk can replace."</p>
-        <div class="testimonial-likes"><span>342</span> likes · <span>28</span> comments · 2h ago</div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar" style="background:#36454F">JR</div>
-          <div class="testimonial-meta">
-            <div class="testimonial-name">James R. London</div>
-            <div class="testimonial-role">City Analyst · Pro Member</div>
-          </div>
-        </div>
-        <div class="testimonial-outfit">Charcoal Wool · French Blue · Terracotta Repp Stripe</div>
-        <p class="testimonial-quote">"For high-pressure days in the City, I need to know my combinations are sharp. Dapper has become my morning ritual."</p>
-        <div class="testimonial-likes"><span>218</span> likes · <span>15</span> comments · 5h ago</div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar" style="background:#C4A882; color:#1a1a1a">PR</div>
-          <div class="testimonial-meta">
-            <div class="testimonial-name">Pablo Reyes</div>
-            <div class="testimonial-role">Creative Director · Elite Member</div>
-          </div>
-        </div>
-        <div class="testimonial-outfit">Tan Linen · White Voile · Burgundy Pocket Puff (no tie)</div>
-        <p class="testimonial-quote">"The trick with no-tie dressing is that every other element must be impeccable. Dapper catches what I'd miss."</p>
-        <div class="testimonial-likes"><span>486</span> likes · <span>41</span> comments · 1d ago</div>
-      </div>
-
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <div class="testimonial-avatar" style="background:#800020">KH</div>
-          <div class="testimonial-meta">
-            <div class="testimonial-name">Kai Hartmann</div>
-            <div class="testimonial-role">Brand Strategist · Elite Member</div>
-          </div>
-        </div>
-        <div class="testimonial-outfit">Midnight Blue Peak Lapel Tux · Black Grenadine Bow</div>
-        <p class="testimonial-quote">"Midnight blue is more sophisticated than black under candlelight. Dapper confirmed what I suspected — and taught me the rest."</p>
-        <div class="testimonial-likes"><span>621</span> likes · <span>57</span> comments · 2d ago</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- ═══ PRICING ═══ -->
 <section class="pricing" id="pricing">
   <div class="container">
@@ -1332,7 +1194,7 @@ footer {
       <div class="footer-col">
         <h3 class="footer-heading">Community</h3>
         <ul>
-          <li><a href="#community">Style Feed</a></li>
+          <li><a href="/app">Style Feed</a></li>
           <li><a href="#pricing">Elite Members</a></li>
           <li><a href="/app">Submit a Look</a></li>
         </ul>
@@ -1413,7 +1275,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll(
-  '.how-step, .feature-card, .testimonial-card, .pricing-card'
+  '.how-step, .feature-card, .pricing-card'
 ).forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(24px)';
