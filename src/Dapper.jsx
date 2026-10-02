@@ -3749,10 +3749,10 @@ function dots(n)             { return Array.from({length:5},(_,i)=>i<n?"●":"�
 const NAVY = "#0f172a"
 const GOLD = "#C9A84C"
 
-// ── Free-tier limits (single source of truth) ──
-// NOTE: the landing page currently advertises 5 analyses / 10 garments;
-// the app has always said 3 / 20. Owner decision pending — change these
-// two numbers to realign everything at once.
+// ── Free-tier limits (single source of truth for the app) ──
+// Owner-confirmed 2026-10-02: 3 analyses / 20 garments. The static landing
+// (index.html: pricing card + CTA banner) repeats these numbers by hand —
+// change both places together.
 const FREE_LIMITS = { analysesPerMonth: 3, closetItems: 20 }
 const analysisMonthKey = () => {
   const d = new Date()
