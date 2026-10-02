@@ -8314,19 +8314,25 @@ function PricingPage({ entitlement, user, onAuthClick }) {
     {
       name:"Free", monthlyPrice:0, annualPrice:0, color:"#64748b", badge:null,
       cta:"Current Plan", ctaBg:"#f1f5f9", ctaColor:"#64748b",
-      features:["3 AI analyses / month","Digital closet up to 20 garments","2 saved looks","Style Glossary & daily tips","Community feed (read-only)"],
-      locked:["Unlimited AI analyses","Full outfit calendar","Weather integration","Social posting","Shopping integration","Style School"],
+      // features = works today · soon = not built yet (shown as "Coming soon",
+      // never sold as included) · locked = real paid features. Verified
+      // against the code 2026-10-02 — move an item up only once it ships.
+      features:["3 AI analyses / month","Digital closet up to 20 garments","Community feed (read-only)"],
+      soon:["2 saved looks","Style Glossary & daily tips"],
+      locked:["Unlimited AI analyses","Unlimited digital closet","Social posting"],
     },
     {
       name:"Dapper Pro", monthlyPrice:4.99, annualPrice:39.99, color:NAVY, badge:"Most Popular",
       cta:"Get Dapper Pro", ctaBg:NAVY, ctaColor:"white",
-      features:["Unlimited AI analyses","Unlimited digital closet","Full outfit calendar + weather","Outfit comparison tool","Full social features (post, duel, challenge)","Date Mode complete","Shopping integration","Style School complete","Morning outfit push notifications","Gap Analyzer / Wardrobe Gaps"],
+      features:["Unlimited AI analyses","Unlimited digital closet","Full outfit calendar","Post your looks to the community"],
+      soon:["Weather in the outfit calendar","Outfit comparison tool","Duels & challenges","Date Mode","Shopping integration","Style School","Morning outfit push notifications","Gap Analyzer / Wardrobe Gaps"],
       locked:[],
     },
     {
       name:"Dapper Elite", monthlyPrice:9.99, annualPrice:79.99, color:GOLD, badge:"Ultimate",
       cta:"Go Elite", ctaBg:GOLD, ctaColor:NAVY,
-      features:["Everything in Pro","Style DNA deep report","Unlimited AI chat with memory","Priority AI (< 5 seconds)","Couple Style Coordination","Virtual Try-On (when available)","Early access to new features","Exclusive Elite profile badge","Monthly 30-min stylist session"],
+      features:["Everything in Pro","Exclusive Elite profile badge","Early access to new features"],
+      soon:["Style DNA deep report","Unlimited AI chat with memory","Priority AI (< 5 seconds)","Couple Style Coordination","Virtual Try-On","Monthly 30-min stylist session"],
       locked:[],
     },
   ]
@@ -8446,6 +8452,14 @@ function PricingPage({ entitlement, user, onAuthClick }) {
                     <div key={f} className="flex items-start gap-2">
                       <Check size={13} className="flex-shrink-0 mt-0.5" style={{color:isDark?GOLD:"#22c55e"}}/>
                       <span className={`text-xs leading-relaxed ${isDark?"text-gray-300":"text-gray-600"}`}>{f}</span>
+                    </div>
+                  ))}
+                  {tier.soon.map(f=>(
+                    <div key={f} className="flex items-start gap-2 opacity-60">
+                      <Clock size={13} className="flex-shrink-0 mt-0.5 text-gray-400"/>
+                      <span className={`text-xs leading-relaxed ${isDark?"text-gray-400":"text-gray-500"}`}>
+                        {f} <span className="font-semibold uppercase tracking-wide" style={{fontSize:10}}>· Coming soon</span>
+                      </span>
                     </div>
                   ))}
                   {tier.locked.slice(0,3).map(f=>(
