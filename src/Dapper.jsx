@@ -8293,10 +8293,12 @@ function PricingPage({ entitlement, user, onAuthClick }) {
     if (!user) { onAuthClick?.(); return }
     setCheckoutBusy(tierPlan)
     try {
+      // The server takes uid/email from this verified token, not the body.
+      const idToken = await user.getIdToken()
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: tierPlan, billing, uid: user.uid, email: user.email || "" }),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${idToken}` },
+        body: JSON.stringify({ plan: tierPlan, billing }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || !data?.url) {
@@ -8309,6 +8311,37 @@ function PricingPage({ entitlement, user, onAuthClick }) {
       setCheckoutBusy("")
     }
   }
+
+  // ── Stripe Customer Portal (cancel / change plan / card / invoices) ──
+  // Only accounts paying through Stripe have a subscription to manage;
+  // complimentary (admin_comp) plans carry no Stripe ids.
+  const hasStripeSub = Boolean(user && entitlement?.stripeSubscriptionId)
+  const [portalBusy, setPortalBusy] = useState(false)
+  const [portalError, setPortalError] = useState("")
+  const openPortal = async () => {
+    setPortalError("")
+    setPortalBusy(true)
+    try {
+      const idToken = await user.getIdToken()
+      const res = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${idToken}` },
+        body: "{}",
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok || !data?.url) throw new Error(data?.error || "Could not open the billing portal. Please try again.")
+      window.location.href = data.url
+    } catch (err) {
+      console.error("[Dapper Portal] failed", err)
+      setPortalError(err.message || "Could not open the billing portal. Please try again.")
+      setPortalBusy(false)
+    }
+  }
+  useEffect(() => {
+    const onPageShow = (e) => { if (e.persisted) setPortalBusy(false) }
+    window.addEventListener("pageshow", onPageShow)
+    return () => window.removeEventListener("pageshow", onPageShow)
+  }, [])
 
   const tiers = [
     {
@@ -8473,13 +8506,13 @@ function PricingPage({ entitlement, user, onAuthClick }) {
                 {/* CTA — the Free card is never clickable: for paid users it
                     must not read "Current Plan" (UX-104) */}
                 <button
-                  disabled={isCurrent || !isPaid || (isPaid && checkoutBusy===tierPlan)}
-                  onClick={isPaid && !isCurrent ? () => startCheckout(tierPlan, billing) : undefined}
-                  aria-label={isCurrent ? `${tier.name} is your current plan` : isPaid ? `Subscribe to ${tier.name}` : "Free plan"}
+                  disabled={isCurrent || !isPaid || (isPaid && checkoutBusy===tierPlan) || (isPaid && hasStripeSub && portalBusy)}
+                  onClick={isPaid && !isCurrent ? (hasStripeSub ? openPortal : () => startCheckout(tierPlan, billing)) : undefined}
+                  aria-label={isCurrent ? `${tier.name} is your current plan` : isPaid ? (hasStripeSub ? `Switch to ${tier.name} in the billing portal` : `Subscribe to ${tier.name}`) : "Free plan"}
                   className="mt-5 w-full py-3 rounded-xl font-black text-sm transition-all hover:opacity-90 active:scale-98 disabled:opacity-70"
                   style={{background:tier.ctaBg,color:tier.ctaColor}}>
-                  {isCurrent ? "Current Plan" : !isPaid ? "Included with every account" : (checkoutBusy===tierPlan) ? "Redirecting…" : tier.cta}
-                  {!isCurrent && isPaid && checkoutBusy!==tierPlan && billing==="annual" && " (Anual)"}
+                  {isCurrent ? "Current Plan" : !isPaid ? "Included with every account" : hasStripeSub ? (portalBusy ? "Opening…" : "Change plan") : (checkoutBusy===tierPlan) ? "Redirecting…" : tier.cta}
+                  {!isCurrent && isPaid && !hasStripeSub && checkoutBusy!==tierPlan && billing==="annual" && " (Anual)"}
                 </button>
                 {isPaid && checkoutError && checkoutBusy==="" && (
                   <div className="mt-2 text-center text-xs font-semibold text-red-600">{checkoutError}</div>
@@ -8496,6 +8529,18 @@ function PricingPage({ entitlement, user, onAuthClick }) {
           )
         })}
       </div>
+
+      {hasStripeSub && (
+        <div className="mt-6 flex flex-col items-center gap-2">
+          <button onClick={openPortal} disabled={portalBusy}
+            className="px-5 py-2.5 rounded-xl text-sm font-bold border transition-all hover:opacity-90 disabled:opacity-60"
+            style={{borderColor:"#cbd5e1",color:NAVY,background:"white"}}>
+            {portalBusy ? "Opening billing portal…" : "Manage or cancel subscription"}
+          </button>
+          <p className="text-xs text-gray-400">Change plan, update your card, download invoices or cancel — via Stripe.</p>
+          {portalError && <p role="alert" className="text-xs font-semibold text-red-600">{portalError}</p>}
+        </div>
+      )}
 
       {/* Bottom trust bar */}
       <div className="mt-8 text-center flex items-center justify-center gap-6 text-xs text-gray-400 flex-wrap">

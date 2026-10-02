@@ -7,11 +7,16 @@
 //   STRIPE_PRICE_ELITE_MONTHLY  price_…
 //   STRIPE_PRICE_ELITE_ANNUAL   price_…
 //   APP_URL                     https://your-domain.com   (no trailing slash)
+//   FIREBASE_SERVICE_ACCOUNT    service-account JSON (verifies the caller's ID token)
+//
+// The caller must send `Authorization: Bearer <Firebase ID token>`; the uid
+// and email come from the verified token, never from the request body.
 //
 // See STRIPE-SETUP.md for the full setup + webhook configuration.
 
 import Stripe from "stripe"
 import { rateLimit, clientIp, originAllowed as originOk } from "./_guard.js"
+import { verifiedUser, activeStripeSubscription } from "./_firebaseAdmin.js"
 
 const PRICE_ENV = {
   pro:   { monthly: "STRIPE_PRICE_PRO_MONTHLY",   annual: "STRIPE_PRICE_PRO_ANNUAL" },
@@ -47,10 +52,19 @@ export default async function handler(req, res) {
     const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {})
     const plan = String(body.plan || "").toLowerCase()
     const billing = String(body.billing || "monthly").toLowerCase()
-    const uid = String(body.uid || "").trim()
-    const email = String(body.email || "").trim()
+    const caller = await verifiedUser(req)
+    if (!caller) return res.status(401).json({ error: "Sign in required before checkout." })
+    const uid = caller.uid
+    const email = caller.email || ""
 
-    if (!uid) return res.status(401).json({ error: "Sign in required before checkout." })
+    // A second checkout would open a second, parallel subscription and bill
+    // twice. Plan changes and cancellations go through the billing portal.
+    if (await activeStripeSubscription(uid)) {
+      return res.status(409).json({
+        error: "You already have an active subscription — use Manage subscription to change or cancel it.",
+        code: "has_subscription",
+      })
+    }
     if (!PRICE_ENV[plan]) return res.status(400).json({ error: "Unknown plan." })
     if (billing !== "monthly" && billing !== "annual") {
       return res.status(400).json({ error: "Unknown billing period." })

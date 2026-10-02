@@ -20,18 +20,8 @@
 // NOT honored outside Next.js — just never touch req.body in this handler.
 
 import Stripe from "stripe"
-import { cert, getApps, initializeApp } from "firebase-admin/app"
-import { getFirestore, FieldValue } from "firebase-admin/firestore"
-
-function getDb() {
-  if (!getApps().length) {
-    const raw = process.env.FIREBASE_SERVICE_ACCOUNT
-    if (!raw) throw new Error("Missing FIREBASE_SERVICE_ACCOUNT")
-    const serviceAccount = JSON.parse(raw)
-    initializeApp({ credential: cert(serviceAccount) })
-  }
-  return getFirestore()
-}
+import { FieldValue } from "firebase-admin/firestore"
+import { adminDb } from "./_firebaseAdmin.js"
 
 function readRawBody(req) {
   return new Promise((resolve, reject) => {
@@ -84,7 +74,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const db = getDb()
+    const db = adminDb()
 
     if (event.type === "checkout.session.completed") {
       const s = event.data.object
