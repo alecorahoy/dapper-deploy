@@ -104,7 +104,11 @@ export default async function handler(req, res) {
       const uid = sub.metadata?.uid
       const plan = sub.metadata?.plan || "pro"
       const active = sub.status === "active" || sub.status === "trialing"
-      const periodEnd = sub.current_period_end ? new Date(sub.current_period_end * 1000) : null
+      // Stripe API 2025-03-31+ moved current_period_end from the subscription
+      // onto each subscription item; the event shape follows the webhook
+      // endpoint's API version, not this SDK's, so read both.
+      const periodEndSec = sub.current_period_end ?? sub.items?.data?.[0]?.current_period_end
+      const periodEnd = periodEndSec ? new Date(periodEndSec * 1000) : null
       await grantPlan(db, {
         uid,
         plan: active ? plan : "free",
