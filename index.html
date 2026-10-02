@@ -648,6 +648,8 @@ section {
 }
 .pricing-price sup { font-size: 24px; vertical-align: top; margin-top: 8px; margin-right: 2px; }
 .pricing-price span { font-size: 16px; color: var(--gray); font-family: var(--sans); font-weight: 400; }
+/* The whole-dollar figure is a span too, but must keep the big serif price style. */
+.pricing-price #proAmount, .pricing-price #eliteAmount { font-size: inherit; color: inherit; font-family: inherit; font-weight: inherit; }
 .pricing-tagline {
   font-size: 14px;
   color: var(--gray);
