@@ -9158,7 +9158,7 @@ function DeleteAccountModal({ user, entitlement, deleteAccount, onClose }) {
             <>
               <label className="block">
                 <span className="text-xs font-bold text-gray-700">Type DELETE to confirm</span>
-                <input value={confirmText} onChange={(e)=>setConfirmText(e.target.value)} autoComplete="off"
+                <input autoFocus value={confirmText} onChange={(e)=>setConfirmText(e.target.value)} autoComplete="off"
                   className="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-red-200"/>
               </label>
               {usesPassword ? (
