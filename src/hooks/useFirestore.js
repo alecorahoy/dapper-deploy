@@ -508,7 +508,22 @@ export function useCommunityPosts(user) {
     }
   }
 
-  return { posts, loading, saving, error, createPost, toggleLike }
+  // Authors can delete their own posts; admins can delete any (moderation).
+  // firestore.rules enforces the same: isAdmin() || resource.data.uid == auth.uid.
+  const deletePost = async (post) => {
+    if (!user || !post?.id || post._demo) return false
+    try {
+      setError(null)
+      await deleteDoc(doc(db, "communityPosts", post.id))
+      return true
+    } catch (err) {
+      console.error("[Dapper] Delete post failed:", err)
+      setError("Could not delete this post. Please try again.")
+      return false
+    }
+  }
+
+  return { posts, loading, saving, error, createPost, toggleLike, deletePost }
 }
 
 export function useProblemReports(user) {

@@ -24,7 +24,7 @@ import {
   MessageCircle, Plus, ChevronLeft, ChevronRight,
   Check, Crown, Camera, Search, Bell, Star, Zap,
   Menu, X, Wand2, TrendingUp, Award, Clock, Lock,
-  LogIn, LogOut, User, Shield, Gift
+  LogIn, LogOut, User, Shield, Gift, Trash2
 } from "lucide-react"
 
 // ─────────────────────────────────────────────
@@ -6888,7 +6888,16 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
     setCopiedId(post.id)
     setTimeout(() => setCopiedId((id) => id === post.id ? null : id), 1600)
   }
-  const { posts, loading, saving, error, createPost, toggleLike } = useCommunityPosts(user)
+  const { posts, loading, saving, error, createPost, toggleLike, deletePost } = useCommunityPosts(user)
+  const [deletingPostId, setDeletingPostId] = useState("")
+  const canDeletePost = (post) => Boolean(user && !post._demo && (isAdmin || post.uid === user.uid))
+  const handleDeletePost = async (post) => {
+    const own = post.uid === user?.uid
+    if (!window.confirm(own ? "Delete this post? It will be removed from the community feed for everyone. This can't be undone." : "Delete this member's post? (admin moderation) This can't be undone.")) return
+    setDeletingPostId(post.id)
+    await deletePost(post)
+    setDeletingPostId("")
+  }
   const plan = entitlement?.plan || "free"
   const canPost = Boolean(user && (isAdmin || plan === "pro" || plan === "elite"))
   const displayPosts = posts.length > 0 ? posts : SOCIAL_POSTS.map(post => ({ ...post, _demo:true }))
@@ -7162,6 +7171,14 @@ function CommunityPage({ user, entitlement, isAdmin, onAuthClick, setPage }) {
                   </div>
                   <div className="text-xs text-gray-400">{postRole(post)} · {postTime(post)}</div>
                 </div>
+                {canDeletePost(post) && (
+                  <button onClick={()=>handleDeletePost(post)} disabled={deletingPostId===post.id}
+                    aria-label={post.uid===user?.uid ? "Delete your post" : "Delete this post (admin)"}
+                    title={post.uid===user?.uid ? "Delete your post" : "Delete this post (admin)"}
+                    className="w-11 h-11 -mr-2 rounded-xl flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 focus-visible:text-red-500 transition-colors disabled:opacity-40">
+                    <Trash2 size={16}/>
+                  </button>
+                )}
               </div>
               {post.photo && (
                 <div className="mx-4 mt-3 rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
