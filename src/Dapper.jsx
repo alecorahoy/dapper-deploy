@@ -8350,7 +8350,7 @@ function PricingPage({ entitlement, user, onAuthClick }) {
       // features = works today · soon = not built yet (shown as "Coming soon",
       // never sold as included) · locked = real paid features. Verified
       // against the code 2026-10-02 — move an item up only once it ships.
-      features:["3 AI analyses / month","Digital closet up to 20 garments","Community feed (read-only)"],
+      features:["3 AI analyses / month","Digital closet up to 20 garments","Outfit calendar","Community feed (read-only)"],
       soon:["2 saved looks","Style Glossary & daily tips"],
       locked:["Unlimited AI analyses","Unlimited digital closet","Social posting"],
     },
