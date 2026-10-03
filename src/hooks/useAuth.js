@@ -8,8 +8,11 @@ import {
   signInWithRedirect,
   signOut,
   updateProfile,
+  reauthenticateWithPopup,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth"
-import { doc, serverTimestamp, setDoc } from "firebase/firestore"
+import { doc, serverTimestamp, setDoc, terminate, clearIndexedDbPersistence } from "firebase/firestore"
 import { auth, authReady, db, googleProvider } from "../firebase.js"
 
 export function useAuth() {
@@ -118,7 +121,51 @@ export function useAuth() {
     await signOut(auth)
   }
 
-  return { user, loading, error, clearError, signUp, signIn, signInGoogle, logOut }
+  // ── Delete account (irreversible) ──
+  // 1) re-authenticate (the server refuses tokens from a sign-in older than
+  //    5 min), 2) server deletes data + the Auth account, 3) wipe this
+  //    browser's copies (per-user local keys + Firestore offline cache).
+  // Returns { ok:true } or { ok:false, code, error } — never throws.
+  const deleteAccount = async ({ password } = {}) => {
+    const current = auth.currentUser
+    if (!current) return { ok:false, code:"signed_out", error:"Sign in first." }
+    try {
+      const providers = current.providerData.map((p) => p.providerId)
+      if (providers.includes("password")) {
+        if (!password) return { ok:false, code:"password_required", error:"Enter your password to confirm." }
+        await reauthenticateWithCredential(current, EmailAuthProvider.credential(current.email, password))
+      } else {
+        await reauthenticateWithPopup(current, googleProvider)
+      }
+    } catch (e) {
+      console.warn("[Dapper Auth] Re-authentication failed", e.code)
+      return { ok:false, code:"reauth_failed", error: e.code === "auth/popup-closed-by-user" ? "Confirmation cancelled." : friendlyError(e.code) }
+    }
+    let data = {}
+    try {
+      const idToken = await current.getIdToken(true)
+      const res = await fetch("/api/delete-account", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${idToken}` },
+        body: "{}",
+      })
+      data = await res.json().catch(() => ({}))
+      if (!res.ok) return { ok:false, code: data.code || `http_${res.status}`, error: data.error || "Could not delete your account. Please try again." }
+    } catch (e) {
+      console.error("[Dapper Auth] Delete account request failed", e)
+      return { ok:false, code:"network", error:"Could not reach the server. Check your connection and try again." }
+    }
+    const uid = current.uid
+    try {
+      Object.keys(localStorage).filter((k) => k.startsWith(`dapper.user.${uid}`)).forEach((k) => localStorage.removeItem(k))
+    } catch { /* storage blocked — nothing to clear */ }
+    await signOut(auth).catch(() => {})
+    await terminate(db).catch(() => {})
+    await clearIndexedDbPersistence(db).catch(() => {})
+    return { ok:true }
+  }
+
+  return { user, loading, error, clearError, signUp, signIn, signInGoogle, logOut, deleteAccount }
 }
 
 // Human-readable Firebase error messages

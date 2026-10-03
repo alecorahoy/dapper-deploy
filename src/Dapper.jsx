@@ -3860,7 +3860,7 @@ function accountPlanCaption(entitlement) {
 // SIDEBAR
 // ─────────────────────────────────────────────
 
-function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, onReportProblem, entitlement, isAdmin, collapsed = false }) {
+function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, onReportProblem, onDeleteAccount, entitlement, isAdmin, collapsed = false }) {
   const items = [
     { id:"analyzer",  icon:Wand2,    label:"AI Analyzer" },
     { id:"validator", icon:Check,    label:"Outfit Validator", badge:"NEW" },
@@ -3952,6 +3952,7 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, 
               </div>
             </button>
           ) : (
+            <>
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-black flex-shrink-0" style={{background:GOLD,color:NAVY}}>
                 {initials}
@@ -3965,6 +3966,13 @@ function Sidebar({ page, setPage, mobile, onClose, user, onAuthClick, onLogOut, 
                 <LogOut size={15} className="text-gray-500"/>
               </button>
             </div>
+            {onDeleteAccount && (
+              <button onClick={onDeleteAccount}
+                className="mt-2 ml-12 text-xs text-gray-500 hover:text-red-400 underline-offset-2 hover:underline transition-colors">
+                Delete account
+              </button>
+            )}
+            </>
           )
         ) : (
           <button onClick={onAuthClick}
@@ -9094,6 +9102,93 @@ const REPORT_FORM_INIT = {
   page: "whole_app",
 }
 
+function DeleteAccountModal({ user, entitlement, deleteAccount, onClose }) {
+  const usesPassword = Boolean(user?.providerData?.some((p) => p.providerId === "password"))
+  const hasStripeSub = Boolean(entitlement?.stripeSubscriptionId)
+  const [confirmText, setConfirmText] = useState("")
+  const [password, setPassword] = useState("")
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState("")
+  const confirmed = confirmText.trim().toUpperCase() === "DELETE"
+  const canSubmit = confirmed && !busy && !hasStripeSub && (!usesPassword || password.length > 0)
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape" && !busy) onClose() }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [busy, onClose])
+
+  const submit = async () => {
+    if (!canSubmit) return
+    setBusy(true); setError("")
+    const result = await deleteAccount({ password })
+    if (result.ok) {
+      // Firestore was terminated during cleanup — a full reload starts clean.
+      window.location.assign("/app?account=deleted")
+      return
+    }
+    setError(result.error)
+    setBusy(false)
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+      <div role="dialog" aria-modal="true" aria-labelledby="delete-account-title"
+        className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+        <div className="flex items-start justify-between px-6 pt-6 pb-4" style={{borderBottom:"1px solid #f1f5f9"}}>
+          <div>
+            <h2 id="delete-account-title" className="text-xl font-black text-gray-900">Delete your account</h2>
+            <p className="text-xs text-gray-500 mt-1">This is permanent and cannot be undone.</p>
+          </div>
+          <button onClick={onClose} disabled={busy} aria-label="Close" className="p-1 rounded-lg hover:bg-gray-100">
+            <X size={18} className="text-gray-400"/>
+          </button>
+        </div>
+        <div className="px-6 py-5 space-y-4">
+          <div className="text-sm text-gray-600">
+            We will delete your closet, outfit calendar, worn-look log, community posts, problem reports,
+            profile and sign-in account ({user?.email || "this account"}).
+          </div>
+          {hasStripeSub ? (
+            <div role="alert" className="rounded-xl bg-amber-50 text-amber-800 text-xs p-3">
+              You still have an active subscription. Cancel it first in Pricing → <strong>Manage or cancel subscription</strong>,
+              then come back to delete your account — otherwise Stripe would keep billing you.
+            </div>
+          ) : (
+            <>
+              <label className="block">
+                <span className="text-xs font-bold text-gray-700">Type DELETE to confirm</span>
+                <input value={confirmText} onChange={(e)=>setConfirmText(e.target.value)} autoComplete="off"
+                  className="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-red-200"/>
+              </label>
+              {usesPassword ? (
+                <label className="block">
+                  <span className="text-xs font-bold text-gray-700">Your password</span>
+                  <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} autoComplete="current-password"
+                    className="mt-1 w-full rounded-xl border border-gray-200 px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-red-200"/>
+                </label>
+              ) : (
+                <p className="text-xs text-gray-400">Google will ask you to confirm it's you.</p>
+              )}
+            </>
+          )}
+          {error && <div role="alert" className="rounded-xl bg-red-50 text-red-600 text-xs p-3">{error}</div>}
+        </div>
+        <div className="px-6 pb-6 flex gap-3">
+          <button onClick={onClose} disabled={busy}
+            className="flex-1 py-3 rounded-xl font-bold text-sm border border-gray-200 text-gray-600 hover:bg-gray-50">
+            Keep my account
+          </button>
+          <button onClick={submit} disabled={!canSubmit}
+            className="flex-1 py-3 rounded-xl font-black text-sm text-white bg-red-600 hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed">
+            {busy ? "Deleting…" : "Delete permanently"}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function ReportProblemModal({ user, page, onClose }) {
   const [form, setForm] = useState(() => ({ ...REPORT_FORM_INIT, email:user?.email || "" }))
   const [sent, setSent] = useState(false)
@@ -9258,10 +9353,11 @@ export default function DapperApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [showAuth,    setShowAuth]   = useState(false)
   const [showReport,  setShowReport] = useState(false)
+  const [showDeleteAccount, setShowDeleteAccount] = useState(false)
 
   // ── Auth ──
   const authHook = useAuth()
-  const { user, logOut } = authHook
+  const { user, logOut, deleteAccount } = authHook
   const { entitlement } = useEntitlement(user)
   const { isAdmin, adminProfile, error: adminAccessError } = useAdminAccess(user)
 
@@ -9296,6 +9392,19 @@ export default function DapperApp() {
   }, [checkoutReturn])
   const paidPlanActive = entitlement?.plan === "pro" || entitlement?.plan === "elite"
 
+  // ── After account deletion (DeleteAccountModal reloads to ?account=deleted) ──
+  const [accountDeleted, setAccountDeleted] = useState(false)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("account") !== "deleted") return
+    setAccountDeleted(true)
+    params.delete("account")
+    const qs = params.toString()
+    window.history.replaceState({}, "", window.location.pathname + (qs ? "?" + qs : "") + window.location.hash)
+    const t = setTimeout(() => setAccountDeleted(false), 10000)
+    return () => clearTimeout(t)
+  }, [])
+
   const NAV = [
     {id:"analyzer",  icon:Wand2,    label:"Analyzer"},
     {id:"validator", icon:Check,    label:"Validator"},
@@ -9310,6 +9419,14 @@ export default function DapperApp() {
 
   return (
     <div className="flex h-screen overflow-hidden" style={{background:"#f8fafc",fontFamily:"system-ui,-apple-system,sans-serif"}}>
+
+      {accountDeleted && (
+        <div role="status"
+          className="fixed top-4 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-2xl shadow-xl text-sm font-bold text-white max-w-[92vw]"
+          style={{background:"#065f46"}}>
+          ✓ Your account and its data were deleted.
+        </div>
+      )}
 
       {/* Post-checkout status */}
       {checkoutReturn === "success" && (
@@ -9337,13 +9454,16 @@ export default function DapperApp() {
         <AuthModal onClose={()=>setShowAuth(false)} useAuthHook={authHook}/>
       )}
 
+      {showDeleteAccount && user && (
+        <DeleteAccountModal user={user} entitlement={entitlement} deleteAccount={deleteAccount} onClose={()=>setShowDeleteAccount(false)}/>
+      )}
       {showReport && (
         <ReportProblemModal user={user} page={page} onClose={()=>setShowReport(false)}/>
       )}
 
       {/* Desktop sidebar — collapsible, expands on hover */}
       <DesktopSidebarShell page={page} setPage={setPage} user={user} onAuthClick={()=>setShowAuth(true)} onLogOut={logOut}
-        onReportProblem={()=>setShowReport(true)} entitlement={entitlement} isAdmin={isAdmin}/>
+        onReportProblem={()=>setShowReport(true)} onDeleteAccount={()=>setShowDeleteAccount(true)} entitlement={entitlement} isAdmin={isAdmin}/>
 
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
@@ -9352,7 +9472,7 @@ export default function DapperApp() {
           <div className="absolute left-0 top-0 h-full z-10">
             <Sidebar page={page} setPage={setPage} mobile onClose={()=>setSidebarOpen(false)}
               user={user} onAuthClick={()=>{setShowAuth(true);setSidebarOpen(false)}} onLogOut={logOut}
-              onReportProblem={()=>setShowReport(true)} entitlement={entitlement} isAdmin={isAdmin}/>
+              onReportProblem={()=>setShowReport(true)} onDeleteAccount={()=>{setShowDeleteAccount(true);setSidebarOpen(false)}} entitlement={entitlement} isAdmin={isAdmin}/>
           </div>
         </div>
       )}

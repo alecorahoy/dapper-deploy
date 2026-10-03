@@ -42,7 +42,15 @@ export async function verifiedUser(req) {
   if (res.status === 400) return null // INVALID_ID_TOKEN / TOKEN_EXPIRED / USER_NOT_FOUND
   if (!res.ok) throw new Error(`Token lookup failed (${res.status})`) // outage/config → 500, not a fake 401
   const user = (await res.json())?.users?.[0]
-  return user?.localId ? { uid: user.localId, email: user.email || "" } : null
+  if (!user?.localId) return null
+  // Google has just validated this token, so its payload can be read as-is.
+  // auth_time = when the user last actually signed in (not token refresh).
+  let authTime = 0
+  try {
+    const payload = JSON.parse(Buffer.from(match[1].split(".")[1], "base64url").toString("utf8"))
+    authTime = Number(payload.auth_time) || 0
+  } catch { /* leave 0 → treated as "not recent" */ }
+  return { uid: user.localId, email: user.email || "", authTime, idToken: match[1] }
 }
 
 // An account counts as already subscribed while its entitlement doc holds
