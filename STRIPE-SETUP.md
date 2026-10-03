@@ -38,7 +38,7 @@ STRIPE_PRICE_ELITE_MONTHLY   price_…
 STRIPE_PRICE_ELITE_ANNUAL    price_…
 STRIPE_WEBHOOK_SECRET        whsec_…  (from step 4)
 APP_URL                      https://dapper.inoavation.com   (no trailing slash)
-FIREBASE_SERVICE_ACCOUNT     {…the full service-account JSON on one line…}   (REQUIRED: checkout, portal and webhook all use it)
+FIREBASE_SERVICE_ACCOUNT     {…the full service-account JSON on one line…}   (REQUIRED: checkout, portal, webhook and account deletion all use it — until it is set, "Delete account" answers "not available yet")
 ALLOWED_ORIGINS              https://your-domain.com   (optional; comma-separated extras)
 ```
 
